@@ -9,8 +9,10 @@ const App = (props: AppProps) => {
   return (
     <>
       <Head>
-        <title>GeSyS Admin</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+        <meta charSet="utf-8" />
+        <meta name="Description" content="GeSyS panel de administracion" />
+        <meta name="robots" content="all" />
       </Head>
 
       <MantineProvider
