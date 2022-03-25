@@ -1,5 +1,6 @@
 import { Grid } from "@mantine/core";
 import { useState } from "react";
+import { PowerDataProps, StationDataProps } from "../interfaces";
 
 
 const GeneralInfo = () => {
