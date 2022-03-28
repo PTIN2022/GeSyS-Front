@@ -1,11 +1,24 @@
 import { MapContainer, TileLayer, Marker, Popup, useMapEvent } from "react-leaflet";
-import { Button } from "@mantine/core";
 import { IconAveria, IconDesactivado, IconFuncionando } from "./IconMarkerEstacion";
 import { useState } from "react";
-import { MarkerEstacionProps } from "../../interfaces";
-import { LatLngExpression, map } from "leaflet";
+import { LatLngExpression } from "leaflet";
+import EstacionPopup from "./EstacionPopup";
+import { MarkerEstacionProps, StationStatus } from '../../interfaces';
 
 const accessToken = 'pk.eyJ1IjoieHBhdGF0YTY5IiwiYSI6ImNsMTZ4b2RxcDB5aG0za2thcjIwendlMXEifQ.vlI6K1U3_DOGuSaa8X7R3g';
+
+const GetIconFromStationStatus = (status: StationStatus) => {
+  switch (status) {
+    case "Active":
+      return IconFuncionando;
+    case "Deactivated":
+      return IconDesactivado;
+    case "Damaged":
+      return IconAveria;
+    default:
+      return IconAveria;
+  }
+}
 
 const Map = () => {
 
@@ -13,18 +26,23 @@ const Map = () => {
     {
       name: "Estacion 1",
       ubicacion: [41.220285, 1.730198],
-      state: "available"
+      state: "Active"
     },
     {
       name: "Estacion 2",
       ubicacion: [41.218126, 1.730589],
-      state: "disabled"
+      state: "Deactivated"
     },
     {
       name: "Estacion 3",
       ubicacion: [41.218197, 1.734903],
-      state: "broken"
+      state: "Damaged"
     },
+    {
+      name: "Estacion 4",
+      ubicacion: [41.218197, 1.739903],
+      state: "Active"
+    }
   ]);
 
   const [center, setCenter] = useState<LatLngExpression>([41.220285, 1.730198]);
@@ -44,16 +62,10 @@ const Map = () => {
           <Marker
             key={index}
             position={estacion.ubicacion}
-            icon={estacion.state === "available" ? IconFuncionando : estacion.state === "disabled" ? IconDesactivado : IconAveria}
+            icon={GetIconFromStationStatus(estacion.state)}
             >
-            <Popup>
-              <div>
-                <h3>{estacion.name}</h3>
-                <p>{estacion.state}</p>
-                <Button>Disable</Button>
-              </div>
-            </Popup>
-            </Marker>
+            <EstacionPopup {...estacion} />
+          </Marker>
         )
       })}
     </MapContainer>

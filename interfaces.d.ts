@@ -11,8 +11,10 @@ export interface StationDataProps {
   deactivatedStations: number;
 }
 
+export type StationStatus = "Active" | "Deactivated" | "Damaged";
+
 export interface MarkerEstacionProps {
   name: string;
   ubicacion: LatLngExpression;
-  state: string;
+  state: StationStatus;
 }
