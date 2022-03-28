@@ -22,7 +22,7 @@ const App = (props: AppProps) => {
         withNormalizeCSS
         theme={{
           fontFamily: 'Verdana, Geneva, sans-serif',
-          colorScheme: 'light',
+          colorScheme: 'light'
         }}
       >
         <Component {...pageProps} />
