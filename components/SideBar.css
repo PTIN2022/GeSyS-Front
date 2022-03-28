@@ -1,0 +1,47 @@
+.sidebar {
+    background-color: #0e3bac;
+    width: 250px;
+    height: 100vh;
+    display: flex;
+    justify-content: start;
+    align-items: strech;
+    position: fixed;
+}
+
+.sidebar-title {
+    color: #ffffff;
+    font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 8px 0px 8px 8px;
+    list-style: none;
+    height: 60px;
+}
+
+.sidebar-text {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 0px 0px 0px 0px;
+    list-style: none;
+    height: 60px;
+}
+
+.sidebar-text a {
+    text-decoration: none;
+    color: #ffffff;
+    font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+    font-size: 16px;
+    width: 95%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    border-radius: 4px;
+    
+}
+
+.sidebar-text a:hover {
+    background-color: #79bae6;
+}
