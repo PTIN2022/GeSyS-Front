@@ -1,3 +1,4 @@
+import { ThemeIconProps } from "@mantine/core";
 import { Coords, LatLngExpression } from "leaflet";
 
 export interface PowerDataProps {
@@ -17,4 +18,9 @@ export interface MarkerEstacionProps {
   name: string;
   ubicacion: LatLngExpression;
   state: StationStatus;
+}
+
+export interface NavbarItemProps {
+  label: string;
+  href: string;
 }
