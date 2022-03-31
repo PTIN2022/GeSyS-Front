@@ -1,25 +1,25 @@
 import { AppShell, Burger, Header, MediaQuery, Navbar, Text } from "@mantine/core";
 import { AppProps } from "next/app";
 import { useState } from "react";
-import { NavbarItemProps } from "../interfaces";
+import { NavbarItemProps } from "../../interfaces";
 import NavbarButton from "./NavbarButton";
 
 const NavbarItems: NavbarItemProps[] = [
   {
     label: "Estaciones",
-    href: "/admin/estacion",
+    href: "/admin/estaciones",
   },
   {
     label: "Trabajadores",
-    href: "/admin/trabajador",
+    href: "/admin/trabajadores",
   },
   {
     label: "Promociones",
-    href: "/admin/promocion",
+    href: "/admin/promociones",
   },
   {
     label: "Averías",
-    href: "/admin/averia",
+    href: "/admin/averias",
   },
   {
     label: "Soporte tecnico",
@@ -30,7 +30,6 @@ const NavbarItems: NavbarItemProps[] = [
 const BaseAdministracion = (props: AppProps) => {
 
   const [opened, setOpened] = useState<boolean>(false);
-
   const { Component, pageProps } = props;
 
   return (

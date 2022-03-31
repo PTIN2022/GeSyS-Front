@@ -2,17 +2,15 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { MantineProvider } from '@mantine/core';
 import { NextRouter, useRouter } from 'next/router';
-import BaseAdministracion from '../components/BaseAdministracion';
-
 import '../styles/globals.css'
-import BasicLandingUser from '../components/BaseLandingUser';
 
+import BaseAdministracion from '../components/Base/BaseAdministracion';
+import BasicLandingUser from '../components/Base/BaseLandingUser';
 
 // Render base switch
 const renderSwitch = (valRouter: NextRouter, props: AppProps) => {
 
   const { route } = valRouter;
-
   const routeElements = route.split('/');
 
   if (routeElements[1] == '_error') {
