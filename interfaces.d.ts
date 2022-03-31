@@ -24,3 +24,9 @@ export interface NavbarItemProps {
   label: string;
   href: string;
 }
+
+export interface IncidenciaElement {
+  planta: string;
+  plaza: string;
+  texto: string;
+}
