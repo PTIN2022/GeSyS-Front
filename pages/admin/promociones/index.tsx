@@ -24,6 +24,7 @@ const Promociones: NextPage =() => {
         </thead>
         
         <tbody>
+
           <tr key = "VG1">
             <td>VG1</td>
             <td>30%</td>
@@ -35,8 +36,8 @@ const Promociones: NextPage =() => {
                 <DotsVertical />
               </ActionIcon>
             </Center>
-            
           </tr>
+
           <tr key = "VG2">
             <td>VG2</td>
             <td>15%</td>
@@ -51,11 +52,12 @@ const Promociones: NextPage =() => {
               </Center>
               }
             >
-                <Menu.Item >Activar</Menu.Item> 
-                <Menu.Item >Desactivar</Menu.Item> 
-                <Menu.Item >Más</Menu.Item> 
+              <Menu.Item>Activar</Menu.Item> 
+              <Menu.Item>Desactivar</Menu.Item> 
+              <Menu.Item>Más</Menu.Item> 
             </Menu>
           </tr>
+
         </tbody>
       </Table> 
     </>
