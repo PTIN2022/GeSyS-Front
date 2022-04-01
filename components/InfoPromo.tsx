@@ -15,16 +15,16 @@ const InfoPromo = () => {
     }, [])
 
     return(
-        <main>
-            <h1>Promocion</h1>
-            <Textarea readOnly={true} value={value}
-            placeholder="Promoción para incentivar el uso de la estación
-            en esta hora de poco uso"
-            label="Descripción"      
-            minRows={4}
-            maxRows={6}      
-            /> 
-        </main>
+        <>
+          <h1>Promocion</h1>
+          <Textarea readOnly={true} value={value}
+          placeholder="Promoción para incentivar el uso de la estación
+          en esta hora de poco uso"
+          label="Descripción"      
+          minRows={4}
+          maxRows={6}      
+          /> 
+        </>
     )
 }
 
