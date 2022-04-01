@@ -22,25 +22,54 @@ const GetIconFromStationStatus = (status: StationStatus) => {
 
 const Map = () => {
 
+  
+
+
+
+
+
+
+
+  
   const [mockEstations, setMockEstations] = useState<MarkerEstacionProps[]>([
     {
       name: "Estacion 1",
-      ubicacion: [41.220285, 1.730198],
+      ubicacion: [41.217606, 1.727072],
       state: "Active"
     },
     {
       name: "Estacion 2",
-      ubicacion: [41.218126, 1.730589],
+      ubicacion: [41.221002, 1.730369],
       state: "Deactivated"
     },
     {
       name: "Estacion 3",
-      ubicacion: [41.218197, 1.734903],
+      ubicacion: [41.225431, 1.737627],
       state: "Damaged"
     },
     {
       name: "Estacion 4",
-      ubicacion: [41.218197, 1.739903],
+      ubicacion: [41.227420, 1.728166],
+      state: "Active"
+    },
+    {
+      name: "Estacion 5",
+      ubicacion: [41.229674, 1.721478],
+      state: "Active"
+    },
+    {
+      name: "Estacion 6",
+      ubicacion: [41.222119, 1.718915],
+      state: "Deactivated"
+    },
+    {
+      name: "Estacion 7",
+      ubicacion: [41.223434, 1.710113],
+      state: "Damaged"
+    },
+    {
+      name: "Estacion 8",
+      ubicacion: [41.217122, 1.709477],
       state: "Active"
     }
   ]);
