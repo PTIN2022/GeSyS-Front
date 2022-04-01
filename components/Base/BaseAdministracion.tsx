@@ -3,6 +3,7 @@ import { AppProps } from "next/app";
 import { useState } from "react";
 import { NavbarItemProps } from "../../interfaces";
 import NavbarButton from "./NavbarButton";
+import ReactRoundedImage from "react-rounded-image"
 
 const NavbarItems: NavbarItemProps[] = [
   {
@@ -48,7 +49,24 @@ const BaseAdministracion = (props: AppProps) => {
                   mr="xl"
                 />
               </MediaQuery>
-              <Text align='right'>Application header</Text>
+              <Text align='right'>GeSyS</Text>
+              <a href="/admin/perfil"
+              style={{
+                    position: 'absolute',
+                    right: 10,
+                    top: 5,
+                  }}>
+                <ReactRoundedImage
+                  image={"/img/ekko.jpg"}
+                  imageWidth="60"
+                  imageHeight="60"
+                  roundedSize="4"
+                  borderRadius="50"
+                  hoverColor="#ccdde8"
+
+                />
+              </a>
+              
             </div>
           </Header>
         }
