@@ -44,3 +44,12 @@ export interface SoporteRowProps {
   Problema: char[5];
   Date: string; 
 }
+
+export interface PerfilData {
+  nombre: string;
+  apellido: string;
+  telefono: string;
+  email: string;
+  dni: string;
+  cargo: string;
+}
