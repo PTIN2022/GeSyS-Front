@@ -1,6 +1,6 @@
 import { useForm, formList } from '@mantine/form';
-import { TextInput, Group, ActionIcon, Box, Text, Button, Code } from '@mantine/core';
-import { Trash } from 'tabler-icons-react';
+import { TextInput, Group, ActionIcon, Box, Text, Button, Code, Autocomplete } from '@mantine/core';
+import { Hash, Trash } from 'tabler-icons-react';
 import { useState } from 'react';
 import { IncidenciaElement } from '../interfaces';
 
@@ -96,6 +96,13 @@ const AddIncidents = () => {
         </Group>
       </form>
 
+      <Autocomplete 
+        label="Buscador de incidencias"
+        placeholder="Search..."
+        icon={<Hash />} 
+        data={['Planta1']} 
+      />
+      
       <hr />
       
       {fields.length <= 0 ? (
