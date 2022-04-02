@@ -51,7 +51,7 @@ const BaseAdministracion = (props: AppProps) => {
               </MediaQuery>
               <Text align='right'>GeSyS</Text>
               <Link href="/admin/perfil" passHref={true}>
-                <Avatar sx={{ position: 'absolute', right: '1rem', top: '1rem', '&:hover': { cursor: 'pointer' } }} src={"/img/ekko.jpg"} />
+                <Avatar radius={"xl"} size={"lg"} sx={{ position: 'absolute', right: '1rem', top: '0.4rem', '&:hover': { cursor: 'pointer' } }} src={"/img/ekko.jpg"} />
               </Link>
             </div>
           </Header>
