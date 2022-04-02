@@ -13,6 +13,9 @@ const Home: NextPage = () => {
           <a>Soporte técnico</a>
         </Link>
     </>
+    
+    
+
   )
 }
 
