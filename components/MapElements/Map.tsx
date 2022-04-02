@@ -21,15 +21,6 @@ const GetIconFromStationStatus = (status: StationStatus) => {
 }
 
 const Map = () => {
-
-  
-
-
-
-
-
-
-
   
   const [mockEstations, setMockEstations] = useState<MarkerEstacionProps[]>([
     {
