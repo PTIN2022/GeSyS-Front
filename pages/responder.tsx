@@ -6,21 +6,14 @@ const Home: NextPage = () => {
         <>
         
         <h1>
-        Soporte técnico
+        Responder
         </h1>
         
         <Link href="/">
             <a>Índice</a>
             </Link>
-
-        <br></br>
-        
-        <Link href="/responder">
-        <a>Responder</a>
-        </Link>
         </>
     )
-    //test
 }
 
 export default Home
