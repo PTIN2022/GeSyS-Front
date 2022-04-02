@@ -1,6 +1,6 @@
-import { Image, Space, Box, Group, TextInput, Tooltip, Button, Text, Center, Grid } from '@mantine/core';
+import { Image, Space, Box, Group, TextInput, Tooltip, Button, Text, Grid, Notification } from '@mantine/core';
 import { useState } from 'react';
-import { AlertCircle, Phone, User, At, Id, IdBadge } from 'tabler-icons-react';
+import { AlertCircle, Phone, User, At, Id, IdBadge, Check } from 'tabler-icons-react';
 import { PerfilData } from '../../interfaces';
 import { NextPage } from 'next';
 //import {setPerfil, perfil} from "./pedit";
@@ -42,9 +42,9 @@ const PerfilInfo: NextPage = () => {
                         <Button 
                          component="a"
                          target="_self"
-                         href= "/admin/pedit"
+                         href= "/admin/perfil"
                         >
-                            Editar Perfil
+                            Guardar Cambios
                         </Button>
                 </Grid.Col>
                 <Grid.Col span={7}>
@@ -66,7 +66,6 @@ const PerfilInfo: NextPage = () => {
                         icon={<User size={14} />}
                         value={perfil.nombre}
                         onChange={(event) => setPerfil({...perfil, nombre: event.target.value})}
-                        disabled
                     />
 
                     <TextInput size="md"
@@ -76,7 +75,6 @@ const PerfilInfo: NextPage = () => {
                         icon={<User size={14} />}
                         value={perfil.apellido}
                         onChange={(event) => setPerfil({...perfil, apellido: event.target.value})}
-                        disabled
                     /> 
 
                 </Group>
@@ -89,7 +87,6 @@ const PerfilInfo: NextPage = () => {
                         icon={<Phone size={14} />}
                         value={perfil.telefono}
                         onChange={(event) => setPerfil({...perfil, telefono: event.target.value})}
-                        disabled
                     />
 
                     <TextInput size="md"
