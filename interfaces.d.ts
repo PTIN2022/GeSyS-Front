@@ -44,3 +44,8 @@ export interface TrabajadorRowProps {
   Last_access: string; 
   Foto: url;
 }
+
+export interface NavbarItemProps {
+  label: string;
+  href: string;
+}
