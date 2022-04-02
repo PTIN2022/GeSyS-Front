@@ -1,9 +1,9 @@
-import { AppShell, Burger, Header, MediaQuery, Navbar, Text } from "@mantine/core";
+import { AppShell, Avatar, Burger, Header, MediaQuery, Navbar, Text } from "@mantine/core";
 import { AppProps } from "next/app";
 import { useState } from "react";
 import { NavbarItemProps } from "../../interfaces";
 import NavbarButton from "./NavbarButton";
-import ReactRoundedImage from "react-rounded-image"
+import Link from "next/link";
 
 const NavbarItems: NavbarItemProps[] = [
   {
@@ -50,23 +50,9 @@ const BaseAdministracion = (props: AppProps) => {
                 />
               </MediaQuery>
               <Text align='right'>GeSyS</Text>
-              <a href="/admin/perfil"
-              style={{
-                    position: 'absolute',
-                    right: 10,
-                    top: 5,
-                  }}>
-                <ReactRoundedImage
-                  image={"/img/ekko.jpg"}
-                  imageWidth="60"
-                  imageHeight="60"
-                  roundedSize="4"
-                  borderRadius="50"
-                  hoverColor="#ccdde8"
-
-                />
-              </a>
-              
+              <Link href="/admin/perfil" passHref={true}>
+                <Avatar sx={{ position: 'absolute', right: '1rem', top: '1rem', '&:hover': { cursor: 'pointer' } }} src={"/img/ekko.jpg"} />
+              </Link>
             </div>
           </Header>
         }
