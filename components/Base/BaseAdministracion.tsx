@@ -1,5 +1,6 @@
 import { Group,  UnstyledButton, AppShell, Burger, Header, MediaQuery, Navbar, Text, Avatar, Space, Button } from "@mantine/core";
 import { AppProps } from "next/app";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { NavbarItemProps } from "../../interfaces";
@@ -51,11 +52,12 @@ const BaseAdministracion = (props: AppProps) => {
                 />
               </MediaQuery>
               <Link href={"/admin"} passHref={true}>
-                <Button
-                  variant="subtle" 
-                  color='#0e3bac'>
-                  GeSyS Technical Station
-                </Button>
+                  <Button
+                    variant="subtle" 
+                    color='#0e3bac'>
+                      <Avatar size={"sm"} mr={"lg"} src={"/img/logofeo.png"} />
+                    GeSyS Technical Station
+                  </Button>
               </Link>
               <Space w="sm"></Space>
               <Link href={"/admin/perfil"} passHref={true}>
