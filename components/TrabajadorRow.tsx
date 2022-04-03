@@ -1,8 +1,8 @@
 import { TrabajadorRowProps } from '../interfaces'
 import { Menu, Center, ActionIcon } from '@mantine/core';
-import { Adjustments, InfoSquare,  DotsVertical, Search } from 'tabler-icons-react';
+import { DotsVertical } from 'tabler-icons-react';
 import { Avatar } from '@mantine/core';
-import Link from 'next/link'
+import Link from 'next/link';
 
 const TrabajadorRow = ({ Name,Rol, Last_access, Foto } : TrabajadorRowProps) => {
     return ( 
@@ -22,8 +22,11 @@ const TrabajadorRow = ({ Name,Rol, Last_access, Foto } : TrabajadorRowProps) => 
                         </ActionIcon>
                     </Center>
                     }>
-                    <Menu.Item component="a" href="/perfil">
-                        Editar</Menu.Item> 
+                    <Link href={"/admin/perfil"} passHref={true}>
+                      <Menu.Item>
+                        Editar
+                      </Menu.Item> 
+                    </Link>
                     <Menu.Item color={'yellow'}>Suspender</Menu.Item> 
                     <Menu.Item color={'red'}>Eliminar</Menu.Item>
                 </Menu>

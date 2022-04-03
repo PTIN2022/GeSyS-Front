@@ -1,8 +1,9 @@
 import { PromoRowProps } from '../interfaces'
 import { Menu, Center, ActionIcon } from '@mantine/core';
 import { Adjustments, InfoSquare,  DotsVertical, Search } from 'tabler-icons-react';
+import Link from 'next/link';
 
-const AveriaRow = ({ Est,Descuento, Cupones,Fecha_ini,Fecha_fin } : PromoRowProps) => {
+const PromoRow = ({ Est,Descuento, Cupones,Fecha_ini,Fecha_fin } : PromoRowProps) => {
     return (        
         <tr>
             <td>{Est}</td>
@@ -19,9 +20,11 @@ const AveriaRow = ({ Est,Descuento, Cupones,Fecha_ini,Fecha_fin } : PromoRowProp
                 }>
                 <Menu.Item >Activar</Menu.Item> 
                 <Menu.Item >Desactivar</Menu.Item> 
-                <Menu.Item component='a' href='../admin/info_promo'>Más</Menu.Item> 
+                <Link href={"/admin/info_promo"} passHref={true}>
+                  <Menu.Item>Más</Menu.Item> 
+                </Link>
             </Menu>
         </tr>
     )
 } 
-export default AveriaRow
+export default PromoRow
