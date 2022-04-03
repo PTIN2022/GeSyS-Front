@@ -14,6 +14,7 @@ const login: NextPage = () => {
         BorderRadius: "10px"
         }}/>
     <Input
+      type="password"
       placeholder="Contraseña"
       style={{
         width: "350px",
@@ -50,7 +51,6 @@ const login: NextPage = () => {
     }}
     >
         Olvidé mi contraseña?
-    
     </Text>
     <Text size='md' style={{
       width: "350px",
