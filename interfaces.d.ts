@@ -1,11 +1,11 @@
 import { Url } from "url";
 
-interface PowerDataProps {
+export interface PowerDataProps {
   maxPower: number;
   powerBeingUsed: number;
 }
 
-interface StationDataProps {
+export interface StationDataProps {
   workingStations: number;
   damagedStations: number;
   deactivatedStations: number;
@@ -54,4 +54,13 @@ export interface IncidenciaElement {
   planta: string;
   plaza: string;
   texto: string;
+}
+
+export interface PerfilData {
+  nombre: string;
+  apellido: string;
+  telefono: string;
+  email: string;
+  dni: string;
+  cargo: string;
 }

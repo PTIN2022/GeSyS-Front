@@ -1,4 +1,4 @@
-import { AppShell, Avatar, Burger, Group, Header, MediaQuery, Navbar, Text } from "@mantine/core";
+import { Group,  UnstyledButton, AppShell, Burger, Header, MediaQuery, Navbar, Text, Avatar, Space, Button } from "@mantine/core";
 import { AppProps } from "next/app";
 import Link from "next/link";
 import { useState } from "react";
@@ -32,6 +32,7 @@ const BaseAdministracion = (props: AppProps) => {
 
   const [opened, setOpened] = useState<boolean>(false);
   const { Component, pageProps } = props;
+  
 
   return (
     <AppShell
@@ -39,7 +40,7 @@ const BaseAdministracion = (props: AppProps) => {
         navbarOffsetBreakpoint={"sm"}
         fixed
         header={
-          <Header height={70} p="sm">
+          <Header height={60} p="sm">
             <div style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
               <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
                 <Burger
@@ -49,23 +50,21 @@ const BaseAdministracion = (props: AppProps) => {
                   mr="xl"
                 />
               </MediaQuery>
-              <Link href="/admin" passHref={true}>
-                <Group sx={{ position: 'absolute', '&:hover': { cursor: 'pointer' } }}>
-                  <Avatar size={"lg"} sx={{ position: 'absolute', left: '0rem'}} src={"/img/logofeo.png"} />
-                  <Text
-                    component="span"
-                    variant="gradient"
-                    gradient={{ from: 'indigo', to: 'cyan', deg: 45 }}
-                    size={"lg"} sx={{ position: 'absolute', left: '4rem'}}
-                    weight={700}
-                    style={{ fontFamily: 'Greycliff CF, sans-serif' }}
-                  >
-                  GeSyS
-                  </Text>
-                </Group>
+              <Link href={"/admin"} passHref={true}>
+                <Button
+                  variant="subtle" 
+                  color='#0e3bac'>
+                  GeSyS Technical Station
+                </Button>
               </Link>
-              <Link href="/admin/perfil" passHref={true}>
-                <Avatar radius={"xl"} size={"lg"} sx={{ position: 'absolute', right: '0rem', '&:hover': { cursor: 'pointer' } }} src={"/img/ekko.jpg"} />
+              <Space w="sm"></Space>
+              <Link href={"/admin/perfil"} passHref={true}>
+                <UnstyledButton>
+                  <Group>
+                    <Text>Manolo</Text>
+                    <Avatar src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80.png" radius="xl" > </Avatar>
+                  </Group>
+                </UnstyledButton>
               </Link>
             </div>
           </Header>

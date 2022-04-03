@@ -1,6 +1,6 @@
-import { Image, Space, Box, Group, TextInput, Tooltip, Button, Text, Center, Grid } from '@mantine/core';
+import { Image, Space, Box, Group, TextInput, Tooltip, Button, Text, Grid, Notification } from '@mantine/core';
 import { useState } from 'react';
-import { AlertCircle, Phone, User, At, Id, IdBadge } from 'tabler-icons-react';
+import { AlertCircle, Phone, User, At, Id, IdBadge, Check } from 'tabler-icons-react';
 import { PerfilData } from '../../interfaces';
 import { NextPage } from 'next';
 import Link from 'next/link';
@@ -22,7 +22,6 @@ const PerfilInfo: NextPage = () => {
         dni: '48645186G',
         cargo: 'Administrador',
     });
-
   return (
         <>
         <Box sx={{ maxWidth: 700 }} >
@@ -33,19 +32,20 @@ const PerfilInfo: NextPage = () => {
                             width={200} 
                             height={200} 
                             radius="lg"
-                            alt={'profile picture'}
-                            src={"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80"}
+                            alt={"profile picture"}
+                            src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80" 
                         />
+                        
                         <Space h="sm"></Space>
+                    
+                
                     <Text align="left" size="lg"> Manolo Pedro  </Text>
                     <Space h="md"></Space>
-                        <Link
-                         href= "/admin/pedit"
-                         passHref={true}>
-                          <Button>
-                            Editar Perfil
-                          </Button>
-                        </Link>
+                    <Link href={"/admin/perfil"} passHref={true}>
+                      <Button>
+                        Guardar Cambios
+                      </Button>
+                    </Link>
                 </Grid.Col>
                 <Grid.Col span={7}>
                 <Space h="xl"></Space>
@@ -66,7 +66,6 @@ const PerfilInfo: NextPage = () => {
                         icon={<User size={14} />}
                         value={perfil.nombre}
                         onChange={(event) => setPerfil({...perfil, nombre: event.target.value})}
-                        disabled
                     />
 
                     <TextInput size="md"
@@ -76,7 +75,6 @@ const PerfilInfo: NextPage = () => {
                         icon={<User size={14} />}
                         value={perfil.apellido}
                         onChange={(event) => setPerfil({...perfil, apellido: event.target.value})}
-                        disabled
                     /> 
 
                 </Group>
@@ -89,7 +87,6 @@ const PerfilInfo: NextPage = () => {
                         icon={<Phone size={14} />}
                         value={perfil.telefono}
                         onChange={(event) => setPerfil({...perfil, telefono: event.target.value})}
-                        disabled
                     />
 
                     <TextInput size="md"
