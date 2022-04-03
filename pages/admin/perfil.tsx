@@ -20,7 +20,7 @@ const PerfilInfo: NextPage = () => {
         telefono: '+34 654 789 456',
         email: 'manolo.pedro.juan@gesys.com',
         dni: '48645186G',
-        cargo: 'Admin',
+        cargo: 'Administrador',
     });
 
   return (
