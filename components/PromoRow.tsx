@@ -20,7 +20,7 @@ const PromoRow = ({ Est,Descuento, Cupones,Fecha_ini,Fecha_fin } : PromoRowProps
                 }>
                 <Menu.Item >Activar</Menu.Item> 
                 <Menu.Item >Desactivar</Menu.Item> 
-                <Link href={"/admin/info_promo"} passHref={true}>
+                <Link href={"/admin/promocion/1"} passHref={true}>
                   <Menu.Item>Más</Menu.Item> 
                 </Link>
             </Menu>
