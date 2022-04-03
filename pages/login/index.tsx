@@ -12,13 +12,21 @@ const login: NextPage = () => {
       Button: (theme) => ({
         root: {
           color: 'black',
-          backgroundColor: theme.colors.yellow[4]
+          backgroundColor: theme.colors.yellow[3],
+          width: "240px",
+          marginLeft: "760px",
+          alignItems:"center",
+          borderRadius:"10px"
         }
       }) 
     }}
     >
     <Link href="/trabajador">
-      <Button>Iniciar Sesión</Button>
+      <Button
+        variant="subtle"
+        color="yellow"
+        >Iniciar Sesión
+      </Button>
     </Link>
     </MantineProvider>
     </>
