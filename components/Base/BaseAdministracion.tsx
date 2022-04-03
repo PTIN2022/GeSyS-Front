@@ -65,7 +65,7 @@ const BaseAdministracion = (props: AppProps) => {
                 </Group>
               </Link>
               <Link href="/admin/perfil" passHref={true}>
-                <Avatar radius={"xl"} size={"lg"} sx={{ position: 'absolute', right: '0rem', top: '0rem', '&:hover': { cursor: 'pointer' } }} src={"/img/ekko.jpg"} />
+                <Avatar radius={"xl"} size={"lg"} sx={{ position: 'absolute', right: '0rem', '&:hover': { cursor: 'pointer' } }} src={"/img/ekko.jpg"} />
               </Link>
             </div>
           </Header>
