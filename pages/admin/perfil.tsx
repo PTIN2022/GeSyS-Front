@@ -19,8 +19,9 @@ const PerfilInfo: NextPage = () => {
         telefono: '+34 654 789 456',
         email: 'manolo.pedro.juan@gesys.com',
         dni: '48645186G',
-        cargo: 'Administrador',
+        cargo: 'Admin',
     });
+
   return (
         <>
         <Box sx={{ maxWidth: 700 }} >
@@ -31,12 +32,10 @@ const PerfilInfo: NextPage = () => {
                             width={200} 
                             height={200} 
                             radius="lg"
-                            src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80" 
+                            alt={'profile picture'}
+                            src={"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80"}
                         />
-                        
                         <Space h="sm"></Space>
-                    
-                
                     <Text align="left" size="lg"> Manolo Pedro  </Text>
                     <Space h="md"></Space>
                         <Button 
