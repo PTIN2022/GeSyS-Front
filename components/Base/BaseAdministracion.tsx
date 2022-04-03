@@ -1,5 +1,6 @@
-import { AppShell, Burger, Header, MediaQuery, Navbar, Text } from "@mantine/core";
+import { AppShell, Avatar, Burger, Group, Header, MediaQuery, Navbar, Text } from "@mantine/core";
 import { AppProps } from "next/app";
+import Link from "next/link";
 import { useState } from "react";
 import { NavbarItemProps } from "../../interfaces";
 import NavbarButton from "./NavbarButton";
@@ -48,7 +49,24 @@ const BaseAdministracion = (props: AppProps) => {
                   mr="xl"
                 />
               </MediaQuery>
-              <Text align='right'>Application header</Text>
+              <Link href="/admin" passHref={true}>
+                <Group sx={{ position: 'absolute', '&:hover': { cursor: 'pointer' } }}>
+                  <Avatar size={"lg"} sx={{ position: 'absolute', left: '0rem'}} src={"/img/logofeo.png"} />
+                  <Text
+                    component="span"
+                    variant="gradient"
+                    gradient={{ from: 'indigo', to: 'cyan', deg: 45 }}
+                    size={"lg"} sx={{ position: 'absolute', left: '4rem'}}
+                    weight={700}
+                    style={{ fontFamily: 'Greycliff CF, sans-serif' }}
+                  >
+                  GeSyS
+                  </Text>
+                </Group>
+              </Link>
+              <Link href="/admin/perfil" passHref={true}>
+                <Avatar radius={"xl"} size={"lg"} sx={{ position: 'absolute', right: '0rem', top: '0rem', '&:hover': { cursor: 'pointer' } }} src={"/img/ekko.jpg"} />
+              </Link>
             </div>
           </Header>
         }
