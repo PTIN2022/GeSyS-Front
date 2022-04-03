@@ -6,6 +6,7 @@ import '../styles/globals.css'
 
 import BaseAdministracion from '../components/Base/BaseAdministracion';
 import BasicLandingUser from '../components/Base/BaseLandingUser';
+import Login from './login';
 
 // Render base switch
 const renderSwitch = (valRouter: NextRouter, props: AppProps) => {
@@ -20,6 +21,9 @@ const renderSwitch = (valRouter: NextRouter, props: AppProps) => {
   else if (routeElements[1] == 'admin') {
     // Default client landing page
     return <BaseAdministracion {...props} />;
+  }
+  else if (routeElements[1] == 'login') {
+    return <Login />
   }
   else if (routeElements[1] == '') {
     // User landing page (publicidad)
