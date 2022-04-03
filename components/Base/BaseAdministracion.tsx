@@ -1,8 +1,9 @@
-import { AppShell, Burger, Header, MediaQuery, Navbar, Text } from "@mantine/core";
+import { AppShell, Avatar, Burger, Header, MediaQuery, Navbar, Text } from "@mantine/core";
 import { AppProps } from "next/app";
 import { useState } from "react";
 import { NavbarItemProps } from "../../interfaces";
 import NavbarButton from "./NavbarButton";
+import Link from "next/link";
 
 const NavbarItems: NavbarItemProps[] = [
   {
@@ -48,7 +49,10 @@ const BaseAdministracion = (props: AppProps) => {
                   mr="xl"
                 />
               </MediaQuery>
-              <Text align='right'>Application header</Text>
+              <Text align='right'>GeSyS</Text>
+              <Link href="/admin/perfil" passHref={true}>
+                <Avatar radius={"xl"} size={"lg"} sx={{ position: 'absolute', right: '1rem', top: '0.4rem', '&:hover': { cursor: 'pointer' } }} src={"/img/ekko.jpg"} />
+              </Link>
             </div>
           </Header>
         }
