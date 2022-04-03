@@ -41,7 +41,7 @@ const BaseAdministracion = (props: AppProps) => {
         fixed
         header={
           <Header height={60} p="sm">
-            <div style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
               <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
                 <Burger
                   opened={opened}
