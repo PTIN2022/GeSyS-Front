@@ -1,5 +1,6 @@
 import { Group,  UnstyledButton, AppShell, Burger, Header, MediaQuery, Navbar, Text, Avatar, Space, Button } from "@mantine/core";
 import { AppProps } from "next/app";
+import Link from "next/link";
 import { useState } from "react";
 import { NavbarItemProps } from "../../interfaces";
 import NavbarButton from "./NavbarButton";
@@ -49,26 +50,22 @@ const BaseAdministracion = (props: AppProps) => {
                   mr="xl"
                 />
               </MediaQuery>
-              <Button
-                variant="subtle" 
-                color='#0e3bac'
-                component="a"
-                target="_self"
-                href= "/admin"
-              >
-                GeSyS Technical Station</Button>
+              <Link href={"/admin"} passHref={true}>
+                <Button
+                  variant="subtle" 
+                  color='#0e3bac'>
+                  GeSyS Technical Station
+                </Button>
+              </Link>
               <Space w="sm"></Space>
-              <UnstyledButton 
-                component="a"
-                target="_self"
-                href= "/admin/perfil"
-              >
-                <Group>
-                  <Text>Manolo</Text>
-                  <Avatar src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80.png" radius="xl" > </Avatar>
-                </Group>
-              </UnstyledButton>
-              
+              <Link href={"/admin/perfil"} passHref={true}>
+                <UnstyledButton>
+                  <Group>
+                    <Text>Manolo</Text>
+                    <Avatar src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80.png" radius="xl" > </Avatar>
+                  </Group>
+                </UnstyledButton>
+              </Link>
             </div>
           </Header>
         }

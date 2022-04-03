@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { AlertCircle, Phone, User, At, Id, IdBadge } from 'tabler-icons-react';
 import { PerfilData } from '../../interfaces';
 import { NextPage } from 'next';
+import Link from 'next/link';
 //import {setPerfil, perfil} from "./pedit";
 
 const PerfilInfo: NextPage = () => {
@@ -38,13 +39,13 @@ const PerfilInfo: NextPage = () => {
                         <Space h="sm"></Space>
                     <Text align="left" size="lg"> Manolo Pedro  </Text>
                     <Space h="md"></Space>
-                        <Button 
-                         component="a"
-                         target="_self"
+                        <Link
                          href= "/admin/pedit"
-                        >
+                         passHref={true}>
+                          <Button>
                             Editar Perfil
-                        </Button>
+                          </Button>
+                        </Link>
                 </Grid.Col>
                 <Grid.Col span={7}>
                 <Space h="xl"></Space>
