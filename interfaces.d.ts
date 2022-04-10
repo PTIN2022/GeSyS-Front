@@ -1,5 +1,3 @@
-import { Url } from "url";
-
 export interface PowerDataProps {
   maxPower: number;
   powerBeingUsed: number;
@@ -42,7 +40,7 @@ export interface TrabajadorRowProps {
   Name: string;
   Rol: string;
   Last_access: string; 
-  Foto: url;
+  Foto: string;
 }
 
 export interface NavbarItemProps {
@@ -63,4 +61,9 @@ export interface PerfilData {
   email: string;
   dni: string;
   cargo: string;
+  foto: string;
+}
+
+export interface ErrorAPI {
+  message: string;
 }
