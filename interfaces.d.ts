@@ -64,3 +64,13 @@ export interface PerfilData {
   dni: string;
   cargo: string;
 }
+
+export interface ReservaRowProps{
+  reservante : string;
+  matricula: string;
+  estacion: string;
+  date: string;
+  duration: string;
+  kwh: string;
+  money: number;
+}
