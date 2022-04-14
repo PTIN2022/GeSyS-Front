@@ -1,12 +1,11 @@
 import { NextPage } from "next"
-import Head from "next/head";
 import { useRouter } from "next/router";
-import AddIncidents from "../../../components/AddIncidents";
-import { Image, Box, Group, TextInput, Tooltip, Button, Text, Grid } from '@mantine/core';
+import { Box, Group, TextInput, Button, Text, Grid } from '@mantine/core';
+import { DatePicker } from '@mantine/dates';
+import 'dayjs/locale/es'
 import { useState } from 'react';
-import { AlertCircle, Phone, User, At, Id, IdBadge, Check } from 'tabler-icons-react';
-import { PerfilData } from '../../../interfaces';
-import Link from 'next/link';
+import { User, ChargingPile, Clock, Calendar } from 'tabler-icons-react';
+import { ReservaData } from '../../../interfaces';
 
 const reserva: NextPage = () => {
 
@@ -14,20 +13,12 @@ const reserva: NextPage = () => {
   const { reserva } = query;
 
   const [editing, setEditing] = useState<boolean>(false);
-
-  const rightSection = (
-    <Tooltip label="Contacta con un administrador para editar este campo" position="top" placement="end" color="ccdde8">
-      <AlertCircle size={16} style={{ display: 'block', opacity: 0.5 }} />
-    </Tooltip>
-  );
   
-  const [perfil, setPerfil] = useState<PerfilData>({
-    nombre: 'manolo',
-    apellido: 'pedro juan',
-    telefono: '+34 654 789 456',
-    email: 'manolo.pedro.juan@gesys.com',
-    dni: '48645186G',
-    cargo: 'Administrador',
+  const [reserve, setReserve] = useState<ReservaData>({
+    hora: '',
+    plaza: '',
+    idcliente: '',
+    fecha: null,
   });
 
   return (
@@ -36,15 +27,16 @@ const reserva: NextPage = () => {
       <Grid grow gutter="xl">
 
         <Grid.Col span={4}>          
-          <Text align="left" size="lg">Manolo Pedro</Text>
+          <Text align="left" size="xl">Reserva: {reserva}</Text>
+          <br></br>
           <Button onClick={() => setEditing(!editing)}>
             { editing ? 'Guardar Cambios' : 'Editar' }
           </Button>
         </Grid.Col>
 
         <Grid.Col span={7}>
-          <Text align="left" size="xl"> Mi Cuenta  </Text>
-          <Text align="left" size="sm">Mira y edita tu información personal a continuación  </Text>
+          <Text align="left" size="xl">Datos de la Reserva</Text>
+          <Text align="left" size="md">Mira y edita la información de la reserva "{reserva}"   </Text>
         </Grid.Col>
     
         <Grid.Col span={7}>                
@@ -52,20 +44,20 @@ const reserva: NextPage = () => {
 
             { editing ? 
             <TextInput size="md"
-              label="Nombre"
-              placeholder="Pedro"
+              label="Hora de reserva"
+              placeholder="10:00"
               variant="default"
-              icon={<User size={14} />}
-              value={perfil.nombre}
-              onChange={(event) => setPerfil({...perfil, nombre: event.target.value})} />
+              icon={<Clock size={14} />}
+              value={reserve.hora}
+              onChange={(event) => setReserve({...reserve, hora: event.target.value})} />
               :
               <TextInput size="md"
-                label="Nombre"
-                placeholder="Pedro"
+                label="Hora de reserva"
+                placeholder="10:00"
                 variant="default"
-                icon={<User size={14} />}
-                value={perfil.nombre}
-                onChange={(event) => setPerfil({...perfil, nombre: event.target.value})}
+                icon={<Clock size={14} />}
+                value={reserve.hora}
+                onChange={(event) => setReserve({...reserve, hora: event.target.value})}
                 disabled
               />
           }
@@ -73,22 +65,22 @@ const reserva: NextPage = () => {
 
             { editing ? 
             <TextInput size="md"
-                label="Apellido"
-                placeholder="Benito"
+                label="Plaza"
+                placeholder="Num Plaza"
                 variant="default"
-                icon={<User size={14} />}
-                value={perfil.apellido}
-                onChange={(event) => setPerfil({...perfil, apellido: event.target.value})}
+                icon={<ChargingPile size={18} />}
+                value={reserve.plaza}
+                onChange={(event) => setReserve({...reserve, plaza: event.target.value})}
             />
             :
 
             <TextInput size="md"
-              label="Apellido"
-              placeholder="Benito"
+              label="Plaza"
+              placeholder="Num Plaza"
               variant="default"
-              icon={<User size={14} />}
-              value={perfil.apellido}
-              onChange={(event) => setPerfil({...perfil, apellido: event.target.value})}
+              icon={<ChargingPile size={18} />}
+              value={reserve.plaza}
+              onChange={(event) => setReserve({...reserve, plaza: event.target.value})}
               disabled
             /> 
             }
@@ -99,62 +91,45 @@ const reserva: NextPage = () => {
 
             { editing ?
             <TextInput size="md"
-              label="Numero de Telefono"
-              placeholder="Telefono" 
+              label="Id Cliente"
+              placeholder="1234..." 
               variant="default"
-              icon={<Phone size={14} />}
-              value={perfil.telefono}
-              onChange={(event) => setPerfil({...perfil, telefono: event.target.value})}
+              icon={<User size={14} />}
+              value={reserve.idcliente}
+              onChange={(event) => setReserve({...reserve, idcliente: event.target.value})}
             />
             :
             <TextInput size="md"
-              label="Numero de Telefono"
-              placeholder="Telefono" 
+              label="Id Cliente"
+              placeholder="1234..." 
               variant="default"
-              icon={<Phone size={14} />}
-              value={perfil.telefono}
-              onChange={(event) => setPerfil({...perfil, telefono: event.target.value})}
+              icon={<User size={14} />}
+              value={reserve.idcliente}
+              onChange={(event) => setReserve({...reserve, idcliente: event.target.value})}
               disabled
             />
             }
 
-            <TextInput size="md"
-              label="DNI"
-              required
-              rightSection={rightSection} 
-              icon={<Id size={14} />}
-              variant="filled"
-              value={perfil.dni}
-              onChange={(event) => setPerfil({...perfil, dni: event.target.value})}
-              disabled
-            />  
-          </Group>
-
-          <br></br>
-
-          <Group mt="sl">
-            <TextInput size="md"
-              label="Correo electronico"
-              required
-              rightSection={rightSection}
-              icon={<At size={14} />} 
-              variant="filled"
-              value={perfil.email}
-              onChange={(event) => setPerfil({...perfil, email: event.target.value})}
-              disabled
-            />
-
-            <TextInput size="md"
-              label="Cargo de Empresa"
-              required
-              rightSection={rightSection} 
-              icon={<IdBadge size={14} />}
-              variant="filled"
-              value={perfil.cargo}
-              onChange={(event) => setPerfil({...perfil, cargo: event.target.value})}
-              disabled
-            />  
-
+            { editing ?
+              <DatePicker
+                locale= 'es'
+                placeholder="Escoger Fecha"
+                label="Fecha"
+                icon={<Calendar size={16} />}
+                value={reserve.fecha}
+                onChange={(event) => setReserve({...reserve, fecha: event})}
+              />
+            :
+              <DatePicker
+                locale="es"
+                placeholder="Escoge Fecha"
+                label="Fecha"
+                icon={<Calendar size={16} />}
+                value={reserve.fecha}
+                onChange={(event) => setReserve({...reserve, fecha: event})}
+                disabled
+              />
+            }
           </Group>
         </Grid.Col>
       </Grid>
