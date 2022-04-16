@@ -69,6 +69,7 @@ export interface ReservaRowProps{
   reservante : string;
   matricula: string;
   estacion: string;
+  nPlaza:number;
   date: string;
   duration: string;
   kwh: string;
