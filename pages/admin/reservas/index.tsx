@@ -68,16 +68,17 @@ const reservas: NextPage = () => {
       
       <Grid gutter="xl">
         <Grid.Col span={3}>
-          <Autocomplete
+          <Autocomplete           
             label="Elige que filtrar"
             placeholder="Pick one"
             //data={data}
-            value={filtre} onChange={setFilter} data={dataFilters}      
+            value={filtre} onChange={setFilter}   data={dataFilters}      
             filter={(filtre, item) =>
               item.filtre.toLowerCase().includes(filtre.toLowerCase().trim())        }
           />
-      
         </Grid.Col>
+        {filtre == "" && value && setValue("")}          
+
         {filtre=="Estación" && <Grid.Col span={6}>        
           <Autocomplete
             label="Elemento a filtrar:"
@@ -88,6 +89,7 @@ const reservas: NextPage = () => {
               item.value.toLowerCase().includes(value.toLowerCase().trim())
             }
           />
+
         </Grid.Col>   
         }
         {filtre=="Cliente" && <Grid.Col span={6}>        
