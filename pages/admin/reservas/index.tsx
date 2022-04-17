@@ -5,7 +5,7 @@ import { ReservaRowProps } from '../../../interfaces';
 import ReservaRow from '../../../components/ReservaRow';
 
 
-import { forwardRef, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { Group, Avatar, Text, MantineColor, SelectItemProps, Autocomplete } from '@mantine/core';
 
 
@@ -43,6 +43,7 @@ const elements: ReservaRowProps[] = [
 ];
 
 
+
 //const data = charactersList.map((item) => ({ ...item, value: item.label }));
 const filtres = [{filtre:"Estación"},{filtre:"Cliente"},{filtre:"Matricula"},{filtre:"KwH"},{filtre:"Date"}];
 const dataFilters = filtres.map((item) => ({...item, value: item.filtre}));
@@ -53,9 +54,41 @@ const datak =  elements.map((item) => ({...item, value: item.kwh}));
 const dataD =  elements.map((item) => ({...item, value: item.date}));
 
 
+
+
+
+
+
+
 const reservas: NextPage = () => {
+
+
   const [value, setValue] = useState('');  
   const [filtre, setFilter] = useState(''); 
+  ///////////////////DINAMICAMENTE////////////////////////
+const [elementsD,setElements]  = useState<ReservaRowProps>(elements[1]);
+useEffect(() => {
+  const fetchData = async () => {
+    const response = await fetch("http://localhost:3000/api/reservas");
+    const data =  await response.json();
+   
+    setElements(data)
+}
+fetchData();
+
+}, [])
+
+const handleDeleteClick = (idReserva:any) => {
+  const newReservas = {...elementsD};
+  const index = elementsD.findIndex((elementsD:any) => elementsD.id === idReserva);
+  newReservas.splice(index, 1);
+  setElements(newReservas);
+}
+
+
+
+
+///////////////////DINAMICAMENTE////////////////////////
   
   //const [data, setData] = useState('');  
   //{filtre == "Cliente" && {setData(elements.map((item:any) => ({ ...item, value: item.estacion })) }}

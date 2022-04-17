@@ -1,9 +1,10 @@
 import { ReservaRowProps } from '../interfaces'
 import { Menu, Center, ActionIcon } from '@mantine/core';
-import { Adjustments, InfoSquare,  DotsVertical, Search } from 'tabler-icons-react';
+import { Adjustments, InfoSquare,  DotsVertical, Search, Trash } from 'tabler-icons-react';
 import Link from 'next/link';
+import reserva from '../pages/admin/reservas/[reserva]';
 
-const PromoRow = ({ reservante ,matricula, estacion,nPlaza, date,duration, kwh, money } : ReservaRowProps) => {
+const RerservaRow = ({ reservante ,matricula, estacion,nPlaza, date,duration, kwh, money } : ReservaRowProps) => {
     return (        
         <tr>
             <td>{reservante}</td>
@@ -13,8 +14,22 @@ const PromoRow = ({ reservante ,matricula, estacion,nPlaza, date,duration, kwh, 
             <td>{date}</td>
             <td>{duration}</td>
             <td>{kwh}</td>
-            <td>{money}</td>            
+            <td>{money}</td>  
+            <td> 
+                <Menu control={
+                    <Center  style={{ width: 10, height: 40 }}>
+                        <ActionIcon color="dark" radius="md">
+                            <DotsVertical />
+                        </ActionIcon>
+                    </Center>
+                    }>
+                    <Link href={{pathname:"/admin/reservas/[reserva]",query:{reserva:'1'},}}  passHref={true}>
+                            <Menu.Item>Editar</Menu.Item>
+                        </Link>
+                    <Menu.Item color={'red'} onClick={() => deleteRow(2)}icon={<Trash size={14}/>} >Eliminar</Menu.Item> 
+                </Menu>
+            </td>      
         </tr>
     )
 } 
-export default PromoRow
+export default RerservaRow
