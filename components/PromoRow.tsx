@@ -2,13 +2,11 @@ import { PromoRowProps } from '../interfaces'
 import { Menu, Center, ActionIcon } from '@mantine/core';
 import { Adjustments, InfoSquare,  DotsVertical, Search } from 'tabler-icons-react';
 import Link from 'next/link';
+import { useState } from 'react';
 
 const PromoRow = ({ Est,Descuento, Cupones,Fecha_ini,Fecha_fin,Estado } : PromoRowProps) => {
-    let sEstado:string; 
-    if (Estado==true)
-        sEstado="Activar"
-    else
-        sEstado="Desactivar"
+    const [Activado,setActivado] = useState<boolean>(Estado)
+
     return (    
         <tr>
             <td>{Est}</td>
@@ -24,7 +22,11 @@ const PromoRow = ({ Est,Descuento, Cupones,Fecha_ini,Fecha_fin,Estado } : PromoR
                     </ActionIcon>
                 </Center>
                 }>
-                <Menu.Item >{sEstado}</Menu.Item> 
+                <Menu.Item
+                    onClick={() => setActivado(!Activado)}
+                >
+                    {Activado ? "Desactivar": "Activar"}
+                </Menu.Item> 
                 <Link href={"/admin/promociones/1"} passHref={true}>
                   <Menu.Item>Editar</Menu.Item> 
                 </Link>
