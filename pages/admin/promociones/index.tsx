@@ -9,26 +9,26 @@ const elements: PromoRowProps[] = [
   {
     Est: "VG1",
     Descuento: "30%",
-    Cupones: '50/100',
-    Fecha_ini: "18/03/22",
-    Fecha_fin: '20/03/22',
-    Estado: true
+    Cupones: "50/100",
+    Fecha_ini: "2022-03-18",
+    Fecha_fin: "2022-05-22",
+    Estado: "Activado"
   },
   {
     Est: "VG2",
     Descuento: "15%",
-    Cupones: '27/-',
-    Fecha_ini: "20/03/22",
-    Fecha_fin: '25/03/22',
-    Estado: true
+    Cupones: "27/-",
+    Fecha_ini: "2022-03-20",
+    Fecha_fin: "2022-06-20",
+    Estado: 'Activado'
   },
   {
     Est: "VG1",
     Descuento: "50%",
-    Cupones: '2/10',
-    Fecha_ini: "21/03/22",
-    Fecha_fin: '22/03/22',
-    Estado: false
+    Cupones: "2/10",
+    Fecha_ini: "2022-03-18",
+    Fecha_fin: "2022-04-18",
+    Estado: "Desactivado"
   }
 ];
 
@@ -47,7 +47,8 @@ const ListaPromociones: NextPage =() => {
               <th>Descuento</th>
               <th>Cupones Usados</th>
               <th>Fecha inicio</th>
-              <th>Fecha fin</th>          
+              <th>Fecha fin</th>
+              <th>Estado</th>          
             </tr>       
           </thead>
           <tbody>
