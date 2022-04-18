@@ -64,3 +64,11 @@ export interface PerfilData {
   dni: string;
   cargo: string;
 }
+
+type StationStatus = "Active" | "Deactivated" | "Damaged";
+
+export interface MarkerEstacionProps {
+  name: string;
+  ubicacion: number[2],
+  state: StationStatus
+}
