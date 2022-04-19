@@ -1,5 +1,6 @@
 import { NextPage } from "next"
 import React from 'react';
+import { Autocomplete } from '@mantine/core';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -26,11 +27,11 @@ ChartJS.register(
 import { Line } from 'react-chartjs-2';
 
 
-const data = {
+const year = {
     labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
     datasets: [
       {
-        label: 'Potencia total utilizada',
+        label: 'Potencia total utilizada(KW)',
         fill: true,
         backgroundColor: 'rgba(75,192,192,0.4)',
         borderColor: 'rgba(75,192,192,1)',
@@ -46,6 +47,8 @@ const data = {
     ]
 };
 
+
+
 const options = {
     scales: {
         y: {
@@ -54,18 +57,26 @@ const options = {
     }
 }
 
+
 const Estadisticas: NextPage = () => {
     return (
         <div>
             <h1>Estadísticas</h1>
+            <Autocomplete
+                label="Consumo de estaciones"
+                placeholder="Escoge una estación para ver su consumo"
+                data={['Todas las estaciones','VGA1', 'VGA2']}
+            />
             <Line
-                data={data}
+                data={year}
                 width={100}
                 height={40}
                 options={options}
             />
-        </div>
+            
+            
 
+        </div>
     )
 }
 
