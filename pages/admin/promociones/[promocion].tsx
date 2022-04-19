@@ -1,10 +1,15 @@
-import { Textarea } from '@mantine/core';
+import { Autocomplete, MultiSelect, Textarea } from '@mantine/core';
 import React, { useEffect, useState } from 'react';
 import { TextInput } from '@mantine/core';
 import { Grid } from '@mantine/core';
 
 import { Container } from '@mantine/core';
-
+const data = [
+  {value: 'VG1', label:'VG1'},
+  {value: 'VG2', label:'VG2'},
+  {value: 'VG3', label:'VG3'},
+  {value: 'VG4', label:'VG4'}
+];
 
 const Promocion = () => {
     return(
@@ -13,9 +18,11 @@ const Promocion = () => {
       <Container>
         <Grid gutter="xl">
           <Grid.Col span={5}>
-            <TextInput value={"VG1"}
-              placeholder="10%"
-              label="Estación"
+            <MultiSelect
+              data={data}
+              placeholder="Estacion"
+              label="Estación/es" 
+              searchable            
             />
           </Grid.Col>
           <Grid.Col span={3}>
