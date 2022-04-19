@@ -66,8 +66,9 @@ export interface PerfilData {
 }
 
 export interface ReservaData {
-  hora: string;
+  hora: Date | null;
   plaza: string;
   idcliente: string;
   fecha: Date | null;
+  duracion: Date | null;
 }

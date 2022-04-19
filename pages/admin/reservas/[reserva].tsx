@@ -1,7 +1,7 @@
 import { NextPage } from "next"
 import { useRouter } from "next/router";
 import { Box, Group, TextInput, Button, Text, Grid } from '@mantine/core';
-import { DatePicker } from '@mantine/dates';
+import { DatePicker, TimeInput } from '@mantine/dates';
 import 'dayjs/locale/es'
 import { useState } from 'react';
 import { User, ChargingPile, Clock, Calendar } from 'tabler-icons-react';
@@ -15,10 +15,11 @@ const reserva: NextPage = () => {
   const [editing, setEditing] = useState<boolean>(false);
   
   const [reserve, setReserve] = useState<ReservaData>({
-    hora: '',
+    hora: null,
     plaza: '',
     idcliente: '',
     fecha: null,
+    duracion: null,
   });
 
   return (
@@ -42,22 +43,42 @@ const reserva: NextPage = () => {
         <Grid.Col span={7}>                
           <Group mt="sl">
 
-            { editing ? 
-            <TextInput size="md"
-              label="Hora de reserva"
-              placeholder="10:00"
+          { editing ? 
+            <TimeInput size="md"
+              label="Inicio Reserva"
               variant="default"
               icon={<Clock size={14} />}
               value={reserve.hora}
-              onChange={(event) => setReserve({...reserve, hora: event.target.value})} />
+              onChange={(event) => setReserve({...reserve, hora: event})} 
+              clearable
+              />
               :
-              <TextInput size="md"
-                label="Hora de reserva"
-                placeholder="10:00"
+              <TimeInput size="md"
+                label="Inicio Reserva"
                 variant="default"
                 icon={<Clock size={14} />}
                 value={reserve.hora}
-                onChange={(event) => setReserve({...reserve, hora: event.target.value})}
+                onChange={(event) => setReserve({...reserve, hora: event})}
+                disabled
+              />
+          }
+
+          { editing ? 
+            <TimeInput size="md"
+              label="Duracion"
+              variant="default"
+              icon={<Clock size={14} />}
+              value={reserve.duracion}
+              onChange={(event) => setReserve({...reserve, duracion: event})} 
+              clearable
+            />
+              :
+              <TimeInput size="md"
+                label="Duracion"
+                variant="default"
+                icon={<Clock size={14} />}
+                value={reserve.duracion}
+                onChange={(event) => setReserve({...reserve, duracion: event})}
                 disabled
               />
           }
