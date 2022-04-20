@@ -7,7 +7,6 @@ import { DatePicker, TimeInput } from '@mantine/dates';
 
 const AddReservas = () => {
     const [opened, setOpened] = useState(false);
-  
     const [reserve, setReserve] = useState<ReservaData>({
         hora: null,
         plaza: '',
