@@ -64,3 +64,11 @@ export interface PerfilData {
   dni: string;
   cargo: string;
 }
+
+export interface ReservaData {
+  hora: Date | null;
+  plaza: string;
+  idcliente: string;
+  fecha: Date | null;
+  duracion: Date | null;
+} 
