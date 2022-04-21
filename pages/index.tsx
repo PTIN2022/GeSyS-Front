@@ -1,9 +1,14 @@
-import type { NextPage } from 'next'
+import type { NextPage } from 'next';
+import dynamic from 'next/dynamic';
+
+const BgImage = dynamic(() => import("../pages/BGImage"), {
+  ssr: false
+});
 
 const Home: NextPage = () => {
-  return (
-    <h1>Landing page para users</h1>
-  )
+  return (  
+   <BgImage/>
+  );
 }
 
 export default Home
