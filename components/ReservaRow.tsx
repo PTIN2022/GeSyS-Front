@@ -3,8 +3,11 @@ import { Menu, Center, ActionIcon } from '@mantine/core';
 import { Adjustments, InfoSquare,  DotsVertical, Search, Trash } from 'tabler-icons-react';
 import Link from 'next/link';
 import reserva from '../pages/admin/reservas/[reserva]';
+import reservas from '../pages/admin/reservas/index'
 
-const RerservaRow = ({ reservante ,matricula, estacion,nPlaza, date,duration, kwh, money } : ReservaRowProps) => {
+
+
+const RerservaRow = ({ id ,reservante ,matricula, estacion,nPlaza, date,duration, kwh, money } : ReservaRowProps) => {
     return (        
         <tr>
             <td>{reservante}</td>
@@ -23,10 +26,10 @@ const RerservaRow = ({ reservante ,matricula, estacion,nPlaza, date,duration, kw
                         </ActionIcon>
                     </Center>
                     }>
-                    <Link href={{pathname:"/admin/reservas/[reserva]",query:{reserva:'1'},}}  passHref={true}>
+                    <Link href={{pathname:"/admin/reservas/[reserva]",query:{reserva:'{id}'},}}  passHref={true}>
                             <Menu.Item>Editar</Menu.Item>
                         </Link>
-                    <Menu.Item color={'red'} onClick={() => deleteRow(2)}icon={<Trash size={14}/>} >Eliminar</Menu.Item> 
+                    <Menu.Item color={'red'} onClick={() => handleDeleteClick}icon={<Trash size={14}/>} >Eliminar</Menu.Item> 
                 </Menu>
             </td>      
         </tr>
