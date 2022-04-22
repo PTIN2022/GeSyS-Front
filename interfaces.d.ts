@@ -72,3 +72,25 @@ export interface ReservaData {
   fecha: Date | null;
   duracion: Date | null;
 }
+
+type StationStatus = "Active" | "Deactivated" | "Damaged";
+
+export interface MarkerEstacionProps {
+  name: string;
+  ubicacion: number[2],
+  state: StationStatus
+}
+
+export interface Dataset {
+  label: string;
+  fill: boolean;
+  backgroundColor: string;
+  borderColor: string;
+  data: number[]
+}
+
+export interface EstadisticaEstacion {
+  name: string;
+  labels: string[];
+  datasets: Dataset[];
+}
