@@ -4,7 +4,6 @@ import { Grid, Table } from '@mantine/core'
 import { ReservaRowProps } from '../../../interfaces';
 import ReservaRow from '../../../components/ReservaRow';
 
-
 import { forwardRef, useEffect, useState } from 'react';
 import { Group, Avatar, Text, MantineColor, SelectItemProps, Autocomplete } from '@mantine/core';
 
@@ -47,42 +46,44 @@ const elements: ReservaRowProps[] = [
 
 
 //const data = charactersList.map((item) => ({ ...item, value: item.label }));
-const filtres = [{filtre:"Estación"},{filtre:"Cliente"},{filtre:"Matricula"},{filtre:"KwH"},{filtre:"Date"}];
+/*const filtres = [{filtre:"Estación"},{filtre:"Cliente"},{filtre:"Matricula"},{filtre:"KwH"},{filtre:"Date"}];
 const dataFilters = filtres.map((item) => ({...item, value: item.filtre}));
 var dataE = elements.map((item:any) => ({ ...item, value: item.estacion })) ;
 const dataC = elements.map((item:any) => ({ ...item, value: item.reservante }));
 const dataM =  elements.map((item) => ({...item, value: item.matricula}));
 const datak =  elements.map((item) => ({...item, value: item.kwh}));
-const dataD =  elements.map((item) => ({...item, value: item.date}));
+const dataD =  elements.map((item) => ({...item, value: item.date}));*/
 
 //const [elementsD,setElements]  = useState<any>(elements[0]);
 
 
-const handleDeleteClick = (idReserva:any) => {
-  const newReservas = {...elementsD};
-  const index = elementsD.findIndex((elementsD:any) => elementsD.id === idReserva);
-  newReservas.splice(index, 1);
-  setElements(newReservas);
-}
-const reservas: NextPage = () => {
 
-  
+const ListaReservas: NextPage = () => {
+
   const [value, setValue] = useState('');  
   const [filtre, setFilter] = useState(''); 
   ///////////////////DINAMICAMENTE////////////////////////
-  const [elementsD,setElements]  = useState<any>(elements[0]);
-useEffect(() => {
-  const fetchData = async () => {
-    const response = await fetch("http://localhost:3000/api/reservas");
-    const data =  await response.json();
-   
-    setElements(data)
-}
-fetchData();
+  const [elementsD, setElements]  = useState<ReservaRowProps[]>(elements);
 
-}, [])
+  /*useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch("http://localhost:3000/api/reservas");
+      const data =  await response.json();
+    
+      setElements(data)
+    }
+    fetchData();
+  }, []) */
 
-
+  const handleDeleteClick = (idReserva: number) => {
+    const tmp = [];
+    for(let i = 0; i < elementsD.length; i++) {
+      if (elementsD[i].id != idReserva) {
+        tmp.push(elementsD[i]);
+      }
+    }
+    setElements(tmp);
+  }
 
 ///////////////////DINAMICAMENTE////////////////////////
   
@@ -93,17 +94,17 @@ fetchData();
       <Head>
         <title>GeSyS - Reservas</title>
       </Head> 
-        <h1>Reservas</h1>
+      <h1>Reservas</h1>
       
-      <Grid gutter="xl">
+      {/*<Grid gutter="xl">
         <Grid.Col span={3}>
           <Autocomplete           
             label="Elige que filtrar"
             placeholder="Pick one"
             //data={data}
-            value={filtre} onChange={setFilter}   data={dataFilters}      
+            value={filtre} onChange={setFilter} data={dataFilters}      
             filter={(filtre, item) =>
-              item.filtre.toLowerCase().includes(filtre.toLowerCase().trim())        }
+              item.filtre.toLowerCase().includes(filtre.toLowerCase().trim())}
           />
         </Grid.Col>
         {filtre == "" && value && setValue("")}          
@@ -169,8 +170,9 @@ fetchData();
           />
         </Grid.Col>   
         }
-      </Grid>
+      </Grid>*/}
      <br></br>    
+
       <Table striped highlightOnHover >
         <thead>
           <tr>
@@ -184,11 +186,11 @@ fetchData();
             <th>Coste[€]</th>        
           </tr>       
         </thead>
-        <tbody> 
-        {filtre =="" && elements && elements.filter(element => element.estacion.includes(value)).map((elementFiltrat, index )=> {
-          return <ReservaRow key={index} {...elementFiltrat}/>
-        })}        
-        {filtre =="Estación" && elements && elements.filter(element => element.estacion.includes(value)).map((elementFiltrat, index )=> {
+        <tbody>      
+        {filtre == "" && elementsD && elementsD.map(reserva => {
+          return <ReservaRow key={reserva.id} reserva={reserva} deleteElement={handleDeleteClick} />
+        })}
+        {/*{filtre =="Estación" && elements && elements.filter(element => element.estacion.includes(value)).map((elementFiltrat, index )=> {
           return <ReservaRow key={index} {...elementFiltrat}/>
         })}  
         {filtre =="Cliente" && elements && elements.filter(element => element.reservante.includes(value)).map((elementFiltrat, index )=> {
@@ -202,12 +204,13 @@ fetchData();
         })} 
         {filtre =="Date" && elements && elements.filter(element => element.date.includes(value)).map((elementFiltrat, index )=> {
           return <ReservaRow key={index} {...elementFiltrat}/>
-        })}    
+        })}*/}
         </tbody>
       </Table>
+
     </> 
     )
   }
   
-  export default reservas
+  export default ListaReservas
   
