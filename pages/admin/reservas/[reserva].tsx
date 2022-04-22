@@ -8,7 +8,7 @@ import { AlertCircle, Phone, User, At, Id, IdBadge, Check } from 'tabler-icons-r
 import { PerfilData } from '../../../interfaces';
 import Link from 'next/link';
 
-const reserva: NextPage = () => {
+const ShowReserva: NextPage = () => {
 
   const { query } = useRouter();
   const { reserva } = query;
@@ -163,4 +163,4 @@ const reserva: NextPage = () => {
     );
 }
 
-export default reserva;
+export default ShowReserva;

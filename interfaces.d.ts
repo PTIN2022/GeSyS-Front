@@ -77,3 +77,10 @@ export interface ReservaRowProps{
   kwh: string;
   money: number;
 }
+type StationStatus = "Active" | "Deactivated" | "Damaged";
+
+export interface MarkerEstacionProps {
+  name: string;
+  ubicacion: number[2],
+  state: StationStatus
+}
