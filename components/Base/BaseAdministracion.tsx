@@ -5,6 +5,10 @@ import Link from "next/link";
 import { useState } from "react";
 import { NavbarItemProps } from "../../interfaces";
 import NavbarButton from "./NavbarButton";
+import { forwardRef } from 'react';
+import { ChevronRight } from 'tabler-icons-react';
+import { Menu } from '@mantine/core';
+import { UserButtonProps } from "../../interfaces";
 
 const NavbarItems: NavbarItemProps[] = [
   {
@@ -28,6 +32,42 @@ const NavbarItems: NavbarItemProps[] = [
     href: "/admin/soporte_tecnico",
   }
 ];
+
+const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
+  ({ image, name, email, icon, ...others }: UserButtonProps, ref) => (
+    <UnstyledButton
+      ref={ref}
+      sx={(theme) => ({
+        display: 'block',
+        width: '100%',
+        padding: theme.spacing.md,
+        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+
+        '&:hover': {
+          backgroundColor:
+            theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
+        },
+      })}
+      {...others}
+    >
+      <Group>
+        <Avatar src={image} radius="xl" />
+
+        <div style={{ flex: 1 }}>
+          <Text size="sm" weight={500}>
+            {name}
+          </Text>
+
+          <Text color="dimmed" size="xs">
+            {email}
+          </Text>
+        </div>
+
+        {icon || <ChevronRight size={16} />}
+      </Group>
+    </UnstyledButton>
+  )
+);
 
 const BaseAdministracion = (props: AppProps) => {
 
@@ -59,15 +99,31 @@ const BaseAdministracion = (props: AppProps) => {
                     GeSyS Technical Station
                   </Button>
               </Link>
+            
               <Space w="sm"></Space>
-              <Link href={"/admin/perfil"} passHref={true}>
-                <UnstyledButton>
-                  <Group>
-                    <Text>Manolo</Text>
-                    <Avatar src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80.png" radius="xl" > </Avatar>
-                  </Group>
-                </UnstyledButton>
-              </Link>
+
+          <Group position="center">
+            <Menu
+              withArrow
+              placement="center"
+              control={
+                <UserButton
+                  image="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80"
+                  name="Manolo Pedro Juan"
+                  email="manolo.pedro.juan@gesys.com"
+                />
+              }
+            >
+                <Menu.Item component="a" href="/admin/perfil">
+                  Mi perfil
+                </Menu.Item>
+
+                <Menu.Item component="a" href="/">
+                  Cerrar sesión
+                </Menu.Item>
+            </Menu>
+          </Group>
+              
             </div>
           </Header>
         }

@@ -65,3 +65,10 @@ export interface PerfilData {
   dni: string;
   cargo: string;
 }
+
+export interface UserButtonProps extends React.ComponentPropsWithoutRef<'button'> {
+  image: string;
+  name: string;
+  email: string;
+  icon?: React.ReactNode;
+}
