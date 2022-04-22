@@ -12,7 +12,7 @@ const elements: PromoRowProps[] = [
     Cupones: "50/100",
     Fecha_ini: "2022-03-18",
     Fecha_fin: "2022-05-22",
-    Estado: "Activado"
+    Estado: true
   },
   {
     Est: "VG2",
@@ -20,7 +20,7 @@ const elements: PromoRowProps[] = [
     Cupones: "27/-",
     Fecha_ini: "2022-03-20",
     Fecha_fin: "2022-06-20",
-    Estado: 'Activado'
+    Estado: true
   },
   {
     Est: "VG1",
@@ -28,7 +28,7 @@ const elements: PromoRowProps[] = [
     Cupones: "2/10",
     Fecha_ini: "2022-03-18",
     Fecha_fin: "2022-04-18",
-    Estado: "Desactivado"
+    Estado: false
   }
 ];
 

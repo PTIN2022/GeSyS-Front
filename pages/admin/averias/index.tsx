@@ -16,7 +16,7 @@ const elements: AveriaRowProps[] = [
     Est: "VGA2",
     Dir: "Rambla Exposició nº22",
     Date: '20/02/2022',
-    State: 'No Resuelta',
+    State: 'Pendiente',
     Desc: 'El cargador en la planta -1 plaza 3 no funciona '
   },
   {
