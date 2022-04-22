@@ -14,8 +14,9 @@ export interface PromoRowProps {
   Est: string;
   Descuento: string;
   Cupones: string; 
-  Fecha_ini: string; 
-  Fecha_fin: string; 
+  Fecha_ini: date; 
+  Fecha_fin: date;
+  Estado: boolean; 
 }
 
 export interface EstacionRowProps {
