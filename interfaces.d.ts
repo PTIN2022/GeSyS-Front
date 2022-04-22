@@ -66,9 +66,10 @@ export interface PerfilData {
   cargo: string;
 }
 
-export interface UserButtonProps extends React.ComponentPropsWithoutRef<'button'> {
-  image: string;
+type StationStatus = "Active" | "Deactivated" | "Damaged";
+
+export interface MarkerEstacionProps {
   name: string;
-  email: string;
-  icon?: React.ReactNode;
+  ubicacion: number[2],
+  state: StationStatus
 }

@@ -1,14 +1,11 @@
-import { Group,  UnstyledButton, AppShell, Burger, Header, MediaQuery, Navbar, Text, Avatar, Space, Button } from "@mantine/core";
+import { Group,  AppShell, Burger, Header, MediaQuery, Navbar, Text, Avatar, Space, Button } from "@mantine/core";
 import { AppProps } from "next/app";
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { NavbarItemProps } from "../../interfaces";
 import NavbarButton from "./NavbarButton";
-import { forwardRef } from 'react';
-import { ChevronRight } from 'tabler-icons-react';
 import { Menu } from '@mantine/core';
-import { UserButtonProps } from "../../interfaces";
+import UserButton from "../UserButton";
 
 const NavbarItems: NavbarItemProps[] = [
   {
@@ -33,61 +30,24 @@ const NavbarItems: NavbarItemProps[] = [
   }
 ];
 
-const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
-  ({ image, name, email, icon, ...others }: UserButtonProps, ref) => (
-    <UnstyledButton
-      ref={ref}
-      sx={(theme) => ({
-        display: 'block',
-        width: '100%',
-        padding: theme.spacing.md,
-        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
-
-        '&:hover': {
-          backgroundColor:
-            theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
-        },
-      })}
-      {...others}
-    >
-      <Group>
-        <Avatar src={image} radius="xl" />
-
-        <div style={{ flex: 1 }}>
-          <Text size="sm" weight={500}>
-            {name}
-          </Text>
-
-          <Text color="dimmed" size="xs">
-            {email}
-          </Text>
-        </div>
-
-        {icon || <ChevronRight size={16} />}
-      </Group>
-    </UnstyledButton>
-  )
-);
-
 const BaseAdministracion = (props: AppProps) => {
 
   const [opened, setOpened] = useState<boolean>(false);
   const { Component, pageProps } = props;
   
-
   return (
     <AppShell
-        padding="xs"
+        padding={"xs"}
         navbarOffsetBreakpoint={"sm"}
         fixed
         header={
-          <Header height={60} p="sm">
+          <Header height={60} p={"sm"}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
-              <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
+              <MediaQuery largerThan={"sm"} styles={{ display: 'none' }}>
                 <Burger
                   opened={opened}
                   onClick={() => setOpened((e) => !e)}
-                  size="sm"
+                  size={"sm"}
                   mr="xl"
                 />
               </MediaQuery>
@@ -100,7 +60,7 @@ const BaseAdministracion = (props: AppProps) => {
                   </Button>
               </Link>
             
-              <Space w="sm"></Space>
+              <Space w={"sm"}></Space>
 
           <Group position="center">
             <Menu
