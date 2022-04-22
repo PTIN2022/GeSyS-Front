@@ -1,5 +1,3 @@
-import { Url } from "url";
-
 export interface PowerDataProps {
   maxPower: number;
   powerBeingUsed: number;
@@ -42,7 +40,7 @@ export interface TrabajadorRowProps {
   Name: string;
   Rol: string;
   Last_access: string; 
-  Foto: url;
+  Foto: string;
 }
 
 export interface NavbarItemProps {
@@ -56,13 +54,15 @@ export interface IncidenciaElement {
   texto: string;
 }
 
+export type RolWorker = "Jefe" | "Administrador" | "Responsable" | "Trabajador";
+
 export interface PerfilData {
   nombre: string;
   apellido: string;
   telefono: string;
   email: string;
   dni: string;
-  cargo: string;
+  cargo: RolWorker;
 }
 
 export interface ReservaData {

@@ -1,8 +1,7 @@
-import { TextInput, Group, Box, Button, Modal } from '@mantine/core';
+import { TextInput, Group, Box, Button, Modal, Select } from '@mantine/core';
 import { At,Id, IdBadge, Phone, User } from 'tabler-icons-react';
 import { useState } from 'react';
-import { PerfilData } from '../interfaces';
-
+import { PerfilData, RolWorker } from '../interfaces';
 
 const AddTrabajador = () => {
     const [opened, setOpened] = useState(false);
@@ -12,8 +11,9 @@ const AddTrabajador = () => {
         telefono: '',
         email: '',
         dni: '',
-        cargo: '',
+        cargo: 'Trabajador',
       });
+
 
     return (
     <>
@@ -73,16 +73,15 @@ const AddTrabajador = () => {
                         value={perfil.email}
                         onChange={(event) => setPerfil({...perfil, email: event.target.value})}
                     />
-                    <TextInput size="md"
-                        label="Cargo de Empresa"
-                        placeholder="Cargo"
-                        icon={<IdBadge size={14} />}
-                        variant="default"
+                    <Select 
+                        label="Cargo"
                         value={perfil.cargo}
-                        onChange={(event) => setPerfil({...perfil, cargo: event.target.value})}
+                        onChange={(event) => setPerfil({...perfil, cargo: event as RolWorker})}
+                        data={[ "Jefe", "Administrador", "Responsable", "Trabajador" ]} 
                     />
+
                 </Group>
-                <br></br>
+                <br/>
                 <Button type='submit'>
                     Guardar
                 </Button>  
@@ -90,7 +89,7 @@ const AddTrabajador = () => {
         }
         </Modal>
 
-        <Button onClick={() => setOpened(true)}>Añadir Reserva</Button>
+        <Button onClick={() => setOpened(true)}>Añadir Trabajador</Button>
         
     </>
     )
