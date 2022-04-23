@@ -163,7 +163,7 @@ const Estadisticas: NextPage = () => {
     function isThereAWarning(est: EstadisticaEstacion) {
       const estationData = []
       for(let i = 0; i < est.datasets[0].data.length; i++) {
-        if(est.datasets[0].data[i] >= est.datasets[1].data[i] * 0.9) {
+        if(est.datasets[0].data[i] >= est.datasets[1].data[i] * 0.9 || est.datasets[0].data[i] < est.datasets[1].data[i] * 0.5) {
           const estation = {
             month: est.labels[i],
             data: (est.datasets[0].data[i]/est.datasets[1].data[i] * 100).toFixed(2)
@@ -172,7 +172,7 @@ const Estadisticas: NextPage = () => {
         }
       }
       if(estationData.length == 1) {
-        setWarning("El mes " + estationData[0].month + " se ha consumido el " + estationData[0].data + "% de la potencia contratada. Quizás sería bueno contratar más potencia.")
+        setWarning("El mes " + estationData[0].month + " se ha consumido el " + estationData[0].data + "% de la potencia contratada. Quizás seria bueno adaptar la potencia contratada.")
       }
       else if(estationData.length > 1) {
         
@@ -189,7 +189,7 @@ const Estadisticas: NextPage = () => {
           months += estationData[i].month
           datas += estationData[i].data + "%"
         }
-        setWarning("Los meses de " + months + " se han consumido el " + datas + " de las potencias contratadas respectivamente. Quizás seria bueno contratar más potencia.")
+        setWarning("Los meses de " + months + " se han consumido el " + datas + " de las potencias contratadas respectivamente. Quizás seria bueno adaptar la potencia contratada.")
       }
       else {
         setWarning("")
