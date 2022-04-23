@@ -15,6 +15,14 @@ export interface PromoRowProps {
   Fecha_ini: string; 
   Fecha_fin: string; 
 }
+export interface PromoData {
+  Estacion: string;
+  Descuento: number;
+  Cupones: number;
+  Descripcion: string;
+  fecha_inicio: Date | null;
+  fecha_fin: Date | null;
+} 
 
 export interface EstacionRowProps {
   Est: string;
