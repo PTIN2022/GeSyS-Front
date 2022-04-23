@@ -78,13 +78,17 @@ const BaseAdministracion = (props: AppProps) => {
                 />
               }
             >
-                <Menu.Item component="a" href="/admin/perfil">
+              <Link href={"/admin/perfil"} passHref={true}>
+                <Menu.Item>
                   Mi perfil
                 </Menu.Item>
+              </Link>
 
-                <Menu.Item component="a" href="/">
-                  Cerrar sesión
-                </Menu.Item>
+                <Link href={"/"} passHref={true}>
+                  <Menu.Item>
+                    Cerrar sesión
+                  </Menu.Item>
+                </Link>
             </Menu>
           </Group>
               
