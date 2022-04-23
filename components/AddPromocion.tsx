@@ -19,6 +19,26 @@ const AddPromocion = () => {
         fecha_inicio: null,
         fecha_fin: null,
       });
+
+    const handleChangeLimiteCupones = (event: any) => {
+      const re = /^[0-9\b]+$/;
+      if (event.target.value === '') {
+        setPromo({...promo, Cupones: 0})
+      }
+      else if (re.test(event.target.value)) {
+        setPromo({...promo, Cupones: parseInt(event.target.value)})
+      }        
+    }
+
+    const handleChangeLimiteDescuento = (event: any) => {
+        const re = /^[0-9\b]+$/;
+        if (event.target.value === '') {
+          setPromo({...promo, Descuento: 0})
+        }
+        else if (re.test(event.target.value)) {
+          setPromo({...promo, Descuento: parseInt(event.target.value)})
+        }        
+    }
     return(
       <>
         <Modal size="xl"
@@ -42,13 +62,15 @@ const AddPromocion = () => {
                     placeholder="10%"
                     label="Descuento [%]"
                     value={promo.Descuento}
-                    onChange={(event) => setPromo({...promo, Descuento: event.currentTarget.valueAsNumber})}
+                    onChange={handleChangeLimiteDescuento}
                 />
               </Grid.Col>
               <Grid.Col span={3}>
-                <TextInput value={"100"}
-                  placeholder="10%"
-                  label="Limite Cupones"
+                <TextInput
+                    placeholder="10%" 
+                    label="Limite Cupones"
+                    value={promo.Cupones}
+                    onChange={handleChangeLimiteCupones}
                 />
               </Grid.Col>
             </Grid>
@@ -86,12 +108,16 @@ const AddPromocion = () => {
                 maxRows={6} 
                 value={promo.Descripcion} 
                 onChange={(event) => setPromo({...promo, Descripcion: event.currentTarget.value})}     
-            /> 
+            />
+            <br></br>
+                <Button type='submit'>
+                    Guardar
+                </Button>
           </Container>
         }
         </Modal>
 
-        <Button onClick={() => setOpened(true)}>Añadir Trabajador</Button>       
+        <Button onClick={() => setOpened(true)}>Añadir Promocion</Button>       
       </>
     )
 }
