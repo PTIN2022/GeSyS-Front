@@ -26,42 +26,66 @@ const Map = () => {
     {
       name: "Estacion 1",
       ubicacion: [41.217606, 1.727072],
-      state: "Active"
+      state: "Active",
+      kwh:300,
+      nplazas:32,
+      nOcupadas:12
     },
     {
       name: "Estacion 2",
       ubicacion: [41.221002, 1.730369],
-      state: "Deactivated"
+      state: "Deactivated",
+      kwh:0,
+      nplazas:32,
+      nOcupadas:0
     },
     {
       name: "Estacion 3",
       ubicacion: [41.225431, 1.737627],
-      state: "Damaged"
+      state: "Damaged",
+      kwh:350,
+      nplazas:32,
+      nOcupadas:10
     },
     {
       name: "Estacion 4",
       ubicacion: [41.227420, 1.728166],
-      state: "Active"
+      state: "Active",
+      kwh:300,
+      nplazas:32,
+      nOcupadas:27
     },
     {
       name: "Estacion 5",
       ubicacion: [41.229674, 1.721478],
-      state: "Active"
+      state: "Active",
+      kwh:200,
+      nplazas:32,
+      nOcupadas:25
     },
     {
       name: "Estacion 6",
       ubicacion: [41.222119, 1.718915],
-      state: "Deactivated"
+      state: "Deactivated",
+      kwh:0,
+      nplazas:32,
+      nOcupadas:0
     },
     {
       name: "Estacion 7",
       ubicacion: [41.223434, 1.710113],
-      state: "Damaged"
+      state: "Damaged",
+      kwh:150,
+      nplazas:32,
+      nOcupadas:5
     },
     {
       name: "Estacion 8",
       ubicacion: [41.217122, 1.709477],
-      state: "Active"
+      state: "Active",
+      kwh:500,
+      nplazas:32,
+      nOcupadas:30
     }
   ]);
 
@@ -84,7 +108,7 @@ const Map = () => {
             position={estacion.ubicacion}
             icon={GetIconFromStationStatus(estacion.state)}
             >
-            <EstacionPopup {...estacion} />
+            <EstacionPopup estacion={estacion} />
           </Marker>
         )
       })}
