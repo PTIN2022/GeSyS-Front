@@ -72,9 +72,9 @@ export interface ReservaRowProps{
   matricula: string;
   estacion: string;
   nPlaza:number;
-  date: string;
-  duration: string;
-  kwh: string;
+  date: date | null;
+  duration: number;
+  kwh: number;
   money: number;
 }
 type StationStatus = "Active" | "Deactivated" | "Damaged";

@@ -15,9 +15,9 @@ const elements: ReservaRowProps[] = [
     matricula: "4444 AAA",
     estacion: 'VG1',
     nPlaza: 13,
-    date: ('2020-01-01'),
-    duration: "2h",
-    kwh: "30",
+    date: new Date(2020,1,1),
+    duration: 2,
+    kwh: 30,
     money: 70
   },
   {
@@ -26,9 +26,9 @@ const elements: ReservaRowProps[] = [
     matricula: "5555 AAA",
     estacion: 'VG1',
     nPlaza: 3,
-    date: ('2020-01-02'),
-    duration:"3h",
-    kwh: "30",
+    date: new Date('2020-01-02'),
+    duration:3,
+    kwh: 30,
     money: 70
   },
   {
@@ -37,22 +37,22 @@ const elements: ReservaRowProps[] = [
     matricula: "6666 AAA",
     estacion: 'VG2',
     nPlaza: 10,
-    date: ('2020-01-01'),
-    duration:"1.5h",
-    kwh: "40",
+    date:new Date('2020-01-01'),
+    duration: 1,
+    kwh:40,
     money: 70
   }
 ];
 
 
 //const data = charactersList.map((item) => ({ ...item, value: item.label }));
-/*const filtres = [{filtre:"Estación"},{filtre:"Cliente"},{filtre:"Matricula"},{filtre:"KwH"},{filtre:"Date"}];
+const filtres = [{filtre:"Estación"},{filtre:"Cliente"},{filtre:"Matricula"},{filtre:"KwH"},{filtre:"Date"}];
 const dataFilters = filtres.map((item) => ({...item, value: item.filtre}));
-var dataE = elements.map((item:any) => ({ ...item, value: item.estacion })) ;
-const dataC = elements.map((item:any) => ({ ...item, value: item.reservante }));
+var dataE = elements.map((item) => ({ ...item, value: item.estacion })) ;
+const dataC = elements.map((item) => ({ ...item, value: item.reservante }));
 const dataM =  elements.map((item) => ({...item, value: item.matricula}));
-const datak =  elements.map((item) => ({...item, value: item.kwh}));
-const dataD =  elements.map((item) => ({...item, value: item.date}));*/
+const datak =  elements.map((item) => ({...item, value: item.kwh.toString()}));
+const dataD =  elements.map((item) => ({...item, value: item.date.toDateString()}));
 
 //const [elementsD,setElements]  = useState<any>(elements[0]);
 
@@ -96,7 +96,7 @@ const ListaReservas: NextPage = () => {
       </Head> 
       <h1>Reservas</h1>
       
-      {/*<Grid gutter="xl">
+      <Grid gutter="xl">
         <Grid.Col span={3}>
           <Autocomplete           
             label="Elige que filtrar"
@@ -165,12 +165,12 @@ const ListaReservas: NextPage = () => {
             //data={data}
             value={value} onChange={setValue} data={dataD}      
             filter={(value, item) =>
-              item.value.toLowerCase().includes(value.toLowerCase().trim())
+              item.value.toString().toLowerCase().includes(value.toLowerCase().trim())
             }
           />
         </Grid.Col>   
         }
-      </Grid>*/}
+      </Grid>
      <br></br>    
 
       <Table striped highlightOnHover >
@@ -190,21 +190,21 @@ const ListaReservas: NextPage = () => {
         {filtre == "" && elementsD && elementsD.map(reserva => {
           return <ReservaRow key={reserva.id} reserva={reserva} deleteElement={handleDeleteClick} />
         })}
-        {/*{filtre =="Estación" && elements && elements.filter(element => element.estacion.includes(value)).map((elementFiltrat, index )=> {
-          return <ReservaRow key={index} {...elementFiltrat}/>
+        {filtre =="Estación" && elements && elements.filter(element => element.estacion.includes(value)).map((reserva, index )=> {
+          return <ReservaRow key={index} reserva={reserva}/>
         })}  
         {filtre =="Cliente" && elements && elements.filter(element => element.reservante.includes(value)).map((elementFiltrat, index )=> {
-          return <ReservaRow key={index} {...elementFiltrat}/>
+          return <ReservaRow key={index} reserva={elementFiltrat}/>
         })} 
         {filtre =="Matricula" && elements && elements.filter(element => element.matricula.includes(value)).map((elementFiltrat, index )=> {
-          return <ReservaRow key={index} {...elementFiltrat}/>
+          return <ReservaRow key={index}  reserva={elementFiltrat}/>
         })} 
-        {filtre =="KwH" && elements && elements.filter(element => element.kwh.includes(value)).map((elementFiltrat, index )=> {
-          return <ReservaRow key={index} {...elementFiltrat}/>
+        {filtre =="KwH" && elements && elements.filter(element => element.kwh.toString().includes(value)).map((elementFiltrat, index )=> {
+          return <ReservaRow key={index}  reserva={elementFiltrat}/>
         })} 
-        {filtre =="Date" && elements && elements.filter(element => element.date.includes(value)).map((elementFiltrat, index )=> {
-          return <ReservaRow key={index} {...elementFiltrat}/>
-        })}*/}
+        {filtre =="Date" && elements && elements.filter(element => element.date.toDateString().includes(value)).map((elementFiltrat, index )=> {
+          return <ReservaRow key={index}  reserva={elementFiltrat}/>
+        })}
         </tbody>
       </Table>
 

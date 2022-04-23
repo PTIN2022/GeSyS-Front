@@ -36,7 +36,7 @@ const RerservaRow = (props: any) => {
             <td>{reserva.matricula}</td>
             <td>{reserva.estacion}</td>
             <td>{reserva.nPlaza}</td>
-            <td>{reserva.date}</td>
+            <td>{reserva.date.toDateString()}</td>
             <td>{reserva.duration}</td>
             <td>{reserva.kwh}</td>
             <td>{reserva.money}</td>  
