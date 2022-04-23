@@ -17,6 +17,10 @@ const NavbarItems: NavbarItemProps[] = [
     href: "/admin/trabajadores",
   },
   {
+    label: "Reservas",
+    href: "/admin/reservas",
+  },
+  {
     label: "Estadisticas",
     href: "/admin/estadisticas",
   },

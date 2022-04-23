@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { User, ChargingPile, Clock, Calendar } from 'tabler-icons-react';
 import { ReservaData } from '../../../interfaces';
 
-const reserva: NextPage = () => {
+const Reserva: NextPage = () => {
 
   const { query } = useRouter();
   const { reserva } = query;
@@ -37,7 +37,7 @@ const reserva: NextPage = () => {
 
         <Grid.Col span={7}>
           <Text align="left" size="xl">Datos de la Reserva</Text>
-          <Text align="left" size="md">Mira y edita la información de la reserva "{reserva}"   </Text>
+          <Text align="left" size="md">Mira y edita la información de la reserva {reserva}</Text>
         </Grid.Col>
     
         <Grid.Col span={7}>                
@@ -159,4 +159,4 @@ const reserva: NextPage = () => {
     );
 }
 
-export default reserva;
+export default Reserva;

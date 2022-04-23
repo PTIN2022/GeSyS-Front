@@ -5,7 +5,7 @@ import { ReservaData } from '../interfaces';
 import { DatePicker, TimeInput } from '@mantine/dates';
 import 'dayjs/locale/es'
 
-const AddReservas = () => {
+const AddReserva = () => {
     const [opened, setOpened] = useState(false);
     const [reserve, setReserve] = useState<ReservaData>({
         hora: null,
@@ -83,4 +83,4 @@ const AddReservas = () => {
     )
 }
 
-export default AddReservas;
+export default AddReserva;
