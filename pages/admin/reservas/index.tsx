@@ -86,7 +86,7 @@ const ListaReservas: NextPage = () => {
   }
 
 ///////////////////DINAMICAMENTE////////////////////////
-  
+
   //const [data, setData] = useState('');  
   //{filtre == "Cliente" && {setData(elements.map((item:any) => ({ ...item, value: item.estacion })) }}
     return (
@@ -102,7 +102,7 @@ const ListaReservas: NextPage = () => {
             label="Elige que filtrar"
             placeholder="Pick one"
             //data={data}
-            value={filtre} onChange={setFilter} data={dataFilters}      
+            value={filtre} onChange={setFilter} data={dataFilters}  onClick={() => setFilter("")}    
             filter={(filtre, item) =>
               item.filtre.toLowerCase().includes(filtre.toLowerCase().trim())}
           />

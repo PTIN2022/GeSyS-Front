@@ -27,7 +27,8 @@ const RerservaRow = (props: any) => {
     }*/
 
     const handleDelete = async () => {
-        borrarElemento(reserva.id)
+        //borrarElemento(reserva.id)
+        props.deleteElement(reserva.id);
     }
 
     return (
@@ -55,6 +56,6 @@ const RerservaRow = (props: any) => {
                 </Menu>
             </td>      
         </tr>
-    )
+    );
 } 
 export default RerservaRow
