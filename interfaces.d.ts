@@ -1,5 +1,3 @@
-import { Url } from "url";
-
 export interface PowerDataProps {
   maxPower: number;
   powerBeingUsed: number;
@@ -18,6 +16,14 @@ export interface PromoRowProps {
   Fecha_fin: date;
   Estado: boolean; 
 }
+export interface PromoData {
+  Estacion: string;
+  Descuento: number;
+  Cupones: number;
+  Descripcion: string;
+  fecha_inicio: Date | null;
+  fecha_fin: Date | null;
+} 
 
 export interface EstacionRowProps {
   Est: string;
@@ -43,7 +49,7 @@ export interface TrabajadorRowProps {
   Name: string;
   Rol: string;
   Last_access: string; 
-  Foto: url;
+  Foto: string;
 }
 
 export interface NavbarItemProps {
@@ -57,13 +63,23 @@ export interface IncidenciaElement {
   texto: string;
 }
 
+export type RolWorker = "Jefe" | "Administrador" | "Responsable" | "Trabajador";
+
 export interface PerfilData {
   nombre: string;
   apellido: string;
   telefono: string;
   email: string;
   dni: string;
-  cargo: string;
+  cargo: RolWorker;
+}
+
+export interface ReservaData {
+  hora: Date | null;
+  plaza: string;
+  idcliente: string;
+  fecha: Date | null;
+  duracion: Date | null;
 }
 
 type StationStatus = "Active" | "Deactivated" | "Damaged";
@@ -72,4 +88,18 @@ export interface MarkerEstacionProps {
   name: string;
   ubicacion: number[2],
   state: StationStatus
+}
+
+export interface Dataset {
+  label: string;
+  fill: boolean;
+  backgroundColor: string;
+  borderColor: string;
+  data: number[]
+}
+
+export interface EstadisticaEstacion {
+  name: string;
+  labels: string[];
+  datasets: Dataset[];
 }
