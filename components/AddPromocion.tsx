@@ -2,7 +2,7 @@ import { Button, Modal, Textarea } from '@mantine/core';
 import React, { useEffect, useState } from 'react';
 import { TextInput } from '@mantine/core';
 import { Grid } from '@mantine/core';
-
+import 'dayjs/locale/es'
 import { Container } from '@mantine/core';
 import { PromoData } from '../interfaces';
 import { DatePicker } from '@mantine/dates';

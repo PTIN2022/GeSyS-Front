@@ -3,6 +3,7 @@ import { Calendar, ChargingPile, Clock, User } from 'tabler-icons-react';
 import { useState } from 'react';
 import { ReservaData } from '../interfaces';
 import { DatePicker, TimeInput } from '@mantine/dates';
+import 'dayjs/locale/es'
 
 const AddReservas = () => {
     const [opened, setOpened] = useState(false);
