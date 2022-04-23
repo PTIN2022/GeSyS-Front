@@ -14,8 +14,9 @@ export interface PromoRowProps {
   Est: string;
   Descuento: string;
   Cupones: string; 
-  Fecha_ini: string; 
-  Fecha_fin: string; 
+  Fecha_ini: date; 
+  Fecha_fin: date;
+  Estado: boolean; 
 }
 
 export interface EstacionRowProps {
@@ -65,10 +66,10 @@ export interface PerfilData {
   cargo: string;
 }
 
-export interface ReservaData {
-  hora: Date | null;
-  plaza: string;
-  idcliente: string;
-  fecha: Date | null;
-  duracion: Date | null;
-} 
+type StationStatus = "Active" | "Deactivated" | "Damaged";
+
+export interface MarkerEstacionProps {
+  name: string;
+  ubicacion: number[2],
+  state: StationStatus
+}
