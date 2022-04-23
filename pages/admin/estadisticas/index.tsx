@@ -143,9 +143,9 @@ const Estadisticas: NextPage = () => {
     })
 
     useEffect(() => {
-
         const total_estaciones = calcularTotalEstaciones(estaciones)
         setEstaciones(estaciones => [...estaciones, total_estaciones]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {
@@ -153,6 +153,7 @@ const Estadisticas: NextPage = () => {
         if (estacion) {
             setEstacionOption(estacion)
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [estacionActiva])
 
     const handleChangeSelected = (value: string | null) => {
