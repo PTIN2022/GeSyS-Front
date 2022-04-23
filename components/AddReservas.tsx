@@ -1,6 +1,5 @@
-import { useForm, formList } from '@mantine/form';
-import { TextInput, Group, ActionIcon, Box, Text, Button, Code, Autocomplete, Modal, Grid, Space } from '@mantine/core';
-import { Calendar, ChargingPile, Clock, Hash, Trash, User } from 'tabler-icons-react';
+import { TextInput, Group, Box, Button, Modal, Space } from '@mantine/core';
+import { Calendar, ChargingPile, Clock, User } from 'tabler-icons-react';
 import { useState } from 'react';
 import { ReservaData } from '../interfaces';
 import { DatePicker, TimeInput } from '@mantine/dates';
