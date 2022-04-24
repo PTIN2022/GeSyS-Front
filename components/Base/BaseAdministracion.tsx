@@ -33,6 +33,10 @@ const NavbarItems: NavbarItemProps[] = [
     href: "/admin/averias",
   },
   {
+    label: "Clientes",
+    href: "/admin/clientes",
+  },
+  {
     label: "Soporte tecnico",
     href: "/admin/soporte_tecnico",
   }
