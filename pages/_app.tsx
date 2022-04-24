@@ -51,7 +51,7 @@ const App = (props: AppProps) => {
         theme={{
           fontFamily: 'Verdana, Geneva, sans-serif',
           colorScheme: 'light',
-          primaryColor: 'teal'
+          primaryColor: 'green'
         }}
       >
         { renderSwitch(router, props) }

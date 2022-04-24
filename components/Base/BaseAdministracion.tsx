@@ -16,6 +16,14 @@ const NavbarItems: NavbarItemProps[] = [
     href: "/admin/trabajadores",
   },
   {
+    label: "Reservas",
+    href: "/admin/reservas",
+  },
+  {
+    label: "Estadisticas",
+    href: "/admin/estadisticas",
+  },
+  {
     label: "Promociones",
     href: "/admin/promociones",
   },
@@ -63,15 +71,34 @@ const BaseAdministracion = (props: AppProps) => {
                     GeSyS Technical Station
                   </Button>
               </Link>
-              <Space w="sm"></Space>
+           
+              <Space w={"sm"}></Space>
+
+          <Group position="center">
+            <Menu
+              withArrow
+              placement="center"
+              control={
+                <UserButton
+                  image="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80"
+                  name="Manolo Pedro Juan"
+                  email="manolo.pedro.juan@gesys.com"
+                />
+              }
+            >
               <Link href={"/admin/perfil"} passHref={true}>
-                <UnstyledButton>
-                  <Group>
-                    <Text>Manolo</Text>
-                    <Avatar src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80.png" radius="xl" > </Avatar>
-                  </Group>
-                </UnstyledButton>
+                <Menu.Item>
+                  Mi perfil
+                </Menu.Item>
               </Link>
+
+                <Link href={"/"} passHref={true}>
+                  <Menu.Item>
+                    Cerrar sesión
+                  </Menu.Item>
+                </Link>
+            </Menu>
+          </Group>
             </div>
           </Header>
         }

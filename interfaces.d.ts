@@ -1,3 +1,4 @@
+import internal from "stream";
 import { Url } from "url";
 
 export interface PowerDataProps {
@@ -17,6 +18,14 @@ export interface PromoRowProps {
   Fecha_ini: string; 
   Fecha_fin: string; 
 }
+export interface PromoData {
+  Estacion: string;
+  Descuento: number;
+  Cupones: number;
+  Descripcion: string;
+  fecha_inicio: Date | null;
+  fecha_fin: Date | null;
+} 
 
 export interface EstacionRowProps {
   Est: string;
@@ -63,6 +72,18 @@ export interface PerfilData {
   email: string;
   dni: string;
   cargo: string;
+}
+
+export interface ReservaRowProps{
+  id : number; 
+  reservante : string;
+  matricula: string;
+  estacion: string;
+  nPlaza:number;
+  date: date | null;
+  duration: number;
+  kwh: number;
+  money: number;
 }
 
 type StationStatus = "Active" | "Deactivated" | "Damaged";
