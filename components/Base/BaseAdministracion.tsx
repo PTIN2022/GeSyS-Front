@@ -10,12 +10,14 @@ import {
   Avatar,
   Space,
   Button,
+  Menu,
 } from "@mantine/core";
 import { AppProps } from "next/app";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { NavbarItemProps } from "../../interfaces";
+import UserButton from "../UserButton";
 import NavbarButton from "./NavbarButton";
 
 const NavbarItems: NavbarItemProps[] = [
