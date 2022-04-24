@@ -1,9 +1,7 @@
 import { ReservaRowProps } from '../interfaces'
 import { Menu, Center, ActionIcon } from '@mantine/core';
-import { Adjustments, InfoSquare,  DotsVertical, Search, Trash } from 'tabler-icons-react';
+import { DotsVertical, Trash } from 'tabler-icons-react';
 import Link from 'next/link';
-import ShowReserva from '../pages/admin/reservas/[reserva]';
-import ListaReservas from '../pages/admin/reservas/index'
 
 // { id ,reservante ,matricula, estacion,nPlaza, date,duration, kwh, money } : ReservaRowProps, handleDeleteClick:any
 
@@ -27,8 +25,7 @@ const RerservaRow = (props: any) => {
     }*/
 
     const handleDelete = async () => {
-        //borrarElemento(reserva.id)
-        props.deleteElement(reserva.id);
+        borrarElemento(reserva.id)
     }
 
     return (
