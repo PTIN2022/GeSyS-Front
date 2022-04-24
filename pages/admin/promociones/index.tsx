@@ -1,6 +1,7 @@
 import { Table } from '@mantine/core';
 import { NextPage } from 'next';
 import Head from 'next/head';
+import AddPromocion from '../../../components/AddPromocion';
 import PromoRow from '../../../components/PromoRow';
 import { PromoRowProps } from '../../../interfaces';
 
@@ -36,7 +37,8 @@ const ListaPromociones: NextPage =() => {
         <Head>
           <title>GeSyS - Promociones</title>
         </Head> 
-          <h1>Promociones</h1>   
+        <h1>Promociones</h1>   
+        <AddPromocion />
         <Table striped highlightOnHover>
           <thead>
             <tr>

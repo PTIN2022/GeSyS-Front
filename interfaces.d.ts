@@ -1,3 +1,4 @@
+import internal from "stream";
 import { Url } from "url";
 
 export interface PowerDataProps {
@@ -17,6 +18,14 @@ export interface PromoRowProps {
   Fecha_ini: string; 
   Fecha_fin: string; 
 }
+export interface PromoData {
+  Estacion: string;
+  Descuento: number;
+  Cupones: number;
+  Descripcion: string;
+  fecha_inicio: Date | null;
+  fecha_fin: Date | null;
+} 
 
 export interface EstacionRowProps {
   Est: string;
@@ -56,13 +65,27 @@ export interface IncidenciaElement {
   texto: string;
 }
 
+export type RolWorker = "Jefe" | "Administrador" | "Responsable" | "Trabajador";
+
 export interface PerfilData {
   nombre: string;
   apellido: string;
   telefono: string;
   email: string;
   dni: string;
-  cargo: string;
+  cargo: RolWorker;
+}
+
+export interface ReservaRowProps{
+  id : number; 
+  reservante : string;
+  matricula: string;
+  estacion: string;
+  nPlaza:number;
+  date: date | null;
+  duration: number;
+  kwh: number;
+  money: number;
 }
 
 type StationStatus = "Active" | "Deactivated" | "Damaged";
@@ -71,4 +94,26 @@ export interface MarkerEstacionProps {
   name: string;
   ubicacion: number[2],
   state: StationStatus
+}
+
+export interface ReservaData {
+  hora: Data | null,
+  plaza: string,
+  idcliente: string,
+  fecha: Data | null,
+  duracion: Date | null,
+}
+
+export interface EstadisticaDataset {
+  label: string;
+  fill: boolean,
+  backgroundColor: string,
+  borderColor: string,
+  data: number[]
+}
+
+export interface EstadisticaEstacion {
+  name: string,
+  labels: string[],
+  datasets: EstadisticaDataset[]
 }
