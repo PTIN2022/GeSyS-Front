@@ -4,8 +4,8 @@ import { Grid, Table } from '@mantine/core'
 import { ReservaRowProps } from '../../../interfaces';
 import ReservaRow from '../../../components/ReservaRow';
 
-import { forwardRef, useEffect, useState } from 'react';
-import { Group, Avatar, Text, MantineColor, SelectItemProps, Autocomplete } from '@mantine/core';
+import { useState } from 'react';
+import { Autocomplete } from '@mantine/core';
 
 
 const elements: ReservaRowProps[] = [
