@@ -27,7 +27,8 @@ const ListaClientes: NextPage = () => {
             { nombre: "Manu",
             email: "manu@gmail.com",
             telefono: '+34 622533636',
-            Matricula: '1345 LMT'},
+            Matricula: '1345 LMT',
+            id_cliente: '33452544A'},
 
         ];
         const rows = elements.map((element) => (
@@ -36,6 +37,8 @@ const ListaClientes: NextPage = () => {
                 <td>{element.email}</td>
                 <td>{element.telefono}</td>
                 <td>{element.Matricula}</td>
+                <td>{element.id_cliente}</td>
+
             </tr>
           ));
         const [opened, setOpened] = useState(false);
@@ -84,7 +87,8 @@ const ListaClientes: NextPage = () => {
                             <th>nombre</th>
                             <th>Email</th>
                             <th>telefono</th>   
-                            <th>Matricula</th>    
+                            <th>Matricula</th> 
+                            <th>id_cliente</th>   
                             </tr>       
                         </thead>
                         <tbody>{rows}
