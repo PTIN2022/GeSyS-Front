@@ -1,3 +1,4 @@
+import internal from "stream";
 import { Url } from "url";
 
 export interface PowerDataProps {
@@ -72,6 +73,18 @@ export interface PerfilData {
   email: string;
   dni: string;
   cargo: string;
+}
+
+export interface ReservaRowProps{
+  id : number; 
+  reservante : string;
+  matricula: string;
+  estacion: string;
+  nPlaza:number;
+  date: date | null;
+  duration: number;
+  kwh: number;
+  money: number;
 }
 
 type StationStatus = "Active" | "Deactivated" | "Damaged";

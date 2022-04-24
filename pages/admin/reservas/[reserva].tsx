@@ -1,5 +1,6 @@
 import { NextPage } from "next"
 import { useRouter } from "next/router";
+
 import { Box, Group, TextInput, Button, Text, Grid } from '@mantine/core';
 import { DatePicker, TimeInput } from '@mantine/dates';
 import 'dayjs/locale/es'
