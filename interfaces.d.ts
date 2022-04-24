@@ -1,3 +1,5 @@
+import { Url } from "url";
+
 export interface PowerDataProps {
   maxPower: number;
   powerBeingUsed: number;
@@ -49,7 +51,7 @@ export interface TrabajadorRowProps {
   Name: string;
   Rol: string;
   Last_access: string; 
-  Foto: string;
+  Foto: url;
 }
 
 export interface NavbarItemProps {
@@ -63,23 +65,13 @@ export interface IncidenciaElement {
   texto: string;
 }
 
-export type RolWorker = "Jefe" | "Administrador" | "Responsable" | "Trabajador";
-
 export interface PerfilData {
   nombre: string;
   apellido: string;
   telefono: string;
   email: string;
   dni: string;
-  cargo: RolWorker;
-}
-
-export interface ReservaData {
-  hora: Date | null;
-  plaza: string;
-  idcliente: string;
-  fecha: Date | null;
-  duracion: Date | null;
+  cargo: string;
 }
 
 type StationStatus = "Active" | "Deactivated" | "Damaged";
@@ -88,18 +80,4 @@ export interface MarkerEstacionProps {
   name: string;
   ubicacion: number[2],
   state: StationStatus
-}
-
-export interface Dataset {
-  label: string;
-  fill: boolean;
-  backgroundColor: string;
-  borderColor: string;
-  data: number[]
-}
-
-export interface EstadisticaEstacion {
-  name: string;
-  labels: string[];
-  datasets: Dataset[];
 }
