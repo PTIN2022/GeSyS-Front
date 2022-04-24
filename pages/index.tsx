@@ -18,6 +18,7 @@ const Home: NextPage = () => {
       
       <Grid.Col span={5}>
       <Image
+        alt={"Foto de la aplicación móvil"}
         src={'/img/mobil.jpg'}
         //width={}
         //height={height}

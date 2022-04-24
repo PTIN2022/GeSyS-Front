@@ -66,13 +66,15 @@ export interface IncidenciaElement {
   texto: string;
 }
 
+export type RolWorker = "Jefe" | "Administrador" | "Responsable" | "Trabajador";
+
 export interface PerfilData {
   nombre: string;
   apellido: string;
   telefono: string;
   email: string;
   dni: string;
-  cargo: string;
+  cargo: RolWorker;
 }
 
 export interface ReservaRowProps{
@@ -93,4 +95,26 @@ export interface MarkerEstacionProps {
   name: string;
   ubicacion: number[2],
   state: StationStatus
+}
+
+export interface ReservaData {
+  hora: Data | null,
+  plaza: string,
+  idcliente: string,
+  fecha: Data | null,
+  duracion: Date | null,
+}
+
+export interface EstadisticaDataset {
+  label: string;
+  fill: boolean,
+  backgroundColor: string,
+  borderColor: string,
+  data: number[]
+}
+
+export interface EstadisticaEstacion {
+  name: string,
+  labels: string[],
+  datasets: EstadisticaDataset[]
 }

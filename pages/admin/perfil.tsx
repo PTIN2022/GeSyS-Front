@@ -79,7 +79,6 @@ const PerfilInfo: NextPage = () => {
                 variant="default"
                 icon={<User size={14} />}
                 value={perfil.nombre}
-                onChange={(event) => setPerfil({...perfil, nombre: event.target.value})}
                 disabled
               />
           }
@@ -127,7 +126,6 @@ const PerfilInfo: NextPage = () => {
               variant="default"
               icon={<Phone size={14} />}
               value={perfil.telefono}
-              onChange={(event) => setPerfil({...perfil, telefono: event.target.value})}
               disabled
             />
             }
@@ -139,7 +137,6 @@ const PerfilInfo: NextPage = () => {
               icon={<Id size={14} />}
               variant="filled"
               value={perfil.dni}
-              onChange={(event) => setPerfil({...perfil, dni: event.target.value})}
               disabled
             />  
           </Group>
@@ -165,7 +162,6 @@ const PerfilInfo: NextPage = () => {
               icon={<IdBadge size={14} />}
               variant="filled"
               value={perfil.cargo}
-              onChange={(event) => setPerfil({...perfil, cargo: event.target.value})}
               disabled
             />  
 
