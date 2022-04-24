@@ -1,6 +1,6 @@
 import { NextPage } from "next"
 import React, { useEffect, useState } from 'react';
-import { Select } from '@mantine/core';
+import { Alert, Select } from '@mantine/core';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -27,6 +27,7 @@ ChartJS.register(
 import { Line } from 'react-chartjs-2';
 
 import { EstadisticaEstacion } from "../../../interfaces";
+import { AlertCircle } from "tabler-icons-react";
 
 const all_estations: EstadisticaEstacion[] = [
     {
@@ -137,6 +138,7 @@ const Estadisticas: NextPage = () => {
     const [estacionActiva, setEstacionActiva] = useState('Todas las estaciones')
     const [estaciones, setEstaciones] = useState<EstadisticaEstacion[]>(all_estations);
     const [estacionOption, setEstacionOption] = useState<EstadisticaEstacion>(estaciones[0]);
+    const [warning, setWarning] = useState("");
 
     const arrayEstaciones = estaciones.map((est: EstadisticaEstacion, index: number) => {
         return est.name
@@ -152,9 +154,48 @@ const Estadisticas: NextPage = () => {
         const estacion = estaciones.find((est: EstadisticaEstacion) => est.name === estacionActiva)
         if (estacion) {
             setEstacionOption(estacion)
+            isThereAWarning(estacion)
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [estacionActiva])
+
+
+    function isThereAWarning(est: EstadisticaEstacion) {
+      const estationData = []
+      for(let i = 0; i < est.datasets[0].data.length; i++) {
+        if(est.datasets[0].data[i] >= est.datasets[1].data[i] * 0.9 || est.datasets[0].data[i] < est.datasets[1].data[i] * 0.5) {
+          const estation = {
+            month: est.labels[i],
+            data: (est.datasets[0].data[i]/est.datasets[1].data[i] * 100).toFixed(2)
+          }
+          estationData.push(estation)
+        }
+      }
+      if(estationData.length == 1) {
+        setWarning("El mes " + estationData[0].month + " se ha consumido el " + estationData[0].data + "% de la potencia contratada. Quizás seria bueno adaptar la potencia contratada.")
+      }
+      else if(estationData.length > 1) {
+        
+        let months = "" + estationData[0].month, datas = "" + estationData[0].data + "%"
+        for(let i = 1; i < estationData.length; i++) {
+          if(estationData.length - 1 == i) {
+            months += " y "
+            datas += " y "
+          }
+          else {
+            months += ", "
+            datas += ", "
+          }
+          months += estationData[i].month
+          datas += estationData[i].data + "%"
+        }
+        setWarning("Los meses de " + months + " se han consumido el " + datas + " de las potencias contratadas respectivamente. Quizás seria bueno adaptar la potencia contratada.")
+      }
+      else {
+        setWarning("")
+      }
+    }
+
 
     const handleChangeSelected = (value: string | null) => {
         if (!value) {
@@ -180,6 +221,10 @@ const Estadisticas: NextPage = () => {
                 height={40}
                 options={options}
             />
+            <br></br>            
+            {warning && <Alert icon={<AlertCircle size={14} />} title="Warning!" color="red" radius="md" variant="outline">
+                {warning}
+              </Alert>}
         </div>
     )
 }
