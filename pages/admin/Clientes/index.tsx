@@ -26,13 +26,16 @@ const ListaClientes: NextPage = () => {
         const elements = [
             { nombre: "Manu",
             email: "manu@gmail.com",
-            telefono: '+34 622533636'},
+            telefono: '+34 622533636',
+            Matricula: '1345 LMT'},
+
         ];
         const rows = elements.map((element) => (
             <tr key={element.nombre}>
                 <td>{element.nombre}</td>
                 <td>{element.email}</td>
                 <td>{element.telefono}</td>
+                <td>{element.Matricula}</td>
             </tr>
           ));
         const [opened, setOpened] = useState(false);
@@ -66,11 +69,13 @@ const ListaClientes: NextPage = () => {
                 <Trash size={16} />
             </ActionIcon>
             <Modal
+                size={'lg'}
                 opened={opened}
                 onClose={() => setOpened(false)}
                 title="Perfil Cliente"
                 overlayColor={theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2]}
                 overlayOpacity={0.25}
+            
             >
                 {<Group> 
                     <Table striped highlightOnHover>
@@ -78,7 +83,8 @@ const ListaClientes: NextPage = () => {
                             <tr>
                             <th>nombre</th>
                             <th>Email</th>
-                            <th>telefono</th>       
+                            <th>telefono</th>   
+                            <th>Matricula</th>    
                             </tr>       
                         </thead>
                         <tbody>{rows}
