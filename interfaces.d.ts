@@ -15,9 +15,18 @@ export interface PromoRowProps {
   Est: string;
   Descuento: string;
   Cupones: string; 
-  Fecha_ini: string; 
-  Fecha_fin: string; 
+  Fecha_ini: date; 
+  Fecha_fin: date;
+  Estado: boolean; 
 }
+export interface PromoData {
+  Estacion: string;
+  Descuento: number;
+  Cupones: number;
+  Descripcion: string;
+  fecha_inicio: Date | null;
+  fecha_fin: Date | null;
+} 
 
 export interface EstacionRowProps {
   Est: string;
@@ -77,6 +86,7 @@ export interface ReservaRowProps{
   kwh: number;
   money: number;
 }
+
 type StationStatus = "Active" | "Deactivated" | "Damaged";
 
 export interface MarkerEstacionProps {

@@ -1,10 +1,11 @@
-import { Group,  UnstyledButton, AppShell, Burger, Header, MediaQuery, Navbar, Text, Avatar, Space, Button } from "@mantine/core";
+import { Group,  AppShell, Burger, Header, MediaQuery, Navbar, Text, Avatar, Space, Button } from "@mantine/core";
 import { AppProps } from "next/app";
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { NavbarItemProps } from "../../interfaces";
 import NavbarButton from "./NavbarButton";
+import { Menu } from '@mantine/core';
+import UserButton from "../UserButton";
 
 const NavbarItems: NavbarItemProps[] = [
   {
@@ -14,6 +15,14 @@ const NavbarItems: NavbarItemProps[] = [
   {
     label: "Trabajadores",
     href: "/admin/trabajadores",
+  },
+  {
+    label: "Reservas",
+    href: "/admin/reservas",
+  },
+  {
+    label: "Estadisticas",
+    href: "/admin/estadisticas",
   },
   {
     label: "Promociones",
@@ -34,20 +43,19 @@ const BaseAdministracion = (props: AppProps) => {
   const [opened, setOpened] = useState<boolean>(false);
   const { Component, pageProps } = props;
   
-
   return (
     <AppShell
-        padding="xs"
+        padding={"xs"}
         navbarOffsetBreakpoint={"sm"}
         fixed
         header={
-          <Header height={60} p="sm">
+          <Header height={60} p={"sm"}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '100%' }}>
-              <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
+              <MediaQuery largerThan={"sm"} styles={{ display: 'none' }}>
                 <Burger
                   opened={opened}
                   onClick={() => setOpened((e) => !e)}
-                  size="sm"
+                  size={"sm"}
                   mr="xl"
                 />
               </MediaQuery>
@@ -59,15 +67,35 @@ const BaseAdministracion = (props: AppProps) => {
                     GeSyS Technical Station
                   </Button>
               </Link>
-              <Space w="sm"></Space>
+            
+              <Space w={"sm"}></Space>
+
+          <Group position="center">
+            <Menu
+              withArrow
+              placement="center"
+              control={
+                <UserButton
+                  image="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80"
+                  name="Manolo Pedro Juan"
+                  email="manolo.pedro.juan@gesys.com"
+                />
+              }
+            >
               <Link href={"/admin/perfil"} passHref={true}>
-                <UnstyledButton>
-                  <Group>
-                    <Text>Manolo</Text>
-                    <Avatar src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80.png" radius="xl" > </Avatar>
-                  </Group>
-                </UnstyledButton>
+                <Menu.Item>
+                  Mi perfil
+                </Menu.Item>
               </Link>
+
+                <Link href={"/"} passHref={true}>
+                  <Menu.Item>
+                    Cerrar sesión
+                  </Menu.Item>
+                </Link>
+            </Menu>
+          </Group>
+              
             </div>
           </Header>
         }

@@ -1,6 +1,7 @@
 import { Table } from '@mantine/core';
 import { NextPage } from 'next';
 import Head from 'next/head';
+import AddPromocion from '../../../components/AddPromocion';
 import PromoRow from '../../../components/PromoRow';
 import { PromoRowProps } from '../../../interfaces';
 
@@ -9,23 +10,26 @@ const elements: PromoRowProps[] = [
   {
     Est: "VG1",
     Descuento: "30%",
-    Cupones: '50/100',
-    Fecha_ini: "18/03/22",
-    Fecha_fin: '20/03/22'
+    Cupones: "50/100",
+    Fecha_ini: "2022-03-18",
+    Fecha_fin: "2022-05-22",
+    Estado: true
   },
   {
     Est: "VG2",
     Descuento: "15%",
-    Cupones: '27/-',
-    Fecha_ini: "20/03/22",
-    Fecha_fin: '25/03/22'
+    Cupones: "27/-",
+    Fecha_ini: "2022-03-20",
+    Fecha_fin: "2022-06-20",
+    Estado: true
   },
   {
     Est: "VG1",
     Descuento: "50%",
-    Cupones: '2/10',
-    Fecha_ini: "21/03/22",
-    Fecha_fin: '22/03/22'
+    Cupones: "2/10",
+    Fecha_ini: "2022-03-18",
+    Fecha_fin: "2022-04-18",
+    Estado: false
   }
 ];
 
@@ -36,7 +40,8 @@ const ListaPromociones: NextPage =() => {
         <Head>
           <title>GeSyS - Promociones</title>
         </Head> 
-          <h1>Promociones</h1>   
+        <h1>Promociones</h1>   
+        <AddPromocion />
         <Table striped highlightOnHover>
           <thead>
             <tr>
@@ -44,7 +49,8 @@ const ListaPromociones: NextPage =() => {
               <th>Descuento</th>
               <th>Cupones Usados</th>
               <th>Fecha inicio</th>
-              <th>Fecha fin</th>         
+              <th>Fecha fin</th>
+              <th>Estado</th>          
             </tr>       
           </thead>
           <tbody>
