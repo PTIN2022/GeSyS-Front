@@ -9,6 +9,10 @@ import UserButton from "../UserButton";
 
 const NavbarItems: NavbarItemProps[] = [
   {
+    label: "Inicio",
+    href: "/admin/",
+  },
+  {
     label: "Estaciones",
     href: "/admin/estaciones",
   },
