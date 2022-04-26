@@ -1,4 +1,6 @@
-import { AveriaRowProps } from '../interfaces'
+import { AveriaRowProps } from "../pages/admin/averias"
+
+
 const AveriaRow = ({ Est,Dir, Date,State,Desc } : AveriaRowProps) => {
     return (        
         <tr>

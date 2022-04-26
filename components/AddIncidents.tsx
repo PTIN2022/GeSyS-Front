@@ -2,7 +2,12 @@ import { useForm, formList } from '@mantine/form';
 import { TextInput, Group, ActionIcon, Box, Text, Button, Code, Autocomplete } from '@mantine/core';
 import { Hash, Trash } from 'tabler-icons-react';
 import { useState } from 'react';
-import { IncidenciaElement } from '../interfaces';
+
+export interface IncidenciaElement {
+  planta: string;
+  plaza: string;
+  texto: string;
+}
 
 const AddIncidents = () => {
 

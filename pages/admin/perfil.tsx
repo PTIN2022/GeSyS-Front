@@ -1,10 +1,18 @@
 import { Image, Box, Group, TextInput, Tooltip, Button, Text, Grid } from '@mantine/core';
 import { useState } from 'react';
-import { AlertCircle, Phone, User, At, Id, IdBadge, Check } from 'tabler-icons-react';
-import { PerfilData } from '../../interfaces';
+import { AlertCircle, Phone, User, At, Id, IdBadge } from 'tabler-icons-react';
 import { NextPage } from 'next';
-import Link from 'next/link';
-//import {setPerfil, perfil} from "./pedit";
+
+export type RolWorker = "Jefe" | "Administrador" | "Responsable" | "Trabajador";
+
+export interface PerfilData {
+  nombre: string;
+  apellido: string;
+  telefono: string;
+  email: string;
+  dni: string;
+  cargo: RolWorker;
+}
 
 const PerfilInfo: NextPage = () => {
 

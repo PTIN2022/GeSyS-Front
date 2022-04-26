@@ -1,7 +1,12 @@
 import { NextPage } from 'next';
 import { Table } from '@mantine/core';
 import FilaSoporte from '../../../components/FilaTablaSoporte';
-import { SoporteRowProps } from '../../../interfaces';
+
+export interface SoporteRowProps {
+  Name: string;
+  Problema: string;
+  Date: string; 
+}
 
 const SoporteDataMock: SoporteRowProps[] = [
   {

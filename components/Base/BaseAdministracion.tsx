@@ -13,12 +13,15 @@ import {
   Menu,
 } from "@mantine/core";
 import { AppProps } from "next/app";
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { NavbarItemProps } from "../../interfaces";
 import UserButton from "../UserButton";
 import NavbarButton from "./NavbarButton";
+
+export interface NavbarItemProps {
+  label: string;
+  href: string;
+}
 
 const NavbarItems: NavbarItemProps[] = [
   {

@@ -4,10 +4,17 @@ import { TextInput } from '@mantine/core';
 import { Grid } from '@mantine/core';
 import 'dayjs/locale/es'
 import { Container } from '@mantine/core';
-import { PromoData } from '../interfaces';
 import { DatePicker } from '@mantine/dates';
 import { Calendar } from 'tabler-icons-react';
 
+export interface PromoData {
+  Estacion: string;
+  Descuento: number;
+  Cupones: number;
+  Descripcion: string;
+  fecha_inicio: Date | null;
+  fecha_fin: Date | null;
+} 
 
 const AddPromocion = () => {
     const [opened, setOpened] = useState(false);

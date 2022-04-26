@@ -1,12 +1,22 @@
 import { NextPage } from 'next';
 import Head  from 'next/head'
 import { Grid, Table } from '@mantine/core'
-import { ReservaRowProps } from '../../../interfaces';
 import ReservaRow from '../../../components/ReservaRow';
 
 import { useState } from 'react';
 import { Autocomplete } from '@mantine/core';
 
+export interface ReservaRowProps{
+  id: number; 
+  reservante : string;
+  matricula: string;
+  estacion: string;
+  nPlaza: number;
+  date: Date | null;
+  duration: number;
+  kwh: number;
+  money: number;
+}
 
 const elements: ReservaRowProps[] = [
   {
@@ -161,7 +171,7 @@ const ListaReservas: NextPage = () => {
             label="Elemento a filtrar:"
             placeholder="Pick one"
             //data={data}
-            value={value} onChange={setValue} data={elementsD.map((item) => ({...item, value: item.date.toDateString()}))}      
+            value={value} onChange={setValue} data={elementsD.map((item) => ({...item, value: item.date!.toDateString()}))}      
             filter={(value, item) =>
               item.value.toString().toLowerCase().includes(value.toLowerCase().trim())
             }
@@ -200,7 +210,7 @@ const ListaReservas: NextPage = () => {
         {filtre =="KwH" && elementsD && elementsD.filter(element => element.kwh.toString().includes(value)).map((elementFiltrat, index )=> {
           return <ReservaRow key={index}  reserva={elementFiltrat} deleteElement={handleDeleteClick}/>
         })} 
-        {filtre =="Date" && elementsD && elementsD.filter(element => element.date.toDateString().includes(value)).map((elementFiltrat, index )=> {
+        {filtre =="Date" && elementsD && elementsD.filter(element => element.date!.toDateString().includes(value)).map((elementFiltrat, index )=> {
           return <ReservaRow key={index}  reserva={elementFiltrat} deleteElement={handleDeleteClick}/>
         })}
         </tbody>

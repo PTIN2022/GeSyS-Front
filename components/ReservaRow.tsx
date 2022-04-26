@@ -1,7 +1,7 @@
-import { ReservaRowProps } from '../interfaces'
 import { Menu, Center, ActionIcon } from '@mantine/core';
 import { DotsVertical, Trash } from 'tabler-icons-react';
 import Link from 'next/link';
+import { ReservaRowProps } from '../pages/admin/reservas';
 
 // { id ,reservante ,matricula, estacion,nPlaza, date,duration, kwh, money } : ReservaRowProps, handleDeleteClick:any
 
@@ -34,7 +34,7 @@ const RerservaRow = (props: any) => {
             <td>{reserva.matricula}</td>
             <td>{reserva.estacion}</td>
             <td>{reserva.nPlaza}</td>
-            <td>{reserva.date.toDateString()}</td>
+            <td>{reserva.date!.toDateString()}</td>
             <td>{reserva.duration}</td>
             <td>{reserva.kwh}</td>
             <td>{reserva.money}</td>  

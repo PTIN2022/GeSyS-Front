@@ -2,7 +2,14 @@ import { Table } from '@mantine/core';
 import type { NextPage } from 'next'
 import AveriaRow from '../../../components/AveriaRow';
 import * as React from 'react'
-import { AveriaRowProps } from '../../../interfaces';
+
+export interface AveriaRowProps {
+  Est: string;
+  Dir: string;
+  Date: string; 
+  State: string; 
+  Desc: string; 
+}
 
 const elements: AveriaRowProps[] = [
   {

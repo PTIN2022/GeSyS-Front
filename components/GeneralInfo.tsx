@@ -1,7 +1,16 @@
 import { Grid } from "@mantine/core";
 import { useState } from "react";
-import { PowerDataProps, StationDataProps } from "../interfaces";
 
+export interface PowerDataProps {
+  maxPower: number;
+  powerBeingUsed: number;
+}
+
+export interface StationDataProps {
+  workingStations: number;
+  damagedStations: number;
+  deactivatedStations: number;
+}
 
 const GeneralInfo = () => {
 

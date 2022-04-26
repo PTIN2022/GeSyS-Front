@@ -1,4 +1,4 @@
-import { SoporteRowProps } from "../interfaces"
+import { SoporteRowProps } from "../pages/admin/soporte_tecnico"
 
 const FilaSoporte = ({ Name, Problema, Date } : SoporteRowProps) => {
   return (        
