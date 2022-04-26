@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import TrabajadorRow from '../../../components/TrabajadorRow';
 import { Table } from '@mantine/core'
 import Head from 'next/head';
+import AddTrabajador from '../../../components/AddTrabajador';
 
 export interface TrabajadorRowProps {
   Name: string;
@@ -45,6 +46,7 @@ const ListaTrabajadores: NextPage = () => {
         <title>GeSyS - Trabajadores</title>
       </Head>
       <h1>Trabajadores</h1>
+      <AddTrabajador />
       <Table striped highlightOnHover>
           <thead>
               <tr>

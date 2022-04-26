@@ -5,6 +5,7 @@ import ReservaRow from '../../../components/ReservaRow';
 
 import { useState } from 'react';
 import { Autocomplete } from '@mantine/core';
+import AddReserva from '../../../components/AddReservas';
 
 export interface ReservaRowProps{
   id: number; 
@@ -103,6 +104,8 @@ const ListaReservas: NextPage = () => {
         <title>GeSyS - Reservas</title>
       </Head> 
       <h1>Reservas</h1>
+
+      <AddReserva />
       
       <Grid gutter="xl">
         <Grid.Col span={3}>
