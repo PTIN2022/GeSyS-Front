@@ -94,6 +94,10 @@ export interface MarkerEstacionProps {
   name: string;
   ubicacion: number[2],
   state: StationStatus
+  kwh: number;
+  nplazas: number; //nplazas total >> al final todas tienen el mismo num de plazas????
+  nOcupadas: number;//nplazas ocupadas en el momento
+
 }
 
 export interface ReservaData {
