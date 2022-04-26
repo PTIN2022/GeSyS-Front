@@ -1,33 +1,26 @@
 import { NextPage } from "next"
 import React, { useEffect, useState } from 'react';
 import { Alert, Select } from '@mantine/core';
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-    Filler,
-} from "chart.js"
-
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Filler,
-    Title,
-    Tooltip,
-    Legend
-);
-
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from "chart.js"
 import { Line } from 'react-chartjs-2';
-
-import { EstadisticaEstacion } from "../../../interfaces";
 import { AlertCircle } from "tabler-icons-react";
+
+
+export interface EstadisticaDataset {
+  label: string;
+  fill: boolean,
+  backgroundColor: string,
+  borderColor: string,
+  data: number[]
+}
+
+export interface EstadisticaEstacion {
+  name: string,
+  labels: string[],
+  datasets: EstadisticaDataset[]
+}
+
+ChartJS.register( CategoryScale, LinearScale, PointElement, LineElement, Filler, Title, Tooltip, Legend);
 
 const all_estations: EstadisticaEstacion[] = [
     {

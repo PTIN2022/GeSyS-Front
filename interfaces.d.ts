@@ -11,13 +11,7 @@ export interface StationDataProps {
   damagedStations: number;
   deactivatedStations: number;
 }
-export interface PromoRowProps {
-  Est: string;
-  Descuento: string;
-  Cupones: string; 
-  Fecha_ini: string; 
-  Fecha_fin: string; 
-}
+
 export interface PromoData {
   Estacion: string;
   Descuento: number;
@@ -27,14 +21,7 @@ export interface PromoData {
   fecha_fin: Date | null;
 } 
 
-export interface EstacionRowProps {
-  Est: string;
-  Dir: string;
-  Kwh: string; 
-  Oc : string; 
-  m2: number; 
-  enc: string;
-}
+
 export interface SoporteRowProps {
   Name: string;
   Problema: string;
@@ -88,36 +75,6 @@ export interface ReservaRowProps{
   money: number;
 }
 
-type StationStatus = "Active" | "Deactivated" | "Damaged";
 
-export interface MarkerEstacionProps {
-  name: string;
-  ubicacion: number[2],
-  state: StationStatus
-  kwh: number;
-  nplazas: number; //nplazas total >> al final todas tienen el mismo num de plazas????
-  nOcupadas: number;//nplazas ocupadas en el momento
 
-}
 
-export interface ReservaData {
-  hora: Data | null,
-  plaza: string,
-  idcliente: string,
-  fecha: Data | null,
-  duracion: Date | null,
-}
-
-export interface EstadisticaDataset {
-  label: string;
-  fill: boolean,
-  backgroundColor: string,
-  borderColor: string,
-  data: number[]
-}
-
-export interface EstadisticaEstacion {
-  name: string,
-  labels: string[],
-  datasets: EstadisticaDataset[]
-}

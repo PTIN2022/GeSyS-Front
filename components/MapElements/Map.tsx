@@ -3,7 +3,17 @@ import { IconAveria, IconDesactivado, IconFuncionando } from "./IconMarkerEstaci
 import { useState } from "react";
 import { LatLngExpression } from "leaflet";
 import EstacionPopup from "./EstacionPopup";
-import { MarkerEstacionProps, StationStatus } from '../../interfaces';
+
+export type StationStatus = "Active" | "Deactivated" | "Damaged";
+
+export interface MarkerEstacionProps {
+  name: string;
+  ubicacion: LatLngExpression,
+  state: StationStatus
+  kwh: number;
+  nplazas: number; //nplazas total >> al final todas tienen el mismo num de plazas????
+  nOcupadas: number;//nplazas ocupadas en el momento
+}
 
 const accessToken = 'pk.eyJ1IjoieHBhdGF0YTY5IiwiYSI6ImNsMTZ4b2RxcDB5aG0za2thcjIwendlMXEifQ.vlI6K1U3_DOGuSaa8X7R3g';
 

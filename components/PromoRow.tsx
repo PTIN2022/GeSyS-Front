@@ -1,7 +1,7 @@
-import { PromoRowProps } from '../interfaces'
 import { Menu, Center, ActionIcon } from '@mantine/core';
-import { Adjustments, InfoSquare,  DotsVertical, Search } from 'tabler-icons-react';
+import { DotsVertical } from 'tabler-icons-react';
 import Link from 'next/link';
+import { PromoRowProps } from '../pages/admin/promociones';
 
 const PromoRow = ({ Est,Descuento, Cupones,Fecha_ini,Fecha_fin } : PromoRowProps) => {
     return (        
@@ -27,4 +27,5 @@ const PromoRow = ({ Est,Descuento, Cupones,Fecha_ini,Fecha_fin } : PromoRowProps
         </tr>
     )
 } 
+
 export default PromoRow

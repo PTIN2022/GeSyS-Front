@@ -3,8 +3,14 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import AddPromocion from '../../../components/AddPromocion';
 import PromoRow from '../../../components/PromoRow';
-import { PromoRowProps } from '../../../interfaces';
 
+export interface PromoRowProps {
+  Est: string;
+  Descuento: string;
+  Cupones: string; 
+  Fecha_ini: string; 
+  Fecha_fin: string; 
+}
 
 const elements: PromoRowProps[] = [
   {

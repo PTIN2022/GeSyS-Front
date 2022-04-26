@@ -1,12 +1,18 @@
 import { NextPage } from "next"
 import { useRouter } from "next/router";
-
 import { Box, Group, TextInput, Button, Text, Grid } from '@mantine/core';
 import { DatePicker, TimeInput } from '@mantine/dates';
 import 'dayjs/locale/es'
 import { useState } from 'react';
 import { User, ChargingPile, Clock, Calendar } from 'tabler-icons-react';
-import { ReservaData } from '../../../interfaces';
+
+export interface ReservaData {
+  hora: Date | null,
+  plaza: string,
+  idcliente: string,
+  fecha: Date | null,
+  duracion: Date | null,
+}
 
 const Reserva: NextPage = () => {
 

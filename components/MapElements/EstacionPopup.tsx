@@ -1,7 +1,7 @@
 import { Popup } from "react-leaflet";
 import { Button } from "@mantine/core";
-import { MarkerEstacionProps } from "../../interfaces";
 import Link from 'next/link';
+import { MarkerEstacionProps } from "./Map";
 
 //component={Link} leftIcon={<ExternalLink size={14} />} href={`/admin/estaciones/${estacion.name.replace(" ","")}`}
 // ({ name, ubicacion, state }: MarkerEstacionProps)
