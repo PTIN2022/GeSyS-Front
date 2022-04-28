@@ -1,8 +1,8 @@
-import { TrabajadorRowProps } from '../interfaces'
 import { Menu, Center, ActionIcon } from '@mantine/core';
 import { DotsVertical } from 'tabler-icons-react';
 import { Avatar } from '@mantine/core';
 import Link from 'next/link';
+import { TrabajadorRowProps } from '../pages/admin/trabajadores';
 
 const TrabajadorRow = ({ Name,Rol, Last_access, Foto } : TrabajadorRowProps) => {
     return ( 

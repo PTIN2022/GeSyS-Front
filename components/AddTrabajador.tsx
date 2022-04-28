@@ -1,7 +1,7 @@
 import { TextInput, Group, Box, Button, Modal, Select } from '@mantine/core';
-import { At,Id, IdBadge, Phone, User } from 'tabler-icons-react';
+import { At,Id, Phone, User } from 'tabler-icons-react';
 import { useState } from 'react';
-import { PerfilData, RolWorker } from '../interfaces';
+import { PerfilData, RolWorker } from '../pages/admin/perfil';
 
 const AddTrabajador = () => {
     const [opened, setOpened] = useState(false);

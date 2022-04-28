@@ -1,8 +1,15 @@
 import { NextPage } from 'next';
 import { Table, Center } from '@mantine/core';
-import { EstacionRowProps } from '../../../interfaces';
 import FilaEstacion from '../../../components/FilaTablaEstacion';
 
+export interface EstacionRowProps {
+  Est: string;
+  Dir: string;
+  Kwh: string; 
+  Oc : string; 
+  m2: number; 
+  enc: string;
+}
 
 const EstacionesMockData: EstacionRowProps[] = [
   { 

@@ -1,9 +1,15 @@
 import type { NextPage } from 'next'
 import TrabajadorRow from '../../../components/TrabajadorRow';
 import { Table } from '@mantine/core'
-import { TrabajadorRowProps } from '../../../interfaces';
 import Head from 'next/head';
+import AddTrabajador from '../../../components/AddTrabajador';
 
+export interface TrabajadorRowProps {
+  Name: string;
+  Rol: string;
+  Last_access: string; 
+  Foto: string;
+}
 
 const elements: TrabajadorRowProps[] = [
   {
@@ -28,7 +34,7 @@ const elements: TrabajadorRowProps[] = [
     Name: "Eduardo Pinto",
     Rol: "Worker",
     Last_access: 'Connected',
-    Foto: {}
+    Foto: "https://d2qp0siotla746.cloudfront.net/img/use-cases/profile-picture/template_2.jpg"
   }
 ];
 
@@ -40,6 +46,7 @@ const ListaTrabajadores: NextPage = () => {
         <title>GeSyS - Trabajadores</title>
       </Head>
       <h1>Trabajadores</h1>
+      <AddTrabajador />
       <Table striped highlightOnHover>
           <thead>
               <tr>

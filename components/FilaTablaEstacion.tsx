@@ -1,4 +1,4 @@
-import { EstacionRowProps } from "../interfaces"
+import { EstacionRowProps } from "../pages/admin/estaciones"
 
 const FilaEstacion = ({ Dir, Est, Kwh, Oc, enc, m2 } : EstacionRowProps) => {
   return (        

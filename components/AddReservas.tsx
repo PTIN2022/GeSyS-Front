@@ -1,8 +1,8 @@
 import { TextInput, Group, Box, Button, Modal, Space } from '@mantine/core';
 import { Calendar, ChargingPile, Clock, User } from 'tabler-icons-react';
 import { useState } from 'react';
-import { ReservaData } from '../interfaces';
 import { DatePicker, TimeInput } from '@mantine/dates';
+import { ReservaData } from '../pages/admin/reservas/[reserva]';
 import 'dayjs/locale/es'
 
 const AddReserva = () => {

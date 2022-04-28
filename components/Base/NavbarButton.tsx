@@ -1,6 +1,6 @@
 import { UnstyledButton, Group, Text } from "@mantine/core";
 import Link from "next/link";
-import { NavbarItemProps } from "../../interfaces";
+import { NavbarItemProps } from "./BaseAdministracion";
 
 const NavbarButton = ({ label, href }: NavbarItemProps) => {
   return (
