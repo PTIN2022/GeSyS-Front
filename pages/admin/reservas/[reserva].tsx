@@ -4,14 +4,14 @@ import { Box, Group, TextInput, Button, Text, Grid } from '@mantine/core';
 import { DatePicker, TimeInput } from '@mantine/dates';
 import 'dayjs/locale/es'
 import { useState } from 'react';
-import { User, ChargingPile, Clock, Calendar } from 'tabler-icons-react';
+import { User, Car, Clock, Calendar } from 'tabler-icons-react';
 
 export interface ReservaData {
-  hora: Date | null,
-  plaza: string,
-  idcliente: string,
+  hora_inicio: Date | null,
+  matricula: string,
+  DNI: string,
   fecha: Date | null,
-  duracion: Date | null,
+  hora_fin: Date | null,
 }
 
 const Reserva: NextPage = () => {
@@ -22,11 +22,11 @@ const Reserva: NextPage = () => {
   const [editing, setEditing] = useState<boolean>(false);
   
   const [reserve, setReserve] = useState<ReservaData>({
-    hora: null,
-    plaza: '',
-    idcliente: '',
+    hora_inicio: null,
+    matricula: '',
+    DNI: '',
     fecha: null,
-    duracion: null,
+    hora_fin: null,
   });
 
   return (
@@ -55,8 +55,8 @@ const Reserva: NextPage = () => {
               label="Inicio Reserva"
               variant="default"
               icon={<Clock size={14} />}
-              value={reserve.hora}
-              onChange={(event) => setReserve({...reserve, hora: event})} 
+              value={reserve.hora_inicio}
+              onChange={(event) => setReserve({...reserve, hora_inicio: event})} 
               clearable
               />
               :
@@ -64,28 +64,28 @@ const Reserva: NextPage = () => {
                 label="Inicio Reserva"
                 variant="default"
                 icon={<Clock size={14} />}
-                value={reserve.hora}
-                onChange={(event) => setReserve({...reserve, hora: event})}
+                value={reserve.hora_inicio}
+                onChange={(event) => setReserve({...reserve, hora_inicio: event})}
                 disabled
               />
           }
 
           { editing ? 
             <TimeInput size="md"
-              label="Duracion"
+              label="Fin Reserva"
               variant="default"
               icon={<Clock size={14} />}
-              value={reserve.duracion}
-              onChange={(event) => setReserve({...reserve, duracion: event})} 
+              value={reserve.hora_fin}
+              onChange={(event) => setReserve({...reserve, hora_fin: event})} 
               clearable
             />
               :
               <TimeInput size="md"
-                label="Duracion"
+                label="Fin Reserva"
                 variant="default"
                 icon={<Clock size={14} />}
-                value={reserve.duracion}
-                onChange={(event) => setReserve({...reserve, duracion: event})}
+                value={reserve.hora_fin}
+                onChange={(event) => setReserve({...reserve, hora_fin: event})}
                 disabled
               />
           }
@@ -93,22 +93,22 @@ const Reserva: NextPage = () => {
 
             { editing ? 
             <TextInput size="md"
-                label="Plaza"
-                placeholder="Num Plaza"
+                label="Matricula"
+                placeholder="Num matricula"
                 variant="default"
-                icon={<ChargingPile size={18} />}
-                value={reserve.plaza}
-                onChange={(event) => setReserve({...reserve, plaza: event.target.value})}
+                icon={<Car size={18} />}
+                value={reserve.matricula}
+                onChange={(event) => setReserve({...reserve, matricula: event.target.value})}
             />
             :
 
             <TextInput size="md"
-              label="Plaza"
-              placeholder="Num Plaza"
+              label="Matricula"
+              placeholder="Num matricula"
               variant="default"
-              icon={<ChargingPile size={18} />}
-              value={reserve.plaza}
-              onChange={(event) => setReserve({...reserve, plaza: event.target.value})}
+              icon={<Car size={18} />}
+              value={reserve.matricula}
+              onChange={(event) => setReserve({...reserve, matricula: event.target.value})}
               disabled
             /> 
             }
@@ -119,21 +119,21 @@ const Reserva: NextPage = () => {
 
             { editing ?
             <TextInput size="md"
-              label="Id Cliente"
+              label="DNI"
               placeholder="1234..." 
               variant="default"
               icon={<User size={14} />}
-              value={reserve.idcliente}
-              onChange={(event) => setReserve({...reserve, idcliente: event.target.value})}
+              value={reserve.DNI}
+              onChange={(event) => setReserve({...reserve, DNI: event.target.value})}
             />
             :
             <TextInput size="md"
-              label="Id Cliente"
+              label="DNI"
               placeholder="1234..." 
               variant="default"
               icon={<User size={14} />}
-              value={reserve.idcliente}
-              onChange={(event) => setReserve({...reserve, idcliente: event.target.value})}
+              value={reserve.DNI}
+              onChange={(event) => setReserve({...reserve, DNI: event.target.value})}
               disabled
             />
             }
