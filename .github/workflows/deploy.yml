@@ -16,4 +16,4 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY_ED25519 }}
         port: ${{ secrets.PORT }}
-        script: /home/user/deploy/deploy.sh
+        script: /home/user/deploy/front.sh
