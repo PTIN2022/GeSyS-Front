@@ -9,8 +9,7 @@ const Login: NextPage = () => {
       styles={{
         Button: (theme) => ({
           root: {
-            color: 'black',
-            backgroundColor: theme.colors.blue[3],
+            backgroundColor: "#0e3bac",
             width: '100%'
           }
         })
@@ -26,9 +25,7 @@ const Login: NextPage = () => {
           </Button>
         </Link>
         
-        <Text size='md' style={{
-          color: "blue"
-        }}>
+        <Text size='md' underline color= "#0e3bac">
           Restablecer contraseña
         </Text>
       </Container>
