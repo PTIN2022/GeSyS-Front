@@ -10,7 +10,7 @@ import {
   Avatar,
   Space,
   Button,
-  Menu,
+  Menu, MantineProvider
 } from "@mantine/core";
 import { AppProps } from "next/app";
 import Link from "next/link";
@@ -65,20 +65,23 @@ const NavbarItems: NavbarItemProps[] = [
 const BaseAdministracion = (props: AppProps) => {
   const [opened, setOpened] = useState<boolean>(false);
   const { Component, pageProps } = props;
-
   return (
     <AppShell
       padding="xs"
       navbarOffsetBreakpoint={"sm"}
       fixed
       header={
-        <Header height={60} p="sm">
+        <Header height={60} p="sm" 
+          styles={{
+            root: { backgroundColor: '#ccdde8' },
+          }}
+        >
           <div
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              height: "100%",
+              height: "100%", 
             }}
           >
             <MediaQuery largerThan="sm" styles={{ display: "none" }}>
@@ -90,7 +93,7 @@ const BaseAdministracion = (props: AppProps) => {
               />
             </MediaQuery>
             <Link href={"/admin"} passHref={true}>
-              <Button variant="subtle" color="#0e3bac">
+              <Button variant="subtle" color="blue">
                 <Avatar size={"sm"} mr={"lg"} src={"/img/logofeo.png"} />
                 GeSyS Technical Station
               </Button>
@@ -124,6 +127,9 @@ const BaseAdministracion = (props: AppProps) => {
       }
       navbar={
         <Navbar
+        styles={{
+          root: { backgroundColor: '#ccdde8' },
+        }}
           width={{ sm: 300 }}
           p="xs"
           hiddenBreakpoint={"sm"}
@@ -136,15 +142,32 @@ const BaseAdministracion = (props: AppProps) => {
         </Navbar>
       }
       styles={(theme) => ({
-        main: {
-          backgroundColor:
+        main: {    
+         backgroundColor:
             theme.colorScheme === "light"
               ? theme.colors.gray[0]
               : theme.colors.dark[8],
-        },
+        },       
       })}
     >
+      <MantineProvider
+        theme={{
+          headings:{
+            sizes: {
+              h1: { fontSize: 40 },
+              h3: { fontSize: 25 },
+              h6: { fontSize: 12 },
+            },
+          } 
+        }}   
+   
+        styles={{ 
+          Button: { root: { backgroundColor :"#0e3bac" } }, 
+          Text: {root: { color :"#0e3bac"}},
+        }}
+      >
       <Component {...pageProps} />
+      </MantineProvider>
     </AppShell>
   );
 };

@@ -1,4 +1,4 @@
-import { UnstyledButton, Group, Text } from "@mantine/core";
+import { UnstyledButton, Group, Text, MantineProvider } from "@mantine/core";
 import Link from "next/link";
 import { NavbarItemProps } from "./BaseAdministracion";
 
@@ -11,7 +11,7 @@ const NavbarButton = ({ label, href }: NavbarItemProps) => {
           width: '100%',
           padding: theme.spacing.xs,
           borderRadius: theme.radius.sm,
-          backgroundColor: theme.colorScheme === 'light' ? theme.primaryColor : theme.colors.dark[0],
+          backgroundColor: theme.fn.darken('#0e3bac', 0.05),
           color: theme.colorScheme === 'light' ? theme.black : theme.colors.dark[0],
           marginBottom: theme.spacing.xs,
 
@@ -21,7 +21,7 @@ const NavbarButton = ({ label, href }: NavbarItemProps) => {
           },
         })}
       >
-        <Text size="md">{label}</Text>
+        <Text size="md" color={'white'}>{label}</Text>
       </UnstyledButton>
     </Link>
   )

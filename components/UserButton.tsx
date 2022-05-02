@@ -20,7 +20,7 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
         display: 'block',
         width: '100%',
         padding: theme.spacing.md,
-        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+        color: "#0e3bac",
 
         '&:hover': {
           backgroundColor:

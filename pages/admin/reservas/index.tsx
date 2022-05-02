@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import Head  from 'next/head'
-import { Grid, Table } from '@mantine/core'
+import { Grid, Table, Text, Space, Title } from '@mantine/core'
 import ReservaRow from '../../../components/ReservaRow';
 
 import { useState } from 'react';
@@ -103,7 +103,8 @@ const ListaReservas: NextPage = () => {
       <Head>
         <title>GeSyS - Reservas</title>
       </Head> 
-      <h1>Reservas</h1>
+      <Title order={1}> <Text  inherit component="span">Reservas </Text></Title>
+      <Space  h={25}/>
 
       <AddReserva />
       

@@ -1,12 +1,6 @@
 import type { NextPage } from 'next';
-import { BackgroundImage, MantineProvider, Grid, Image, Title, Space, Affix, Button, Text } from '@mantine/core';
-import {Badge, BrandGooglePlay} from "tabler-icons-react"
-
-//import dynamic from 'next/dynamic';
-
-//const BgImage = dynamic(() => import("../pages/BGImage"), {
- // ssr: false
-//});
+import { BackgroundImage, Grid, Image, Title, Space, Affix, Button, Text } from '@mantine/core';
+import {BrandGooglePlay} from "tabler-icons-react"
 
 const Home: NextPage = () => {
   return (  
@@ -20,23 +14,8 @@ const Home: NextPage = () => {
       <Image
         alt={"Foto de la aplicación móvil"}
         src={'/img/mobil.jpg'}
-        //width={}
-        //height={height}
       />
       </Grid.Col>
-      <MantineProvider
-        theme={{
-          headings:{
-            sizes: {
-              h1: { fontSize: 55 },
-              h3: { fontSize: 30 },
-              h6: { fontSize: 12 },
-            },
-          } 
-        }}
-        
-      >
-        
       <Grid.Col span={6} offset={0.5} style={{ minHeight: 120 }}>
         
         <Space h={60} />
@@ -91,15 +70,10 @@ const Home: NextPage = () => {
           <Text color="#0e3bac" inherit component="span">
             Aplicación sólo disponible para dispositivos Android
           </Text>
-        </Title> 
-        
-      </Grid.Col>
-      </MantineProvider>
-      
-      
+        </Title>        
+      </Grid.Col>    
   </Grid>
-  </BackgroundImage> 
-  
+  </BackgroundImage>  
   );
 }
 
