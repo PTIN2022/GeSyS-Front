@@ -163,7 +163,7 @@ const BaseAdministracion = (props: AppProps) => {
    
         styles={{ 
           Button: { root: { backgroundColor :"#0e3bac" } }, 
-          Text: {root: { color :"#0e3bac"}},
+          Text: {root: { color :"black"}}, //#0e3bac
         }}
       >
       <Component {...pageProps} />

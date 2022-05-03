@@ -16,8 +16,7 @@ const NavbarButton = ({ label, href }: NavbarItemProps) => {
           marginBottom: theme.spacing.xs,
 
           '&:hover': {
-            backgroundColor:
-              theme.colorScheme === 'light' ? theme.colors.gray[1] : theme.colors.dark[6],
+            backgroundColor: '#1c7ed6',
           },
         })}
       >
