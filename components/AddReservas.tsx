@@ -1,5 +1,5 @@
-import { TextInput, Group, Box, Button, Modal, Space } from '@mantine/core';
-import { Calendar, Car, Clock, User } from 'tabler-icons-react';
+import { TextInput, Group, Box, Button, Modal, Space, Autocomplete } from '@mantine/core';
+import { Calendar, Car, Clock, User, ChargingPile } from 'tabler-icons-react';
 import { useState } from 'react';
 import { DatePicker, TimeInput } from '@mantine/dates';
 import { ReservaData } from '../pages/admin/reservas/[reserva]';
@@ -13,6 +13,7 @@ const AddReserva = () => {
         fecha: null,
         matricula: '',
         DNI: '',
+        estacion: '',
     });
 
     return (
@@ -23,7 +24,15 @@ const AddReserva = () => {
             title="Introduzca los datos de la reserva"
         >
         {
-            <Box>               
+            <Box> 
+                <Autocomplete 
+                    label="Estacion"
+                    placeholder="VGA1"
+                    value={reserve.estacion}
+                    onChange={(event) => setReserve({...reserve, estacion: event})}
+                    icon={<ChargingPile />} 
+                    data={['VGA1' , 'VGA2']} 
+                />            
                 <Group mt="md">
                     <TimeInput size="md"
                         label="Inicio Reserva"

@@ -1,10 +1,10 @@
 import { NextPage } from "next"
 import { useRouter } from "next/router";
-import { Box, Group, TextInput, Button, Text, Grid } from '@mantine/core';
+import { Box, Group, TextInput, Button, Text, Grid, Autocomplete } from '@mantine/core';
 import { DatePicker, TimeInput } from '@mantine/dates';
 import 'dayjs/locale/es'
 import { useState } from 'react';
-import { User, Car, Clock, Calendar } from 'tabler-icons-react';
+import { User, Car, Clock, Calendar, ChargingPile } from 'tabler-icons-react';
 
 export interface ReservaData {
   desde: Date | null,
@@ -12,6 +12,7 @@ export interface ReservaData {
   fecha: Date | null,
   matricula: string,
   DNI: string,
+  estacion: string,
 }
 
 const Reserva: NextPage = () => {
@@ -27,6 +28,7 @@ const Reserva: NextPage = () => {
     fecha: null,
     matricula: '',
     DNI: '',
+    estacion: '',
   });
 
   return (
@@ -46,10 +48,31 @@ const Reserva: NextPage = () => {
           <Text align="left" size="xl">Datos de la Reserva</Text>
           <Text align="left" size="md">Mira y edita la información de la reserva {reserva}</Text>
         </Grid.Col>
-    
-        <Grid.Col span={7}>                
+        <Grid.Col span={7}>
           <Group mt="sl">
-
+            { editing ? 
+              <Autocomplete 
+                  label="Estacion"
+                  placeholder="VGA1"
+                  value={reserve.estacion}
+                  onChange={(event) => setReserve({...reserve, estacion: event})}
+                  icon={<ChargingPile />} 
+                  data={['VGA1' , 'VGA2']} 
+              />
+              :
+              <Autocomplete 
+                  label="Estacion"
+                  placeholder="VGA1"
+                  icon={<ChargingPile />}
+                  disabled 
+                  data={['VGA1' , 'VGA2']} 
+              />
+            }
+          </Group>  
+        </Grid.Col>
+ 
+        <Grid.Col span={7}>             
+          <Group mt="sl">     
           { editing ? 
             <TimeInput size="md"
               label="Inicio Reserva"
