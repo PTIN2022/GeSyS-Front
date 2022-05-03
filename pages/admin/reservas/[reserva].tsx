@@ -7,11 +7,11 @@ import { useState } from 'react';
 import { User, Car, Clock, Calendar } from 'tabler-icons-react';
 
 export interface ReservaData {
-  hora_inicio: Date | null,
+  desde: Date | null,
+  hasta: Date | null,
+  fecha: Date | null,
   matricula: string,
   DNI: string,
-  fecha: Date | null,
-  hora_fin: Date | null,
 }
 
 const Reserva: NextPage = () => {
@@ -22,11 +22,11 @@ const Reserva: NextPage = () => {
   const [editing, setEditing] = useState<boolean>(false);
   
   const [reserve, setReserve] = useState<ReservaData>({
-    hora_inicio: null,
+    desde: null,
+    hasta: null,
+    fecha: null,
     matricula: '',
     DNI: '',
-    fecha: null,
-    hora_fin: null,
   });
 
   return (
@@ -55,8 +55,8 @@ const Reserva: NextPage = () => {
               label="Inicio Reserva"
               variant="default"
               icon={<Clock size={14} />}
-              value={reserve.hora_inicio}
-              onChange={(event) => setReserve({...reserve, hora_inicio: event})} 
+              value={reserve.desde}
+              onChange={(event) => setReserve({...reserve, desde: event})} 
               clearable
               />
               :
@@ -64,8 +64,8 @@ const Reserva: NextPage = () => {
                 label="Inicio Reserva"
                 variant="default"
                 icon={<Clock size={14} />}
-                value={reserve.hora_inicio}
-                onChange={(event) => setReserve({...reserve, hora_inicio: event})}
+                value={reserve.desde}
+                onChange={(event) => setReserve({...reserve, desde: event})}
                 disabled
               />
           }
@@ -75,8 +75,8 @@ const Reserva: NextPage = () => {
               label="Fin Reserva"
               variant="default"
               icon={<Clock size={14} />}
-              value={reserve.hora_fin}
-              onChange={(event) => setReserve({...reserve, hora_fin: event})} 
+              value={reserve.hasta}
+              onChange={(event) => setReserve({...reserve, hasta: event})} 
               clearable
             />
               :
@@ -84,8 +84,8 @@ const Reserva: NextPage = () => {
                 label="Fin Reserva"
                 variant="default"
                 icon={<Clock size={14} />}
-                value={reserve.hora_fin}
-                onChange={(event) => setReserve({...reserve, hora_fin: event})}
+                value={reserve.hasta}
+                onChange={(event) => setReserve({...reserve, hasta: event})}
                 disabled
               />
           }

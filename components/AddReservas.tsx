@@ -8,11 +8,11 @@ import 'dayjs/locale/es'
 const AddReserva = () => {
     const [opened, setOpened] = useState(false);
     const [reserve, setReserve] = useState<ReservaData>({
-        hora_inicio: null,
+        desde: null,
+        hasta: null,
+        fecha: null,
         matricula: '',
         DNI: '',
-        fecha: null,
-        hora_fin: null,
     });
 
     return (
@@ -29,8 +29,8 @@ const AddReserva = () => {
                         label="Inicio Reserva"
                         variant="default"
                         icon={<Clock size={14} />}
-                        value={reserve.hora_inicio}
-                        onChange={(event) => setReserve({...reserve, hora_inicio: event})} 
+                        value={reserve.desde}
+                        onChange={(event) => setReserve({...reserve, desde: event})} 
                         clearable
                     />
                     <Space w="xs" />
@@ -38,8 +38,8 @@ const AddReserva = () => {
                         label="Fin Reserva"
                         variant="default"
                         icon={<Clock size={14} />}
-                        value={reserve.hora_fin}
-                        onChange={(event) => setReserve({...reserve, hora_fin: event})} 
+                        value={reserve.hasta}
+                        onChange={(event) => setReserve({...reserve, hasta: event})} 
                         clearable
                     />
                 </Group>
