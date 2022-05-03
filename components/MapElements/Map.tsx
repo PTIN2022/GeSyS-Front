@@ -3,6 +3,7 @@ import { IconAveria, IconDesactivado, IconFuncionando } from "./IconMarkerEstaci
 import { useState } from "react";
 import { LatLngExpression } from "leaflet";
 import EstacionPopup from "./EstacionPopup";
+import MapSearchBar from "./MapSearchBar";
 
 export type StationStatus = "Active" | "Deactivated" | "Damaged";
 
