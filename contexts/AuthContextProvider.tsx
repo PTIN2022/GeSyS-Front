@@ -10,14 +10,18 @@ export const AuthContextProvider = ({ children }: any) => {
 
   const route = useRouter();
 
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      const response = await fetch('/api/user')
-      if (response.status === 200) {
-        const data = await response.json()
-        setUser(data)
-      }
+  const fetchUserInfo = async () => {
+    const response = await fetch('/api/user')
+    if (response.status === 200) {
+      const data = await response.json()
+      setUser(data)
     }
+    else {
+      setUser(PerfilVacio)
+    }
+  }
+
+  useEffect(() => {
     fetchUserInfo()
   }, [])
 
@@ -33,6 +37,7 @@ export const AuthContextProvider = ({ children }: any) => {
       })
     })
     if (response.status === 200) {
+      await fetchUserInfo();
       route.push('/admin/')
     }
     else {
@@ -51,14 +56,12 @@ export const AuthContextProvider = ({ children }: any) => {
     }
   }
 
-  const context = {
-    user,
-    login,
-    logout
-  }
-
   return (
-    <AuthContext.Provider value={context}>
+    <AuthContext.Provider value={{
+      user,
+      login,
+      logout
+    }}>
       {children}
     </AuthContext.Provider>
   )
