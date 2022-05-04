@@ -8,7 +8,7 @@ export const usuariosTmp = [
   {
     username: 'admin_alf',
     password: 'admin',
-    pfp: 'https://atenea.upc.edu/pluginfile.php/2833638/user/icon/campus/f1?rev=47202468',
+    pfp: 'https://lh3.googleusercontent.com/a-/AOh14GiTFP4e-OiBF49fsn13bU2bPCMdWjJOHWdipJK-=s83-c-mo',
     nombre: "Alfredo",
     apellido: "Manresa",
     telefono: "+34684789456",
