@@ -1,30 +1,52 @@
 import type { NextPage } from 'next'
-import { Button, MantineProvider, Input, MantineTheme, Text, AppShell, Container } from '@mantine/core'
-import Link from 'next/link'
+import { Button, Input, MantineTheme, Text, AppShell, Container } from '@mantine/core'
+import { useContext, useEffect, useState } from 'react'
+import { AuthContext } from '../contexts/AuthContext'
+import { useRouter } from 'next/router'
 
 const Login: NextPage = () => {
+
+  const route = useRouter()
+
+  const [username, setUsername] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+
+  const { user, login } = useContext(AuthContext)
+
+  const usernameChange = (e: any) => {
+    setUsername(e.target.value)
+  }
+
+  const passwordChange = (e: any) => {
+    setPassword(e.target.value)
+  }
+
+  const loginClick = async () => {
+    const response = await login(username, password)
+    console.log(response)
+    if (response === 200) {
+      route.push('/admin/')
+    }
+    else {
+      alert('Usuario o contraseña incorrectos')
+    }
+  }
+
+  useEffect(() => {
+    if (user) {
+      route.push('/admin/')
+    }
+  }, [])
+
   return (
     <>
-    <MantineProvider
-      styles={{
-        Button: (theme) => ({
-          root: {
-            color: 'black',
-            backgroundColor: theme.colors.blue[3],
-            width: '100%'
-          }
-        })
-      }}>
-
       <Container mt={"xl"} size={"xs"} px={"xs"}>
-        <Input type={"text"} placeholder={"Email"} />
-        <Input type="password" placeholder="Contraseña" mt={"xs"} />
+        <Input type={"text"} placeholder={"Username"} value={username} onChange={usernameChange} />
+        <Input type="password" placeholder="Contraseña" value={password} onChange={passwordChange} mt={"xs"} />
 
-        <Link href="/admin" passHref={true}>
-          <Button mt={"xl"}>
-            Iniciar Sesión
-          </Button>
-        </Link>
+        <Button mt={"xl"} onClick={loginClick}>
+          Iniciar Sesión
+        </Button>
         
         <Text size='md' style={{
           color: "blue"
@@ -32,7 +54,6 @@ const Login: NextPage = () => {
           Restablecer contraseña
         </Text>
       </Container>
-    </MantineProvider>
     </>
   )
 }

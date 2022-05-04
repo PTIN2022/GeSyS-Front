@@ -6,6 +6,8 @@ import { NextPage } from 'next';
 export type RolWorker = "Jefe" | "Administrador" | "Responsable" | "Trabajador";
 
 export interface PerfilData {
+  username: string;
+  pfp: string;
   nombre: string;
   apellido: string;
   telefono: string;
@@ -25,12 +27,14 @@ const PerfilInfo: NextPage = () => {
   );
   
   const [perfil, setPerfil] = useState<PerfilData>({
-    nombre: 'manolo',
-    apellido: 'pedro juan',
-    telefono: '+34 654 789 456',
-    email: 'manolo.pedro.juan@gesys.com',
-    dni: '48645186G',
-    cargo: 'Administrador',
+    username: '',
+    pfp: '',
+    nombre: '',
+    apellido: '',
+    telefono: '',
+    email: '',
+    dni: '',
+    cargo: 'Trabajador',
   });
 
   return (
@@ -46,7 +50,7 @@ const PerfilInfo: NextPage = () => {
                 sx={{ width: '10em', opacity: 0.5, border: '3px solid black', borderRadius: '20px' }}
                 radius="lg"
                 alt={"profile picture"}
-                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80" /> 
+                src={perfil.pfp} /> 
               <input style={{ width: '10em'}} type={"file"} />
             </>
             :  
@@ -54,7 +58,7 @@ const PerfilInfo: NextPage = () => {
               sx={{ width: '10em', border: '3px solid black', borderRadius: '20px' }}
               radius="lg"
               alt={"profile picture"}
-              src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80" />
+              src={perfil.pfp} />
             }
           </Group>
           
@@ -75,7 +79,6 @@ const PerfilInfo: NextPage = () => {
             { editing ? 
             <TextInput size="md"
               label="Nombre"
-              placeholder="Pedro"
               variant="default"
               icon={<User size={14} />}
               value={perfil.nombre}
@@ -83,7 +86,6 @@ const PerfilInfo: NextPage = () => {
               :
               <TextInput size="md"
                 label="Nombre"
-                placeholder="Pedro"
                 variant="default"
                 icon={<User size={14} />}
                 value={perfil.nombre}
@@ -95,7 +97,6 @@ const PerfilInfo: NextPage = () => {
             { editing ? 
             <TextInput size="md"
                 label="Apellido"
-                placeholder="Benito"
                 variant="default"
                 icon={<User size={14} />}
                 value={perfil.apellido}
@@ -105,7 +106,6 @@ const PerfilInfo: NextPage = () => {
 
             <TextInput size="md"
               label="Apellido"
-              placeholder="Benito"
               variant="default"
               icon={<User size={14} />}
               value={perfil.apellido}
@@ -121,7 +121,6 @@ const PerfilInfo: NextPage = () => {
             { editing ?
             <TextInput size="md"
               label="Numero de Telefono"
-              placeholder="Telefono" 
               variant="default"
               icon={<Phone size={14} />}
               value={perfil.telefono}
@@ -130,7 +129,6 @@ const PerfilInfo: NextPage = () => {
             :
             <TextInput size="md"
               label="Numero de Telefono"
-              placeholder="Telefono" 
               variant="default"
               icon={<Phone size={14} />}
               value={perfil.telefono}

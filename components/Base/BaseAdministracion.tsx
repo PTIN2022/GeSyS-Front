@@ -14,7 +14,8 @@ import {
 } from "@mantine/core";
 import { AppProps } from "next/app";
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 import UserButton from "../UserButton";
 import NavbarButton from "./NavbarButton";
 
@@ -63,6 +64,8 @@ const NavbarItems: NavbarItemProps[] = [
 ];
 
 const BaseAdministracion = (props: AppProps) => {
+
+  const { logout } = useContext(AuthContext);
   const [opened, setOpened] = useState<boolean>(false);
   const { Component, pageProps } = props;
 
@@ -115,7 +118,7 @@ const BaseAdministracion = (props: AppProps) => {
                 </Link>
 
                 <Link href={"/"} passHref={true}>
-                  <Menu.Item>Cerrar sesión</Menu.Item>
+                  <Menu.Item onClick={() => logout()}>Cerrar sesión</Menu.Item>
                 </Link>
               </Menu>
             </Group>
