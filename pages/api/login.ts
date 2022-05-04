@@ -19,7 +19,7 @@ export const usuariosTmp = [
   {
     username: 'admin_xavi',
     password: 'admin',
-    pfp: 'https://atenea.upc.edu/pluginfile.php/2818804/user/icon/campus/f1?rev=37349991',
+    pfp: 'https://i.imgur.com/5roUQ5r.png',
     nombre: "Xavier",
     apellido: "Bermejo Sotillo",
     telefono: "+34624879543",
