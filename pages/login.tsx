@@ -36,6 +36,7 @@ const Login: NextPage = () => {
     if (user) {
       route.push('/admin/')
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
