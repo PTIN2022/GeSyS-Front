@@ -1,22 +1,21 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import jwt from 'jsonwebtoken'
-
-export const JWT_SECRET = 'CECRETO_SECRET'
+import { JWT_SECRET } from './login';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<any> ) {
+  
   const { cookies } = req;
-
   const token = cookies.OursiteJWT;
 
   if (!token) {
-    return res.json({ message: "Invalid token!" });
+    return res.status(401).json({ message: "Invalid token!" });
   }
 
   try {
-    const user = jwt.decode(token);
+    const user = jwt.verify(token, JWT_SECRET);
     res.status(200).send(user);
   } catch (e) {
-    return res.json({ message: "Invalid token!" });
+    return res.status(401).json({ message: "Invalid token!" });
   }
   
 }

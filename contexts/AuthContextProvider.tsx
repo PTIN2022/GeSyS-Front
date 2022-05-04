@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { AuthContext } from './AuthContext';
-import jwt from 'jsonwebtoken';
-import { PerfilData } from '../pages/admin/perfil';
 import { useRouter } from 'next/router';
 
 export const AuthContextProvider = ({ children }: any) => {

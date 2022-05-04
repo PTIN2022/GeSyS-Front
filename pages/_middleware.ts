@@ -1,27 +1,30 @@
 import { NextResponse } from "next/server";
-import { verify } from "jsonwebtoken";
-import { JWT_SECRET } from "./api/login";
 
-export default function middleware(req: NextResponse, res: NextResponse, next: () => void) {
+      // ESTO NO ES SEGURO, ES SOLO PARA HACER PRUEBAS!!!
+      // ESTO NO ES SEGURO, ES SOLO PARA HACER PRUEBAS!!!
+      // ESTO NO ES SEGURO, ES SOLO PARA HACER PRUEBAS!!!
+      // ESTO NO ES SEGURO, ES SOLO PARA HACER PRUEBAS!!!
+      // ESTO NO ES SEGURO, ES SOLO PARA HACER PRUEBAS!!!
+      // ESTO NO ES SEGURO, ES SOLO PARA HACER PRUEBAS!!!
+      // ESTO NO ES SEGURO, ES SOLO PARA HACER PRUEBAS!!!
 
-  const { cookies } = req;
-  const jwt = cookies.OursiteJWT;
+export default async function middleware(req: NextResponse, res: NextResponse, next: () => void) {
+
   const url = req.url;
+  const cookies = req.cookies;
 
   if (url.includes("/admin")) {
-    if (jwt === undefined) {
-      return NextResponse.redirect("http://localhost:3000/login");
-    }
-
-    try {
-      verify(jwt, JWT_SECRET);
-      return NextResponse.next()
-    }
-    catch (e) {
-      return NextResponse.redirect("http://localhost:3000/login");
+    if (!cookies.OursiteJWT) {
+      return NextResponse.redirect('http://localhost:3000/login');
     }
   }
 
-  return NextResponse.next();
+  if (url.includes("/login")) {
+    if (cookies.OursiteJWT) {
+      return NextResponse.redirect('http://localhost:3000/admin');
+    }
+  }
+
+  return NextResponse.next()
 
 }
