@@ -2,58 +2,42 @@ import React, { useEffect, useState } from 'react';
 import { AuthContext } from './AuthContext';
 import jwt from 'jsonwebtoken';
 import { PerfilData } from '../pages/admin/perfil';
+import { useRouter } from 'next/router';
 
 export const AuthContextProvider = ({ children }: any) => {
 
-  const [ user, setUser ] = useState<PerfilData | null>(null)
+  const route = useRouter();
 
-  useEffect(() => {
-    const user = localStorage.getItem('user')
-    console.log('user', user)
-    if (user) {
-      const userInfo = jwt.decode(user) as PerfilData
-      setUser(userInfo)
-    }
-  }, [])
-
-  const login = async (username: string, password: string): Promise<number> => {
-    if (username !== '' && password !== '') {
-      try {
-        const response = await fetch('/api/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            username,
-            password
-          })
-        })
-        const data = await response.json()
-        if (response.status === 200) {
-          setUser(data.token)
-          localStorage.setItem('user', data.token)
-          return response.status
-        }
-        else {
-          return response.status
-        }
-      }
-      catch (error) {
-        return 400
-      }
+  const login = async (username: string, password: string) => {
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username,
+        password
+      })
+    })
+    if (response.status === 200) {
+      route.push('/admin/')
     }
     else {
-      return 400
+      alert('Usuario o contraseña incorrectos')
     }
   }
 
-  const logout = () => {
-    localStorage.removeItem('user')
+  const logout = async () => {
+    const response = await fetch('/api/logout');
+    if (response.status === 200) {
+      route.push('/login')
+    }
+    else {
+      alert('Error?')
+    }
   }
 
   const context = {
-    user,
     login,
     logout
   }

@@ -1,7 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import jwt from 'jsonwebtoken'
+import { serialize } from 'cookie'
 
-const usuariosTmp = [
+export const JWT_SECRET = 'CECRETO_SECRET'
+
+export const usuariosTmp = [
   {
     username: 'admin_alf',
     password: 'admin',
@@ -26,7 +29,7 @@ const usuariosTmp = [
   },
 ]
 
-export default function handler(req: NextApiRequest, res: NextApiResponse<{ token: string }> ) {
+export default function handler(req: NextApiRequest, res: NextApiResponse<{ message: string }> ) {
   
   if (req.method !== 'POST') {
     return res.status(405).end('Invalid method')
@@ -46,8 +49,18 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<{ toke
 
   const removePass = {...usuario, password: undefined}
 
-  return res.status(200).json({
-    token: jwt.sign(removePass, 'CECRETO_SECRET')
-  })
+  const token = jwt.sign(removePass, JWT_SECRET);
+
+  const serialised = serialize("OursiteJWT", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV !== "development",
+    sameSite: "strict",
+    maxAge: 60 * 60 * 24 * 30,
+    path: "/",
+  });
+
+  res.setHeader("Set-Cookie", serialised);
+
+  return res.status(200).json({ message: 'Success!' })
   
 }
