@@ -12,7 +12,7 @@ const NavbarButton = ({ label, href }: NavbarItemProps) => {
           padding: theme.spacing.xs,
           borderRadius: theme.radius.sm,
           backgroundColor: theme.fn.darken('#0e3bac', 0.05),
-          color: theme.colorScheme === 'light' ? theme.black : theme.colors.dark[0],
+          color: "black",
           marginBottom: theme.spacing.xs,
 
           '&:hover': {
@@ -20,7 +20,11 @@ const NavbarButton = ({ label, href }: NavbarItemProps) => {
           },
         })}
       >
-        <Text size="md" color={'white'}>{label}</Text>
+        <Text size="md"
+          styles={{ root: {color:"white"} }}
+        >
+          {label}
+        </Text>
       </UnstyledButton>
     </Link>
   )

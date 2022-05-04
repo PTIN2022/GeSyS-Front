@@ -10,7 +10,7 @@ import {
   Avatar,
   Space,
   Button,
-  Menu, MantineProvider
+  Menu
 } from "@mantine/core";
 import { AppProps } from "next/app";
 import Link from "next/link";
@@ -93,7 +93,14 @@ const BaseAdministracion = (props: AppProps) => {
               />
             </MediaQuery>
             <Link href={"/admin"} passHref={true}>
-              <Button variant="subtle" color="blue">
+              <Button variant="subtle" color="blue"
+                styles={{
+                  root: {
+                      color:"black",
+                      backgroundColor: '#ccdde8',
+                    },
+                  }}
+              >
                 <Avatar size={"sm"} mr={"lg"} src={"/img/logofeo.png"} />
                 GeSyS Technical Station
               </Button>
@@ -150,24 +157,7 @@ const BaseAdministracion = (props: AppProps) => {
         },       
       })}
     >
-      <MantineProvider
-        theme={{
-          headings:{
-            sizes: {
-              h1: { fontSize: 40 },
-              h3: { fontSize: 25 },
-              h6: { fontSize: 12 },
-            },
-          } 
-        }}   
-   
-        styles={{ 
-          Button: { root: { backgroundColor :"#0e3bac" } }, 
-          Text: {root: { color :"black"}}, //#0e3bac
-        }}
-      >
       <Component {...pageProps} />
-      </MantineProvider>
     </AppShell>
   );
 };

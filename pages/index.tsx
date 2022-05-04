@@ -19,7 +19,7 @@ const Home: NextPage = () => {
       <Grid.Col span={6} offset={0.5} style={{ minHeight: 120 }}>
         
         <Space h={60} />
-        <Title order={1}>
+        <Title order={2}>
           <Text color="#0e3bac" inherit component="span"
              weight={700}
           >
@@ -27,12 +27,12 @@ const Home: NextPage = () => {
           </Text>
         </Title>
         <Space h={50} />
-        <Title order={3}> 
+        <Title order={4}> 
           <Text color="#0e3bac" inherit component="span">
             Plazas de carga siempre a tu disponibilidad.
           </Text>
         </Title>
-        <Title order={3}>
+        <Title order={4}>
           <Text color="#0e3bac" inherit component="span">
             Reserva desde cualquier sitio.
           </Text>
@@ -66,8 +66,8 @@ const Home: NextPage = () => {
           </Button>  
         </Affix> 
         <Space h={120} />
-        <Title order={6}>
-          <Text color="#0e3bac" inherit component="span">
+        <Title order={5}>
+          <Text  inherit component="span">
             Aplicación sólo disponible para dispositivos Android
           </Text>
         </Title>        
