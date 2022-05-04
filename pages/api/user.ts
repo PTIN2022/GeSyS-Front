@@ -1,6 +1,18 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import jwt from 'jsonwebtoken'
 import { JWT_SECRET } from './login';
+import { PerfilData } from '../admin/perfil';
+
+export const PerfilVacio: PerfilData = {
+  username: '',
+  nombre: '',
+  pfp: '',
+  apellido: '',
+  telefono: '',
+  email: '',
+  dni: '',
+  cargo: 'Trabajador',
+}
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<any> ) {
   

@@ -19,27 +19,24 @@ export interface PerfilData {
 
 const PerfilInfo: NextPage = () => {
 
-  const [user, setUser] = useState<PerfilData | null>(null);
   const [editing, setEditing] = useState<boolean>(false);
+
+  const { user } = useContext(AuthContext);
+  const [ perfil, setPerfil ] = useState<PerfilData>(user!);
+
+  useEffect(() => {
+    setPerfil(user!);
+  }, [user])
 
   const rightSection = (
     <Tooltip label="Contacta con un administrador para editar este campo" position="top" placement="end" color="ccdde8">
       <AlertCircle size={16} style={{ display: 'block', opacity: 0.5 }} />
     </Tooltip>
   );
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const response = await fetch('/api/user');
-      const data = await response.json();
-      setUser(data);
-    }
-    fetchUser();
-  }, [])
   
   return (
     <>
-    {!user ? (
+    {!perfil ? (
       <div>
         Loading...
       </div>
@@ -54,10 +51,10 @@ const PerfilInfo: NextPage = () => {
                   sx={{ width: '10em', border: '3px solid black', borderRadius: '20px' }}
                   radius="lg"
                   alt={"profile picture"}
-                  src={user.pfp} />
+                  src={perfil.pfp} />
             </Group>
             
-            <Text align="left" size="lg">{user.nombre} {user.apellido}</Text>
+            <Text align="left" size="lg">{perfil.nombre} {perfil.apellido}</Text>
             <Button onClick={() => setEditing(!editing)}>
               { editing ? 'Guardar Cambios' : 'Editar' }
             </Button>
@@ -75,7 +72,7 @@ const PerfilInfo: NextPage = () => {
                   label="Nombre"
                   variant="default"
                   icon={<User size={14} />}
-                  value={user.nombre}
+                  value={perfil.nombre}
                   disabled
                 />
               
@@ -84,7 +81,7 @@ const PerfilInfo: NextPage = () => {
                 label="Apellido"
                 variant="default"
                 icon={<User size={14} />}
-                value={user.apellido}
+                value={perfil.apellido}
                 disabled
               /> 
 
@@ -96,7 +93,7 @@ const PerfilInfo: NextPage = () => {
                 label="Numero de Telefono"
                 variant="default"
                 icon={<Phone size={14} />}
-                value={user.telefono}
+                value={perfil.telefono}
                 disabled
               />
 
@@ -106,7 +103,7 @@ const PerfilInfo: NextPage = () => {
                 rightSection={rightSection} 
                 icon={<Id size={14} />}
                 variant="filled"
-                value={user.dni}
+                value={perfil.dni}
                 disabled
               />  
             </Group>
@@ -120,7 +117,7 @@ const PerfilInfo: NextPage = () => {
                 rightSection={rightSection}
                 icon={<At size={14} />} 
                 variant="filled"
-                value={user.email}
+                value={perfil.email}
                 disabled
               />
 
@@ -130,7 +127,7 @@ const PerfilInfo: NextPage = () => {
                 rightSection={rightSection} 
                 icon={<IdBadge size={14} />}
                 variant="filled"
-                value={user.cargo}
+                value={perfil.cargo}
                 disabled
               />  
 

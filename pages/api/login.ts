@@ -10,7 +10,7 @@ export const usuariosTmp = [
     password: 'admin',
     pfp: 'https://lh3.googleusercontent.com/a-/AOh14GiTFP4e-OiBF49fsn13bU2bPCMdWjJOHWdipJK-=s83-c-mo',
     nombre: "Alfredo",
-    apellido: "Manresa",
+    apellido: "Manresa Martinez",
     telefono: "+34684789456",
     email: "alfredo.manresa@estudiantat.upc.edu",
     dni: "87958482S",
@@ -19,7 +19,7 @@ export const usuariosTmp = [
   {
     username: 'admin_xavi',
     password: 'admin',
-    pfp: 'https://atenea.upc.edu/pluginfile.php/2818804/user/icon/campus/f1?rev=37349991',
+    pfp: 'https://lh3.googleusercontent.com/a-/AOh14GiTFP4e-OiBF49fsn13bU2bPCMdWjJOHWdipJK-=s83-c-mo',
     nombre: "Xavier",
     apellido: "Bermejo Sotillo",
     telefono: "+34624879543",
