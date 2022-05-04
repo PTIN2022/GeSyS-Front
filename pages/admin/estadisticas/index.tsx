@@ -39,20 +39,29 @@ function getDatesInRange(startDate: Date, endDate: Date) {
 const d1 = new Date('2022-01-01');
 const d2 = new Date(new Date().getTime() - 24*60*60*1000);
 
-console.log(getDatesInRange(d1, d2));
+var dates = getDatesInRange(d1, d2);
 
+function generateData(days: number, max: number, min: number) {
+  const data = []
+  for(let i = 0; i < days; i++) {
+    data.push(Math.floor(Math.random() * (max - min + 1)) + min);
+  }
+  return data;
+}
+
+console.log(generateData(dates.length, 500, 5000))
 
 const all_estations: EstadisticaEstacion[] = [
     {
         name: "VGA1",
-        labels: getDatesInRange(d1, d2),
+        labels: dates,
         datasets: [
           {
             label: 'Potencia total utilizada(KW)',
             fill: true,
             backgroundColor: 'rgba(75,192,192,0.4)',
             borderColor: 'rgba(75,192,192,1)',
-            data: [32000, 27000, 38000, 40000, 25000, 20000, 19000, 21000, 28000, 31000, 24000, 28000]
+            data: generateData(dates.length, 1000, 4000)
           },
           {
             label: `Potencia total contratada`,
@@ -65,14 +74,14 @@ const all_estations: EstadisticaEstacion[] = [
     },
     {
         name: 'VGA2',
-        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        labels: dates,
         datasets: [
           {
             label: 'Potencia total utilizada(KW)',
             fill: true,
             backgroundColor: 'rgba(75,192,192,0.4)',
             borderColor: 'rgba(75,192,192,1)',
-            data: [33000, 32000, 42000, 41000, 31000, 25000, 21000, 24000, 31000, 29000, 24000, 33000]
+            data: generateData(dates.length, 1000, 4000)
           },
           {
             label: `Potencia total contratada`,
@@ -85,14 +94,14 @@ const all_estations: EstadisticaEstacion[] = [
     },
     {
         name: 'VGA3',
-        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        labels: dates,
         datasets: [
           {
             label: 'Potencia total utilizada(KW)',
             fill: true,
             backgroundColor: 'rgba(75,192,192,0.4)',
             borderColor: 'rgba(75,192,192,1)',
-            data: [66000, 32000, 42000, 41000, 31000, 25000, 21000, 24000, 31000, 12000, 24000, 33000]
+            data: generateData(dates.length, 1000, 4000)
           },
           {
             label: `Potencia total contratada`,
