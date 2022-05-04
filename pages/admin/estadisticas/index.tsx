@@ -4,6 +4,7 @@ import { Alert, Select } from '@mantine/core';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from "chart.js"
 import { Line } from 'react-chartjs-2';
 import { AlertCircle } from "tabler-icons-react";
+import { DateRangePicker } from '@mantine/dates';
 
 
 export interface EstadisticaDataset {
@@ -22,10 +23,29 @@ export interface EstadisticaEstacion {
 
 ChartJS.register( CategoryScale, LinearScale, PointElement, LineElement, Filler, Title, Tooltip, Legend);
 
+
+function getDatesInRange(startDate: Date, endDate: Date) {
+  const date = new Date(startDate.getTime());
+  
+  const dates = [];
+
+  while(date <= endDate) {
+    dates.push(new Date(date).toISOString().slice(0,10));
+    date.setDate(date.getDate()+1);
+  }
+  return dates;
+}
+
+const d1 = new Date('2022-01-01');
+const d2 = new Date(new Date().getTime() - 24*60*60*1000);
+
+console.log(getDatesInRange(d1, d2));
+
+
 const all_estations: EstadisticaEstacion[] = [
     {
         name: "VGA1",
-        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        labels: getDatesInRange(d1, d2),
         datasets: [
           {
             label: 'Potencia total utilizada(KW)',
@@ -126,6 +146,8 @@ const calcularTotalEstaciones = (estaciones: EstadisticaEstacion[]) => {
     return estacionTotal
 }
 
+
+
 const Estadisticas: NextPage = () => {
 
     const [estacionActiva, setEstacionActiva] = useState('Todas las estaciones')
@@ -197,6 +219,13 @@ const Estadisticas: NextPage = () => {
         setEstacionActiva(value)
     }
 
+
+    const [value, setValue] = useState<[Date | null, Date | null]>([
+      new Date(2022, 3, 30),
+      new Date(2022, 3, 1),
+    ]);
+
+
     return (
         <div>
             <h1>Estadísticas</h1>
@@ -208,6 +237,13 @@ const Estadisticas: NextPage = () => {
                 data={arrayEstaciones}
                 onChange={handleChangeSelected} />
             
+            <DateRangePicker
+              label="Fechas a visualizar"
+              placeholder="Selecciona rango de fechas"
+              value={value}
+              onChange={setValue}
+            />
+
             <Line
                 data={estacionOption}
                 width={100}
