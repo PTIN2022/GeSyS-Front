@@ -49,7 +49,19 @@ function generateData(days: number, max: number, min: number) {
   return data;
 }
 
-console.log(generateData(dates.length, 500, 5000))
+function sumaEstaciones(estaciones: EstadisticaEstacion[]) {
+  const data = []
+  console.log(estaciones.length)
+  let sum;
+  for(let i = 0; i < dates.length ; i++) {
+    sum = 0;
+    for(let est = 0; est < estaciones.length; est++) {
+      sum += estaciones[est].datasets[0].data[i]
+    }
+    data.push(sum);
+  }
+  return data;
+}
 
 const all_estations: EstadisticaEstacion[] = [
     {
@@ -125,14 +137,14 @@ const options = {
 const calcularTotalEstaciones = (estaciones: EstadisticaEstacion[]) => {
     const estacionTotal = {
         name: "Todas las estaciones",
-        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        labels: dates,
         datasets: [
           {
             label: 'Potencia total utilizada(KW)',
             fill: true,
             backgroundColor: 'rgba(75,192,192,0.4)',
             borderColor: 'rgba(75,192,192,1)',
-            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            data: sumaEstaciones(estaciones)
           },
           {
             label: `Potencia total contratada`,
@@ -145,12 +157,12 @@ const calcularTotalEstaciones = (estaciones: EstadisticaEstacion[]) => {
     }
 
     // Add all the data into estacionTotal
-    estaciones.forEach(estacion => {
+    /*estaciones.forEach(estacion => {
         for(let i = 0; i < estacion.datasets[0].data.length; i++) {
             estacionTotal.datasets[0].data[i] += estacion.datasets[0].data[i]
             estacionTotal.datasets[1].data[i] += estacion.datasets[1].data[i]
         }
-    })
+    })*/
 
     return estacionTotal
 }
