@@ -30,7 +30,7 @@ function getDatesInRange(startDate: Date, endDate: Date) {
   const dates = [];
 
   while(date <= endDate) {
-    dates.push(new Date(date).toISOString().slice(0,10));
+    dates.push(new Date(date).toLocaleDateString());
     date.setDate(date.getDate()+1);
   }
   return dates;
@@ -51,7 +51,6 @@ function generateData(days: number, max: number, min: number) {
 
 function sumaEstaciones(estaciones: EstadisticaEstacion[]) {
   const data = []
-  console.log(estaciones.length)
   let sum;
   for(let i = 0; i < dates.length ; i++) {
     sum = 0;
@@ -62,6 +61,8 @@ function sumaEstaciones(estaciones: EstadisticaEstacion[]) {
   }
   return data;
 }
+
+
 
 const all_estations: EstadisticaEstacion[] = [
     {
@@ -120,7 +121,7 @@ const all_estations: EstadisticaEstacion[] = [
             fill: false,
             backgroundColor: 'rgba(255,10,10,0.3)',
             borderColor: 'rgba(255,10,10,0.5)',
-            data: [45000, 45000, 87000, 45000, 45000, 40000, 40000, 40000, 45000, 45000, 40000, 6000]
+            data: [45000, 45000, 47000, 45000, 45000, 40000, 40000, 40000, 45000, 45000, 40000, 6000]
           }
         ]
     }
@@ -155,15 +156,6 @@ const calcularTotalEstaciones = (estaciones: EstadisticaEstacion[]) => {
           }
         ]
     }
-
-    // Add all the data into estacionTotal
-    /*estaciones.forEach(estacion => {
-        for(let i = 0; i < estacion.datasets[0].data.length; i++) {
-            estacionTotal.datasets[0].data[i] += estacion.datasets[0].data[i]
-            estacionTotal.datasets[1].data[i] += estacion.datasets[1].data[i]
-        }
-    })*/
-
     return estacionTotal
 }
 
@@ -171,10 +163,15 @@ const calcularTotalEstaciones = (estaciones: EstadisticaEstacion[]) => {
 
 const Estadisticas: NextPage = () => {
 
-    const [estacionActiva, setEstacionActiva] = useState('Todas las estaciones')
+    const [estacionActiva, setEstacionActiva] = useState('Todas las estaciones');
     const [estaciones, setEstaciones] = useState<EstadisticaEstacion[]>(all_estations);
-    const [estacionOption, setEstacionOption] = useState<EstadisticaEstacion>(estaciones[0]);
+    const [estacionOpcion, setEstacionOpcion] = useState<EstadisticaEstacion>(estaciones[0]);
+    const [estacionGrafica, setEstacionGrafica] = useState(estacionOpcion);
     const [warning, setWarning] = useState("");
+    const [fechasLimite, setFechasLimite] = useState<[Date | null, Date | null]>([
+      new Date(2022, 3, 1),
+      new Date(2022, 3, 30),
+    ]);
 
     const arrayEstaciones = estaciones.map((est: EstadisticaEstacion, index: number) => {
         return est.name
@@ -189,12 +186,19 @@ const Estadisticas: NextPage = () => {
     useEffect(() => {
         const estacion = estaciones.find((est: EstadisticaEstacion) => est.name === estacionActiva)
         if (estacion) {
-            setEstacionOption(estacion)
+            setEstacionOpcion(estacion)
             isThereAWarning(estacion)
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [estacionActiva])
 
+    useEffect(() => { 
+      setEstacionGrafica(estations_range()) 
+    }, [estacionOpcion]) 
+
+    useEffect(() => {
+      setEstacionGrafica(estations_range()) 
+    }, [fechasLimite])
 
     function isThereAWarning(est: EstadisticaEstacion) {
       const estationData = []
@@ -233,19 +237,62 @@ const Estadisticas: NextPage = () => {
     }
 
 
-    const handleChangeSelected = (value: string | null) => {
-        if (!value) {
+    const handleChangeSelected = (est: string | null) => {
+        if (!est) {
             return;
         }
-        setEstacionActiva(value)
+        setEstacionActiva(est)
+        
     }
 
+    function estations_range() {
 
-    const [value, setValue] = useState<[Date | null, Date | null]>([
-      new Date(2022, 3, 30),
-      new Date(2022, 3, 1),
-    ]);
+      let date1 = fechasLimite[0]?.toLocaleDateString()
+      let date2 = fechasLimite[1]?.toLocaleDateString()
+      
+      console.log("aqui ", date1)
+      console.log(date2)
+      //let est = all_estations.find(estation => estation.name === estacionOption.name)
+      
+      let copy = false, finish = false;
+      const label = []
+      const data0 = [], data1 = []   
+      let i = 0;
+      while(!finish && i < estacionOpcion.labels.length) {
+        if(estacionOpcion.labels[i] === date1) copy = true;
+        if(copy) {
+          label.push(estacionOpcion.labels[i]);
+          data0.push(estacionOpcion.datasets[0].data[i]);
+          data1.push(estacionOpcion.datasets[1].data[i]);
+        }
+        if(estacionOpcion.labels[i] === date2) finish = true;
+        i++;
+      }
 
+      let dataset0: EstadisticaDataset = {
+        label: estacionOpcion.datasets[0].label,
+        fill: estacionOpcion.datasets[0].fill,
+        backgroundColor: estacionOpcion.datasets[0].backgroundColor,
+        borderColor: estacionOpcion.datasets[0].borderColor,
+        data: data0
+      }  
+
+      let dataset1: EstadisticaDataset = {
+        label: estacionOpcion.datasets[1].label,
+        fill: estacionOpcion.datasets[1].fill,
+        backgroundColor: estacionOpcion.datasets[1].backgroundColor,
+        borderColor: estacionOpcion.datasets[1].borderColor,
+        data: data0
+      }  
+     
+      let data: EstadisticaEstacion = {
+        name: estacionOpcion.name,
+        labels: label,
+        datasets: [dataset0, dataset1]
+      }
+      
+      return data;
+    }
 
     return (
         <div>
@@ -261,12 +308,12 @@ const Estadisticas: NextPage = () => {
             <DateRangePicker
               label="Fechas a visualizar"
               placeholder="Selecciona rango de fechas"
-              value={value}
-              onChange={setValue}
+              value={fechasLimite}
+              onChange={setFechasLimite}
             />
 
             <Line
-                data={estacionOption}
+                data={estacionGrafica}
                 width={100}
                 height={40}
                 options={options}
