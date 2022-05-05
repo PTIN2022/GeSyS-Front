@@ -250,8 +250,6 @@ const Estadisticas: NextPage = () => {
       let date1 = fechasLimite[0]?.toLocaleDateString()
       let date2 = fechasLimite[1]?.toLocaleDateString()
       
-      console.log("aqui ", date1)
-      console.log(date2)
       //let est = all_estations.find(estation => estation.name === estacionOption.name)
       
       let copy = false, finish = false;
