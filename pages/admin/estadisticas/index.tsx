@@ -194,10 +194,12 @@ const Estadisticas: NextPage = () => {
 
     useEffect(() => { 
       setEstacionGrafica(estations_range()) 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [estacionOpcion]) 
 
     useEffect(() => {
       setEstacionGrafica(estations_range()) 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fechasLimite])
 
     function isThereAWarning(est: EstadisticaEstacion) {
