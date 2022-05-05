@@ -308,6 +308,8 @@ const Estadisticas: NextPage = () => {
             <DateRangePicker
               label="Fechas a visualizar"
               placeholder="Selecciona rango de fechas"
+              minDate={new Date(2022, 0, 1)}
+              maxDate={new Date(new Date().getTime() - 24*60*60*1000)}
               value={fechasLimite}
               onChange={setFechasLimite}
             />
