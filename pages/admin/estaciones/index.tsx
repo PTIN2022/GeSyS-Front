@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import { Table, Center } from '@mantine/core';
+import { Table, Center, Title, Space, Text } from '@mantine/core';
 import FilaEstacion from '../../../components/FilaTablaEstacion';
 
 export interface EstacionRowProps {
@@ -33,7 +33,8 @@ const EstacionesMockData: EstacionRowProps[] = [
 const ListaEstaciones: NextPage =() => {
   return (
     <>
-      <h1>Estaciones</h1>
+      <Title order={1}> <Text  inherit component="span">Estaciones </Text></Title>
+      <Space  h={25}/>
       <Table striped highlightOnHover>
         <thead>
           <tr>

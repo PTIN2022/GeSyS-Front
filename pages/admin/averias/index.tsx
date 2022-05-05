@@ -1,4 +1,4 @@
-import { Table } from '@mantine/core';
+import { Table, Title, Space, Text } from '@mantine/core';
 import type { NextPage } from 'next'
 import AveriaRow from '../../../components/AveriaRow';
 import * as React from 'react'
@@ -38,7 +38,8 @@ const elements: AveriaRowProps[] = [
 const ListaAverias: NextPage = () => {
   return (
     <>
-    <h1>Averias</h1>
+    <Title order={1}> <Text  inherit component="span">Averías </Text></Title>
+    <Space  h={25}/>
     <Table striped highlightOnHover>
         <thead>
             <tr>

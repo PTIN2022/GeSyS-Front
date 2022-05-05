@@ -1,8 +1,10 @@
 import type { NextPage } from 'next'
 import { Button, Input, MantineTheme, Text, AppShell, Container } from '@mantine/core'
+
 import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
 import { useRouter } from 'next/router'
+
 
 const Login: NextPage = () => {
 
@@ -31,9 +33,7 @@ const Login: NextPage = () => {
           Iniciar Sesión
         </Button>
         
-        <Text size='md' style={{
-          color: "blue"
-        }}>
+        <Text size='md' underline color= "#0e3bac">
           Restablecer contraseña
         </Text>
       </Container>

@@ -53,7 +53,7 @@ const PerfilInfo: NextPage = () => {
                   alt={"profile picture"}
                   src={perfil.pfp} />
             </Group>
-            
+
             <Text align="left" size="lg">{perfil.nombre} {perfil.apellido}</Text>
             <Button onClick={() => setEditing(!editing)}>
               { editing ? 'Guardar Cambios' : 'Editar' }

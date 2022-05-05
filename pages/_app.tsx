@@ -49,10 +49,28 @@ const App = (props: AppProps) => {
       <MantineProvider
         withGlobalStyles
         withNormalizeCSS
+        styles={{ 
+          Button: { root: { 
+            backgroundColor :"#0e3bac", 
+            color:"white", 
+        } }, 
+          Text: {root: { color :"#0e3bac"}}, //#0e3bac
+        }}
+
         theme={{
           fontFamily: 'Verdana, Geneva, sans-serif',
           colorScheme: 'light',
-          primaryColor: 'green'
+          headings:{
+            sizes: {
+              h1: { fontSize: 40 },
+              h3: { fontSize: 25 },
+              h6: { fontSize: 12 },
+              //sizes from landing page:
+              h2: { fontSize: 55 },
+              h4: { fontSize: 30 },
+              h5: { fontSize: 12 },
+            },   
+          }, 
         }}
       >
         <AuthContextProvider>
