@@ -14,7 +14,7 @@ export const usuariosTmp = [
     telefono: "+34684789456",
     email: "alfredo.manresa@estudiantat.upc.edu",
     dni: "87958482S",
-    cargo: 'Administrador',
+    cargo: 'Trabajador',
   },
   {
     username: 'admin_xavi',
@@ -26,6 +26,17 @@ export const usuariosTmp = [
     email: "xavier.bermejo@estudiantat.upc.edu",
     dni: "64218796N",
     cargo: 'Responsable',
+  },
+  {
+    username: 'admin_xinta',
+    password: 'admin',
+    pfp: 'https://i.imgur.com/5roUQ5r.png',
+    nombre: "Xavier",
+    apellido: "Bermejo Sotillo",
+    telefono: "+34624879543",
+    email: "xinta@estudiantat.upc.edu",
+    dni: "64218796N",
+    cargo: 'Administrador',
   },
 ]
 

@@ -25,6 +25,7 @@ export interface NavbarItemProps {
   href: string;
 }
 
+
 const NavbarItems: NavbarItemProps[] = [
   {
     label: "Inicio",
@@ -65,7 +66,7 @@ const NavbarItems: NavbarItemProps[] = [
 ];
 
 const BaseAdministracion = (props: AppProps) => {
-
+  
 
   const { user, logout } = useContext(AuthContext);
   const [ profile, setProfile ] = useState<PerfilData>(user!)
@@ -155,8 +156,15 @@ const BaseAdministracion = (props: AppProps) => {
         >
           {NavbarItems &&
             NavbarItems.map((navbaritem, index) => {
-              return <NavbarButton key={index} {...navbaritem} />;
+              if ( profile.cargo== "Trabajador" && 
+              navbaritem.label != "Estaciones" &&  
+              navbaritem.label != "Promociones" &&
+              navbaritem.label != "Estadisticas")
+                  return <NavbarButton key={index} {...navbaritem} />;
+              else if ( profile.cargo != "Trabajador")
+                return <NavbarButton key={index} {...navbaritem} />;
             })}
+            
         </Navbar>
       }
       styles={(theme) => ({
