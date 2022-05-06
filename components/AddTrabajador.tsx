@@ -1,9 +1,17 @@
 import { TextInput, Group, Box, Button, Modal, Select } from '@mantine/core';
 import { At,Id, Phone, User } from 'tabler-icons-react';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { PerfilData, RolWorker } from '../pages/admin/perfil';
+import { AuthContext } from '../contexts/AuthContext';
 
 const AddTrabajador = () => {
+    const { user, logout } = useContext(AuthContext);
+    const [ profile, setProfile ] = useState<PerfilData>(user!)
+  
+    useEffect(() => {
+      setProfile(user!)
+    }, [user])
+
     const [opened, setOpened] = useState(false);
     const [perfil, setPerfil] = useState<PerfilData>({
         username: '',
@@ -90,9 +98,10 @@ const AddTrabajador = () => {
             </Box>
         }
         </Modal>
+        <Button onClick={() => setOpened(true)} 
+            disabled={profile.cargo != "Jefe" && profile.cargo != "Administrador"}
+        >Añadir Trabajador</Button>
 
-        <Button onClick={() => setOpened(true)}>Añadir Trabajador</Button>
-        
     </>
     )
 }
