@@ -6,9 +6,7 @@ import { PerfilData, RolWorker } from '../pages/admin/perfil';
 const AddTrabajador = () => {
     const [opened, setOpened] = useState(false);
     const [perfil, setPerfil] = useState<PerfilData>({
-        username: '',
         nombre: '',
-        pfp: '',
         apellido: '',
         telefono: '',
         email: '',
