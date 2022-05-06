@@ -96,17 +96,6 @@ const allFilters: Filter[] = [
   }
 ];
 
-const proba:PerfilData={
-  username:"xinta",
-  pfp:"a",
-  nombre: "",
-  apellido:"",
-  telefono:"",
-  email:"",
-  dni:"",
-  cargo:"Administrador"
-}
-
 const ListaReservas: NextPage = () => {
 
   const [activeFilters, setActiveFilters] = useState<Filter[]>(allFilters);
@@ -120,7 +109,15 @@ const ListaReservas: NextPage = () => {
 
 
     useEffect(() => {
-      if (profile.cargo.toLowerCase() == "trabajador" || profile.cargo.toLowerCase() == "responsable") {
+      if (profile.cargo.toLowerCase() == "trabajador") {
+        const active = activeFilters.filter(element => {
+          if (element.name.toLowerCase() !== 'ciudad' && element.name.toLowerCase() !== 'estación') {
+            return element
+          }
+        })
+        setActiveFilters(active);
+      }
+      else if( profile.cargo.toLowerCase() == "responsable"){
         const active = activeFilters.filter(element => {
           if (element.name.toLowerCase() !== 'ciudad') {
             return element
