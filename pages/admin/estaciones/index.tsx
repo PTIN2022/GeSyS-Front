@@ -1,6 +1,7 @@
 import { NextPage } from 'next';
 import { Table, Center, Title, Space, Text } from '@mantine/core';
 import FilaEstacion from '../../../components/FilaTablaEstacion';
+import { useEffect, useState } from 'react';
 
 export interface EstacionRowProps {
   Est: string;
@@ -10,27 +11,36 @@ export interface EstacionRowProps {
   m2: number; 
   enc: string;
 }
-
-const EstacionesMockData: EstacionRowProps[] = [
-  { 
-    Est: "VGA1", 
-    Dir: "Av. Victor Balaguer nº1",
-    Kwh: '350/720', 
-    Oc : '50/100', 
-    m2: 3000, 
-    enc:"Leandra de Borrell" 
-  },
-  { 
-    Est: "VGA2", 
-    Dir: "Rambla Exposició nº1",
-    Kwh: '200/504', 
-    Oc : '27/70', 
-    m2: 1000, 
-    enc:"Noé Roig Balaguer" 
-  }
-];
   
 const ListaEstaciones: NextPage =() => {
+  
+  const [estaciones, setEstaciones] = useState<EstacionRowProps[]>();
+
+  useEffect(() => {
+    const fetchEstacion = async () => {
+      const result = await fetch('http://craaxkvm.epsevg.upc.es:23601/api/estaciones');
+      const data = await result.json();  
+
+      console.log(data.length)
+
+      const est = []
+
+      for(let i=0; i<data.length; i++) {
+        let est1:EstacionRowProps = {
+          Est: data[i].estacion,
+          Dir: data[i].direccion,
+          Kwh: data[i].kwh_now+"/"+data[i].kwh_max,
+          Oc: data[i].ocupation_now+"/"+data[i].ocupation_max,
+          m2: data[i].surface_in_meters,
+          enc: data[i].boss,
+        }
+        est.push(est1)
+      }
+      setEstaciones(est);
+    }
+    fetchEstacion();
+  }, [])
+
   return (
     <>
       <Title order={1}> <Text  inherit component="span">Estaciones </Text></Title>
@@ -47,7 +57,7 @@ const ListaEstaciones: NextPage =() => {
           </tr>
         </thead>
         <tbody>
-          {EstacionesMockData && EstacionesMockData.map((element, index) => {
+          {estaciones && estaciones.map((element, index) => {
               return <FilaEstacion key={index} {...element}/>
           })}
         </tbody>
