@@ -1,9 +1,10 @@
 import type { NextPage } from 'next'
 import { Button, MantineProvider, Input, Box, Text, Modal, Group, BackgroundImage, Container, Image, TextInput } from '@mantine/core'
 import Link from 'next/link'
-import { useModals } from '@mantine/modals';
 import { useForm } from '@mantine/form';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
+
 const Login: NextPage = () => {
   const form = useForm({
     initialValues: {
@@ -16,18 +17,21 @@ const Login: NextPage = () => {
     },
   });
   const [opened, setOpened] = useState(false);
+
+  const [username, setUsername] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const { login } = useContext(AuthContext)
+
+  const usernameChange = (e: any) => {
+    setUsername(e.target.value)
+  }
+
+  const passwordChange = (e: any) => {
+    setPassword(e.target.value)
+  }
+
   return (
     <>
-      <MantineProvider
-        styles={{
-        Button: (theme) => ({
-          root: {
-            color: 'black',
-            backgroundColor: theme.colors.blue[3],
-            width: '100%'
-          }
-        })
-      }}>
       <Modal opened={opened}
         onClose={() => setOpened(false)}
         title="Introduzca el correo para solicitar nueva contraseña"
@@ -71,18 +75,16 @@ const Login: NextPage = () => {
     </div>
         <Text align='center' size='xl' style={{
           color:'blue'
-          
           }}>
           Bienvenido a Gesys
         </Text>
-        <Input type={"text"} placeholder={"Email"} />
-        <Input type="password" placeholder="Contraseña" mt={"xs"} />
 
-        <Link href="/admin" passHref={true}>
-          <Button mt={"xl"}>
-            Iniciar Sesión
-          </Button>
-        </Link>
+        <Input type={"text"} placeholder={"Username"} value={username} onChange={usernameChange} />
+        <Input type="password" placeholder="Contraseña" value={password} onChange={passwordChange} mt={"xs"} />
+
+        <Button mt={"xl"} onClick={() => login(username, password)}>
+          Iniciar Sesión
+        </Button>
        
         <Text align='center' color={'blue'} onClick={() => setOpened(true)} >
           <Link href="login">
@@ -106,7 +108,6 @@ const Login: NextPage = () => {
 
     </BackgroundImage>
     </Box>
-    </MantineProvider>
     </>
     
   )
