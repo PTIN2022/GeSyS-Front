@@ -16,25 +16,25 @@ const elements: TrabajadorRowProps[] = [
     Name: "Sergio Sanchez",
     Rol: "Boss",
     Last_access: 'Connected',
-    Foto: "https://d2qp0siotla746.cloudfront.net/img/use-cases/profile-picture/template_0.jpg"
+    Foto: "https://d2qp0siotla746.cloudfront.net/img/use-cases/profile-picture/template_0.jpg",
   },
   {
     Name: "Alfredo Manresa",
     Rol: "Admin",
     Last_access: '30m',
-    Foto: "https://d2qp0siotla746.cloudfront.net/img/use-cases/profile-picture/template_3.jpg"
+    Foto: "https://d2qp0siotla746.cloudfront.net/img/use-cases/profile-picture/template_3.jpg",
   },
   {
     Name: "Marc Capdevila",
     Rol: "Admin",
     Last_access: '1h',
-    Foto: "https://dp.profilepics.in/profile_pictures/cristiano-ronaldo/cristiano-ronaldo-dp-profile-pics-for-whatsapp-facebook-51.jpg"
+    Foto: "https://dp.profilepics.in/profile_pictures/cristiano-ronaldo/cristiano-ronaldo-dp-profile-pics-for-whatsapp-facebook-51.jpg",
   },
   {
     Name: "Eduardo Pinto",
     Rol: "Worker",
     Last_access: 'Connected',
-    Foto: "https://d2qp0siotla746.cloudfront.net/img/use-cases/profile-picture/template_2.jpg"
+    Foto: "https://d2qp0siotla746.cloudfront.net/img/use-cases/profile-picture/template_2.jpg",
   }
 ];
 
@@ -62,6 +62,7 @@ const ListaTrabajadores: NextPage = () => {
           })}
           </tbody>
       </Table>
+
     </>
   )
 }

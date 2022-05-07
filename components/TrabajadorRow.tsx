@@ -3,7 +3,8 @@ import { DotsVertical } from 'tabler-icons-react';
 import { Avatar } from '@mantine/core';
 import Link from 'next/link';
 import { TrabajadorRowProps } from '../pages/admin/trabajadores';
-
+import { NativeSelect } from '@mantine/core';
+import { ChevronDown } from 'tabler-icons-react';
 const TrabajadorRow = ({ Name,Rol, Last_access, Foto } : TrabajadorRowProps) => {
     return ( 
         <>
@@ -12,7 +13,12 @@ const TrabajadorRow = ({ Name,Rol, Last_access, Foto } : TrabajadorRowProps) => 
             </td>
             
             <td>{Name}</td>
-            <td>{Rol}</td>
+            <td>      <NativeSelect
+                rightSection={<ChevronDown size={14} />}
+                rightSectionWidth={15}
+                styles={{ rightSection: { pointerEvents: 'none' } }}
+                data={[ "Trabajador", "Administrador", "Responsable", "Jefe"]}
+            /></td>
             <td>{Last_access}</td>
             <td>
                 <Menu control={
