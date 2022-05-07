@@ -1,8 +1,9 @@
 import { MapContainer, TileLayer, Marker, Popup, useMapEvent } from "react-leaflet";
 import { IconAveria, IconDesactivado, IconFuncionando } from "./IconMarkerEstacion";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { LatLngExpression } from "leaflet";
 import EstacionPopup from "./EstacionPopup";
+import { useMap } from "react-leaflet";
 import MapSearchBar from "./MapSearchBar";
 
 export type StationStatus = "Active" | "Deactivated" | "Damaged";
@@ -32,7 +33,7 @@ const GetIconFromStationStatus = (status: StationStatus) => {
 }
 
 const Map = () => {
-  
+    
   const [mockEstations, setMockEstations] = useState<MarkerEstacionProps[]>([
     {
       name: "Estacion 1",
@@ -103,14 +104,17 @@ const Map = () => {
   const [center, setCenter] = useState<LatLngExpression>([41.220285, 1.730198]);
 
   return (
+    <>
     <MapContainer
       center={center}
       zoom={16}
       scrollWheelZoom={false}
       style={{ height: "100%", width: "100%", zIndex: 0 }}
     >
+      <MapSearchBar/>
       <TileLayer
-        url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${accessToken}`} />
+        url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${accessToken}`} 
+        />
       
       {mockEstations && mockEstations.map((estacion, index) => {
         return (
@@ -123,7 +127,9 @@ const Map = () => {
           </Marker>
         )
       })}
+
     </MapContainer>
+    </>
   );
 };
 
