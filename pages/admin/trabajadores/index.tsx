@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import TrabajadorRow from '../../../components/TrabajadorRow';
-import { Table } from '@mantine/core'
+import { Table, Text , Title, Space} from '@mantine/core'
 import Head from 'next/head';
 import AddTrabajador from '../../../components/AddTrabajador';
 
@@ -45,7 +45,8 @@ const ListaTrabajadores: NextPage = () => {
       <Head>
         <title>GeSyS - Trabajadores</title>
       </Head>
-      <h1>Trabajadores</h1>
+      <Title order={1}> <Text  inherit component="span">Trabajadores </Text></Title>
+      <Space  h={25}/>
       <AddTrabajador />
       <Table striped highlightOnHover>
           <thead>

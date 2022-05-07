@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import { Table } from '@mantine/core';
+import { Table, Space, Text, Title } from '@mantine/core';
 import FilaSoporte from '../../../components/FilaTablaSoporte';
 
 export interface SoporteRowProps {
@@ -34,7 +34,8 @@ const SoporteDataMock: SoporteRowProps[] = [
 const SoporteTecnico : NextPage =() => {
   return (
     <>
-      <h1>Soporte Técnico</h1>
+      <Title order={1}> <Text  inherit component="span">Soporte Técnico </Text></Title>
+      <Space  h={25}/>
       <Table striped highlightOnHover>
         <thead>
           <tr>

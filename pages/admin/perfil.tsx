@@ -1,4 +1,4 @@
-import { Image, Box, Group, TextInput, Tooltip, Button, Text, Grid } from '@mantine/core';
+import { Image, Box, Group, TextInput, Tooltip, Button, Text, Grid, Title, Space } from '@mantine/core';
 import { useState } from 'react';
 import { AlertCircle, Phone, User, At, Id, IdBadge } from 'tabler-icons-react';
 import { NextPage } from 'next';
@@ -57,19 +57,25 @@ const PerfilInfo: NextPage = () => {
               src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80" />
             }
           </Group>
-          
-          <Text align="left" size="lg">Manolo Pedro</Text>
+          <Space h={10} />
+          <Text align="left" size="lg"  weight={700}>Manolo Pedro</Text>
+          <Space h={15} />
           <Button onClick={() => setEditing(!editing)}>
             { editing ? 'Guardar Cambios' : 'Editar' }
           </Button>
         </Grid.Col>
 
-        <Grid.Col span={7}>
-          <Text align="left" size="xl"> Mi Cuenta  </Text>
-          <Text align="left" size="sm">Mira y edita tu información personal a continuación  </Text>
+        <Grid.Col span={8}>
+          <Title order={1}>
+            <Text align="left"  inherit component="span" > Mi Cuenta  </Text>
+          </Title>
+          <Space h={20} />
+          <Title order={3}>
+            <Text align="left"  inherit component="span">Mira y edita tu información personal a continuación  </Text>
+          </Title>
         </Grid.Col>
     
-        <Grid.Col span={7}>                
+        <Grid.Col span={8}>                
           <Group mt="sl">
 
             { editing ? 

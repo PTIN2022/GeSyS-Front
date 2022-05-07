@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head';
 import { useForm, formList } from '@mantine/form';
-import { Table, useMantineTheme, Modal, TextInput, Switch, Group, ActionIcon, Box, Text, Button } from '@mantine/core';
+import { Table, useMantineTheme, Modal, TextInput, Switch, Group, ActionIcon, Box, Text, Button, Title, Space } from '@mantine/core';
 import { Trash } from 'tabler-icons-react';
 import { useState } from 'react';
 
@@ -110,7 +110,8 @@ const ListaClientes: NextPage = () => {
                 <title>GeSyS - Clientes</title>
             </Head>
             <Box>
-              <h1>Clientes</h1>
+              <Title order={1}> <Text  inherit component="span">Clientes </Text></Title>
+              <Space  h={25}/>
               <Group position='center' mt="md">
                   <Button type='submit' color="blue"  onClick={() => form.addListItem('clientes', { nombre: '',email: '',telefono: '', active: false })}>
                   Nuevo Cliente

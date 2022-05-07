@@ -1,12 +1,11 @@
 import { AppProps } from "next/app";
-
 const BasicLandingUser = (props: AppProps) => {
 
   const { Component, pageProps } = props;
 
   return (
     <div>
-      <Component {...pageProps} />
+        <Component {...pageProps} />
     </div>
   )
 }

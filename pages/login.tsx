@@ -75,7 +75,6 @@ const Login: NextPage = () => {
           }}>
           Bienvenido a Gesys
         </Text>
-
         <Input type={"text"} placeholder={"Email"} />
         <Input type="password" placeholder="Contraseña" mt={"xs"} />
 
