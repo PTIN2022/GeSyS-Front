@@ -13,6 +13,7 @@
     "@mantine/dates": "^4.1.4",
     "@mantine/form": "^4.1.4",
     "@mantine/hooks": "^4.1.4",
+    "@mantine/modals": "^4.2.2",
     "@mantine/next": "^4.1.4",
     "@types/cookie": "^0.5.1",
     "@types/jsonwebtoken": "^8.5.8",
