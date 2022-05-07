@@ -7,6 +7,7 @@ import '../styles/globals.css'
 import BaseAdministracion from '../components/Base/BaseAdministracion';
 import BasicLandingUser from '../components/Base/BaseLandingUser';
 import Login from './login';
+import { AuthContextProvider } from '../contexts/AuthContextProvider';
 
 // Render base switch
 const renderSwitch = (valRouter: NextRouter, props: AppProps) => {
@@ -72,7 +73,9 @@ const App = (props: AppProps) => {
           }, 
         }}
       >
-        { renderSwitch(router, props) }
+        <AuthContextProvider>
+          { renderSwitch(router, props) }
+        </AuthContextProvider>
       </MantineProvider>
     </>
   );
