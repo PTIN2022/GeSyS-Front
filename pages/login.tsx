@@ -83,7 +83,7 @@ const Login: NextPage = () => {
             Iniciar Sesión
           </Button>
         </Link>
-        
+       
         <Text align='center' color={'blue'} onClick={() => setOpened(true)} >
           <Link href="login">
             Olvidé mi contraseña?
