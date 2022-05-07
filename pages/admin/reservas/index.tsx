@@ -96,18 +96,19 @@ const allFilters: Filter[] = [
   }
 ];
 
+
 const ListaReservas: NextPage = () => {
 
   const [activeFilters, setActiveFilters] = useState<Filter[]>(allFilters);
 
   const { user, logout } = useContext(AuthContext);
   const [ profile, setProfile ] = useState<PerfilData>(user)
-
+    //useEfect, cada vegada que user canvi de valor, que profile s'actualitzi
     useEffect(() => {
       setProfile(user!)
     }, [user])
 
-
+    //useEfect, cada vegada que profile canvi de valor, que s'actualitzin els filtres
     useEffect(() => {
       if (profile.cargo.toLowerCase() == "trabajador") {
         const active = activeFilters.filter(element => {
@@ -147,16 +148,6 @@ const ListaReservas: NextPage = () => {
   const [filtre, setFilter] = useState(''); 
   ///////////////////DINAMICAMENTE////////////////////////
   const [elementsD, setElements]  = useState<ReservaRowProps[]>(elements);
-
-  /*useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch("http://localhost:3000/api/reservas");
-      const data =  await response.json();
-    
-      setElements(data)
-    }
-    fetchData();
-  }, []) */
 
   const handleDeleteClick = (idReserva: number) => {
     const tmp = [];
@@ -204,7 +195,7 @@ const ListaReservas: NextPage = () => {
 
         {filtre == "" && value && setValue("")}          
 
-        {filtre=="Ciudad" && <Grid.Col span={6}>        
+        {(profile.cargo == "Administrador" || profile.cargo=="Jefe") && filtre=="Ciudad" && <Grid.Col span={6}>        
           <Autocomplete
             label="Elemento a filtrar:"
             placeholder="Pick one"
@@ -301,7 +292,7 @@ const ListaReservas: NextPage = () => {
         {filtre == "" && elementsD && elementsD.map(reserva => {
           return <ReservaRow key={reserva.id} reserva={reserva} deleteElement={handleDeleteClick} />
         })}
-        { filtre =="Ciudad" && elementsD && elementsD.filter(element => element.city.includes(value)).map((elementFiltrat, index )=> {
+        {(profile.cargo == "Administrador" || profile.cargo=="Jefe") && filtre =="Ciudad" && elementsD && elementsD.filter(element => element.city.includes(value)).map((elementFiltrat, index )=> {
           return <ReservaRow key={index}  reserva={elementFiltrat} deleteElement={handleDeleteClick}/>
         })}
         {filtre =="Estación" && elementsD && elementsD.filter(element => element.estacion.includes(value)).map((reserva, index )=> {
