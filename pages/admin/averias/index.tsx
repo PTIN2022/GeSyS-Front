@@ -1,8 +1,9 @@
-import { Table } from '@mantine/core';
+import { Table} from '@mantine/core';
 import type { NextPage } from 'next'
 import AveriaRow from '../../../components/AveriaRow';
 import * as React from 'react'
-
+import { useState } from 'react';
+import { Popover, Badge, Text} from '@mantine/core';
 export interface AveriaRowProps {
   Est: string;
   Dir: string;
@@ -36,9 +37,34 @@ const elements: AveriaRowProps[] = [
 ];
 
 const ListaAverias: NextPage = () => {
+  const [opened, setOpened] = useState(false);
   return (
     <>
-    <h1>Averias</h1>
+    <h1>Averias 
+      <Text align="right">
+        <Popover
+          opened={opened}
+          onClose={() => setOpened(false)}
+          position="right"
+          placement="center"
+          withArrow
+          trapFocus={false}
+          closeOnEscape={false}
+          transition="pop-top-left"
+          width={260}
+          styles={{ body: { pointerEvents: 'none' } }}
+          target={
+            <Badge color='indigo' size='xs' onMouseEnter={() => setOpened(true)} onMouseLeave={() => setOpened(false)}>
+              ayuda?
+            </Badge>
+          }>
+          <div style={{ display: 'flex' }}>
+            <Text size="xs">Contacte con el servicio técnico: +34 645 789 465</Text>
+          </div>
+        </Popover>
+      </Text>
+    </h1>
+
     <Table striped highlightOnHover>
         <thead>
             <tr>
@@ -55,8 +81,8 @@ const ListaAverias: NextPage = () => {
             })}
         </tbody>
     </Table>
-
     </>
+    
   )
 }
 
