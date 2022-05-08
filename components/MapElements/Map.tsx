@@ -1,9 +1,10 @@
-import { MapContainer, TileLayer, Marker, MapConsumerProps} from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMapEvent } from "react-leaflet";
 import { IconAveria, IconDesactivado, IconFuncionando } from "./IconMarkerEstacion";
-import { useState } from "react";
-import { LatLngExpression, Map } from "leaflet";
+import { useRef, useState } from "react";
+import { LatLngExpression } from "leaflet";
 import EstacionPopup from "./EstacionPopup";
-import { Select } from "@mantine/core";
+import { useMap } from "react-leaflet";
+import MapSearchBar from "./MapSearchBar";
 
 export type StationStatus = "Active" | "Deactivated" | "Damaged";
 
@@ -31,74 +32,6 @@ const GetIconFromStationStatus = (status: StationStatus) => {
   }
 }
 
-const data = [
-  {
-    label: "Estacion 1",
-    value: "Estacion 1",
-    ubicacion: [41.217606, 1.727072],
-  },
-  {
-    label: "Estacion 2",
-    value: "Estacion 2",
-    ubicacion: [41.221002, 1.730369],
-  },
-  {
-    label: "Estacion 3",
-    value: "Estacion 3",
-    ubicacion: [41.225431, 1.737627],
-  },
-  {
-    label: "Estacion 4",
-    value: "Estacion 4",
-    ubicacion: [41.227420, 1.728166],
-  },
-  {
-    label: "Estacion 5",
-    value: "Estacion 5",
-    ubicacion: [41.229674, 1.721478],
-  },
-  {
-    label: "Estacion 6",
-    value: "Estacion 6",
-    ubicacion: [41.222119, 1.718915],
-  },
-  {
-    label: "Estacion 7",
-    value: "Estacion 7",
-    ubicacion: [41.223434, 1.710113],
-  },
-  {
-    label: "Estacion 8",
-    value: "Estacion 8",
-    ubicacion: [41.217122, 1.709477],
-  },
-  ];
-
-
-//const MapSetView(map: Map, event: string | null){
-  function MapSetView(map: Map, event: string | null) {
-  console.log(event)
-  let i = 0
-  while (i < data.length && data[i].label != event){
-    i += 1
-  }
-  map.setView([data[i].ubicacion[0], data[i].ubicacion[1]])
-}
-
-function MapSearchBar( map: Map ) {
-  return (
-    <Select
-      label="Estaciones"
-      placeholder="Elige estación"
-      searchable
-      nothingFound="No options"
-      data={data}
-      onChange={(event) => MapSetView(map, event)}
-    />
-    )
-  }
-
-
 const Map = () => {
     
   const [mockEstations, setMockEstations] = useState<MarkerEstacionProps[]>([
@@ -116,7 +49,7 @@ const Map = () => {
       state: "Deactivated",
       kwh:0,
       nplazas:32,
-      nOcupadas:10
+      nOcupadas:0
     },
     {
       name: "Estacion 3",
@@ -169,18 +102,16 @@ const Map = () => {
   ]);
 
   const [center, setCenter] = useState<LatLngExpression>([41.220285, 1.730198]);
-  const [map, setMap] = useState(null)
 
   return (
     <>
-    {map ? <MapSearchBar map={map} /> : null}
     <MapContainer
       center={center}
       zoom={16}
       scrollWheelZoom={false}
       style={{ height: "100%", width: "100%", zIndex: 0 }}
-      ref={setMap}
     >
+      <MapSearchBar/>
 
       <TileLayer
         url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${accessToken}`} 
