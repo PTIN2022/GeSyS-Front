@@ -46,7 +46,8 @@ const PerfilInfo: NextPage = () => {
         <Grid grow gutter="xl">
 
           <Grid.Col span={4}>
-            <Group>        
+            <Group> 
+                    
               <Image
                   sx={{ width: '10em', border: '3px solid black', borderRadius: '20px' }}
                   radius="lg"

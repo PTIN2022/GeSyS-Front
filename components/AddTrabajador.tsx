@@ -13,7 +13,7 @@ const AddTrabajador = () => {
         telefono: '',
         email: '',
         dni: '',
-        cargo: 'Trabajador',
+        cargo: 'Trabajador'
       });
 
 
@@ -90,9 +90,8 @@ const AddTrabajador = () => {
             </Box>
         }
         </Modal>
-
         <Button onClick={() => setOpened(true)}>Añadir Trabajador</Button>
-        
+
     </>
     )
 }
