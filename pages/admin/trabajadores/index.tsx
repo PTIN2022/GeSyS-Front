@@ -57,8 +57,8 @@ const ListaTrabajadores: NextPage = () => {
         <title>GeSyS - Trabajadores</title>
       </Head>
       <Title order={1}> <Text  inherit component="span">Trabajadores </Text></Title>
-      <Space  h={25}/>        
-      <AddTrabajador />    
+      <Space  h={25}/>         
+      {(profile.cargo == "Administrador" || profile.cargo == "Jefe") && <AddTrabajador/>}      
       <Table striped highlightOnHover>
           <thead>
               <tr>
