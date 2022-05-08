@@ -26,7 +26,6 @@ ChartJS.register( CategoryScale, LinearScale, PointElement, LineElement, Filler,
 
 function getDatesInRange(startDate: Date, endDate: Date) {
   const date = new Date(startDate.getTime());
-  
   const dates = [];
 
   while(date <= endDate) {
