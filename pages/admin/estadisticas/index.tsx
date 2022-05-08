@@ -4,7 +4,9 @@ import { Alert, Select } from '@mantine/core';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from "chart.js"
 import { Line } from 'react-chartjs-2';
 import { AlertCircle } from "tabler-icons-react";
+
 import { DateRangePicker, getMonthDays } from '@mantine/dates';
+
 
 
 export interface EstadisticaDataset {
@@ -63,6 +65,47 @@ function sumaEstaciones(estaciones: EstadisticaEstacion[]) {
 }
 
 const potencia_contratada: number[] =[90000, 100000, 90000, 100000, 90000, 95000, 100000, 90000, 98000, 90000, 100000, 95000]
+
+
+function getDatesInRange(startDate: Date, endDate: Date) {
+  const date = new Date(startDate.getTime());
+  
+  const dates = [];
+
+  while(date <= endDate) {
+    dates.push(new Date(date).toLocaleDateString());
+    date.setDate(date.getDate()+1);
+  }
+  return dates;
+}
+
+const d1 = new Date('2022-01-01');
+const d2 = new Date(new Date().getTime() - 24*60*60*1000);
+
+var dates = getDatesInRange(d1, d2);
+
+function generateData(days: number, max: number, min: number) {
+  const data = []
+  for(let i = 0; i < days; i++) {
+    data.push(Math.floor(Math.random() * (max - min + 1)) + min);
+  }
+  return data;
+}
+
+function sumaEstaciones(estaciones: EstadisticaEstacion[]) {
+  const data = []
+  let sum;
+  for(let i = 0; i < dates.length ; i++) {
+    sum = 0;
+    for(let est = 0; est < estaciones.length; est++) {
+      sum += estaciones[est].datasets[0].data[i]
+    }
+    data.push(sum);
+  }
+  return data;
+}
+
+
 
 const all_estations: EstadisticaEstacion[] = [
     {
