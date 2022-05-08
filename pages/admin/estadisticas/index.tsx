@@ -1,10 +1,10 @@
 import { NextPage } from "next"
 import React, { useEffect, useState } from 'react';
-import { Alert, Select, Title, Space, Text } from '@mantine/core';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend, Filler } from "chart.js"
+import { Alert, Select } from '@mantine/core';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from "chart.js"
 import { Line } from 'react-chartjs-2';
 import { AlertCircle } from "tabler-icons-react";
-import { DateRangePicker } from '@mantine/dates';
+import { DateRangePicker, getMonthDays } from '@mantine/dates';
 
 
 export interface EstadisticaDataset {
@@ -21,7 +21,7 @@ export interface EstadisticaEstacion {
   datasets: EstadisticaDataset[]
 }
 
-ChartJS.register( CategoryScale, LinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
+ChartJS.register( CategoryScale, LinearScale, PointElement, LineElement, Filler, Title, Tooltip, Legend);
 
 
 function getDatesInRange(startDate: Date, endDate: Date) {
@@ -62,7 +62,7 @@ function sumaEstaciones(estaciones: EstadisticaEstacion[]) {
   return data;
 }
 
-
+const potencia_contratada: number[] =[90000, 100000, 90000, 100000, 90000, 95000, 100000, 90000, 98000, 90000, 100000, 95000]
 
 const all_estations: EstadisticaEstacion[] = [
     {
@@ -70,14 +70,14 @@ const all_estations: EstadisticaEstacion[] = [
         labels: dates,
         datasets: [
           {
-            label: 'Potencia total utilizada(KW)',
+            label: 'Potencia total consumida(KW)',
             fill: true,
             backgroundColor: 'rgba(75,192,192,0.4)',
             borderColor: 'rgba(75,192,192,1)',
             data: generateData(dates.length, 1000, 4000)
           },
           {
-            label: `Potencia total contratada`,
+            label: `Potencia idea consumida`,
             fill: false,
             backgroundColor: 'rgba(255,10,10,0.3)',
             borderColor: 'rgba(255,10,10,0.5)',
@@ -169,8 +169,8 @@ const Estadisticas: NextPage = () => {
     const [estacionGrafica, setEstacionGrafica] = useState(estacionOpcion);
     const [warning, setWarning] = useState("");
     const [fechasLimite, setFechasLimite] = useState<[Date | null, Date | null]>([
-      new Date(2022, 3, 1),
-      new Date(2022, 3, 30),
+      new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+      new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 1),
     ]);
 
     const arrayEstaciones = estaciones.map((est: EstadisticaEstacion, index: number) => {
@@ -203,35 +203,26 @@ const Estadisticas: NextPage = () => {
     }, [fechasLimite])
 
     function isThereAWarning(est: EstadisticaEstacion) {
-      const estationData = []
-      for(let i = 0; i < est.datasets[0].data.length; i++) {
-        if(est.datasets[0].data[i] >= est.datasets[1].data[i] * 0.9 || est.datasets[0].data[i] < est.datasets[1].data[i] * 0.5) {
-          const estation = {
-            month: est.labels[i],
-            data: (est.datasets[0].data[i]/est.datasets[1].data[i] * 100).toFixed(2)
-          }
-          estationData.push(estation)
-        }
+
+      let currentMonth = new Date().getMonth();
+      let currentDay = new Date().getDate();
+      let currentYear = new Date().getFullYear();
+      let days = getDaysOfMonth(currentYear, currentMonth);
+      let consumptionExpected = potencia_contratada[currentMonth]
+      let consumption = 0
+      let currentEstation = estaciones.find((est: EstadisticaEstacion) => est.name === estacionActiva)
+
+      let firstDay = 0, lastDay = 0;
+      for(let i=0; i<=currentMonth; i++) {
+        if(i != currentMonth) firstDay += getDaysOfMonth(currentYear, i+1)
+        else lastDay = firstDay + currentDay - 1
       }
-      if(estationData.length == 1) {
-        setWarning("El mes " + estationData[0].month + " se ha consumido el " + estationData[0].data + "% de la potencia contratada. Quizás seria bueno adaptar la potencia contratada.")
+
+      for(let i=firstDay; i<lastDay; i++) {
+        if(currentEstation) consumption += currentEstation?.datasets[0].data[i]
       }
-      else if(estationData.length > 1) {
-        
-        let months = "" + estationData[0].month, datas = "" + estationData[0].data + "%"
-        for(let i = 1; i < estationData.length; i++) {
-          if(estationData.length - 1 == i) {
-            months += " y "
-            datas += " y "
-          }
-          else {
-            months += ", "
-            datas += ", "
-          }
-          months += estationData[i].month
-          datas += estationData[i].data + "%"
-        }
-        setWarning("Los meses de " + months + " se han consumido el " + datas + " de las potencias contratadas respectivamente. Quizás seria bueno adaptar la potencia contratada.")
+      if((consumptionExpected/days)*0.8 > (consumption/currentDay)) {
+        setWarning("Este mes has consumido "+consumption+" KW, el "+(consumption/consumptionExpected*100).toFixed(2)+"% de la potencia contratada. Lo ideal sería haber consumido "+(currentDay/days*100).toFixed(2)+"% hasta la fecha actual. Sería recomendable añadir promociones para incentivar el consumo.")
       }
       else {
         setWarning("")
@@ -247,23 +238,50 @@ const Estadisticas: NextPage = () => {
         
     }
 
+    function get_month(str: string) {
+      let monthFound:boolean = false, finish:boolean = false;
+      let month:string = "";
+      for(let i=0; i<str.length && !finish; i++) {
+        if(!monthFound && str[i] == "/") monthFound = true;
+        else if(monthFound && str[i] != "/") month += str[i];
+        else if(monthFound) {
+          finish = true;
+        }
+      }
+      return parseInt(month);
+    }
+
+    function get_year(str: string) {
+      let found = 0;
+      let year:string = "";
+      for(let i=0; i<str.length; i++) {
+        if(str[i] == "/") found++;
+        if(found == 2 && str[i] != "/") year += str[i];
+      }
+      return parseInt(year);
+    }
+
+    function getDaysOfMonth(year: number, month: number) {
+      return new Date(year, month, 0).getDate();
+    }
+
     function estations_range() {
 
       let date1 = fechasLimite[0]?.toLocaleDateString()
       let date2 = fechasLimite[1]?.toLocaleDateString()
       
-      //let est = all_estations.find(estation => estation.name === estacionOption.name)
-      
       let copy = false, finish = false;
       const label = []
-      const data0 = [], data1 = []   
+      const data0 = [], data1 = []  
       let i = 0;
       while(!finish && i < estacionOpcion.labels.length) {
         if(estacionOpcion.labels[i] === date1) copy = true;
         if(copy) {
           label.push(estacionOpcion.labels[i]);
           data0.push(estacionOpcion.datasets[0].data[i]);
-          data1.push(estacionOpcion.datasets[1].data[i]);
+          let month = get_month(estacionOpcion.labels[i]);
+          let year = get_year(estacionOpcion.labels[i])
+          data1.push((potencia_contratada[month-1]/getDaysOfMonth(year, month)));
         }
         if(estacionOpcion.labels[i] === date2) finish = true;
         i++;
@@ -278,11 +296,11 @@ const Estadisticas: NextPage = () => {
       }  
 
       let dataset1: EstadisticaDataset = {
-        label: estacionOpcion.datasets[1].label,
+        label: 'Potencia ideal consumida',
         fill: estacionOpcion.datasets[1].fill,
         backgroundColor: estacionOpcion.datasets[1].backgroundColor,
         borderColor: estacionOpcion.datasets[1].borderColor,
-        data: data0
+        data: data1
       }  
      
       let data: EstadisticaEstacion = {
@@ -296,8 +314,7 @@ const Estadisticas: NextPage = () => {
 
     return (
         <div>
-            <Title order={1}> <Text  inherit component="span">Estadísticas </Text></Title>
-            <Space  h={25}/>
+            <h1>Estadísticas</h1>
             <Select
                 label="Consumo de estaciones"
                 placeholder="Escoge una estación para ver su consumo"

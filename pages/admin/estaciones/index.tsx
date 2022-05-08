@@ -21,8 +21,6 @@ const ListaEstaciones: NextPage =() => {
       const result = await fetch('http://craaxkvm.epsevg.upc.es:23601/api/estaciones');
       const data = await result.json();  
 
-      console.log(data.length)
-
       const est = []
 
       for(let i=0; i<data.length; i++) {
