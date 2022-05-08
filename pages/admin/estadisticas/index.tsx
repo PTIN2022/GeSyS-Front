@@ -1,9 +1,10 @@
 import { NextPage } from "next"
 import React, { useEffect, useState } from 'react';
-import { Alert, Select, Title, Space, Text } from '@mantine/core';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend, Filler } from "chart.js"
+import { Alert, Select } from '@mantine/core';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from "chart.js"
 import { Line } from 'react-chartjs-2';
 import { AlertCircle } from "tabler-icons-react";
+import { DateRangePicker, getMonthDays } from '@mantine/dates';
 
 
 export interface EstadisticaDataset {
@@ -20,22 +21,63 @@ export interface EstadisticaEstacion {
   datasets: EstadisticaDataset[]
 }
 
-ChartJS.register( CategoryScale, LinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
+ChartJS.register( CategoryScale, LinearScale, PointElement, LineElement, Filler, Title, Tooltip, Legend);
+
+
+function getDatesInRange(startDate: Date, endDate: Date) {
+  const date = new Date(startDate.getTime());
+  
+  const dates = [];
+
+  while(date <= endDate) {
+    dates.push(new Date(date).toLocaleDateString());
+    date.setDate(date.getDate()+1);
+  }
+  return dates;
+}
+
+const d1 = new Date('2022-01-01');
+const d2 = new Date(new Date().getTime() - 24*60*60*1000);
+
+var dates = getDatesInRange(d1, d2);
+
+function generateData(days: number, max: number, min: number) {
+  const data = []
+  for(let i = 0; i < days; i++) {
+    data.push(Math.floor(Math.random() * (max - min + 1)) + min);
+  }
+  return data;
+}
+
+function sumaEstaciones(estaciones: EstadisticaEstacion[]) {
+  const data = []
+  let sum;
+  for(let i = 0; i < dates.length ; i++) {
+    sum = 0;
+    for(let est = 0; est < estaciones.length; est++) {
+      sum += estaciones[est].datasets[0].data[i]
+    }
+    data.push(sum);
+  }
+  return data;
+}
+
+const potencia_contratada: number[] =[90000, 100000, 90000, 100000, 90000, 95000, 100000, 90000, 98000, 90000, 100000, 95000]
 
 const all_estations: EstadisticaEstacion[] = [
     {
         name: "VGA1",
-        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        labels: dates,
         datasets: [
           {
-            label: 'Potencia total utilizada(KW)',
+            label: 'Potencia total consumida(KW)',
             fill: true,
             backgroundColor: 'rgba(75,192,192,0.4)',
             borderColor: 'rgba(75,192,192,1)',
-            data: [32000, 27000, 38000, 40000, 25000, 20000, 19000, 21000, 28000, 31000, 24000, 28000]
+            data: generateData(dates.length, 1000, 4000)
           },
           {
-            label: `Potencia total contratada`,
+            label: `Potencia idea consumida`,
             fill: false,
             backgroundColor: 'rgba(255,10,10,0.3)',
             borderColor: 'rgba(255,10,10,0.5)',
@@ -45,14 +87,14 @@ const all_estations: EstadisticaEstacion[] = [
     },
     {
         name: 'VGA2',
-        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        labels: dates,
         datasets: [
           {
             label: 'Potencia total utilizada(KW)',
             fill: true,
             backgroundColor: 'rgba(75,192,192,0.4)',
             borderColor: 'rgba(75,192,192,1)',
-            data: [33000, 32000, 42000, 41000, 31000, 25000, 21000, 24000, 31000, 29000, 24000, 33000]
+            data: generateData(dates.length, 1000, 4000)
           },
           {
             label: `Potencia total contratada`,
@@ -65,21 +107,21 @@ const all_estations: EstadisticaEstacion[] = [
     },
     {
         name: 'VGA3',
-        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        labels: dates,
         datasets: [
           {
             label: 'Potencia total utilizada(KW)',
             fill: true,
             backgroundColor: 'rgba(75,192,192,0.4)',
             borderColor: 'rgba(75,192,192,1)',
-            data: [66000, 32000, 42000, 41000, 31000, 25000, 21000, 24000, 31000, 12000, 24000, 33000]
+            data: generateData(dates.length, 1000, 4000)
           },
           {
             label: `Potencia total contratada`,
             fill: false,
             backgroundColor: 'rgba(255,10,10,0.3)',
             borderColor: 'rgba(255,10,10,0.5)',
-            data: [45000, 45000, 87000, 45000, 45000, 40000, 40000, 40000, 45000, 45000, 40000, 6000]
+            data: [45000, 45000, 47000, 45000, 45000, 40000, 40000, 40000, 45000, 45000, 40000, 6000]
           }
         ]
     }
@@ -96,14 +138,14 @@ const options = {
 const calcularTotalEstaciones = (estaciones: EstadisticaEstacion[]) => {
     const estacionTotal = {
         name: "Todas las estaciones",
-        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        labels: dates,
         datasets: [
           {
             label: 'Potencia total utilizada(KW)',
             fill: true,
             backgroundColor: 'rgba(75,192,192,0.4)',
             borderColor: 'rgba(75,192,192,1)',
-            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            data: sumaEstaciones(estaciones)
           },
           {
             label: `Potencia total contratada`,
@@ -114,24 +156,22 @@ const calcularTotalEstaciones = (estaciones: EstadisticaEstacion[]) => {
           }
         ]
     }
-
-    // Add all the data into estacionTotal
-    estaciones.forEach(estacion => {
-        for(let i = 0; i < estacion.datasets[0].data.length; i++) {
-            estacionTotal.datasets[0].data[i] += estacion.datasets[0].data[i]
-            estacionTotal.datasets[1].data[i] += estacion.datasets[1].data[i]
-        }
-    })
-
     return estacionTotal
 }
 
+
+
 const Estadisticas: NextPage = () => {
 
-    const [estacionActiva, setEstacionActiva] = useState('Todas las estaciones')
+    const [estacionActiva, setEstacionActiva] = useState('Todas las estaciones');
     const [estaciones, setEstaciones] = useState<EstadisticaEstacion[]>(all_estations);
-    const [estacionOption, setEstacionOption] = useState<EstadisticaEstacion>(estaciones[0]);
+    const [estacionOpcion, setEstacionOpcion] = useState<EstadisticaEstacion>(estaciones[0]);
+    const [estacionGrafica, setEstacionGrafica] = useState(estacionOpcion);
     const [warning, setWarning] = useState("");
+    const [fechasLimite, setFechasLimite] = useState<[Date | null, Date | null]>([
+      new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+      new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 1),
+    ]);
 
     const arrayEstaciones = estaciones.map((est: EstadisticaEstacion, index: number) => {
         return est.name
@@ -146,43 +186,43 @@ const Estadisticas: NextPage = () => {
     useEffect(() => {
         const estacion = estaciones.find((est: EstadisticaEstacion) => est.name === estacionActiva)
         if (estacion) {
-            setEstacionOption(estacion)
+            setEstacionOpcion(estacion)
             isThereAWarning(estacion)
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [estacionActiva])
 
+    useEffect(() => { 
+      setEstacionGrafica(estations_range()) 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [estacionOpcion]) 
+
+    useEffect(() => {
+      setEstacionGrafica(estations_range()) 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [fechasLimite])
 
     function isThereAWarning(est: EstadisticaEstacion) {
-      const estationData = []
-      for(let i = 0; i < est.datasets[0].data.length; i++) {
-        if(est.datasets[0].data[i] >= est.datasets[1].data[i] * 0.9 || est.datasets[0].data[i] < est.datasets[1].data[i] * 0.5) {
-          const estation = {
-            month: est.labels[i],
-            data: (est.datasets[0].data[i]/est.datasets[1].data[i] * 100).toFixed(2)
-          }
-          estationData.push(estation)
-        }
+
+      let currentMonth = new Date().getMonth();
+      let currentDay = new Date().getDate();
+      let currentYear = new Date().getFullYear();
+      let days = getDaysOfMonth(currentYear, currentMonth);
+      let consumptionExpected = potencia_contratada[currentMonth]
+      let consumption = 0
+      let currentEstation = estaciones.find((est: EstadisticaEstacion) => est.name === estacionActiva)
+
+      let firstDay = 0, lastDay = 0;
+      for(let i=0; i<=currentMonth; i++) {
+        if(i != currentMonth) firstDay += getDaysOfMonth(currentYear, i+1)
+        else lastDay = firstDay + currentDay - 1
       }
-      if(estationData.length == 1) {
-        setWarning("El mes " + estationData[0].month + " se ha consumido el " + estationData[0].data + "% de la potencia contratada. Quizás seria bueno adaptar la potencia contratada.")
+
+      for(let i=firstDay; i<lastDay; i++) {
+        if(currentEstation) consumption += currentEstation?.datasets[0].data[i]
       }
-      else if(estationData.length > 1) {
-        
-        let months = "" + estationData[0].month, datas = "" + estationData[0].data + "%"
-        for(let i = 1; i < estationData.length; i++) {
-          if(estationData.length - 1 == i) {
-            months += " y "
-            datas += " y "
-          }
-          else {
-            months += ", "
-            datas += ", "
-          }
-          months += estationData[i].month
-          datas += estationData[i].data + "%"
-        }
-        setWarning("Los meses de " + months + " se han consumido el " + datas + " de las potencias contratadas respectivamente. Quizás seria bueno adaptar la potencia contratada.")
+      if((consumptionExpected/days)*0.8 > (consumption/currentDay)) {
+        setWarning("Este mes has consumido "+consumption+" KW, el "+(consumption/consumptionExpected*100).toFixed(2)+"% de la potencia contratada. Lo ideal sería haber consumido "+(currentDay/days*100).toFixed(2)+"% hasta la fecha actual. Sería recomendable añadir promociones para incentivar el consumo.")
       }
       else {
         setWarning("")
@@ -190,17 +230,91 @@ const Estadisticas: NextPage = () => {
     }
 
 
-    const handleChangeSelected = (value: string | null) => {
-        if (!value) {
+    const handleChangeSelected = (est: string | null) => {
+        if (!est) {
             return;
         }
-        setEstacionActiva(value)
+        setEstacionActiva(est)
+        
+    }
+
+    function get_month(str: string) {
+      let monthFound:boolean = false, finish:boolean = false;
+      let month:string = "";
+      for(let i=0; i<str.length && !finish; i++) {
+        if(!monthFound && str[i] == "/") monthFound = true;
+        else if(monthFound && str[i] != "/") month += str[i];
+        else if(monthFound) {
+          finish = true;
+        }
+      }
+      return parseInt(month);
+    }
+
+    function get_year(str: string) {
+      let found = 0;
+      let year:string = "";
+      for(let i=0; i<str.length; i++) {
+        if(str[i] == "/") found++;
+        if(found == 2 && str[i] != "/") year += str[i];
+      }
+      return parseInt(year);
+    }
+
+    function getDaysOfMonth(year: number, month: number) {
+      return new Date(year, month, 0).getDate();
+    }
+
+    function estations_range() {
+
+      let date1 = fechasLimite[0]?.toLocaleDateString()
+      let date2 = fechasLimite[1]?.toLocaleDateString()
+      
+      let copy = false, finish = false;
+      const label = []
+      const data0 = [], data1 = []  
+      let i = 0;
+      while(!finish && i < estacionOpcion.labels.length) {
+        if(estacionOpcion.labels[i] === date1) copy = true;
+        if(copy) {
+          label.push(estacionOpcion.labels[i]);
+          data0.push(estacionOpcion.datasets[0].data[i]);
+          let month = get_month(estacionOpcion.labels[i]);
+          let year = get_year(estacionOpcion.labels[i])
+          data1.push((potencia_contratada[month-1]/getDaysOfMonth(year, month)));
+        }
+        if(estacionOpcion.labels[i] === date2) finish = true;
+        i++;
+      }
+
+      let dataset0: EstadisticaDataset = {
+        label: estacionOpcion.datasets[0].label,
+        fill: estacionOpcion.datasets[0].fill,
+        backgroundColor: estacionOpcion.datasets[0].backgroundColor,
+        borderColor: estacionOpcion.datasets[0].borderColor,
+        data: data0
+      }  
+
+      let dataset1: EstadisticaDataset = {
+        label: 'Potencia ideal consumida',
+        fill: estacionOpcion.datasets[1].fill,
+        backgroundColor: estacionOpcion.datasets[1].backgroundColor,
+        borderColor: estacionOpcion.datasets[1].borderColor,
+        data: data1
+      }  
+     
+      let data: EstadisticaEstacion = {
+        name: estacionOpcion.name,
+        labels: label,
+        datasets: [dataset0, dataset1]
+      }
+      
+      return data;
     }
 
     return (
         <div>
-            <Title order={1}> <Text  inherit component="span">Estadísticas </Text></Title>
-            <Space  h={25}/>
+            <h1>Estadísticas</h1>
             <Select
                 label="Consumo de estaciones"
                 placeholder="Escoge una estación para ver su consumo"
@@ -209,8 +323,17 @@ const Estadisticas: NextPage = () => {
                 data={arrayEstaciones}
                 onChange={handleChangeSelected} />
             
+            <DateRangePicker
+              label="Fechas a visualizar"
+              placeholder="Selecciona rango de fechas"
+              minDate={new Date(2022, 0, 1)}
+              maxDate={new Date(new Date().getTime() - 24*60*60*1000)}
+              value={fechasLimite}
+              onChange={setFechasLimite}
+            />
+
             <Line
-                data={estacionOption}
+                data={estacionGrafica}
                 width={100}
                 height={40}
                 options={options}
