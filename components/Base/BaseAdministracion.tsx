@@ -14,7 +14,9 @@ import {
 } from "@mantine/core";
 import { AppProps } from "next/app";
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
+import { PerfilData } from "../../pages/admin/perfil";
 import UserButton from "../UserButton";
 import NavbarButton from "./NavbarButton";
 
@@ -63,6 +65,15 @@ const NavbarItems: NavbarItemProps[] = [
 ];
 
 const BaseAdministracion = (props: AppProps) => {
+
+
+  const { user, logout } = useContext(AuthContext);
+  const [ profile, setProfile ] = useState<PerfilData>(user!)
+
+  useEffect(() => {
+    setProfile(user!)
+  }, [user])
+
   const [opened, setOpened] = useState<boolean>(false);
   const { Component, pageProps } = props;
   return (
@@ -114,9 +125,9 @@ const BaseAdministracion = (props: AppProps) => {
                 placement="center"
                 control={
                   <UserButton
-                    image="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80"
-                    name="Manolo Pedro Juan"
-                    email="manolo.pedro.juan@gesys.com"
+                    image={profile.pfp}
+                    name={profile.nombre + " " + profile.apellido}
+                    email={profile.email}
                   />
                 }
               >
@@ -125,7 +136,7 @@ const BaseAdministracion = (props: AppProps) => {
                 </Link>
 
                 <Link href={"/"} passHref={true}>
-                  <Menu.Item>Cerrar sesión</Menu.Item>
+                  <Menu.Item onClick={() => logout()}>Cerrar sesión</Menu.Item>
                 </Link>
               </Menu>
             </Group>
