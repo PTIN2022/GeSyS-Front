@@ -10,11 +10,13 @@ import {
   Avatar,
   Space,
   Button,
-  Menu,
+  Menu
 } from "@mantine/core";
 import { AppProps } from "next/app";
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
+import { PerfilData } from "../../pages/admin/perfil";
 import UserButton from "../UserButton";
 import NavbarButton from "./NavbarButton";
 
@@ -22,6 +24,7 @@ export interface NavbarItemProps {
   label: string;
   href: string;
 }
+
 
 const NavbarItems: NavbarItemProps[] = [
   {
@@ -63,22 +66,34 @@ const NavbarItems: NavbarItemProps[] = [
 ];
 
 const BaseAdministracion = (props: AppProps) => {
+  
+
+  const { user, logout } = useContext(AuthContext);
+  const [ profile, setProfile ] = useState<PerfilData>(user!)
+
+  useEffect(() => {
+    setProfile(user!)
+  }, [user])
+
   const [opened, setOpened] = useState<boolean>(false);
   const { Component, pageProps } = props;
-
   return (
     <AppShell
       padding="xs"
       navbarOffsetBreakpoint={"sm"}
       fixed
       header={
-        <Header height={60} p="sm">
+        <Header height={60} p="sm" 
+          styles={{
+            root: { backgroundColor: '#ccdde8' },
+          }}
+        >
           <div
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              height: "100%",
+              height: "100%", 
             }}
           >
             <MediaQuery largerThan="sm" styles={{ display: "none" }}>
@@ -90,7 +105,14 @@ const BaseAdministracion = (props: AppProps) => {
               />
             </MediaQuery>
             <Link href={"/admin"} passHref={true}>
-              <Button variant="subtle" color="#0e3bac">
+              <Button variant="subtle" color="blue"
+                styles={{
+                  root: {
+                      color:"black",
+                      backgroundColor: '#ccdde8',
+                    },
+                  }}
+              >
                 <Avatar size={"sm"} mr={"lg"} src={"/img/logofeo.png"} />
                 GeSyS Technical Station
               </Button>
@@ -104,9 +126,9 @@ const BaseAdministracion = (props: AppProps) => {
                 placement="center"
                 control={
                   <UserButton
-                    image="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80"
-                    name="Manolo Pedro Juan"
-                    email="manolo.pedro.juan@gesys.com"
+                    image={profile.pfp}
+                    name={profile.nombre + " " + profile.apellido}
+                    email={profile.email}
                   />
                 }
               >
@@ -115,7 +137,7 @@ const BaseAdministracion = (props: AppProps) => {
                 </Link>
 
                 <Link href={"/"} passHref={true}>
-                  <Menu.Item>Cerrar sesión</Menu.Item>
+                  <Menu.Item onClick={() => logout()}>Cerrar sesión</Menu.Item>
                 </Link>
               </Menu>
             </Group>
@@ -124,6 +146,9 @@ const BaseAdministracion = (props: AppProps) => {
       }
       navbar={
         <Navbar
+        styles={{
+          root: { backgroundColor: '#ccdde8' },
+        }}
           width={{ sm: 300 }}
           p="xs"
           hiddenBreakpoint={"sm"}
@@ -131,17 +156,24 @@ const BaseAdministracion = (props: AppProps) => {
         >
           {NavbarItems &&
             NavbarItems.map((navbaritem, index) => {
-              return <NavbarButton key={index} {...navbaritem} />;
+              if ( profile.cargo== "Trabajador" && 
+              navbaritem.label != "Estaciones" &&  
+              navbaritem.label != "Promociones" &&
+              navbaritem.label != "Estadisticas")
+                  return <NavbarButton key={index} {...navbaritem} />;
+              else if ( profile.cargo != "Trabajador")
+                return <NavbarButton key={index} {...navbaritem} />;
             })}
+            
         </Navbar>
       }
       styles={(theme) => ({
-        main: {
-          backgroundColor:
+        main: {    
+         backgroundColor:
             theme.colorScheme === "light"
               ? theme.colors.gray[0]
               : theme.colors.dark[8],
-        },
+        },       
       })}
     >
       <Component {...pageProps} />

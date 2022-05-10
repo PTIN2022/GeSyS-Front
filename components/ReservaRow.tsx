@@ -33,6 +33,7 @@ const RerservaRow = (props: any) => {
             <td>{reserva.reservante}</td>
             <td>{reserva.matricula}</td>
             <td>{reserva.estacion}</td>
+            <td>{reserva.city}</td>
             <td>{reserva.nPlaza}</td>
             <td>{reserva.date!.toDateString()}</td>
             <td>{reserva.duration}</td>

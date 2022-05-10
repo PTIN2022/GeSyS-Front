@@ -1,17 +1,18 @@
 import { NextPage } from "next"
 import { useRouter } from "next/router";
-import { Box, Group, TextInput, Button, Text, Grid } from '@mantine/core';
+import { Box, Group, TextInput, Button, Text, Grid, Autocomplete } from '@mantine/core';
 import { DatePicker, TimeInput } from '@mantine/dates';
 import 'dayjs/locale/es'
 import { useState } from 'react';
-import { User, ChargingPile, Clock, Calendar } from 'tabler-icons-react';
+import { User, Car, Clock, Calendar, ChargingPile } from 'tabler-icons-react';
 
 export interface ReservaData {
-  hora: Date | null,
-  plaza: string,
-  idcliente: string,
+  desde: Date | null,
+  hasta: Date | null,
   fecha: Date | null,
-  duracion: Date | null,
+  matricula: string,
+  DNI: string,
+  estacion: string,
 }
 
 const Reserva: NextPage = () => {
@@ -22,11 +23,12 @@ const Reserva: NextPage = () => {
   const [editing, setEditing] = useState<boolean>(false);
   
   const [reserve, setReserve] = useState<ReservaData>({
-    hora: null,
-    plaza: '',
-    idcliente: '',
+    desde: null,
+    hasta: null,
     fecha: null,
-    duracion: null,
+    matricula: '',
+    DNI: '',
+    estacion: '',
   });
 
   return (
@@ -46,17 +48,38 @@ const Reserva: NextPage = () => {
           <Text align="left" size="xl">Datos de la Reserva</Text>
           <Text align="left" size="md">Mira y edita la información de la reserva {reserva}</Text>
         </Grid.Col>
-    
-        <Grid.Col span={7}>                
+        <Grid.Col span={7}>
           <Group mt="sl">
-
+            { editing ? 
+              <Autocomplete 
+                  label="Estacion"
+                  placeholder="VGA1"
+                  value={reserve.estacion}
+                  onChange={(event) => setReserve({...reserve, estacion: event})}
+                  icon={<ChargingPile />} 
+                  data={['VGA1' , 'VGA2']} 
+              />
+              :
+              <Autocomplete 
+                  label="Estacion"
+                  placeholder="VGA1"
+                  icon={<ChargingPile />}
+                  disabled 
+                  data={['VGA1' , 'VGA2']} 
+              />
+            }
+          </Group>  
+        </Grid.Col>
+ 
+        <Grid.Col span={7}>             
+          <Group mt="sl">     
           { editing ? 
             <TimeInput size="md"
               label="Inicio Reserva"
               variant="default"
               icon={<Clock size={14} />}
-              value={reserve.hora}
-              onChange={(event) => setReserve({...reserve, hora: event})} 
+              value={reserve.desde}
+              onChange={(event) => setReserve({...reserve, desde: event})} 
               clearable
               />
               :
@@ -64,28 +87,28 @@ const Reserva: NextPage = () => {
                 label="Inicio Reserva"
                 variant="default"
                 icon={<Clock size={14} />}
-                value={reserve.hora}
-                onChange={(event) => setReserve({...reserve, hora: event})}
+                value={reserve.desde}
+                onChange={(event) => setReserve({...reserve, desde: event})}
                 disabled
               />
           }
 
           { editing ? 
             <TimeInput size="md"
-              label="Duracion"
+              label="Fin Reserva"
               variant="default"
               icon={<Clock size={14} />}
-              value={reserve.duracion}
-              onChange={(event) => setReserve({...reserve, duracion: event})} 
+              value={reserve.hasta}
+              onChange={(event) => setReserve({...reserve, hasta: event})} 
               clearable
             />
               :
               <TimeInput size="md"
-                label="Duracion"
+                label="Fin Reserva"
                 variant="default"
                 icon={<Clock size={14} />}
-                value={reserve.duracion}
-                onChange={(event) => setReserve({...reserve, duracion: event})}
+                value={reserve.hasta}
+                onChange={(event) => setReserve({...reserve, hasta: event})}
                 disabled
               />
           }
@@ -93,22 +116,22 @@ const Reserva: NextPage = () => {
 
             { editing ? 
             <TextInput size="md"
-                label="Plaza"
-                placeholder="Num Plaza"
+                label="Matricula"
+                placeholder="Num matricula"
                 variant="default"
-                icon={<ChargingPile size={18} />}
-                value={reserve.plaza}
-                onChange={(event) => setReserve({...reserve, plaza: event.target.value})}
+                icon={<Car size={18} />}
+                value={reserve.matricula}
+                onChange={(event) => setReserve({...reserve, matricula: event.target.value})}
             />
             :
 
             <TextInput size="md"
-              label="Plaza"
-              placeholder="Num Plaza"
+              label="Matricula"
+              placeholder="Num matricula"
               variant="default"
-              icon={<ChargingPile size={18} />}
-              value={reserve.plaza}
-              onChange={(event) => setReserve({...reserve, plaza: event.target.value})}
+              icon={<Car size={18} />}
+              value={reserve.matricula}
+              onChange={(event) => setReserve({...reserve, matricula: event.target.value})}
               disabled
             /> 
             }
@@ -119,21 +142,21 @@ const Reserva: NextPage = () => {
 
             { editing ?
             <TextInput size="md"
-              label="Id Cliente"
+              label="DNI"
               placeholder="1234..." 
               variant="default"
               icon={<User size={14} />}
-              value={reserve.idcliente}
-              onChange={(event) => setReserve({...reserve, idcliente: event.target.value})}
+              value={reserve.DNI}
+              onChange={(event) => setReserve({...reserve, DNI: event.target.value})}
             />
             :
             <TextInput size="md"
-              label="Id Cliente"
+              label="DNI"
               placeholder="1234..." 
               variant="default"
               icon={<User size={14} />}
-              value={reserve.idcliente}
-              onChange={(event) => setReserve({...reserve, idcliente: event.target.value})}
+              value={reserve.DNI}
+              onChange={(event) => setReserve({...reserve, DNI: event.target.value})}
               disabled
             />
             }

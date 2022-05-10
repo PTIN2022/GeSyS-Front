@@ -1,5 +1,5 @@
-import { TextInput, Group, Box, Button, Modal, Space } from '@mantine/core';
-import { Calendar, ChargingPile, Clock, User } from 'tabler-icons-react';
+import { TextInput, Group, Box, Button, Modal, Space, Autocomplete } from '@mantine/core';
+import { Calendar, Car, Clock, User, ChargingPile } from 'tabler-icons-react';
 import { useState } from 'react';
 import { DatePicker, TimeInput } from '@mantine/dates';
 import { ReservaData } from '../pages/admin/reservas/[reserva]';
@@ -8,11 +8,12 @@ import 'dayjs/locale/es'
 const AddReserva = () => {
     const [opened, setOpened] = useState(false);
     const [reserve, setReserve] = useState<ReservaData>({
-        hora: null,
-        plaza: '',
-        idcliente: '',
+        desde: null,
+        hasta: null,
         fecha: null,
-        duracion: null,
+        matricula: '',
+        DNI: '',
+        estacion: '',
     });
 
     return (
@@ -23,23 +24,31 @@ const AddReserva = () => {
             title="Introduzca los datos de la reserva"
         >
         {
-            <Box>               
+            <Box> 
+                <Autocomplete 
+                    label="Estacion"
+                    placeholder="VGA1"
+                    value={reserve.estacion}
+                    onChange={(event) => setReserve({...reserve, estacion: event})}
+                    icon={<ChargingPile />} 
+                    data={['VGA1' , 'VGA2']} 
+                />            
                 <Group mt="md">
                     <TimeInput size="md"
                         label="Inicio Reserva"
                         variant="default"
                         icon={<Clock size={14} />}
-                        value={reserve.hora}
-                        onChange={(event) => setReserve({...reserve, hora: event})} 
+                        value={reserve.desde}
+                        onChange={(event) => setReserve({...reserve, desde: event})} 
                         clearable
                     />
                     <Space w="xs" />
                     <TimeInput size="md"
-                        label="Duracion"
+                        label="Fin Reserva"
                         variant="default"
                         icon={<Clock size={14} />}
-                        value={reserve.duracion}
-                        onChange={(event) => setReserve({...reserve, duracion: event})} 
+                        value={reserve.hasta}
+                        onChange={(event) => setReserve({...reserve, hasta: event})} 
                         clearable
                     />
                 </Group>
@@ -53,21 +62,21 @@ const AddReserva = () => {
                         onChange={(event) => setReserve({...reserve, fecha: event})}
                     />
                     <TextInput size="md"
-                        label="Plaza"
-                        placeholder="Num Plaza"
+                        label="Matricula"
+                        placeholder="Matricula"
                         variant="default"
-                        icon={<ChargingPile size={18} />}
-                        value={reserve.plaza}
-                        onChange={(event) => setReserve({...reserve, plaza: event.target.value})}
+                        icon={<Car size={18} />}
+                        value={reserve.matricula}
+                        onChange={(event) => setReserve({...reserve, matricula: event.target.value})}
                     />
         
                     <TextInput size="md"
-                        label="Id Cliente"
+                        label="DNI"
                         placeholder="1234..." 
                         variant="default"
                         icon={<User size={14} />}
-                        value={reserve.idcliente}
-                        onChange={(event) => setReserve({...reserve, idcliente: event.target.value})}
+                        value={reserve.DNI}
+                        onChange={(event) => setReserve({...reserve, DNI: event.target.value})}
                     />
                     <br></br>
                     <Button type='submit'>

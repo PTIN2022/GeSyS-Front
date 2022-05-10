@@ -1,11 +1,13 @@
 import { NextPage } from 'next';
 import Head  from 'next/head'
-import { Grid, Table } from '@mantine/core'
+import { Grid, Table, Text, Space, Title } from '@mantine/core'
 import ReservaRow from '../../../components/ReservaRow';
 
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Autocomplete } from '@mantine/core';
 import AddReserva from '../../../components/AddReservas';
+import { AuthContext } from '../../../contexts/AuthContext';
+import { PerfilData } from '../perfil';
 
 export interface ReservaRowProps{
   id: number; 
@@ -17,6 +19,12 @@ export interface ReservaRowProps{
   duration: number;
   kwh: number;
   money: number;
+  city: string;
+}
+
+export interface Filter {
+  name: string;
+  value: string;
 }
 
 const elements: ReservaRowProps[] = [
@@ -29,7 +37,8 @@ const elements: ReservaRowProps[] = [
     date: new Date(2020,1,1),
     duration: 2,
     kwh: 30,
-    money: 70
+    money: 70,
+    city: "Vilanova"
   },
   {
     id:2,
@@ -40,7 +49,9 @@ const elements: ReservaRowProps[] = [
     date: new Date('2020-01-02'),
     duration:3,
     kwh: 30,
-    money: 70
+    money: 70,
+    city: "Sitges"
+
   },
   {
     id:3,
@@ -51,30 +62,76 @@ const elements: ReservaRowProps[] = [
     date:new Date('2020-01-01'),
     duration: 1,
     kwh:40,
-    money: 70
+    money: 70,
+    city: "Mordor"
   }
 ];
 
 
 //const data = charactersList.map((item) => ({ ...item, value: item.label }));
-const filtres = [{filtre:"Estación"},{filtre:"Cliente"},{filtre:"Matricula"},{filtre:"KwH"},{filtre:"Date"}];
-const dataFilters = filtres.map((item) => ({...item, value: item.filtre}));
-/*const dataM =  elementsD.map((item) => ({...item, value: item.matricula}));
-const datak =  elementsD.map((item) => ({...item, value: item.kwh.toString()}));
-const dataD =  elementsD.map((item) => ({...item, value: item.date.toDateString()}));*/
-
-//const [elementsD,setElements]  = useState<any>(elements[0]);
-
+const allFilters: Filter[] = [
+  {
+    name:"Estación",
+    value: "Estación"
+  },
+  {
+    name:"Cliente",
+    value: "Cliente"
+  },
+  {
+    name:"Matricula",
+    value: "Matricula"
+  },
+  {
+    name:"KwH",
+    value: "KwH"
+  },
+  {
+    name:"Date",
+    value: "Date"
+  },
+  {
+    name:"Ciudad",
+    value: "Ciudad"
+  }
+];
 
 
 const ListaReservas: NextPage = () => {
 
-  const [value, setValue] = useState('');  
-  const [filtre, setFilter] = useState(''); 
-  ///////////////////DINAMICAMENTE////////////////////////
-  const [elementsD, setElements]  = useState<ReservaRowProps[]>(elements);
+  const [activeFilters, setActiveFilters] = useState<Filter[]>(allFilters);
 
-  /*useEffect(() => {
+  const { user, logout } = useContext(AuthContext);
+  const [ profile, setProfile ] = useState<PerfilData>(user)
+    //useEfect, cada vegada que user canvi de valor, que profile s'actualitzi
+    useEffect(() => {
+      setProfile(user!)
+    }, [user])
+
+    //useEfect, cada vegada que profile canvi de valor, que s'actualitzin els filtres
+    useEffect(() => {
+      if (profile.cargo.toLowerCase() == "trabajador") {
+        const active = activeFilters.filter(element => {
+          if (element.name.toLowerCase() !== 'ciudad' && element.name.toLowerCase() !== 'estación') {
+            return element
+          }
+        })
+        setActiveFilters(active);
+      }
+      else if( profile.cargo.toLowerCase() == "responsable"){
+        const active = activeFilters.filter(element => {
+          if (element.name.toLowerCase() !== 'ciudad') {
+            return element
+          }
+        })
+        setActiveFilters(active);
+      }
+      else {
+        setActiveFilters(allFilters);
+      }
+    }, [profile])
+
+     /*useEffect(() => {
     const fetchData = async () => {
       const response = await fetch("http://localhost:3000/api/reservas");
       const data =  await response.json();
@@ -83,6 +140,14 @@ const ListaReservas: NextPage = () => {
     }
     fetchData();
   }, []) */
+  //si no somos admin eliminamos el filtro ciudad solo una vez
+
+  
+
+  const [value, setValue] = useState('');  
+  const [filtre, setFilter] = useState(''); 
+  ///////////////////DINAMICAMENTE////////////////////////
+  const [elementsD, setElements]  = useState<ReservaRowProps[]>(elements);
 
   const handleDeleteClick = (idReserva: number) => {
     const tmp = [];
@@ -103,9 +168,15 @@ const ListaReservas: NextPage = () => {
       <Head>
         <title>GeSyS - Reservas</title>
       </Head> 
-      <h1>Reservas</h1>
+      <Title order={1}> <Text  inherit component="span">Reservas </Text></Title>
+      <Space  h={25}/>
 
-      <AddReserva />
+      {!profile ? (
+        <div>Loading...</div>
+      ) : 
+      (
+        <>
+        <AddReserva />
       
       <Grid gutter="xl">
         <Grid.Col span={3}>
@@ -113,13 +184,30 @@ const ListaReservas: NextPage = () => {
             label="Elige que filtrar"
             placeholder="Pick one"
             //data={data}
-            value={filtre} onChange={setFilter} data={dataFilters}  onClick={() => setFilter("")}    
-            filter={(filtre, item) =>
-              item.filtre.toLowerCase().includes(filtre.toLowerCase().trim())}
-          />
+            value={filtre}
+            limit={7}
+            onChange={setFilter}
+            data={activeFilters}
+            onClick={() => setFilter("")}    
+            filter={(filtre, item) => item.value.toLowerCase().includes(value.toLowerCase().trim())}
+            />
         </Grid.Col>
+
         {filtre == "" && value && setValue("")}          
 
+        {(profile.cargo == "Administrador" || profile.cargo=="Jefe") && filtre=="Ciudad" && <Grid.Col span={6}>        
+          <Autocomplete
+            label="Elemento a filtrar:"
+            placeholder="Pick one"
+            //data={data}
+            value={value} onChange={setValue} data={elementsD.map((item) => ({ ...item, value: item.city}))}      
+            filter={(value, item) =>
+              item.value.toLowerCase().includes(value.toLowerCase().trim())
+            }
+          />
+
+        </Grid.Col>   
+        }
         {filtre=="Estación" && <Grid.Col span={6}>        
           <Autocomplete
             label="Elemento a filtrar:"
@@ -181,6 +269,7 @@ const ListaReservas: NextPage = () => {
           />
         </Grid.Col>   
         }
+
       </Grid>
      <br></br>    
 
@@ -190,6 +279,7 @@ const ListaReservas: NextPage = () => {
             <th>Reservante</th>
             <th>Matricula</th>
             <th>Estacion</th>
+            <th>Ciudad</th>
             <th>nºPlaza</th>
             <th>Fecha</th>
             <th>Duracion</th>
@@ -197,9 +287,13 @@ const ListaReservas: NextPage = () => {
             <th>Coste[€]</th>        
           </tr>       
         </thead>
-        <tbody>      
+        <tbody>
+              
         {filtre == "" && elementsD && elementsD.map(reserva => {
           return <ReservaRow key={reserva.id} reserva={reserva} deleteElement={handleDeleteClick} />
+        })}
+        {(profile.cargo == "Administrador" || profile.cargo=="Jefe") && filtre =="Ciudad" && elementsD && elementsD.filter(element => element.city.includes(value)).map((elementFiltrat, index )=> {
+          return <ReservaRow key={index}  reserva={elementFiltrat} deleteElement={handleDeleteClick}/>
         })}
         {filtre =="Estación" && elementsD && elementsD.filter(element => element.estacion.includes(value)).map((reserva, index )=> {
           return <ReservaRow key={index} reserva={reserva} deleteElement={handleDeleteClick}/>
@@ -218,9 +312,15 @@ const ListaReservas: NextPage = () => {
         })}
         </tbody>
       </Table>
+      </>
+      )}
+      
 
     </> 
     )
   }
   
   export default ListaReservas
+
+
+
