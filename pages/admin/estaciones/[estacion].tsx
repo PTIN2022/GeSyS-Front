@@ -1,14 +1,46 @@
-import { Grid, Group, Paper, ThemeIcon } from "@mantine/core";
+import { Grid, Group,Paper, ThemeIcon } from "@mantine/core";
 import { NextPage } from "next"
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { CircleCheck } from "tabler-icons-react";
+import { useEffect, useState} from "react";
 import AddIncidents from "../../../components/AddIncidents";
+import PlazaInfo from "../../../components/PlazaInfo";
 
+
+export interface PlazaData {
+  id_cargador: string;
+  estado: string;
+}
 const Estacion: NextPage = () => {
 
   const { query } = useRouter();
   const { estacion } = query;
+
+  const [plazas, setplazas] = useState<PlazaData[]>();
+  const [potencia_now, setPotencia_now] = useState("");
+  const [potencia_max, setPotencia_max] = useState("");
+
+  useEffect(() => {
+    const fetchEstacion = async () => {
+      if (estacion == undefined) return
+      const result = await fetch(`http://craaxkvm.epsevg.upc.es:23601/api/estaciones/${estacion}`);
+      const data = await result.json();
+      setPotencia_now(data.kwh_now);
+      setPotencia_max(data.kwh_max);
+      const pla = []
+
+      for(let i=0; i<data.length; i++) {
+        let pla_aux:PlazaData = {
+          id_cargador: data[i].Cargadores.id_cargador,
+          estado: data[i].Cargadores.estado,
+        }
+        pla.push(pla_aux)
+        console.log(pla_aux.id_cargador, pla_aux.estado);
+      }
+      setplazas(pla);
+    }
+    fetchEstacion();
+  }, [estacion])
 
   return (
     <>
@@ -16,298 +48,13 @@ const Estacion: NextPage = () => {
         <title>Gesys - Estación: {estacion}</title>
       </Head>
       <div>Estación {estacion}</div>
-      <Group position="center">
-        <Grid gutter={"xs"}>
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 1 -- Estado: 
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 2 -- Estado: 
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 3 -- Estado: 
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 4 -- Estado: 
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 5 -- Estado: 
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 6 -- Estado: 
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 7 -- Estado: 
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 8 -- Estado:
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 9 -- Estado:
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 10 -- Estado:
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 11 -- Estado:
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 12 -- Estado:
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 13 -- Estado:
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 14 -- Estado:
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 15 -- Estado:
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 16 -- Estado:
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 17 -- Estado:
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 18 -- Estado:
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 19 -- Estado:
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 20 -- Estado:
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 21 -- Estado:
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 22 -- Estado:
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 23 -- Estado:
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 24 -- Estado:
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 25 -- Estado:
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 26 -- Estado:
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 27 -- Estado:
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 28 -- Estado:
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 29 -- Estado:
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 30 -- Estado:
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 31 -- Estado:
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-          <Grid.Col span={3}>
-            <Paper shadow="sm" radius="md" p="xs">
-              Plaza: 32 -- Estado:
-              <ThemeIcon color="teal" size={24} radius="xl">
-                <CircleCheck size={16} />
-              </ThemeIcon>
-            </Paper>
-          </Grid.Col>
-
-        </Grid>
-      </Group>
+      <div>Kwh Max: {potencia_max}</div>
+      <div>Kwh Actual: {potencia_now}</div>
+      <Grid>
+        {plazas && plazas.map((element, index) => {
+              return <PlazaInfo key={index} {...element}/>
+        })}
+      </Grid>
       <AddIncidents />
     </>
   )
