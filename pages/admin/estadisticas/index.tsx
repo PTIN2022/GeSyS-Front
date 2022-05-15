@@ -61,7 +61,6 @@ function sumaEstaciones(estaciones: EstadisticaEstacion[]) {
   }
   return data;
 }
-
 const potencia_contratada: number[] =[90000, 100000, 90000, 100000, 90000, 95000, 100000, 90000, 98000, 90000, 100000, 95000]
 
 const all_estations: EstadisticaEstacion[] = [
@@ -77,7 +76,7 @@ const all_estations: EstadisticaEstacion[] = [
             data: generateData(dates.length, 1000, 4000)
           },
           {
-            label: `Potencia idea consumida`,
+            label: `Potencia ideal consumida`,
             fill: false,
             backgroundColor: 'rgba(255,10,10,0.3)',
             borderColor: 'rgba(255,10,10,0.5)',
@@ -121,7 +120,7 @@ const all_estations: EstadisticaEstacion[] = [
             fill: false,
             backgroundColor: 'rgba(255,10,10,0.3)',
             borderColor: 'rgba(255,10,10,0.5)',
-            data: [45000, 45000, 47000, 45000, 45000, 40000, 40000, 40000, 45000, 45000, 40000, 6000]
+            data: [45000, 45000, 47000, 45000, 45000, 40000, 40000, 40000, 45000, 45000, 40000, 60000]
           }
         ]
     }
@@ -288,7 +287,7 @@ const Estadisticas: NextPage = () => {
       }
 
       let dataset0: EstadisticaDataset = {
-        label: estacionOpcion.datasets[0].label,
+        label: 'Potencia máxima consumida(KW)',
         fill: estacionOpcion.datasets[0].fill,
         backgroundColor: estacionOpcion.datasets[0].backgroundColor,
         borderColor: estacionOpcion.datasets[0].borderColor,
@@ -296,7 +295,7 @@ const Estadisticas: NextPage = () => {
       }  
 
       let dataset1: EstadisticaDataset = {
-        label: 'Potencia ideal consumida',
+        label: 'Potencia contratada(KW)',
         fill: estacionOpcion.datasets[1].fill,
         backgroundColor: estacionOpcion.datasets[1].backgroundColor,
         borderColor: estacionOpcion.datasets[1].borderColor,
