@@ -61,7 +61,6 @@ function sumaEstaciones(estaciones: EstadisticaEstacion[]) {
   }
   return data;
 }
-const potencia_contratada: number[] =[90000, 100000, 90000, 100000, 90000, 95000, 100000, 90000, 98000, 90000, 100000, 95000]
 
 const all_estations: EstadisticaEstacion[] = [
     {
@@ -80,7 +79,7 @@ const all_estations: EstadisticaEstacion[] = [
             fill: false,
             backgroundColor: 'rgba(255,10,10,0.3)',
             borderColor: 'rgba(255,10,10,0.5)',
-            data: [45000, 45000, 45000, 45000, 45000, 40000, 40000, 40000, 45000, 45000, 40000, 40000]
+            data: [120000, 120000, 120000, 120000, 120000, 120000, 120000, 120000, 120000, 120000, 120000, 120000]
           }
         ]
     },
@@ -100,7 +99,7 @@ const all_estations: EstadisticaEstacion[] = [
             fill: false,
             backgroundColor: 'rgba(255,10,10,0.3)',
             borderColor: 'rgba(255,10,10,0.5)',
-            data: [45000, 45000, 45000, 45000, 45000, 40000, 40000, 40000, 45000, 45000, 40000, 40000]
+            data: [115000, 115000, 115000, 115000, 115000, 115000, 115000, 115000, 115000, 115000, 115000, 115000]
           }
         ]
     },
@@ -120,7 +119,7 @@ const all_estations: EstadisticaEstacion[] = [
             fill: false,
             backgroundColor: 'rgba(255,10,10,0.3)',
             borderColor: 'rgba(255,10,10,0.5)',
-            data: [45000, 45000, 47000, 45000, 45000, 40000, 40000, 40000, 45000, 45000, 40000, 60000]
+            data: [125000, 125000, 125000, 125000, 125000, 125000, 125000, 125000, 125000, 125000, 125000, 125000]
           }
         ]
     }
@@ -133,6 +132,21 @@ const options = {
         }
     }
 }
+
+function calcularTotalPotenciaContratada(estaciones: EstadisticaEstacion[]) {
+  const data = []
+  let sum;
+  for(let i = 0; i < estaciones[0].datasets[1].data.length ; i++) {
+    sum = 0;
+    for(let est = 0; est < estaciones.length; est++) {
+      sum += estaciones[est].datasets[1].data[i]
+    }
+    data.push(sum);
+  }
+  return data;
+}
+
+const potencia_contratada: number[] = [90000, 100000, 90000, 100000, 90000, 95000, 100000, 90000, 98000, 90000, 100000, 95000]
 
 const calcularTotalEstaciones = (estaciones: EstadisticaEstacion[]) => {
     const estacionTotal = {
@@ -151,7 +165,7 @@ const calcularTotalEstaciones = (estaciones: EstadisticaEstacion[]) => {
             fill: false,
             backgroundColor: 'rgba(255,10,10,0.3)',
             borderColor: 'rgba(255,10,10,0.5)',
-            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            data: calcularTotalPotenciaContratada(estaciones)
           }
         ]
     }
@@ -265,7 +279,6 @@ const Estadisticas: NextPage = () => {
     }
 
     function estations_range() {
-
       let date1 = fechasLimite[0]?.toLocaleDateString()
       let date2 = fechasLimite[1]?.toLocaleDateString()
       
@@ -280,7 +293,7 @@ const Estadisticas: NextPage = () => {
           data0.push(estacionOpcion.datasets[0].data[i]);
           let month = get_month(estacionOpcion.labels[i]);
           let year = get_year(estacionOpcion.labels[i])
-          data1.push((potencia_contratada[month-1]/getDaysOfMonth(year, month)));
+          data1.push((estacionOpcion.datasets[1].data[month-1]/getDaysOfMonth(year, month)));
         }
         if(estacionOpcion.labels[i] === date2) finish = true;
         i++;
