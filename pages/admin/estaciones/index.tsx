@@ -4,6 +4,7 @@ import FilaEstacion from '../../../components/FilaTablaEstacion';
 import { useEffect, useState } from 'react';
 
 export interface EstacionRowProps {
+  Nombre: string;
   Est: string;
   Dir: string;
   Kwh: string; 
@@ -25,7 +26,8 @@ const ListaEstaciones: NextPage =() => {
 
       for(let i=0; i<data.length; i++) {
         let est1:EstacionRowProps = {
-          Est: data[i].estacion,
+          Nombre: data[i].nombre_est,
+          Est: data[i].id_estacion,
           Dir: data[i].direccion,
           Kwh: data[i].kwh_now+"/"+data[i].kwh_max,
           Oc: data[i].ocupation_now+"/"+data[i].ocupation_max,
