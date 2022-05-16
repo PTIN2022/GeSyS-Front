@@ -2,6 +2,7 @@ import { Table, Title, Space, Text } from '@mantine/core';
 import type { NextPage } from 'next'
 import AveriaRow from '../../../components/AveriaRow';
 import * as React from 'react'
+import { useEffect, useState } from 'react';
 
 export interface AveriaRowProps {
   Est: string;
@@ -11,6 +12,7 @@ export interface AveriaRowProps {
   Desc: string; 
 }
 
+/*
 const elements: AveriaRowProps[] = [
   {
     Est: "VGA1",
@@ -33,9 +35,33 @@ const elements: AveriaRowProps[] = [
     State: 'Resolt',
     Desc: 'El cargador en la planta 3 plaza 5 no funciona '
   }
-];
+]; */
 
 const ListaAverias: NextPage = () => {
+  
+  const [elements, setAverias] = useState<AveriaRowProps[]>();
+
+  useEffect(() => {
+    const fetchEstacion = async () => {
+      const result = await fetch('http://craaxkvm.epsevg.upc.es:23601/api/incidencias');
+      const data = await result.json();  
+
+      const est = []
+
+      for(let i=0; i<data.length; i++) {
+        let est1:AveriaRowProps = {
+          Est: data[i].id_estacion,
+          Dir: data[i].direccion,
+          Date: data[i].fecha_averia, 
+          State: data[i].estado, 
+          Desc: data[i].descripcion,
+        }
+        est.push(est1)
+      }
+      setAverias(est);
+    }
+    fetchEstacion();
+  }, [])
   return (
     <>
     <Title order={1}> <Text  inherit component="span">Averías </Text></Title>
