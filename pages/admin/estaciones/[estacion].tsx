@@ -1,4 +1,4 @@
-import { Grid, Group,Paper, ThemeIcon } from "@mantine/core";
+import { Grid, Group, Space, Text } from "@mantine/core";
 import { NextPage } from "next"
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -28,11 +28,11 @@ const Estacion: NextPage = () => {
       setPotencia_now(data.kwh_now);
       setPotencia_max(data.kwh_max);
       const pla = []
-
-      for(let i=0; i<data.length; i++) {
+      console.log(data.Cargadores)
+      for(let i=0; i<data.Cargadores.length; i++) {
         let pla_aux:PlazaData = {
-          id_cargador: data[i].Cargadores.id_cargador,
-          estado: data[i].Cargadores.estado,
+          id_cargador: data.Cargadores[i].id_cargador,
+          estado: data.Cargadores[i].estado,
         }
         pla.push(pla_aux)
         console.log(pla_aux.id_cargador, pla_aux.estado);
@@ -47,14 +47,17 @@ const Estacion: NextPage = () => {
       <Head>
         <title>Gesys - Estación: {estacion}</title>
       </Head>
-      <div>Estación {estacion}</div>
-      <div>Kwh Max: {potencia_max}</div>
-      <div>Kwh Actual: {potencia_now}</div>
-      <Grid>
-        {plazas && plazas.map((element, index) => {
-              return <PlazaInfo key={index} {...element}/>
-        })}
-      </Grid>
+      <Text align="left" size="xl">Estación {estacion}</Text>
+      <Text align="left" size="sm">Kwh Max: {potencia_max}</Text>
+      <Text align="left" size="sm">Kwh Actual: {potencia_now}</Text>
+      <Space w="xs"/>
+      <Group position="center">
+        <Grid gutter={"xs"}>
+          {plazas && plazas.map((element, index) => {
+            return <PlazaInfo key={index} {...element}/>
+          })}
+        </Grid>
+      </Group>
       <AddIncidents />
     </>
   )
