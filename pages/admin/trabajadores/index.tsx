@@ -13,7 +13,7 @@ export interface TrabajadorRowProps {
   Last_access: string; 
   Foto: string;
 }
-
+/*
 const elements: TrabajadorRowProps[] = [
   {
     Name: "Sergio Sanchez",
@@ -39,7 +39,7 @@ const elements: TrabajadorRowProps[] = [
     Last_access: 'Connected',
     Foto: "https://d2qp0siotla746.cloudfront.net/img/use-cases/profile-picture/template_2.jpg"
   }
-];
+];*/
 
 
 const ListaTrabajadores: NextPage = () => {
@@ -51,6 +51,28 @@ const ListaTrabajadores: NextPage = () => {
     setProfile(user!)
   }, [user])
 
+  const [elements, setAverias] = useState<TrabajadorRowProps[]>();
+
+  useEffect(() => {
+    const fetchEstacion = async () => {
+      const result = await fetch('http://craaxkvm.epsevg.upc.es:23601/api/trabajador');
+      const data = await result.json();  
+
+      const est = []
+
+      for(let i=0; i<data.length; i++) {
+        let est1:TrabajadorRowProps = {
+          Name: data[i].name+" "+data[i].lastname,
+          Rol: data[i].rol,
+          Last_access: data[i].last_access,
+          Foto: data[i].picture,   
+        }
+        est.push(est1)
+      }
+      setAverias(est);
+    }
+    fetchEstacion();
+  }, [])
   return (
     <>
       <Head>
