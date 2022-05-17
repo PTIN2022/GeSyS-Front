@@ -5,7 +5,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 import { Line } from 'react-chartjs-2';
 import { AlertCircle } from "tabler-icons-react";
 import { DateRangePicker, getMonthDays } from '@mantine/dates';
-import { AlertTriangle } from 'tabler-icons-react';
+
 
 export interface EstadisticaDataset {
   label: string;
@@ -325,7 +325,6 @@ const Estadisticas: NextPage = () => {
     return (
         <div>
             <h1>Estadísticas</h1>
-            <AlertTriangle size={16} />
             <Select
                 label="Consumo de estaciones"
                 placeholder="Escoge una estación para ver su consumo"
