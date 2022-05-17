@@ -2,6 +2,7 @@ import { NextPage } from 'next';
 import { Table, Center, Title, Space, Text } from '@mantine/core';
 import FilaEstacion from '../../../components/FilaTablaEstacion';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 export interface EstacionRowProps {
   Est: string;
@@ -25,7 +26,7 @@ const ListaEstaciones: NextPage =() => {
 
       for(let i=0; i<data.length; i++) {
         let est1:EstacionRowProps = {
-          Est: data[i].estacion,
+          Est: data[i].id_estacion,
           Dir: data[i].direccion,
           Kwh: data[i].kwh_now+"/"+data[i].kwh_max,
           Oc: data[i].ocupation_now+"/"+data[i].ocupation_max,
@@ -56,7 +57,7 @@ const ListaEstaciones: NextPage =() => {
         </thead>
         <tbody>
           {estaciones && estaciones.map((element, index) => {
-              return <FilaEstacion key={index} {...element}/>
+            return <FilaEstacion key={index} {...element}/>
           })}
         </tbody>
       </Table>
