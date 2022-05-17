@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 export interface EstacionRowProps {
+  id : number;
   Est: string;
   Dir: string;
   Kwh: string; 
@@ -26,7 +27,8 @@ const ListaEstaciones: NextPage =() => {
 
       for(let i=0; i<data.length; i++) {
         let est1:EstacionRowProps = {
-          Est: data[i].id_estacion,
+          id : data[i].id_estacion,
+          Est: data[i].nombre_est,
           Dir: data[i].direccion,
           Kwh: data[i].kwh_now+"/"+data[i].kwh_max,
           Oc: data[i].ocupation_now+"/"+data[i].ocupation_max,
