@@ -1,11 +1,11 @@
 import { NextPage } from "next"
 import React, { useEffect, useState } from 'react';
-import { Alert, Select } from '@mantine/core';
+import { ActionIcon, Alert, Select } from '@mantine/core';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from "chart.js"
 import { Line } from 'react-chartjs-2';
 import { AlertCircle } from "tabler-icons-react";
 import { DateRangePicker, getMonthDays } from '@mantine/dates';
-
+import { AlertTriangle } from 'tabler-icons-react';
 
 export interface EstadisticaDataset {
   label: string;
@@ -146,8 +146,6 @@ function calcularTotalPotenciaContratada(estaciones: EstadisticaEstacion[]) {
   return data;
 }
 
-const potencia_contratada: number[] = [90000, 100000, 90000, 100000, 90000, 95000, 100000, 90000, 98000, 90000, 100000, 95000]
-
 const calcularTotalEstaciones = (estaciones: EstadisticaEstacion[]) => {
     const estacionTotal = {
         name: "Todas las estaciones",
@@ -187,7 +185,7 @@ const Estadisticas: NextPage = () => {
     ]);
 
     const arrayEstaciones = estaciones.map((est: EstadisticaEstacion, index: number) => {
-        return est.name
+        return "🔴 " + est.name
     })
 
     useEffect(() => {
@@ -221,7 +219,7 @@ const Estadisticas: NextPage = () => {
       let currentDay = new Date().getDate();
       let currentYear = new Date().getFullYear();
       let days = getDaysOfMonth(currentYear, currentMonth);
-      let consumptionExpected = potencia_contratada[currentMonth]
+      let consumptionExpected = est.datasets[1].data[currentMonth]
       let consumption = 0
       let currentEstation = estaciones.find((est: EstadisticaEstacion) => est.name === estacionActiva)
 
@@ -327,6 +325,7 @@ const Estadisticas: NextPage = () => {
     return (
         <div>
             <h1>Estadísticas</h1>
+            <AlertTriangle size={16} />
             <Select
                 label="Consumo de estaciones"
                 placeholder="Escoge una estación para ver su consumo"
