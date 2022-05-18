@@ -103,20 +103,20 @@ const AddIncidents = () => {
         value.length <= 0 ? (
           fields
         ) : (
-          // Filtrar form.values.plaza === value y mostrar form.values.descripcion
-          form.values.incidencias.filter((item) => item.plaza === value).map((item, index) => (
+          // Filtrar form.values.incidencias con plaza === value y mostrar form.values.descripcion
+          form.values.incidencias.filter(item => item.plaza === value).map((item, index) => (
             <Group key={index} mt="xs">
               <TextInput
                 readOnly
                 placeholder="Plaza"
                 sx={{ flex: 1 }}
-                {...form.getListInputProps('incidencias', index, 'plaza')}
+                value={item.plaza}
               />
               <TextInput
                 readOnly
                 placeholder="Descripcion"
                 sx={{ flex: 1 }}
-                {...form.getListInputProps('incidencias', index, 'descripcion')}
+                value={item.descripcion}
               />
               <ActionIcon
                 color="red"
@@ -128,10 +128,11 @@ const AddIncidents = () => {
             </Group>
           ))
         )
-        )}
+      )}
     </Box>
   );
 };
+
 
 
 
