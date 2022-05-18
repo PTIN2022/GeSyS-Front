@@ -10,6 +10,7 @@ export interface IncidenciaElement {
 
 const AddIncidents = () => {
 
+  const [value, setValue] = useState(''); 
   const [descripcion, setdescripcion] = useState('')
   const [plaza, setplaza] = useState('')
 
@@ -88,7 +89,7 @@ const AddIncidents = () => {
         label="Buscador de incidencias"
         placeholder="Search..."
         icon={<Hash />} 
-        data={[]} 
+        value={value} onChange={setValue} data={form.values.incidencias.map((item) => ({ ...item, value: item.plaza}))}      
       />
       
       <hr />
@@ -98,11 +99,39 @@ const AddIncidents = () => {
           Sin incidencias
         </Text>
       ) : (
-        fields
-      )}
-
+        value.length <= 0 ? (
+          fields
+        ) : (
+          // Filtrar form.values.plaza === value y mostrar form.values.descripcion
+          form.values.incidencias.filter((item) => item.plaza === value).map((item, index) => (
+            <Group key={index} mt="xs">
+              <TextInput
+                readOnly
+                placeholder="Plaza"
+                sx={{ flex: 1 }}
+                {...form.getListInputProps('incidencias', index, 'plaza')}
+              />
+              <TextInput
+                readOnly
+                placeholder="Descripcion"
+                sx={{ flex: 1 }}
+                {...form.getListInputProps('incidencias', index, 'descripcion')}
+              />
+              <ActionIcon
+                color="red"
+                variant="hover"
+                onClick={() => form.removeListItem('incidencias', index)}
+              >
+                <Trash size={16} />
+              </ActionIcon>
+            </Group>
+          ))
+        )
+        )}
     </Box>
   );
-}
+};
+
+
 
 export default AddIncidents;
