@@ -10,12 +10,13 @@ import { Calendar } from 'tabler-icons-react';
 
 export interface PromoData {
   id_promo: string;
-  estacion: number;
   descuento: number;
+  id_estacion: number;
   fecha_inicio: Date | null;
   fecha_fin: Date | null;
   estado: boolean;
   descripcion: string;
+  cupones_max: number;
 }
 
 export interface SelectLabelValue {
@@ -28,12 +29,13 @@ const AddPromocion = () => {
     const [opened, setOpened] = useState(false);
     const [promo, setPromo] = useState<PromoData>({
       id_promo: '',
-      estacion: 0,
+      id_estacion: 0,
       descuento: 0,
       fecha_inicio: null,
       fecha_fin: null,
       estado: false,
-      descripcion: ''
+      descripcion: '',
+      cupones_max: 0
     });
 
     const [estacionSelec, setEstacionSelec] = useState<string>('');
@@ -96,14 +98,15 @@ const AddPromocion = () => {
         return;
       }
 
-      const data = {
+      const data: PromoData = {
         id_promo: promo.id_promo,
-        estacion: parseInt(estacionSelec),
         descuento: promo.descuento,
+        id_estacion: parseInt(estacionSelec),
         fecha_inicio: promo.fecha_inicio,
         fecha_fin: promo.fecha_fin,
         estado: promo.estado,
-        descripcion: promo.descripcion
+        descripcion: promo.descripcion,
+        cupones_max: promo.cupones_max
       }
 
       // ESTA MIERDA NO VA PORQUE NO TIENEN LA API TODAVIA :/
@@ -131,6 +134,16 @@ const AddPromocion = () => {
 
     }
 
+    const handleChangeLimiteCupones = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const re = /^[0-9\b]+$/;
+      if (event.target.value == '') {
+        setPromo({...promo, cupones_max: 0})
+      }
+      else if (re.test(event.target.value)) {
+        setPromo({...promo, cupones_max: parseInt(event.target.value)})
+      }
+    }
+
     return(
       <>
         <Modal size="xl"
@@ -150,12 +163,20 @@ const AddPromocion = () => {
                 }}
               />
               </Grid.Col>
-              <Grid.Col span={6}>
+              <Grid.Col span={3}>
                 <TextInput
                     placeholder="10%"
                     label="Descuento [%]"
                     value={promo.descuento}
                     onChange={handleChangeLimiteDescuento}
+                />
+              </Grid.Col>
+              <Grid.Col span={3}>
+                <TextInput
+                    placeholder="10%" 
+                    label="Limite Cupones"
+                    value={promo.cupones_max}
+                    onChange={handleChangeLimiteCupones}
                 />
               </Grid.Col>
             </Grid>
