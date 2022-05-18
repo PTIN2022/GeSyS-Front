@@ -26,7 +26,7 @@ const AddIncidents = () => {
 
   const handleSubmitAddIncidencia = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    
     if (!form.validateField('descripcion').hasError && !form.validateField('plaza').hasError) {
       form.addListItem("incidencias", {descripcion: descripcion, plaza: plaza})
       setdescripcion('')
@@ -64,7 +64,7 @@ const AddIncidents = () => {
         <Group mt={"xs"} mb={"xs"} align={"end"}>
           
           <TextInput
-            placeholder="Plaza4"
+            placeholder="24"
             label="Num Plaza"
             sx={{ flex: 1 }}
             value={plaza} 
@@ -86,10 +86,11 @@ const AddIncidents = () => {
       </form>
 
       <Autocomplete 
-        label="Buscador de incidencias"
-        placeholder="Search..."
+        label="Buscador de incidencias por plaza"
+        placeholder="123"
         icon={<Hash />} 
-        value={value} onChange={setValue} data={form.values.incidencias.map((item) => ({ ...item, value: item.plaza}))}      
+        value={value} onChange={setValue} data={form.values.incidencias.map((item) => ({ ...item, value: item.plaza}))}
+        rightSection={<ActionIcon color="red" variant="hover" onClick={() => setValue('')}><Trash size={16} /></ActionIcon>}      
       />
       
       <hr />
