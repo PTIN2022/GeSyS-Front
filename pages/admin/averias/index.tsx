@@ -43,7 +43,7 @@ const ListaAverias: NextPage = () => {
 
   useEffect(() => {
     const fetchEstacion = async () => {
-      const result = await fetch('http://craaxkvm.epsevg.upc.es:23601/api/incidencias');
+      const result = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/incidencias');
       const data = await result.json();  
 
       const est = []
