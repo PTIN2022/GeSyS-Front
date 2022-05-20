@@ -18,14 +18,14 @@ const ListaEstaciones: NextPage =() => {
 
   useEffect(() => {
     const fetchEstacion = async () => {
-      const result = await fetch('http://craaxkvm.epsevg.upc.es:23601/api/estaciones');
+      const result = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/estaciones');
       const data = await result.json();  
 
       const est = []
 
       for(let i=0; i<data.length; i++) {
         let est1:EstacionRowProps = {
-          Est: data[i].estacion,
+          Est: data[i].nombre_est,
           Dir: data[i].direccion,
           Kwh: data[i].kwh_now+"/"+data[i].kwh_max,
           Oc: data[i].ocupation_now+"/"+data[i].ocupation_max,
