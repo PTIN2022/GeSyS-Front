@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 
 export interface AveriaRowProps {
   Est: string;
-  Dir: string;
+  //Dir: string;
   Date: string; 
   State: string; 
   Desc: string; 
@@ -51,7 +51,7 @@ const ListaAverias: NextPage = () => {
       for(let i=0; i<data.length; i++) {
         let est1:AveriaRowProps = {
           Est: data[i].id_estacion,
-          Dir: data[i].direccion,
+          //Dir: data[i].direccion,
           Date: data[i].fecha_averia, 
           State: data[i].estado, 
           Desc: data[i].descripcion,
@@ -70,7 +70,6 @@ const ListaAverias: NextPage = () => {
         <thead>
             <tr>
             <th>Estacion</th>
-            <th>Dirección</th>
             <th>Fecha</th>
             <th>Estado</th>
             <th>Descripción</th>
