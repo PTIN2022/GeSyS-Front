@@ -6,25 +6,16 @@ import 'dayjs/locale/es'
 import { Container } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import { Calendar } from 'tabler-icons-react';
+import { PromoData } from '../pages/admin/promociones';
 
 
-export interface PromoData {
-  id_promo: number;
-  descuento: number;
-  // id_estacion: number;
-  fecha_inicio: Date | null;
-  fecha_fin: Date | null;
-  estado: string;
-  descripcion: string;
-  // cupones_max: number;
-}
 
 export interface SelectLabelValue {
   value: string;
   label: string;
 }
 
-const AddPromocion = () => {
+const AddPromocion = (props: any) => {
 
     const [opened, setOpened] = useState(false);
     const [promo, setPromo] = useState<PromoData>({
@@ -33,7 +24,7 @@ const AddPromocion = () => {
       descuento: 0,
       fecha_inicio: null,
       fecha_fin: null,
-      estado: 'inactiva',
+      estado: true,
       descripcion: '',
       // cupones_max: 0
     });
@@ -117,7 +108,7 @@ const AddPromocion = () => {
         form.append("fecha_inicio", data.fecha_inicio!.toISOString().slice(0, -5)); // Hack para que la mierda api funcione
         form.append("fecha_fin", data.fecha_fin!.toISOString().slice(0, -5)); // Hack para que la mierda api funcione
         form.append("descripcion", data.descripcion);
-        form.append("estado", data.estado == 'activa' ? 'true' : 'false');
+        form.append("estado", data.estado == true ? 'activa' : 'inactiva');
 
         const res = await fetch('http://craaxkvm.epsevg.upc.es:23601/api/promociones', {
           method: 'POST',
@@ -129,6 +120,17 @@ const AddPromocion = () => {
 
         const json = await res.json();
         if (res.status === 200) {
+          props.triggerReload();
+          setPromo({
+            id_promo: 0,
+            // id_estacion: 0,
+            descuento: 0,
+            fecha_inicio: null,
+            fecha_fin: null,
+            estado: true,
+            descripcion: '',
+            // cupones_max: 0
+          })
           setOpened(false);
         }
         else {
