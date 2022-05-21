@@ -47,6 +47,7 @@ const PromoRow = ({ id_promo, descuento, fecha_inicio, fecha_fin, estado, descri
                : 
               'Desactivado'
             }</td>
+            <td>
             <Menu control={
                 <Center  style={{ width: 10, height: 40 }}>
                     <ActionIcon color="dark" radius="md">
@@ -63,6 +64,7 @@ const PromoRow = ({ id_promo, descuento, fecha_inicio, fecha_fin, estado, descri
                   <Menu.Item>Editar</Menu.Item> 
                 </Link>
             </Menu>
+            </td>
         </tr>
     )
 } 
