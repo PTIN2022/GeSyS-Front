@@ -8,8 +8,6 @@ import { DatePicker } from '@mantine/dates';
 import { Calendar } from 'tabler-icons-react';
 import { PromoData } from '../pages/admin/promociones';
 
-
-
 export interface SelectLabelValue {
   value: string;
   label: string;

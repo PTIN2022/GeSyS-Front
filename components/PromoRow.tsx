@@ -10,6 +10,29 @@ import { PromoData } from '../pages/admin/promociones';
 const PromoRow = ({ id_promo, descuento, fecha_inicio, fecha_fin, estado, descripcion } : PromoData) => {
     const [Activado,setActivado] = useState<boolean>(estado);
 
+    const handleChangeEstado = (event: any) => {
+
+      const form = new FormData();
+      form.append("estado", !Activado == true ? 'true' : 'false');
+
+      fetch(`http://craaxkvm.epsevg.upc.es:23601/api/promociones/${id_promo}`, {
+        "method": "PUT",
+        "body": form,
+        "headers": {
+          "accept": "application/json"
+        }
+      })
+      .then(response => {
+        if (response.status === 200) {
+          setActivado(!Activado);
+        }
+      })
+      .catch(err => {
+        console.error(err);
+      });
+
+    }
+
     return (    
         <tr>
             <td>{id_promo}</td>
@@ -32,7 +55,7 @@ const PromoRow = ({ id_promo, descuento, fecha_inicio, fecha_fin, estado, descri
                 </Center>
                 }>
                 <Menu.Item
-                    onClick={() => setActivado(!Activado)}
+                    onClick={handleChangeEstado}
                 >
                     {Activado ? "Desactivar": "Activar"}
                 </Menu.Item> 
