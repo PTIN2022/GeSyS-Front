@@ -9,14 +9,14 @@ import { Calendar } from 'tabler-icons-react';
 
 
 export interface PromoData {
-  id_promo: string;
+  id_promo: number;
   descuento: number;
-  id_estacion: number;
+  // id_estacion: number;
   fecha_inicio: Date | null;
   fecha_fin: Date | null;
-  estado: boolean;
+  estado: string;
   descripcion: string;
-  cupones_max: number;
+  // cupones_max: number;
 }
 
 export interface SelectLabelValue {
@@ -28,37 +28,37 @@ const AddPromocion = () => {
 
     const [opened, setOpened] = useState(false);
     const [promo, setPromo] = useState<PromoData>({
-      id_promo: '',
-      id_estacion: 0,
+      id_promo: 0,
+      // id_estacion: 0,
       descuento: 0,
       fecha_inicio: null,
       fecha_fin: null,
-      estado: false,
+      estado: 'inactiva',
       descripcion: '',
-      cupones_max: 0
+      // cupones_max: 0
     });
 
     const [estacionSelec, setEstacionSelec] = useState<string>('');
     const [estaciones, setEstaciones] = useState<SelectLabelValue[]>([]);
 
-    useEffect(() => {
-      const fetchDatos = () => {
-        fetch('http://craaxkvm.epsevg.upc.es:23601/api/estaciones')
-          .then(res => res.json())
-          .then(data => {
-            const est = []
-            for(let i=0; i<data.length; i++) {
-              const tmp: SelectLabelValue = {
-                value: data[i].id_estacion,
-                label: data[i].nombre_est
-              }
-              est.push(tmp)
-            }
-            setEstaciones(est);
-          });
-      }
-      fetchDatos();
-    }, [])
+    // useEffect(() => {
+    //   const fetchDatos = () => {
+    //     fetch('http://craaxkvm.epsevg.upc.es:23601/api/estaciones')
+    //       .then(res => res.json())
+    //       .then(data => {
+    //         const est = []
+    //         for(let i=0; i<data.length; i++) {
+    //           const tmp: SelectLabelValue = {
+    //             value: data[i].id_estacion,
+    //             label: data[i].nombre_est
+    //           }
+    //           est.push(tmp)
+    //         }
+    //         setEstaciones(est);
+    //       });
+    //   }
+    //   fetchDatos();
+    // }, [])
 
     const handleChangeLimiteDescuento = (event: React.ChangeEvent<HTMLInputElement>) => {
         const re = /^[0-9\b]+$/;
@@ -77,10 +77,10 @@ const AddPromocion = () => {
 
     const handleSubmitNewPromo = async (event: React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
-      if (estacionSelec === '') {
-        alert('Selecciona una estación');
-        return;
-      }
+      // if (estacionSelec === '') {
+      //   alert('Selecciona una estación');
+      //   return;
+      // }
       if (promo.descuento === 0) {
         alert('Introduce un descuento');
         return;
@@ -101,32 +101,45 @@ const AddPromocion = () => {
       const data: PromoData = {
         id_promo: promo.id_promo,
         descuento: promo.descuento,
-        id_estacion: parseInt(estacionSelec),
+        // id_estacion: parseInt(estacionSelec),
         fecha_inicio: promo.fecha_inicio,
         fecha_fin: promo.fecha_fin,
         estado: promo.estado,
         descripcion: promo.descripcion,
-        cupones_max: promo.cupones_max
+        // cupones_max: promo.cupones_max
       }
 
       // ESTA MIERDA NO VA PORQUE NO TIENEN LA API TODAVIA :/
       try {
-        const response = await fetch('http://craaxkvm.epsevg.upc.es:23601/api/promociones', {
+
+        const form = new FormData();
+        form.append("descuento", data.descuento.toString());
+        form.append("fecha_inicio", data.fecha_inicio!.toISOString().slice(0, -5)); // Hack para que la mierda api funcione
+        form.append("fecha_fin", data.fecha_fin!.toISOString().slice(0, -5)); // Hack para que la mierda api funcione
+        form.append("descripcion", data.descripcion);
+        form.append("estado", data.estado == 'activa' ? 'true' : 'false');
+
+        const res = await fetch('http://craaxkvm.epsevg.upc.es:23601/api/promociones', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        })
+          body: form,
+          "headers": {
+            "accept": "application/json"
+          }
+        });
 
-        const datos = await response.json();
-
-        if (response.status !== 200) {
-          alert(datos.toString());
-          return;
+        const json = await res.json();
+        if (res.status === 200) {
+          setOpened(false);
+        }
+        else {
+          alert('Error al crear la promoción');
+          // Display the key/value pairs
+          for (var pair of form.entries() as any) {
+            console.log(pair[0]+ ', ' + pair[1]); 
+          }
+          console.log(json);
         }
   
-        setOpened(false)
       }
       catch (error) {
         console.error(error);
@@ -134,15 +147,15 @@ const AddPromocion = () => {
 
     }
 
-    const handleChangeLimiteCupones = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const re = /^[0-9\b]+$/;
-      if (event.target.value == '') {
-        setPromo({...promo, cupones_max: 0})
-      }
-      else if (re.test(event.target.value)) {
-        setPromo({...promo, cupones_max: parseInt(event.target.value)})
-      }
-    }
+    // const handleChangeLimiteCupones = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //   const re = /^[0-9\b]+$/;
+    //   if (event.target.value == '') {
+    //     setPromo({...promo, cupones_max: 0})
+    //   }
+    //   else if (re.test(event.target.value)) {
+    //     setPromo({...promo, cupones_max: parseInt(event.target.value)})
+    //   }
+    // }
 
     return(
       <>
@@ -152,7 +165,7 @@ const AddPromocion = () => {
             title="Introduzca los datos de la nueva promoción">
             <Container>
             <Grid gutter="xl">
-              <Grid.Col span={6}>
+              {/* <Grid.Col span={6}>
               <Select
                 label="Estación"
                 placeholder="Selecciona una estación"
@@ -162,8 +175,8 @@ const AddPromocion = () => {
                   setEstacionSelec(e!)
                 }}
               />
-              </Grid.Col>
-              <Grid.Col span={3}>
+              </Grid.Col> */}
+              <Grid.Col span={6}>
                 <TextInput
                     placeholder="10%"
                     label="Descuento [%]"
@@ -171,14 +184,14 @@ const AddPromocion = () => {
                     onChange={handleChangeLimiteDescuento}
                 />
               </Grid.Col>
-              <Grid.Col span={3}>
+              {/* <Grid.Col span={3}>
                 <TextInput
                     placeholder="10%" 
                     label="Limite Cupones"
                     value={promo.cupones_max}
                     onChange={handleChangeLimiteCupones}
                 />
-              </Grid.Col>
+              </Grid.Col> */}
             </Grid>
             <Grid gutter="xl">
                 <Grid.Col span={6}>
