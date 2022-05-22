@@ -185,7 +185,15 @@ const Estadisticas: NextPage = () => {
     ]);
 
     const arrayEstaciones = estaciones.map((est: EstadisticaEstacion, index: number) => {
-        return "🔴 " + est.name
+      let lab
+      if(showFlag(est))
+        lab = "🚩 " + est.name
+      else
+        lab = est.name
+      return { 
+        label: lab,
+        value: est.name
+      }
     })
 
     useEffect(() => {
@@ -213,6 +221,33 @@ const Estadisticas: NextPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fechasLimite])
 
+    function showFlag(est: EstadisticaEstacion) {
+      let currentMonth = new Date().getMonth();
+      let currentDay = new Date().getDate();
+      let currentYear = new Date().getFullYear();
+      let days = getDaysOfMonth(currentYear, currentMonth);
+      let consumptionExpected = est.datasets[1].data[currentMonth]
+      let count = 0
+      let currentEstation = est
+
+      let firstDay = 0, lastDay = 0;
+      for(let i=0; i<=currentMonth; i++) {
+        if(i != currentMonth) firstDay += getDaysOfMonth(currentYear, i+1)
+        else lastDay = firstDay + currentDay - 1
+      }
+
+      for(let i=firstDay; i<lastDay; i++) {
+        if(currentEstation && currentEstation?.datasets[0].data[i] < (consumptionExpected/days)*0.6)
+          count++
+      }
+      if(count > currentDay/2) {
+        return true; 
+      }
+      else {
+        return false;
+      }
+    }
+    
     function isThereAWarning(est: EstadisticaEstacion) {
 
       let currentMonth = new Date().getMonth();
@@ -220,7 +255,7 @@ const Estadisticas: NextPage = () => {
       let currentYear = new Date().getFullYear();
       let days = getDaysOfMonth(currentYear, currentMonth);
       let consumptionExpected = est.datasets[1].data[currentMonth]
-      let consumption = 0
+      let count = 0;
       let currentEstation = estaciones.find((est: EstadisticaEstacion) => est.name === estacionActiva)
 
       let firstDay = 0, lastDay = 0;
@@ -230,10 +265,11 @@ const Estadisticas: NextPage = () => {
       }
 
       for(let i=firstDay; i<lastDay; i++) {
-        if(currentEstation) consumption += currentEstation?.datasets[0].data[i]
+        if(currentEstation && currentEstation?.datasets[0].data[i] < (consumptionExpected/days)*0.6)
+          count++
       }
-      if((consumptionExpected/days)*0.8 > (consumption/currentDay)) {
-        setWarning("Este mes has consumido "+consumption+" KW, el "+(consumption/consumptionExpected*100).toFixed(2)+"% de la potencia contratada. Lo ideal sería haber consumido "+(currentDay/days*100).toFixed(2)+"% hasta la fecha actual. Sería recomendable añadir promociones para incentivar el consumo.")
+      if(count > currentDay/2) {
+        setWarning("Durante " + count + " días de este mes, has utilizado menos del 60% de la potencia contratada. Sería recomendable añadir promociones para incentivar el consumo.")
       }
       else {
         setWarning("")
