@@ -17,6 +17,7 @@ export interface ReservaRowProps{
   nPlaza: number;
   date: Date | null;
   duration: number;
+  //date_fin:  Date | null;
   kwh: number;
   money: number;
   city: string;
@@ -130,16 +131,48 @@ const ListaReservas: NextPage = () => {
         setActiveFilters(allFilters);
       }
     }, [profile])
-
-     /*useEffect(() => {
+/*******************************/
+/* HACEMOS GET DE LAS RESERVAS */
+/*******************************/
+const [elementsD, setElements]  = useState<ReservaRowProps[]>();
+    console.log("HOLA??")
+    useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("http://localhost:3000/api/reservas");
+      const response = await fetch("http://craaxkvm.epsevg.upc.es:23601/api/reservas", {
+        method:'GET',
+        headers:{
+          'accept': 'application/json'
+        },
+       //mode:'no-cors'
+      });
       const data =  await response.json();
-    
-      setElements(data)
+
+      const res = []
+
+      for(let i=0; i<data.length; i++) {
+        //const duration = data[i].fecha_entrada.toString().split("T",2)[2] - data[i].fecha_final.toString().split("T",2)[2]
+
+        let est1:ReservaRowProps = {
+          id: data[i].id_reserva,
+          reservante: data[i].id_cliente,
+          matricula: data[i].id_vehiculo,
+          estacion: "VGA1",//data[i].id_estacion,
+          city:"Vilanova",
+          nPlaza: data[i].id_cargador,
+          duration: 2,
+          //date:data[i].fecha_entrada.toString().split("T",2)[1],
+          //Dir: data[i].direccion,
+          date: new Date (data[i].fecha_entrada), 
+          kwh: 40,
+          money: 10
+        }
+        res.push(est1)
+      }
+      setElements(res);
+      console.log(data[0].fecha_entrada.toString().split("T",2)[1])
     }
     fetchData();
-  }, []) */
+  }, []) 
   //si no somos admin eliminamos el filtro ciudad solo una vez
 
   
@@ -147,7 +180,6 @@ const ListaReservas: NextPage = () => {
   const [value, setValue] = useState('');  
   const [filtre, setFilter] = useState(''); 
   ///////////////////DINAMICAMENTE////////////////////////
-  const [elementsD, setElements]  = useState<ReservaRowProps[]>(elements);
 
   const handleDeleteClick = (idReserva: number) => {
     const tmp = [];
