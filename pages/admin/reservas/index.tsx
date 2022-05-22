@@ -29,43 +29,43 @@ export interface Filter {
 }
 
 const elements: ReservaRowProps[] = [
-  {
-    id:1,
-    reservante: "manolo",
-    matricula: "4444 AAA",
-    estacion: 'VG1',
-    nPlaza: 13,
-    date: new Date(2020,1,1),
-    duration: 2,
-    kwh: 30,
-    money: 70,
-    city: "Vilanova"
-  },
-  {
-    id:2,
-    reservante: "paco",
-    matricula: "5555 AAA",
-    estacion: 'VG1',
-    nPlaza: 3,
-    date: new Date('2020-01-02'),
-    duration:3,
-    kwh: 30,
-    money: 70,
-    city: "Sitges"
+  // {
+  //   id:1,
+  //   reservante: "manolo",
+  //   matricula: "4444 AAA",
+  //   estacion: 'VG1',
+  //   nPlaza: 13,
+  //   date: new Date(2020,1,1),
+  //   duration: 2,
+  //   kwh: 30,
+  //   money: 70,
+  //   city: "Vilanova"
+  // },
+  // {
+  //   id:2,
+  //   reservante: "paco",
+  //   matricula: "5555 AAA",
+  //   estacion: 'VG1',
+  //   nPlaza: 3,
+  //   date: new Date('2020-01-02'),
+  //   duration:3,
+  //   kwh: 30,
+  //   money: 70,
+  //   city: "Sitges"
 
-  },
-  {
-    id:3,
-    reservante: "antonio",
-    matricula: "6666 AAA",
-    estacion: 'VG2',
-    nPlaza: 10,
-    date:new Date('2020-01-01'),
-    duration: 1,
-    kwh:40,
-    money: 70,
-    city: "Mordor"
-  }
+  // },
+  // {
+  //   id:3,
+  //   reservante: "antonio",
+  //   matricula: "6666 AAA",
+  //   estacion: 'VG2',
+  //   nPlaza: 10,
+  //   date:new Date('2020-01-01'),
+  //   duration: 1,
+  //   kwh:40,
+  //   money: 70,
+  //   city: "Mordor"
+  // }
 ];
 
 
@@ -134,7 +134,7 @@ const ListaReservas: NextPage = () => {
 /*******************************/
 /* HACEMOS GET DE LAS RESERVAS */
 /*******************************/
-const [elementsD, setElements]  = useState<ReservaRowProps[]>();
+const [elementsD, setElements]  = useState<ReservaRowProps[] >(elements);
     console.log("HOLA??")
     useEffect(() => {
     const fetchData = async () => {
