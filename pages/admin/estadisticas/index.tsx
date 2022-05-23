@@ -1,6 +1,6 @@
 import { NextPage } from "next"
 import React, { useEffect, useState } from 'react';
-import { Alert, Select } from '@mantine/core';
+import { ActionIcon, Alert, Select } from '@mantine/core';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from "chart.js"
 import { Line } from 'react-chartjs-2';
 import { AlertCircle } from "tabler-icons-react";
@@ -62,8 +62,6 @@ function sumaEstaciones(estaciones: EstadisticaEstacion[]) {
   return data;
 }
 
-const potencia_contratada: number[] =[90000, 100000, 90000, 100000, 90000, 95000, 100000, 90000, 98000, 90000, 100000, 95000]
-
 const all_estations: EstadisticaEstacion[] = [
     {
         name: "VGA1",
@@ -77,11 +75,11 @@ const all_estations: EstadisticaEstacion[] = [
             data: generateData(dates.length, 1000, 4000)
           },
           {
-            label: `Potencia idea consumida`,
+            label: `Potencia ideal consumida`,
             fill: false,
             backgroundColor: 'rgba(255,10,10,0.3)',
             borderColor: 'rgba(255,10,10,0.5)',
-            data: [45000, 45000, 45000, 45000, 45000, 40000, 40000, 40000, 45000, 45000, 40000, 40000]
+            data: [120000, 120000, 120000, 120000, 120000, 120000, 120000, 120000, 120000, 120000, 120000, 120000]
           }
         ]
     },
@@ -101,7 +99,7 @@ const all_estations: EstadisticaEstacion[] = [
             fill: false,
             backgroundColor: 'rgba(255,10,10,0.3)',
             borderColor: 'rgba(255,10,10,0.5)',
-            data: [45000, 45000, 45000, 45000, 45000, 40000, 40000, 40000, 45000, 45000, 40000, 40000]
+            data: [115000, 115000, 115000, 115000, 115000, 115000, 115000, 115000, 115000, 115000, 115000, 115000]
           }
         ]
     },
@@ -121,7 +119,7 @@ const all_estations: EstadisticaEstacion[] = [
             fill: false,
             backgroundColor: 'rgba(255,10,10,0.3)',
             borderColor: 'rgba(255,10,10,0.5)',
-            data: [45000, 45000, 47000, 45000, 45000, 40000, 40000, 40000, 45000, 45000, 40000, 6000]
+            data: [125000, 125000, 125000, 125000, 125000, 125000, 125000, 125000, 125000, 125000, 125000, 125000]
           }
         ]
     }
@@ -133,6 +131,19 @@ const options = {
             beginAtZero: true
         }
     }
+}
+
+function calcularTotalPotenciaContratada(estaciones: EstadisticaEstacion[]) {
+  const data = []
+  let sum;
+  for(let i = 0; i < estaciones[0].datasets[1].data.length ; i++) {
+    sum = 0;
+    for(let est = 0; est < estaciones.length; est++) {
+      sum += estaciones[est].datasets[1].data[i]
+    }
+    data.push(sum);
+  }
+  return data;
 }
 
 const calcularTotalEstaciones = (estaciones: EstadisticaEstacion[]) => {
@@ -152,7 +163,7 @@ const calcularTotalEstaciones = (estaciones: EstadisticaEstacion[]) => {
             fill: false,
             backgroundColor: 'rgba(255,10,10,0.3)',
             borderColor: 'rgba(255,10,10,0.5)',
-            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            data: calcularTotalPotenciaContratada(estaciones)
           }
         ]
     }
@@ -174,7 +185,15 @@ const Estadisticas: NextPage = () => {
     ]);
 
     const arrayEstaciones = estaciones.map((est: EstadisticaEstacion, index: number) => {
-        return est.name
+      let lab
+      if(showFlag(est))
+        lab = "🚩 " + est.name
+      else
+        lab = est.name
+      return { 
+        label: lab,
+        value: est.name
+      }
     })
 
     useEffect(() => {
@@ -202,14 +221,41 @@ const Estadisticas: NextPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fechasLimite])
 
+    function showFlag(est: EstadisticaEstacion) {
+      let currentMonth = new Date().getMonth();
+      let currentDay = new Date().getDate();
+      let currentYear = new Date().getFullYear();
+      let days = getDaysOfMonth(currentYear, currentMonth);
+      let consumptionExpected = est.datasets[1].data[currentMonth]
+      let count = 0
+      let currentEstation = est
+
+      let firstDay = 0, lastDay = 0;
+      for(let i=0; i<=currentMonth; i++) {
+        if(i != currentMonth) firstDay += getDaysOfMonth(currentYear, i+1)
+        else lastDay = firstDay + currentDay - 1
+      }
+
+      for(let i=firstDay; i<lastDay; i++) {
+        if(currentEstation && currentEstation?.datasets[0].data[i] < (consumptionExpected/days)*0.6)
+          count++
+      }
+      if(count > currentDay/2) {
+        return true; 
+      }
+      else {
+        return false;
+      }
+    }
+    
     function isThereAWarning(est: EstadisticaEstacion) {
 
       let currentMonth = new Date().getMonth();
       let currentDay = new Date().getDate();
       let currentYear = new Date().getFullYear();
       let days = getDaysOfMonth(currentYear, currentMonth);
-      let consumptionExpected = potencia_contratada[currentMonth]
-      let consumption = 0
+      let consumptionExpected = est.datasets[1].data[currentMonth]
+      let count = 0;
       let currentEstation = estaciones.find((est: EstadisticaEstacion) => est.name === estacionActiva)
 
       let firstDay = 0, lastDay = 0;
@@ -219,10 +265,11 @@ const Estadisticas: NextPage = () => {
       }
 
       for(let i=firstDay; i<lastDay; i++) {
-        if(currentEstation) consumption += currentEstation?.datasets[0].data[i]
+        if(currentEstation && currentEstation?.datasets[0].data[i] < (consumptionExpected/days)*0.6)
+          count++
       }
-      if((consumptionExpected/days)*0.8 > (consumption/currentDay)) {
-        setWarning("Este mes has consumido "+consumption+" KW, el "+(consumption/consumptionExpected*100).toFixed(2)+"% de la potencia contratada. Lo ideal sería haber consumido "+(currentDay/days*100).toFixed(2)+"% hasta la fecha actual. Sería recomendable añadir promociones para incentivar el consumo.")
+      if(count > currentDay/2) {
+        setWarning("Durante " + count + " días de este mes, has utilizado menos del 60% de la potencia contratada. Sería recomendable añadir promociones para incentivar el consumo.")
       }
       else {
         setWarning("")
@@ -266,7 +313,6 @@ const Estadisticas: NextPage = () => {
     }
 
     function estations_range() {
-
       let date1 = fechasLimite[0]?.toLocaleDateString()
       let date2 = fechasLimite[1]?.toLocaleDateString()
       
@@ -281,14 +327,14 @@ const Estadisticas: NextPage = () => {
           data0.push(estacionOpcion.datasets[0].data[i]);
           let month = get_month(estacionOpcion.labels[i]);
           let year = get_year(estacionOpcion.labels[i])
-          data1.push((potencia_contratada[month-1]/getDaysOfMonth(year, month)));
+          data1.push((estacionOpcion.datasets[1].data[month-1]/getDaysOfMonth(year, month)));
         }
         if(estacionOpcion.labels[i] === date2) finish = true;
         i++;
       }
 
       let dataset0: EstadisticaDataset = {
-        label: estacionOpcion.datasets[0].label,
+        label: 'Potencia máxima consumida(KW)',
         fill: estacionOpcion.datasets[0].fill,
         backgroundColor: estacionOpcion.datasets[0].backgroundColor,
         borderColor: estacionOpcion.datasets[0].borderColor,
@@ -296,7 +342,7 @@ const Estadisticas: NextPage = () => {
       }  
 
       let dataset1: EstadisticaDataset = {
-        label: 'Potencia ideal consumida',
+        label: 'Potencia contratada(KW)',
         fill: estacionOpcion.datasets[1].fill,
         backgroundColor: estacionOpcion.datasets[1].backgroundColor,
         borderColor: estacionOpcion.datasets[1].borderColor,
