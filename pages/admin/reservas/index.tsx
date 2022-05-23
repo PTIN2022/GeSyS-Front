@@ -138,7 +138,7 @@ const [elementsD, setElements]  = useState<ReservaRowProps[] >(elements);
     console.log("HOLA??")
     useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("http://craaxkvm.epsevg.upc.es:23601/api/reservas", {
+      const response = await fetch("https://craaxkvm.epsevg.upc.es:23600/api/reservas", {
         method:'GET',
         headers:{
           'accept': 'application/json'
