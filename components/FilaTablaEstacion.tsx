@@ -3,7 +3,7 @@ import Link from "next/link"
 import { EstacionRowProps } from "../pages/admin/estaciones"
 
 
-const FilaEstacion = ({ Dir, Est, Kwh, Oc, enc, m2 } : EstacionRowProps) => {
+const FilaEstacion = ({ Dir, Est, Kwh, Oc, enc, m2 , id } : EstacionRowProps) => {
   return (        
     <tr>
       <td>{Est}</td>
@@ -13,7 +13,7 @@ const FilaEstacion = ({ Dir, Est, Kwh, Oc, enc, m2 } : EstacionRowProps) => {
       <td>{m2}</td>
       <td>{enc}</td>
       <Button>
-        <Link href={`http://localhost:3000/admin/estaciones/${Est}`}>
+        <Link href={`http://localhost:3000/admin/estaciones/${id}`}>
           <text>Ver Estacion</text>
         </Link>
       </Button>
