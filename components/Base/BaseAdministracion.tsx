@@ -160,9 +160,9 @@ const BaseAdministracion = (props: AppProps) => {
               navbaritem.label != "Estaciones" &&  
               navbaritem.label != "Promociones" &&
               navbaritem.label != "Estadisticas")
-                  return <NavbarButton key={index} {...navbaritem} />;
+                  return <NavbarButton closeBurger={setOpened} key={index} {...navbaritem} />;
               else if ( profile.cargo != "Trabajador")
-                return <NavbarButton key={index} {...navbaritem} />;
+                return <NavbarButton closeBurger={setOpened} key={index} {...navbaritem} />;
             })}
             
         </Navbar>
