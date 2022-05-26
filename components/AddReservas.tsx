@@ -15,7 +15,49 @@ const AddReserva = () => {
         DNI: '',
         estacion: '',
     });
+const handleSaveClick = () => {
+    console.log("SAVING")
+    const jeison= {
+        'id_estacion': "VG3",//reserve.estacion,
+        //'fecha_entrada' : reserve.desde?.toISOString(),
+        //'fecha_final' : reserve.hasta?.toISOString(),
+         "fecha_inicio": "21-05-2022 22:00",
+         "fecha_final": "21-05-2022 23:00",
+        "id_vehiculo": reserve.matricula.toString(),
+        "id_cliente": reserve.DNI.toString(),
+        // "id_cargador": 2,
+        // "id_reserva": 8,
 
+        // "id_cliente": reserve.DNI.toString(),
+        // 'fecha_entrada' : reserve.desde?.toISOString(),
+        // 'fecha_salida' : reserve.hasta?.toISOString(),
+
+
+
+        // "id_estacion": "VG1",
+        // "fecha_inicio": "21-05-2022 22:00",
+        // "fecha_final": "21-05-2022 23:00",
+        // "id_vehiculo": "LKE2378",
+        // "id_cliente": "a"
+
+    }
+    //console.log(jeison)
+    const fetchData = async () => {
+        /*const response =*/ await fetch("https://craaxkvm.epsevg.upc.es:23600/api/reservas", {
+        method:'POST',
+        headers:{
+            //'Access-Control-Allow-Headers': '*',
+            'accept': 'application/json',
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify(jeison),
+        //mode:'no-cors'
+
+        });    
+    }
+    console.log(JSON.stringify(jeison))
+    fetchData();    
+}
     return (
     <>
         <Modal
@@ -79,7 +121,7 @@ const AddReserva = () => {
                         onChange={(event) => setReserve({...reserve, DNI: event.target.value})}
                     />
                     <br></br>
-                    <Button type='submit'>
+                    <Button type='submit' onClick={handleSaveClick}>
                         Guardar
                     </Button>
             </Box>

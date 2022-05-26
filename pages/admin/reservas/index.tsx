@@ -17,6 +17,7 @@ export interface ReservaRowProps{
   nPlaza: number;
   date: Date | null;
   duration: number;
+  //date_fin:  Date | null;
   kwh: number;
   money: number;
   city: string;
@@ -28,43 +29,43 @@ export interface Filter {
 }
 
 const elements: ReservaRowProps[] = [
-  {
-    id:1,
-    reservante: "manolo",
-    matricula: "4444 AAA",
-    estacion: 'VG1',
-    nPlaza: 13,
-    date: new Date(2020,1,1),
-    duration: 2,
-    kwh: 30,
-    money: 70,
-    city: "Vilanova"
-  },
-  {
-    id:2,
-    reservante: "paco",
-    matricula: "5555 AAA",
-    estacion: 'VG1',
-    nPlaza: 3,
-    date: new Date('2020-01-02'),
-    duration:3,
-    kwh: 30,
-    money: 70,
-    city: "Sitges"
+  // {
+  //   id:1,
+  //   reservante: "manolo",
+  //   matricula: "4444 AAA",
+  //   estacion: 'VG1',
+  //   nPlaza: 13,
+  //   date: new Date(2020,1,1),
+  //   duration: 2,
+  //   kwh: 30,
+  //   money: 70,
+  //   city: "Vilanova"
+  // },
+  // {
+  //   id:2,
+  //   reservante: "paco",
+  //   matricula: "5555 AAA",
+  //   estacion: 'VG1',
+  //   nPlaza: 3,
+  //   date: new Date('2020-01-02'),
+  //   duration:3,
+  //   kwh: 30,
+  //   money: 70,
+  //   city: "Sitges"
 
-  },
-  {
-    id:3,
-    reservante: "antonio",
-    matricula: "6666 AAA",
-    estacion: 'VG2',
-    nPlaza: 10,
-    date:new Date('2020-01-01'),
-    duration: 1,
-    kwh:40,
-    money: 70,
-    city: "Mordor"
-  }
+  // },
+  // {
+  //   id:3,
+  //   reservante: "antonio",
+  //   matricula: "6666 AAA",
+  //   estacion: 'VG2',
+  //   nPlaza: 10,
+  //   date:new Date('2020-01-01'),
+  //   duration: 1,
+  //   kwh:40,
+  //   money: 70,
+  //   city: "Mordor"
+  // }
 ];
 
 
@@ -130,16 +131,48 @@ const ListaReservas: NextPage = () => {
         setActiveFilters(allFilters);
       }
     }, [profile])
-
-     /*useEffect(() => {
+/*******************************/
+/* HACEMOS GET DE LAS RESERVAS */
+/*******************************/
+const [elementsD, setElements]  = useState<ReservaRowProps[] >(elements);
+    console.log("HOLA??")
+    useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("http://localhost:3000/api/reservas");
+      const response = await fetch("https://craaxkvm.epsevg.upc.es:23600/api/reservas", {
+        method:'GET',
+        headers:{
+          'accept': 'application/json'
+        },
+       //mode:'no-cors'
+      });
       const data =  await response.json();
-    
-      setElements(data)
+
+      const res = []
+
+      for(let i=0; i<data.length; i++) {
+        //const duration = data[i].fecha_entrada.toString().split("T",2)[2] - data[i].fecha_final.toString().split("T",2)[2]
+
+        let est1:ReservaRowProps = {
+          id: data[i].id_reserva,
+          reservante: data[i].id_cliente,
+          matricula: data[i].id_vehiculo,
+          estacion: data[i].id_estacion,
+          city:"Vilanova",
+          nPlaza: data[i].id_cargador,
+          duration: 2,
+          //date:data[i].fecha_entrada.toString().split("T",2)[1],
+          //Dir: data[i].direccion,
+          date: new Date (data[i].fecha_entrada), 
+          kwh: 40,
+          money: 10
+        }
+        res.push(est1)
+      }
+      setElements(res);
+      console.log(data[0].fecha_entrada.toString().split("T",2)[1])
     }
     fetchData();
-  }, []) */
+  }, []) 
   //si no somos admin eliminamos el filtro ciudad solo una vez
 
   
@@ -147,7 +180,6 @@ const ListaReservas: NextPage = () => {
   const [value, setValue] = useState('');  
   const [filtre, setFilter] = useState(''); 
   ///////////////////DINAMICAMENTE////////////////////////
-  const [elementsD, setElements]  = useState<ReservaRowProps[]>(elements);
 
   const handleDeleteClick = (idReserva: number) => {
     const tmp = [];

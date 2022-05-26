@@ -2,10 +2,16 @@ import { UnstyledButton, Group, Text, MantineProvider } from "@mantine/core";
 import Link from "next/link";
 import { NavbarItemProps } from "./BaseAdministracion";
 
-const NavbarButton = ({ label, href }: NavbarItemProps) => {
+const NavbarButton = (props: any) => {
+
+  const { closeBurger, href, label } = props;
+
+  console.log(props)
+
   return (
     <Link href={href} passHref={true}>
       <UnstyledButton 
+        onClick={() => closeBurger(false)}
         sx={(theme) => ({
           display: 'block',
           width: '100%',
