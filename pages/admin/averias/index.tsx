@@ -53,7 +53,7 @@ const ListaAverias: NextPage = () => {
           Est: data[i].id_estacion,
           //Dir: data[i].direccion,
           Date: data[i].fecha_averia, 
-          State: data[i].estado, 
+          State: 'No resolt',//data[i].estado.toString, 
           Desc: data[i].descripcion,
         }
         est.push(est1)
@@ -75,10 +75,13 @@ const ListaAverias: NextPage = () => {
             <th>Descripción</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody>    
+         
             {elements && elements.map((element, index) => {
                 return <AveriaRow key={index} {...element}/>
-            })}
+            })}  
+              
+                     
         </tbody>
     </Table>
 

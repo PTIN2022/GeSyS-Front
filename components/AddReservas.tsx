@@ -18,7 +18,7 @@ const AddReserva = () => {
 const handleSaveClick = () => {
     console.log("SAVING")
     const jeison= {
-        'id_estacion': "VGA1",//reserve.estacion,
+        'id_estacion': "VG3",//reserve.estacion,
         //'fecha_entrada' : reserve.desde?.toISOString(),
         //'fecha_final' : reserve.hasta?.toISOString(),
          "fecha_inicio": "21-05-2022 22:00",

@@ -16,6 +16,7 @@ const AveriaRow = ({ Est,Date,State,Desc } : AveriaRowProps) => {
             <td>{Date}</td>
             <td>{Estado}</td>
             <td>{Desc}</td>
+            <td>
             <Menu control={
                 <Center  style={{ width: 10, height: 40 }}>
                     <ActionIcon color="dark" radius="md">
@@ -47,6 +48,8 @@ const AveriaRow = ({ Est,Date,State,Desc } : AveriaRowProps) => {
                   <Menu.Item>Ver más</Menu.Item> 
                 </Link>
             </Menu>
+            </td>
+            
         </tr>
     )
 } 

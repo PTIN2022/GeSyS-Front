@@ -156,7 +156,7 @@ const [elementsD, setElements]  = useState<ReservaRowProps[] >(elements);
           id: data[i].id_reserva,
           reservante: data[i].id_cliente,
           matricula: data[i].id_vehiculo,
-          estacion: "VGA1",//data[i].id_estacion,
+          estacion: data[i].id_estacion,
           city:"Vilanova",
           nPlaza: data[i].id_cargador,
           duration: 2,
