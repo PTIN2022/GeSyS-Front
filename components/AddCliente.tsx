@@ -6,7 +6,11 @@ import { z } from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
 import { NumberInput} from '@mantine/core';
 import { toZod } from "tozod";
-const AddTrabajador = () => {
+import { Grid } from '@mantine/core';
+import 'dayjs/locale/es'
+import { Container } from '@mantine/core';
+import { clientData } from '../pages/admin/clientes';
+const AddCliente = () => {
     const [opened, setOpened] = useState(false);
     /*const [perfil, setPerfil] = useState<PerfilData>({
         username: '',
@@ -20,23 +24,22 @@ const AddTrabajador = () => {
       });
      */
       const schema = z.object({
+        username: z.string().min(1, { message: 'Introduzca un username valido' }),
         nombre: z.string().min(1, { message: 'Introduzca un nombre valido' }),
         apellido: z.string().min(1,{ message: 'Introduzca un apellido valido' }),
         telefono: z.string().length(9, { message: 'Introduzca un numero de telefono valido, 9 digitos' }),
         dni: z.string().regex(new RegExp(".*[0-9]{8}.*"), "Introduzca minimo 8 numeros").regex(new RegExp(".*[A-Z].*"), "Introduzca un letra Mayuscula").min(9,{ message: 'Introduzca un DNI valido,9 digitos' }),
         email: z.string().email({ message: 'Introduzca un email valido' }),
-        
-        cargo: z.enum(["Jefe", "Administrador", "Responsable", "Trabajador"]),
       });
         const form = useForm({
           schema: zodResolver(schema),
           initialValues: {
+            username:'',
             nombre: '',
             apellido:'',
             telefono: '',
             dni:'',
             email:'',
-            cargo:'',
           },
         });
 
@@ -45,12 +48,12 @@ const AddTrabajador = () => {
         <Modal size="xl"
             opened={opened}
             onClose={() => setOpened(false)}
-            title="Introduzca los datos del nuevo trabajador"
+            title="Introduzca los datos del nuevo cliente"
         >
         {
             <Box>
                 <form onSubmit={form.onSubmit((values) => console.log(values))}>
-                <Group mt="sl" spacing="xl" grow>              
+                <Group mt="sl" spacing="xl" grow>           
                     <TextInput size="md"
                         label="Nombre"
                         placeholder="Pedro"
@@ -71,6 +74,27 @@ const AddTrabajador = () => {
                         //onChange={(event) => setPerfil({...perfil, apellido: event.target.value})}
                     />
                 </Group> 
+                <Group mt="sl" spacing="xl" grow> 
+                    <TextInput size="md"
+                        label="Username"
+                        placeholder="username"
+                        variant="default"
+                        icon={<User size={14} />}
+                        {...form.getInputProps('username')}
+                        //value={perfil.nombre}
+                        //onChange={(event) => setPerfil({...perfil, nombre: event.target.value})} 
+                    />   
+                    <TextInput size="md"
+                        label="Correo electronico"
+                        placeholder="@gmail.com"
+                        icon={<At size={14} />} 
+                        variant="default"
+                        {...form.getInputProps('email')}
+
+                        //value={perfil.email}
+                        //onChange={(event) => setPerfil({...perfil, email: event.target.value})}
+                    />
+                </Group>
 
                 <Group mt="sl" spacing="xl" grow>
                     <TextInput size="md"
@@ -93,26 +117,6 @@ const AddTrabajador = () => {
                         //onChange={(event) => setPerfil({...perfil, dni: event.target.value})}
                     />
                 </Group>
-
-                <Group mt="sl" spacing="xl" grow> 
-                    <TextInput size="md"
-                        label="Correo electronico"
-                        placeholder="@gmail.com"
-                        icon={<At size={14} />} 
-                        variant="default"
-                        {...form.getInputProps('email')}
-
-                        //value={perfil.email}
-                        //onChange={(event) => setPerfil({...perfil, email: event.target.value})}
-                    />
-                    <NativeSelect
-                        label="Cargo"
-                        data={[ "Jefe", "Administrador", "Responsable", "Trabajador" ]} 
-                        //value={perfil.cargo}
-                        //onChange={(event) => setPerfil({...perfil, cargo: event as RolWorker})}
-                        {...form.getInputProps('cargo')}
-                    />
-                </Group>
                 <br/>
                 <Button type='submit'>
                     Guardar
@@ -127,4 +131,4 @@ const AddTrabajador = () => {
     )
 }
 
-export default AddTrabajador;
+export default AddCliente;
