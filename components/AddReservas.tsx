@@ -30,7 +30,7 @@ const AddReserva = () => {
     const schema = z.object({
         desde: z.date(),
         hasta: z.date(),
-        fecha: zj.zonedDateTime().transform(date => date.toString()),
+        fecha: z.date(),
         coste: z.number({
             required_error: "Elija un coste valido"}),
         ciudad: z.string().min(1,{ message: 'Introduzca una ciudad valida' }),
@@ -43,7 +43,7 @@ const AddReserva = () => {
           initialValues: {
             desde: date(),
             hasta: date(),
-            fecha: '21-05-2022',
+            fecha: '',
             matricula:'',
             dni: '',
             estacion:'',
