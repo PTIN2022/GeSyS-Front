@@ -1,11 +1,14 @@
-import { TextInput, Group, Box, Button, Modal, Select } from '@mantine/core';
+import { TextInput, Group, Box, Button, Modal, NativeSelect } from '@mantine/core';
 import { At,Id, Phone, User } from 'tabler-icons-react';
 import { useState } from 'react';
 import { PerfilData, RolWorker } from '../pages/admin/perfil';
-
+import { z } from 'zod';
+import { useForm, zodResolver } from '@mantine/form';
+import { NumberInput} from '@mantine/core';
+import { toZod } from "tozod";
 const AddTrabajador = () => {
     const [opened, setOpened] = useState(false);
-    const [perfil, setPerfil] = useState<PerfilData>({
+    /*const [perfil, setPerfil] = useState<PerfilData>({
         username: '',
         nombre: '',
         pfp: '',
@@ -15,7 +18,36 @@ const AddTrabajador = () => {
         dni: '',
         cargo: 'Trabajador'
       });
+     */
+    enum role{
+        "Jefe", "Administrador", "Responsable", "Trabajador"
 
+    }
+    z.nativeEnum(role, {
+        errorMap:(issue,ctx) =>{
+          return {message: 'Please select your user type'};
+        },
+    });
+      const schema = z.object({
+        nombre: z.string().min(1, { message: 'Introduzca un nombre valido' }),
+        apellido: z.string().min(1,{ message: 'Introduzca un apellido valido' }),
+        telefono: z.string().length(9, { message: 'Introduzca un numero de telefono valido, 9 digitos' }),
+        dni: z.string().regex(new RegExp(".*[0-9]{8}.*"), "Introduzca minimo 8 numeros").regex(new RegExp(".*[A-Z].*"), "Introduzca un letra Mayuscula").min(9,{ message: 'Introduzca un DNI valido,9 digitos' }),
+        email: z.string().email({ message: 'Introduzca un email valido' }),
+        
+        cargo: z.enum(["Jefe", "Administrador", "Responsable", "Trabajador"]),
+      });
+        const form = useForm({
+          schema: zodResolver(schema),
+          initialValues: {
+            nombre: '',
+            apellido:'',
+            telefono: '',
+            dni:'',
+            email:'',
+            cargo:'',
+          },
+        });
 
     return (
     <>
@@ -26,14 +58,16 @@ const AddTrabajador = () => {
         >
         {
             <Box>
+                <form onSubmit={form.onSubmit((values) => console.log(values))}>
                 <Group mt="sl" spacing="xl" grow>              
                     <TextInput size="md"
                         label="Nombre"
                         placeholder="Pedro"
                         variant="default"
                         icon={<User size={14} />}
-                        value={perfil.nombre}
-                        onChange={(event) => setPerfil({...perfil, nombre: event.target.value})} 
+                        {...form.getInputProps('nombre')}
+                        //value={perfil.nombre}
+                        //onChange={(event) => setPerfil({...perfil, nombre: event.target.value})} 
                     />
 
                     <TextInput size="md"
@@ -41,8 +75,9 @@ const AddTrabajador = () => {
                         placeholder="Benito"
                         variant="default"
                         icon={<User size={14} />}
-                        value={perfil.apellido}
-                        onChange={(event) => setPerfil({...perfil, apellido: event.target.value})}
+                        {...form.getInputProps('apellido')}
+                        //value={perfil.apellido}
+                        //onChange={(event) => setPerfil({...perfil, apellido: event.target.value})}
                     />
                 </Group> 
 
@@ -52,17 +87,19 @@ const AddTrabajador = () => {
                         placeholder="Telefono" 
                         variant="default"
                         icon={<Phone size={14} />}
-                        value={perfil.telefono}
-                        onChange={(event) => setPerfil({...perfil, telefono: event.target.value})}
+                        {...form.getInputProps('telefono')}
+                        //value={perfil.telefono}
+                        //onChange={(event) => setPerfil({...perfil, telefono: event.target.value})}
                     />
 
                     <TextInput size="md"
                         label="DNI"
-                        placeholder="483.878.878" 
+                        placeholder="28982938A" 
                         icon={<Id size={14} />}
                         variant="default"
-                        value={perfil.dni}
-                        onChange={(event) => setPerfil({...perfil, dni: event.target.value})}
+                        {...form.getInputProps('dni')}
+                        //value={perfil.dni}
+                        //onChange={(event) => setPerfil({...perfil, dni: event.target.value})}
                     />
                 </Group>
 
@@ -72,21 +109,24 @@ const AddTrabajador = () => {
                         placeholder="@gmail.com"
                         icon={<At size={14} />} 
                         variant="default"
-                        value={perfil.email}
-                        onChange={(event) => setPerfil({...perfil, email: event.target.value})}
-                    />
-                    <Select 
-                        label="Cargo"
-                        value={perfil.cargo}
-                        onChange={(event) => setPerfil({...perfil, cargo: event as RolWorker})}
-                        data={[ "Jefe", "Administrador", "Responsable", "Trabajador" ]} 
-                    />
+                        {...form.getInputProps('email')}
 
+                        //value={perfil.email}
+                        //onChange={(event) => setPerfil({...perfil, email: event.target.value})}
+                    />
+                    <NativeSelect
+                        label="Cargo"
+                        data={[ "Jefe", "Administrador", "Responsable", "Trabajador" ]} 
+                        //value={perfil.cargo}
+                        //onChange={(event) => setPerfil({...perfil, cargo: event as RolWorker})}
+                        {...form.getInputProps('cargo')}
+                    />
                 </Group>
                 <br/>
                 <Button type='submit'>
                     Guardar
                 </Button>  
+                </form>
             </Box>
         }
         </Modal>
