@@ -169,7 +169,7 @@ const [elementsD, setElements]  = useState<ReservaRowProps[] >(elements);
         res.push(est1)
       }
       setElements(res);
-      console.log(data[0].fecha_entrada.toString().split("T",2)[1])
+      //console.log(data[0].fecha_entrada.toString().split("T",2)[1])
     }
     fetchData();
   }, []) 

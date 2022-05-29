@@ -187,6 +187,11 @@
   "resolved" "https://registry.npmjs.org/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz"
   "version" "1.2.1"
 
+"@js-joda/core@^3.2.0 || ^4.0.0 || ^5.0.0":
+  "integrity" "sha512-0OriPYIaMLB3XiLQMe0BXKVIqeriTn3H7JMOzTsHEtt7Zqq+TetCu97KnAhU3ckiQZKBxfZshft+H1OC4D1lXw=="
+  "resolved" "https://registry.npmjs.org/@js-joda/core/-/core-5.2.0.tgz"
+  "version" "5.2.0"
+
 "@mantine/core@^4.1.4", "@mantine/core@4.1.4", "@mantine/core@4.2.2":
   "integrity" "sha512-71jwh+8RsiW6NhBxeowO9JoAXHHEUGMJD0A2mUPAKJFIUwjLK/BewfpeQ0xKtEDPvZZUuIVfugm7ltZHctbPbQ=="
   "resolved" "https://registry.npmjs.org/@mantine/core/-/core-4.1.4.tgz"
@@ -1484,6 +1489,11 @@
   dependencies:
     "is-extglob" "^2.1.1"
 
+"is-iso-date@^0.0.1":
+  "integrity" "sha512-pKmYU07pjyCcjhr0zEdTj3NovxO11KBv3M5AObRAqTvHAk2/Qv+g0ImfZ/4m2D6/aJCt8dprd3YzUOwn3NrNqQ=="
+  "resolved" "https://registry.npmjs.org/is-iso-date/-/is-iso-date-0.0.1.tgz"
+  "version" "0.0.1"
+
 "is-negative-zero@^2.0.1":
   "integrity" "sha512-dqJvarLawXsFbNDeJW7zAz8ItJ9cd28YufuuFzh0G8pNHjJMnY08Dv7sYX2uF5UpQOwieAeOExEYAWWfu7ZZUA=="
   "resolved" "https://registry.npmjs.org/is-negative-zero/-/is-negative-zero-2.0.2.tgz"
@@ -2367,6 +2377,11 @@
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz"
   "version" "1.14.1"
 
+"tslib@^2.1.0":
+  "integrity" "sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ=="
+  "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.4.0.tgz"
+  "version" "2.4.0"
+
 "tsutils@^3.21.0":
   "integrity" "sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA=="
   "resolved" "https://registry.npmjs.org/tsutils/-/tsutils-3.21.0.tgz"
@@ -2494,7 +2509,14 @@
   "resolved" "https://registry.npmjs.org/yaml/-/yaml-1.10.2.tgz"
   "version" "1.10.2"
 
-"zod@^3.0.0-alpha.2", "zod@^3.17.3":
+"zod-joda@^1.1.3":
+  "integrity" "sha512-oYvt48JbqLk1CpQA6yaeCcQA5Z120XuECu9oqI2/DI0zc5pPrrerVlAD6ZyVM9H2fHaCkJwUu2Es+D3bp0OUSg=="
+  "resolved" "https://registry.npmjs.org/zod-joda/-/zod-joda-1.1.3.tgz"
+  "version" "1.1.3"
+  dependencies:
+    "tslib" "^2.1.0"
+
+"zod@^3.0.0-alpha.2", "zod@^3.17.3", "zod@^3.9.7":
   "integrity" "sha512-4oKP5zvG6GGbMlqBkI5FESOAweldEhSOZ6LI6cG+JzUT7ofj1ZOC0PJudpQOpT1iqOFpYYtX5Pw0+o403y4bcg=="
   "resolved" "https://registry.npmjs.org/zod/-/zod-3.17.3.tgz"
   "version" "3.17.3"

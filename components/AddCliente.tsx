@@ -48,7 +48,7 @@ const AddCliente = () => {
         <Modal size="xl"
             opened={opened}
             onClose={() => setOpened(false)}
-            title="Introduzca los datos del nuevo cliente"
+            title="Introduzca los datos del nuevo clientes"
         >
         {
             <Box>
