@@ -7,54 +7,25 @@ import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../contexts/AuthContext';
 import { PerfilData } from '../perfil';
 
+
 export interface TrabajadorRowProps {
   Name: string;
   Rol: string;
   Last_access: string; 
   Foto: string;
 }
-/*
-const elements: TrabajadorRowProps[] = [
-  {
-    Name: "Sergio Sanchez",
-    Rol: "Jefe",
-    Last_access: 'Connected',
-    Foto: "https://d2qp0siotla746.cloudfront.net/img/use-cases/profile-picture/template_0.jpg"
-  },
-  {
-    Name: "Alfredo Manresa",
-    Rol: "Administrador",
-    Last_access: '30m',
-    Foto: "https://d2qp0siotla746.cloudfront.net/img/use-cases/profile-picture/template_3.jpg"
-  },
-  {
-    Name: "Marc Capdevila",
-    Rol: "Responsable",
-    Last_access: '1h',
-    Foto: "https://dp.profilepics.in/profile_pictures/cristiano-ronaldo/cristiano-ronaldo-dp-profile-pics-for-whatsapp-facebook-51.jpg"
-  },
-  {
-    Name: "Eduardo Pinto",
-    Rol: "Trabajador",
-    Last_access: 'Connected',
-    Foto: "https://d2qp0siotla746.cloudfront.net/img/use-cases/profile-picture/template_2.jpg"
-  }
-];*/
-
 
 const ListaTrabajadores: NextPage = () => {
-  
-  const { user, logout } = useContext(AuthContext);
-  const [ profile, setProfile ] = useState<PerfilData>(user!)
+  const [elements, setTrabajador] = useState<TrabajadorRowProps[]>();
 
-  useEffect(() => {
-    setProfile(user!)
-  }, [user])
-
-  const [elements, setAverias] = useState<TrabajadorRowProps[]>();
-
-  useEffect(() => {
-    const fetchEstacion = async () => {
+  /*const fetchDatos = () => {
+    fetch('https://craaxkvm.epsevg.upc.es:23600/api/trabajador')
+      .then(res => res.json())
+      .then(data => {
+        setTrabajador(data);
+      });
+  }*/
+    const fetchDatos = async () => {
       const result = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/trabajador');
       const data = await result.json();  
 
@@ -63,16 +34,25 @@ const ListaTrabajadores: NextPage = () => {
       for(let i=0; i<data.length; i++) {
         let est1:TrabajadorRowProps = {
           Name: data[i].name+" "+data[i].lastname,
-          Rol: data[i].rol,
+          Rol: data[i].rol, 
           Last_access: data[i].last_access,
-          Foto: data[i].picture,   
+          Foto: data[i].picture,
         }
         est.push(est1)
       }
-      setAverias(est);
-    }
-    fetchEstacion();
+      setTrabajador(est);
+    };
+  useEffect(() => {
+    fetchDatos();
   }, [])
+  
+  const { user, logout } = useContext(AuthContext);
+  const [ profile, setProfile ] = useState<PerfilData>(user!)
+
+  useEffect(() => {
+    setProfile(user!)
+  }, [user])
+
   return (
     <>
       <Head>
@@ -80,7 +60,7 @@ const ListaTrabajadores: NextPage = () => {
       </Head>
       <Title order={1}> <Text  inherit component="span">Trabajadores </Text></Title>
       <Space  h={25}/>         
-      {(profile.cargo == "Administrador" || profile.cargo == "Jefe") && <AddTrabajador/>}      
+      {(profile.cargo == "Administrador" || profile.cargo == "Jefe") && <AddTrabajador triggerReload={fetchDatos} />}     
       <Table striped highlightOnHover>
           <thead>
               <tr>
