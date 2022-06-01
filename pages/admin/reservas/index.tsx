@@ -169,13 +169,11 @@ const [elementsD, setElements]  = useState<ReservaRowProps[] >(elements);
         res.push(est1)
       }
       setElements(res);
-      console.log(data[0].fecha_entrada.toString().split("T",2)[1])
+      //console.log(data[0].fecha_entrada.toString().split("T",2)[1])
     }
     fetchData();
   }, []) 
   //si no somos admin eliminamos el filtro ciudad solo una vez
-
-  
 
   const [value, setValue] = useState('');  
   const [filtre, setFilter] = useState(''); 

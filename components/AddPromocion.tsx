@@ -108,8 +108,8 @@ const AddPromocion = (props: any) => {
         form.append("descripcion", data.descripcion);
         form.append("estado", data.estado == true ? 'activa' : 'inactiva');
 
-        const res = await fetch('http://craaxkvm.epsevg.upc.es:23601/api/promociones', {
-          method: 'POST',
+        const res = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/promociones', {
+          "method": "POST",
           body: form,
           "headers": {
             "accept": "application/json"
