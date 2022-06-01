@@ -4,33 +4,11 @@ import FilaSoporte from '../../../components/FilaTablaSoporte';
 import { useEffect, useState } from 'react';
 
 export interface SoporteRowProps {
-  Name: string;
-  Problema: string;
-  Date: string; 
+	descripcion: string;
+	estado: boolean;
+	fecha: Date;
+	ticket_id: number;
 }
-/*
-const SoporteDataMock: SoporteRowProps[] = [
-  {
-    Name: "Cloe Bermudez",
-    Problema: "Problema con aplicación mobil",
-    Date: "11:35"
-  },
-  {
-    Name: "Bernarda Estrella",
-    Problema: "Creado esquema y mas texto para ver coomo queda, para vosotros aficion... siuu",
-    Date: "22-03-22"
-  },
-  {
-    Name: "Cloe Bermudez",
-    Problema: "Problema con aplicación mobil",
-    Date: "11:35"
-  },
-  {
-    Name: "Cloe Bermudez",
-    Problema: "Problema con aplicación mobil",
-    Date: "11:35"
-  }
-];*/
 
 const SoporteTecnico : NextPage =() => {
   const [SoporteDataMock, setAverias] = useState<SoporteRowProps[]>();
@@ -39,14 +17,15 @@ const SoporteTecnico : NextPage =() => {
     const fetchEstacion = async () => {
       const result = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/soporte');
       const data = await result.json();  
-
+  
       const est = []
-
+  
       for(let i=0; i<data.length; i++) {
         let est1:SoporteRowProps = {
-          Name:  data[i].ticket_id,
-          Problema:  data[i].descripcion,
-          Date:  data[i].fecha,  
+          descripcion: data[i].descripcion,
+          estado: data[i].estado,
+          fecha: data[i].fecha,
+          ticket_id: data[i].ticket_id
         }
         est.push(est1)
       }
@@ -54,16 +33,19 @@ const SoporteTecnico : NextPage =() => {
     }
     fetchEstacion();
   }, [])
+
   return (
     <>
-      <Title order={1}> <Text  inherit component="span">Soporte Técnico </Text></Title>
-      <Space  h={25}/>
+      <Title order={1}> <Text inherit component="span">Soporte Técnico </Text></Title>
+      <Space h={25}/>
       <Table striped highlightOnHover>
         <thead>
           <tr>
             <th>Ticket ID</th>
             <th>Problema</th>
+            <th>Estado</th>
             <th>Fecha</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>                    
