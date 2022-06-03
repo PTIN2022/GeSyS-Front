@@ -28,9 +28,18 @@ const AddReserva = () => {
     });
 
     const schema = z.object({
-        desde: z.date(),
-        hasta: z.date(),
-        fecha: z.date(),
+        desde: z.date({
+            invalid_type_error: "Elige una hora valida",
+            required_error: "Elige una hora valida",
+          }),
+        hasta: z.date({
+            invalid_type_error: "Elige una hora valida",
+            required_error: "Elige una hora valida",
+          }),
+        fecha: z.date({
+            invalid_type_error: "Elige una fecha valida",
+            required_error: "Elige una fecha valida",
+          }),
         coste: z.number({
             required_error: "Elija un coste valido"}),
         ciudad: z.string().min(1,{ message: 'Introduzca una ciudad valida' }),
@@ -41,8 +50,8 @@ const AddReserva = () => {
         const form = useForm({
           schema: zodResolver(schema),
           initialValues: {
-            desde: date(),
-            hasta: date(),
+            desde: '',
+            hasta: '',
             fecha: '',
             matricula:'',
             dni: '',
@@ -174,13 +183,13 @@ const handleSaveClick = () => {
 
                 <NumberInput size="md"
                     label="Precio"
-                    placeholder=""
                     variant="default"
+                    decimalSeparator=","
+                    precision={2}
                     {...form.getInputProps('coste')}
                     //value={reserve.matricula}
                     //onChange={(event) => setReserve({...reserve, matricula: event.target.value})}
                 />
-
                 <TextInput size="md"
                     label="Ciudad"
                     placeholder="ciudad" 
