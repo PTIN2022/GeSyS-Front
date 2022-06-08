@@ -13,11 +13,11 @@ const FilaEstacion = ({ Dir, Est, Kwh, Oc, enc, m2 , id } : EstacionRowProps) =>
       <td>{m2}</td>
       <td>{enc}</td>
       <td>
-      <Link href={`http://localhost:3000/admin/estaciones/${id}`}>
+      <Link href={`http://localhost:3000/admin/estaciones/${id}`} passHref={true}>
         <Button>          
             Ver Estacion
         </Button>
-        </Link>
+      </Link>
 
       </td>
       
