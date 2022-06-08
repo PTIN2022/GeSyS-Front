@@ -6,7 +6,7 @@ import PerfilInfo, { PerfilData, RolWorker } from '../pages/admin/perfil';
 const AddTrabajador = (props: any) => {
     const [opened, setOpened] = useState(false);
     const [perfil, setPerfil] = useState<PerfilData>({
-        //username: '',
+        username: '',
         nombre: '',
         pfp: '',
         apellido: '',
@@ -49,7 +49,7 @@ const AddTrabajador = (props: any) => {
         }
 
       const data: PerfilData = {
-        //username: perfil.username,
+        username: perfil.username,
         nombre: perfil.nombre,
         pfp: perfil.pfp,
         apellido: perfil.apellido,
@@ -86,6 +86,7 @@ const AddTrabajador = (props: any) => {
         if (res.status === 200) {
           props.triggerReload();
           setPerfil({
+            username: '',
             nombre: '',
             pfp: '',
             apellido: '',
