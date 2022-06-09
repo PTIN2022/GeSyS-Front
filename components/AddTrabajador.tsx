@@ -1,28 +1,26 @@
 import { TextInput, Group, Box, Button, Modal, Select } from '@mantine/core';
-import { At,Id, Phone, User } from 'tabler-icons-react';
+import { At,Id, Phone, User, LockAccess } from 'tabler-icons-react';
 import { useState } from 'react';
 import PerfilInfo, { PerfilData, RolWorker } from '../pages/admin/perfil';
 
 const AddTrabajador = (props: any) => {
     const [opened, setOpened] = useState(false);
     const [perfil, setPerfil] = useState<PerfilData>({
-        username: '',
+        //username: '',
         nombre: '',
         pfp: '',
         apellido: '',
         telefono: '',
         email: '',
         dni: '',
-       // passw: '',
-        cargo: 'Trabajador'
+        passw: 'admin',
+        cargo: 'Trabajador',
+        Last_access: '',
       });
       
       const handleSubmitNewPromo = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        // if (estacionSelec === '') {
-        //   alert('Selecciona una estación');
-        //   return;
-        // }
+        
         if (perfil.nombre === '') {
           alert('Introduzca un nombre');
           return;
@@ -47,17 +45,22 @@ const AddTrabajador = (props: any) => {
         alert('Escoja un cargo');
         return;
         }
+        if (perfil.passw === '') {
+          alert('Introduce una contraseña');
+          return;
+          }
 
       const data: PerfilData = {
-        username: perfil.username,
+        //username: perfil.username,
         nombre: perfil.nombre,
         pfp: perfil.pfp,
         apellido: perfil.apellido,
         telefono: perfil.telefono,
         email: perfil.email,
         dni: perfil.dni,
-        //passw: perfil.passw,
+        passw: perfil.passw,
         cargo: perfil.cargo,
+        Last_access: perfil.Last_access
          
       }
       //waiting for the api hahan't
@@ -71,7 +74,7 @@ const AddTrabajador = (props: any) => {
         form.append("telefono", data.telefono);
         form.append("email", data.email);
         form.append("dni", data.dni);
-       // form.append("passw", data.passw);
+        form.append("passw", data.passw);
         form.append("cargo", data.cargo);
 
         const res = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/trabajador', {
@@ -86,15 +89,16 @@ const AddTrabajador = (props: any) => {
         if (res.status === 200) {
           props.triggerReload();
           setPerfil({
-            username: '',
+            //username: '',
             nombre: '',
-            pfp: '',
+            pfp: 'https://editor.swagger.io/',
             apellido: '',
             telefono: '',
             email: '',
             dni: '',
-            //passw: '',
-            cargo: 'Trabajador'
+            passw: 'admin',
+            cargo: 'Trabajador',
+            Last_access: '-1'
           })
           setOpened(false);
         }
@@ -120,8 +124,7 @@ const AddTrabajador = (props: any) => {
             opened={opened}
             onClose={() => setOpened(false)}
             title="Introduzca los datos del nuevo trabajador"
-        >
-        {
+        >   
             <Box>
                 <Group mt="sl" spacing="xl" grow>              
                     <TextInput size="md"
@@ -180,12 +183,23 @@ const AddTrabajador = (props: any) => {
                     />
 
                 </Group>
+
+                <Group mt="sl" spacing="xl" grow> 
+                    <TextInput size="md"
+                        label="Contraseña"
+                        placeholder="1234Queso"
+                        icon={<LockAccess size={14} />} 
+                        variant="default"
+                        value={perfil.passw}
+                        onChange={(event) => setPerfil({...perfil, passw: event.currentTarget.value})}
+                    />
+                </Group>
                 <br/>
-                <Button type='submit' onClick={(event: React.MouseEvent<HTMLButtonElement>) => handleSubmitNewPromo(event)}>
+                <Button onClick={(event: React.MouseEvent<HTMLButtonElement>) => handleSubmitNewPromo(event)}>
                     Guardar
                 </Button>  
             </Box>
-        }
+        
         </Modal>
         <Button onClick={() => setOpened(true)}>Añadir Trabajador</Button>
 

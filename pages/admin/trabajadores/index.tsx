@@ -18,6 +18,8 @@ export interface TrabajadorRowProps {
 
 const ListaTrabajadores: NextPage = () => {
   const [elements, setTrabajador] = useState<TrabajadorRowProps[]>();
+  //const [elements, setTrabajador] = useState<PerfilData[]>();
+
 
   /*const fetchDatos = () => {
     fetch('https://craaxkvm.epsevg.upc.es:23600/api/trabajador')

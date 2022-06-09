@@ -27,7 +27,8 @@ const TrabajadorRow = ({ Dni, Name,Rol, Last_access, Foto } : TrabajadorRowProps
         })
         .then(response => {
           if (response.ok) {
-            router.push('/admin/trabajadores')
+            router.push('/admin/trabajadores') 
+            window.location.reload();
           }
         })
         .catch(err => {
@@ -57,8 +58,9 @@ const TrabajadorRow = ({ Dni, Name,Rol, Last_access, Foto } : TrabajadorRowProps
                         Editar
                       </Menu.Item> 
                     </Link>
-                    <Menu.Item color={'yellow'}>Suspender</Menu.Item> 
-                    <UnstyledButton onClick={handleBorrarPromocion}>
+                    <Menu.Item color={'yellow'}>Suspender</Menu.Item>
+                    
+                    <UnstyledButton onClick={handleBorrarPromocion}>    
                         <Menu.Item color={'red'}>
                             Eliminar
                         </Menu.Item>
