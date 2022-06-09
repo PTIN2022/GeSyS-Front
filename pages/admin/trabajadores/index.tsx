@@ -9,6 +9,7 @@ import { PerfilData } from '../perfil';
 
 
 export interface TrabajadorRowProps {
+  Dni: string;
   Name: string;
   Rol: string;
   Last_access: string; 
@@ -33,6 +34,7 @@ const ListaTrabajadores: NextPage = () => {
 
       for(let i=0; i<data.length; i++) {
         let est1:TrabajadorRowProps = {
+          Dni: data[i].dni,
           Name: data[i].name+" "+data[i].lastname,
           Rol: data[i].rol, 
           Last_access: data[i].last_access,
@@ -65,6 +67,7 @@ const ListaTrabajadores: NextPage = () => {
           <thead>
               <tr>
               <th>Foto</th>
+              <th>Dni</th>
               <th>Nombre</th>
               <th>Rol</th>
               <th>Ultimo Acceso</th>       
