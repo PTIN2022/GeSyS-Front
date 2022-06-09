@@ -7,7 +7,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 export type RolWorker = "Jefe" | "Administrador" | "Responsable" | "Trabajador";
 
 export interface PerfilData {
-  //username: string;
+  username: string;
   pfp: string;
   nombre: string;
   apellido: string;
@@ -22,7 +22,7 @@ export interface PerfilData {
 const PerfilInfo: NextPage = () => {
 
   const [elements, setTrabajador] = useState<PerfilData[]>();
-  const fetchDatos = async () => {
+  /*const fetchDatos = async () => {
     const result = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/trabajador');
     const data = await result.json();  
 
@@ -46,7 +46,7 @@ const PerfilInfo: NextPage = () => {
   };
 useEffect(() => {
   fetchDatos();
-}, [])
+}, [])*/
 
   const [editing, setEditing] = useState<boolean>(false);
 

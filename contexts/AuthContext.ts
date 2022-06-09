@@ -17,6 +17,8 @@ export const AuthContext = createContext<IAuth>({
     email: "",
     dni: "",
     cargo: "Trabajador",
+    passw: "",
+    Last_access: ""
   },
   login: (username: string, password: string) => {},
   logout: () => {},
