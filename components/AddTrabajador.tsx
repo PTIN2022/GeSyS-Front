@@ -18,7 +18,10 @@ const AddTrabajador = () => {
         dni: '',
         cargo: 'Trabajador'
       });
-     */
+      */
+     const validateForm = ()=>{
+
+     }
       const schema = z.object({
         nombre: z.string().min(1, { message: 'Introduzca un nombre valido' }),
         apellido: z.string().min(1,{ message: 'Introduzca un apellido valido' }),

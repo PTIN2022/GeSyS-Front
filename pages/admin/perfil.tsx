@@ -1,10 +1,13 @@
-import { Image, Box, Group, TextInput, Tooltip, Button, Text, Grid } from '@mantine/core';
+import { Image, Box, Group, TextInput, Tooltip, Button, Text, Grid ,Modal} from '@mantine/core';
 import { useContext, useEffect, useState } from 'react';
 import { AlertCircle, Phone, User, At, Id, IdBadge } from 'tabler-icons-react';
 import { NextPage } from 'next';
+import Modificar_perfil from '../../components/Modificar_perfil';
 import { AuthContext } from '../../contexts/AuthContext';
+import { useForm } from '@mantine/form';
 
-export type RolWorker = "Jefe" | "Administrador" | "Responsable" | "Trabajador";
+
+//export type RolWorker = "Jefe" | "Administrador" | "Responsable" | "Trabajador";
 
 export interface PerfilData {
   username: string;
@@ -14,16 +17,16 @@ export interface PerfilData {
   telefono: string;
   email: string;
   dni: string;
-  cargo: RolWorker;
+  contraseña:string;
+  confirmarContraseña:string;
+  cargo: string;
 }
-
 const PerfilInfo: NextPage = () => {
 
   const [editing, setEditing] = useState<boolean>(false);
 
   const { user } = useContext(AuthContext);
   const [ perfil, setPerfil ] = useState<PerfilData>(user!);
-
   useEffect(() => {
     setPerfil(user!);
   }, [user])
@@ -36,6 +39,7 @@ const PerfilInfo: NextPage = () => {
   
   return (
     <>
+    
     {!perfil ? (
       <div>
         Loading...
@@ -56,9 +60,7 @@ const PerfilInfo: NextPage = () => {
             </Group>
 
             <Text align="left" size="lg">{perfil.nombre} {perfil.apellido}</Text>
-            <Button onClick={() => setEditing(!editing)}>
-              { editing ? 'Guardar Cambios' : 'Editar' }
-            </Button>
+            <Modificar_perfil />
           </Grid.Col>
 
           <Grid.Col span={7}>
@@ -142,3 +144,7 @@ const PerfilInfo: NextPage = () => {
   }
 
   export default PerfilInfo
+  /*anterior edit            
+    <Button onClick={() => setEditing(!editing)}>
+              { editing ? 'Guardar Cambios' : 'Editar' }
+            </Button>*/
