@@ -57,7 +57,7 @@ const ListaClientes: NextPage = () => {
     <Table striped highlightOnHover>
         <thead>
             <tr>
-              <th>Nomre</th>
+              <th>Nombre</th>
               <th>Apellido</th>
               <th>DNI</th>
               <th>Email</th>
