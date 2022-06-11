@@ -30,10 +30,10 @@ const ListaEstaciones: NextPage =() => {
           id : data[i].id_estacion,
           Est: data[i].nombre_est,
           Dir: data[i].direccion,
-          Kwh: data[i].kwh_now+"/"+data[i].kwh_max,
-          Oc: data[i].ocupation_now+"/"+data[i].ocupation_max,
+          Kwh: data[i].potencia_usada+"/"+data[i].potencia_contratada,
+          Oc: data[i].ocupation_actual+"/32",
           m2: data[i].surface_in_meters,
-          enc: data[i].boss,
+          enc: data[i].telefono,
         }
         est.push(est1)
       }
