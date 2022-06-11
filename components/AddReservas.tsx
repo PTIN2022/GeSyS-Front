@@ -16,7 +16,7 @@ const AddReserva = () => {
         estacion: '',
     });
 const handleSaveClick = () => {
-    console.log("SAVING")
+    setOpened(false)
     const jeison= {
         'id_estacion': "VG3",//reserve.estacion,
         //'fecha_entrada' : reserve.desde?.toISOString(),
