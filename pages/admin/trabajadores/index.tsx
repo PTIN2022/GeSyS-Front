@@ -37,9 +37,9 @@ const ListaTrabajadores: NextPage = () => {
       for(let i=0; i<data.length; i++) {
         let est1:TrabajadorRowProps = {
           Dni: data[i].dni,
-          Name: data[i].name+" "+data[i].lastname,
-          Rol: data[i].rol, 
-          Last_access: data[i].last_access,
+          Name: data[i].nombre+" "+data[i].apellido,
+          Rol: data[i].cargo, 
+          Last_access: data[i].ultimo_acceso,
           Foto: data[i].picture,
         }
         est.push(est1)
