@@ -6,7 +6,6 @@ import { PerfilData } from '../pages/admin/perfil';
 import { useForm } from '@mantine/form';
 const Modificar_perfil = () => {
     const [opened, setOpened] = useState(false);
-
     const form = useForm <PerfilData> ({
     initialValues: {
       username: '',

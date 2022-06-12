@@ -13,7 +13,9 @@ const AddTrabajador = () => {
         telefono: '',
         email: '',
         dni: '',
-        cargo: 'Trabajador'
+        cargo: 'Trabajador',
+        contraseña:'',
+        confirmarContraseña:'',
       });
 
 
