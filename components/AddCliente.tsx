@@ -155,7 +155,7 @@ const AddCliente = () => {
             </Box>
         }
         </Modal>
-        <Button onClick={() => setOpened(true)}>Añadir Trabajador</Button>
+        <Button onClick={() => setOpened(true)}>Añadir Clientes</Button>
 
     </>
     )
