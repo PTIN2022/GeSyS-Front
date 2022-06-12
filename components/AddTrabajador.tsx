@@ -21,13 +21,13 @@ const AddTrabajador = () => {
           cargo:'Jefe',
         },
         validate: {
-            nombre: (value) => (value.length >1 ? null : 'Introduza un nombre valido'),
-            apellido: (value) => (value.length >1 ? null : 'Introduza un apellido valido'),
-            username: (value) => (value.length >1 ? null : 'Introduza un username valido'),
+            nombre: (value) => (value.length >0 ? null : 'Introduza un nombre valido'),
+            apellido: (value) => (value.length >0 ? null : 'Introduza un apellido valido'),
+            username: (value) => (value.length >0 ? null : 'Introduza un username valido'),
             telefono: (value) => (value.length >8 ? null : 'Introduza un telefono valido de 9 digitos'),
             dni: (value) => (/.*[0-9]{8}.*.*[A-Z].*/.test(value) ? null : 'Introduzca un dni valido de 8 digitos y una letra mayuscula'),
             email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Introduzca un emal valido'),
-            contraseña: (value) => (value.length >1 ? null : 'Introduza un contraseña valida'),
+            contraseña: (value) => (value.length >0 ? null : 'Introduza un contraseña valida'),
             confirmarContraseña: (value, values) =>
             value !== values.contraseña ? 'La contraseña no coincide' : null,
         },
@@ -100,7 +100,7 @@ const AddTrabajador = () => {
                         <Select
                             label="Cargo"
                             data={[ "Jefe", "Administrador", "Responsable", "Trabajador" ]}
-                            
+
                             //value={perfil.cargo}
                             //onChange={(event) => setPerfil({...perfil, cargo: event as RolWorker})}
                             {...form.getInputProps('cargo')}
