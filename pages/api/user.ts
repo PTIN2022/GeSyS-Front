@@ -12,6 +12,8 @@ export const PerfilVacio: PerfilData = {
   email: '',
   dni: '',
   cargo: 'Trabajador',
+  contraseña:'',
+  confirmarContraseña:'',
 }
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<any> ) {
