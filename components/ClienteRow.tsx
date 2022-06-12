@@ -3,11 +3,12 @@ import { DotsVertical, Search } from 'tabler-icons-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
-import { clientData } from '../pages/admin/clientes';
+import { PerfilData, RolWorker } from '../pages/admin/perfil';
+
 
 // Hecho por xdiban, pero lo he tenido que subir yo porque hubo un error
 
-const ClientRow = ({ nombre, apellido, dni, email, username, telefono } : clientData) => {
+const ClientRow = ({ nombre, apellido, dni, email, username, telefono } : PerfilData) => {
 
 
     return (    

@@ -6,21 +6,11 @@ import { useForm, formList } from '@mantine/form';
 import { Table, useMantineTheme, Modal, TextInput, Switch, Group, ActionIcon, Box, Text, Button, Title, Space } from '@mantine/core';
 import { Trash } from 'tabler-icons-react';
 import AddCliente from '../../../components/AddCliente';
-export interface clientData {
-  apellido: string;
-  dni: string;
-  email: string;
-  foto?: string;
-  nombre: string;
-  telefono: string;
-  username: string;
-  contraseña: string;
-  confirmarContraseña:string;
-}
+import { PerfilData } from '../perfil';
 
 const ListaClientes: NextPage =() => {
 
-  const [clientes, setClientes] = useState<clientData[]>([]);
+  const [clientes, setClientes] = useState<PerfilData[]>([]);
 
   const fetchDatos = () => {
     fetch('http://craaxkvm.epsevg.upc.es:23601/api/clientes')

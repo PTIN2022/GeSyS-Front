@@ -5,13 +5,14 @@ import { useForm, zodResolver } from '@mantine/form';
 import { Grid } from '@mantine/core';
 import 'dayjs/locale/es'
 import { Container } from '@mantine/core';
-import { clientData } from '../pages/admin/clientes';
+import { PerfilData, RolWorker } from '../pages/admin/perfil';
+
 const AddCliente = () => {
     const [opened, setOpened] = useState(false);
-    const form = useForm <clientData> ({
+    const form = useForm <PerfilData> ({
         initialValues: {
           username: '',
-          foto: '',
+          pfp: '',
           nombre: '',
           apellido: '',
           telefono: '',
@@ -19,6 +20,7 @@ const AddCliente = () => {
           dni: '',
           contraseña:'',
           confirmarContraseña:'',
+          cargo:'Jefe',
         },
         validate: {
             nombre: (value) => (value.length >0 ? null : 'Introduza un nombre valido'),
