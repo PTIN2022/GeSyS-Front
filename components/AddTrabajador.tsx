@@ -100,7 +100,7 @@ const AddTrabajador = () => {
                         <Select
                             label="Cargo"
                             data={[ "Jefe", "Administrador", "Responsable", "Trabajador" ]}
-
+                            
                             //value={perfil.cargo}
                             //onChange={(event) => setPerfil({...perfil, cargo: event as RolWorker})}
                             {...form.getInputProps('cargo')}
