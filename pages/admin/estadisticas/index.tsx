@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { ActionIcon, Alert, Select } from '@mantine/core';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from "chart.js"
 import { Line } from 'react-chartjs-2';
-import { AlertCircle } from "tabler-icons-react";
+import { AlertCircle, Disabled } from "tabler-icons-react";
 import { DateRangePicker, getMonthDays } from '@mantine/dates';
 
 
@@ -200,6 +200,51 @@ const Estadisticas: NextPage = () => {
         const total_estaciones = calcularTotalEstaciones(estaciones)
         setEstaciones(estaciones => [...estaciones, total_estaciones]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    useEffect(() => {
+      const fetchEstadisticas = async () => {
+        const result = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/estadisticas');
+        const data = await result.json();  
+    
+        const estadisticas = []
+        for(let i=0; i<data.length; i++) {
+
+          let dias = data[i].dias
+          let lab = [], consumo = [], consumo_ideal = [0,0,0,0,0,0,0,0,0,0,0,0]
+          for(let j=0; j<dias.length; j++) {
+            lab.push(dias[j].dia)
+            consumo.push(dias[j].potencia_max_cons)
+          }
+          consumo_ideal.fill(data[i].kwh_now)
+
+          let estacion:EstadisticaEstacion = {
+            name: data[i].estacion,
+            labels: lab,
+            datasets: [
+              {
+                label: 'Potencia total consumida(KW)',
+                fill: true,
+                backgroundColor: 'rgba(75,192,192,0.4)',
+                borderColor: 'rgba(75,192,192,1)',
+                data: consumo
+              },
+              {
+                label: `Potencia contratada`,
+                fill: false,
+                backgroundColor: 'rgba(255,10,10,0.3)',
+                borderColor: 'rgba(255,10,10,0.5)',
+                data: consumo_ideal
+              }
+            ]
+          }
+          estadisticas.push(estacion)
+        }
+        console.log("estadisticas ->")
+        console.log(estadisticas)
+        //setEstaciones(est);
+      }
+      fetchEstadisticas();
     }, [])
 
     useEffect(() => {
