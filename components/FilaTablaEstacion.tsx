@@ -3,9 +3,10 @@ import Link from "next/link"
 import { EstacionRowProps } from "../pages/admin/estaciones"
 
 
-const FilaEstacion = ({ Dir, Est, Kwh, Oc, enc, m2 , id } : EstacionRowProps) => {
+const FilaEstacion = ({ Dir, Est, Kwh, Oc, enc, m2 , id, state} : EstacionRowProps) => {
   return (        
     <tr>
+      <td>{state}</td>
       <td>{Est}</td>
       <td>{Dir}</td>
       <td>{Kwh}</td>
