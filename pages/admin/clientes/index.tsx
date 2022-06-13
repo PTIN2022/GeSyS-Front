@@ -5,6 +5,8 @@ import { Table, useMantineTheme, Modal, TextInput, Switch, Group, ActionIcon, Bo
 import { Trash } from 'tabler-icons-react';
 import { useEffect, useState } from 'react';
 import ClientesRow from '../../../components/ClientesRow';
+import AddCliente from '../../../components/AddCliente';
+
 
 export interface ClientesData {
   id : number;
@@ -54,6 +56,7 @@ const ListaClientes: NextPage = () => {
     <>
     <Title order={1}> <Text  inherit component="span">Clientes </Text></Title>
     <Space  h={25}/>
+    <AddCliente/>
     <Table striped highlightOnHover>
         <thead>
             <tr>
@@ -78,3 +81,4 @@ const ListaClientes: NextPage = () => {
 }
 
 export default ListaClientes
+
