@@ -18,32 +18,52 @@ const AddCliente = () => {
         username: '',
     });
 const handleSaveClick = () => {
-    setOpened(false)
-    const jeison= {
-        'nombre': cliente.nombre,
-        'apellido': cliente.apellido,
-        'email': cliente.email,
-        'dni': cliente.dni,
-        'foto':'',
-        'telefono':cliente.telefono,
-        'username': cliente.nombre +"."+ cliente.apellido,
-        'password': cliente.nombre +"."+ cliente.apellido,
+    if (cliente.nombre == '' ||
+        cliente.apellido == '' ||
+        cliente.email == '' ||
+        cliente.dni == '' ||
+        cliente.telefono == -1 ){
+
+        alert('Error: Missing fields')
+        return;
     }
+    
+    setOpened(false)
+   try{
+    const form = new FormData()
+    form.append("nombre", cliente.nombre);
+    form.append("apellido", cliente.apellido);
+    form.append('email', cliente.email);
+    form.append('DNI',cliente.dni);
+    form.append('foto', 'None'); //'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.mOuT5J0qeP_FHAidCHCvtwHaEK%26pid%3DApi&f=1',
+    form.append('telefono',cliente.telefono.toString());
+    form.append('username',cliente.nombre +"."+ cliente.apellido);
+    form.append('password',cliente.nombre +"."+ cliente.apellido);
     //console.log(jeison)
     const fetchData = async () => {
-        /*const response =*/ await fetch("https://craaxkvm.epsevg.upc.es:23600/api/clientes", {
-        method:'POST',
-        headers:{
-            //'Access-Control-Allow-Headers': '*',
-            'accept': 'application/json',
-            'Content-type': 'application/json'
-        },
-        body: JSON.stringify(jeison),
-        //mode:'no-cors'
-        });    
+        var request = new XMLHttpRequest();
+        request.open("POST", "http://craaxkvm.epsevg.upc.es:23601/api/clientes");
+        request.send(form);
+        
+        request.onload = function() {
+            if (request.status != 200) { // analyze HTTP status of the response
+              alert(`Error ${request.status}: ${request.statusText}`); // e.g. 404: Not Found
+            } else { // show the result
+                //refresh page
+                location = location
+                //SERIA MES RAPID SI ENLLOC DE REFRESCAR TOT ES PASES DIRECTAMENT LES DADES QUE HEM AFEGIT
+                // PERO ya he invertido muchas horas a esto :(
+            }
+          };
+     
+      
     }
-    console.log(JSON.stringify(jeison))
-    fetchData();    
+    //console.log(JSON.stringify(jeison))
+    //console.log(form.getAll())
+    
+    fetchData();   
+   }catch(err){alert ("Unaible to add:" + err)   }
+     
 }
     return (
     <>

@@ -32,11 +32,11 @@ const ClientesRow = (props: any) => {
         }
         //CONTINUE WITH THE DELETE
         try{
-            const response = await fetch(`https://craaxkvm.epsevg.upc.es:23600/api/clientes/2`, {
-                "method": 'DELETE',
+            const response = await fetch(`https://craaxkvm.epsevg.upc.es:23600/api/clientes/${cliente.id}`, {
+                "method": "DELETE",
                 "headers": {
-                    "accept": "application/json"
-                  }
+                    "accept": "application/json",
+                  },
             })
             if (response.status == 200) {
                 borrarElemento(cliente.id)
