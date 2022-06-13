@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import ClientesRow from '../../../components/ClientesRow';
 import AddCliente from '../../../components/AddCliente';
 
+
 export interface ClientesData {
   id : number;
   nombre: string;
@@ -80,3 +81,4 @@ const ListaClientes: NextPage = () => {
 }
 
 export default ListaClientes
+

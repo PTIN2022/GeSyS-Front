@@ -4,7 +4,7 @@ import { PlazaData } from "../pages/admin/estaciones/[estacion]";
 
 
 const PlazaInfo = ({id_cargador, estado}:PlazaData) => {
- let libre = estado == "cargando" ? true : false;
+ let libre = estado == "ocupado" ? true : false;
     return (
     <>
     
