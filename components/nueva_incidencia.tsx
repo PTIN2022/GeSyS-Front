@@ -1,12 +1,12 @@
 import { TextInput, Group, Box, Button, Modal, Autocomplete ,Textarea} from '@mantine/core';
 import { DatePicker, TimeInput } from '@mantine/dates';
-import { Calendar, Car, Clock, User, ChargingPile } from 'tabler-icons-react';
+import { Calendar,ChargingPile } from 'tabler-icons-react';
 import { useState } from 'react';
 import 'dayjs/locale/es'
 import  {AveriaRowProps}  from '../pages/admin/averias';
 import { useForm } from '@mantine/form';
 
-const Incidencia_nueva = (props:any) => {
+const Incidencia_nueva = () => {
     const [opened, setOpened] = useState(false);
     const [incidencia, setIncidencia] = useState<AveriaRowProps>({
         id_averia:0,
@@ -36,14 +36,6 @@ const Incidencia_nueva = (props:any) => {
         }
         */
         const handleSaveClick = () => {
-          /*if (incidencia.Est == '' ||
-              incidencia.Date == null ||
-              incidencia.State == '' ||
-              incidencia.Desc == '' ){
-      
-              alert('Error: Missing fields')
-              return;
-          }*/
           if (incidencia.Est  == '') {
             alert('Introduce una Estacion');
             return;
@@ -62,73 +54,29 @@ const Incidencia_nueva = (props:any) => {
           }
 
           setOpened(false)
-          /*
-    const data: AveriaRowProps={
-        id: incidencia.id,
-        Est: incidencia.Est,
-        //Dir: string;
-        Date:  incidencia.Date,
-        State:  incidencia.State,
-        Desc: incidencia.Desc,
-    }*/
-    try {
-
-        const form = new FormData();
-        form.append("descripcion", incidencia.Desc);
-        form.append("estado", incidencia.State);
-        form.append("name_estacion", incidencia.Est);
-        form.append("fecha_averia", incidencia.Date!.toISOString().slice(0, -5));
-        const fetchData = async () => {
-          var request = new XMLHttpRequest();
-          request.open("POST", 'https://craaxkvm.epsevg.upc.es:23600/api/incidencias');
-          request.send(form);
-          
-          request.onload = function() {
-              if (request.status != 200) { // analyze HTTP status of the response
-                alert(`Error ${request.status}: ${request.statusText}`); // e.g. 404: Not Found
-              } else {
+          try {
+            const form = new FormData();
+            form.append("estacion", incidencia.Est);
+            form.append("estado", incidencia.State);
+            form.append("fecha_averia", incidencia.Date!.toISOString().slice(0, -5));
+            form.append("descripcion", incidencia.Desc);
+            const fetchData = async () => {
+              var req = new XMLHttpRequest();
+              req.open("POST", 'http://craaxkvm.epsevg.upc.es:23601/api/incidencias');
+              req.send(form);
+              req.onload = function() {
+                if (req.status != 200) { // analyze HTTP status of the response
+                  alert(`Error ${req.status}: ${req.statusText}`); // e.g. 404: Not Found
+                }
+                else {
                   location = location
-              }
-            };
-        }
-        fetchData();
-      }catch(err){alert ("Error de Post:" + err)   }
-      }
-      
-        /*
-        const res = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/incidencias', {
-          method: 'POST',
-          body: form,
-          "headers": {
-            "accept": "application/json"
+                }
+              };
+            }
+            fetchData();
           }
-        });
-        const json = await res.json();
-        if (res.status === 200) {
-          props.triggerReload();
-          setIncidencia({
-              id:-1,
-              Est: '',
-              Date: null, 
-              State: '',
-              Desc:'', 
-          })
-          setOpened(false);
+          catch(error){alert ("Error de Post:" + error)   }
         }
-        else {
-          alert('Error al crear la promoción');
-          // Display the key/value pairs
-          for (var pair of form.entries() as any) {
-            console.log(pair[0]+ ', ' + pair[1]); 
-          }
-          console.log(json);
-        }
-  
-      }
-      catch (error) {
-        console.error(error);
-      }
-    }*/
     return (
         <>
             <Modal size="xl"
@@ -149,16 +97,26 @@ const Incidencia_nueva = (props:any) => {
                     value={incidencia.Est} 
                     onChange={(event) => setIncidencia({...incidencia, Est: event.currentTarget.value})}
                 />           
+                {/*
+                                <TextInput size="md"
+                                label="Estado"
+                                placeholder="Arreglando"
+                                variant="default"
+                                    //value={perfil.apellido}
+                                    //onChange={(event) => setPerfil({...perfil, apellido: event.target.value})}
+                                value={incidencia.State} 
+                                onChange={(event) => setIncidencia({...incidencia, State: event.currentTarget.value})} 
+                            />  
+                */}
+                      <Autocomplete 
+                      label="Estado"
+                      variant="default"
+                      placeholder="pendiente"
 
-                <TextInput size="md"
-                    label="Estado"
-                    placeholder="Arreglando"
-                    variant="default"
-                        //value={perfil.apellido}
-                        //onChange={(event) => setPerfil({...perfil, apellido: event.target.value})}
-                    value={incidencia.State} 
-                    onChange={(event) => setIncidencia({...incidencia, State: event.currentTarget.value})} 
-                />
+                      value={incidencia.State}
+                      data={['Pendiente']}
+                      onChange={(event) => setIncidencia({...incidencia, State: event})} 
+                      />
                 </Group> 
                 <DatePicker
                         locale= 'es'
