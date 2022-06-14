@@ -1,13 +1,14 @@
 import { NextPage } from 'next';
 import Head  from 'next/head'
-import { Grid, Table, Text, Space, Title } from '@mantine/core'
+import { Grid, Table, Text, Space, Title, ScrollArea } from '@mantine/core'
 import ReservaRow from '../../../components/ReservaRow';
-
 import { useContext, useEffect, useState } from 'react';
 import { Autocomplete } from '@mantine/core';
 import AddReserva from '../../../components/AddReservas';
 import { AuthContext } from '../../../contexts/AuthContext';
 import { PerfilData } from '../perfil';
+
+
 
 export interface ReservaRowProps{
   id: number; 
@@ -97,7 +98,6 @@ const allFilters: Filter[] = [
   }
 ];
 
-
 const ListaReservas: NextPage = () => {
 
   const [activeFilters, setActiveFilters] = useState<Filter[]>(allFilters);
@@ -151,10 +151,13 @@ const [elementsD, setElements]  = useState<ReservaRowProps[] >(elements);
 
       for(let i=0; i<data.length; i++) {
         //const duration = data[i].fecha_entrada.toString().split("T",2)[2] - data[i].fecha_final.toString().split("T",2)[2]
-
+        const result = await fetch(`http://craaxkvm.epsevg.upc.es:23601/api/clientes/${data[i].id_cliente}`);
+        const data2 = await result.json();
+        console.log(data2)
+        
         let est1:ReservaRowProps = {
           id: data[i].id_reserva,
-          reservante: data[i].id_cliente,
+          reservante: data2.nombre,
           matricula: data[i].id_vehiculo,
           estacion: data[i].id_estacion,
           city:"Vilanova",
@@ -197,155 +200,156 @@ const [elementsD, setElements]  = useState<ReservaRowProps[] >(elements);
   //{filtre == "Cliente" && {setData(elements.map((item:any) => ({ ...item, value: item.estacion })) }}
     return (
       <>
-      <Head>
-        <title>GeSyS - Reservas</title>
-      </Head> 
-      <Title order={1}> <Text  inherit component="span">Reservas </Text></Title>
-      <Space  h={25}/>
+        <Head>
+          <title>GeSyS - Reservas</title>
+        </Head> 
+        <Title order={1}> <Text  inherit component="span">Reservas </Text></Title>
+        <Space  h={25}/>
 
-      {!profile ? (
-        <div>Loading...</div>
-      ) : 
-      (
-        <>
-        <AddReserva />
-      
-      <Grid gutter="xl">
-        <Grid.Col span={3}>
-          <Autocomplete           
-            label="Elige que filtrar"
-            placeholder="Pick one"
-            //data={data}
-            value={filtre}
-            limit={7}
-            onChange={setFilter}
-            data={activeFilters}
-            onClick={() => setFilter("")}    
-            filter={(filtre, item) => item.value.toLowerCase().includes(value.toLowerCase().trim())}
+
+        {!profile ? (
+          <div>Loading...</div>
+        ) : 
+        (
+          <>
+          <AddReserva />   
+        <Grid gutter="xl">
+          <Grid.Col span={3}>
+            <Autocomplete           
+              label="Elige que filtrar"
+              placeholder="Pick one"
+              //data={data}
+              value={filtre}
+              limit={7}
+              onChange={setFilter}
+              data={activeFilters}
+              onClick={() => setFilter("")}    
+              filter={(filtre, item) => item.value.toLowerCase().includes(value.toLowerCase().trim())}
+              />
+          </Grid.Col>
+
+          {filtre == "" && value && setValue("")}          
+
+          {(profile.cargo == "Administrador" || profile.cargo=="Jefe") && filtre=="Ciudad" && <Grid.Col span={6}>        
+            <Autocomplete
+              label="Elemento a filtrar:"
+              placeholder="Pick one"
+              //data={data}
+              value={value} onChange={setValue} data={elementsD.map((item) => ({ ...item, value: item.city}))}      
+              filter={(value, item) =>
+                item.value.toLowerCase().includes(value.toLowerCase().trim())
+              }
             />
-        </Grid.Col>
 
-        {filtre == "" && value && setValue("")}          
+          </Grid.Col>   
+          }
+          {filtre=="Estación" && <Grid.Col span={6}>        
+            <Autocomplete
+              label="Elemento a filtrar:"
+              placeholder="Pick one"
+              //data={data}
+              value={value} onChange={setValue} data={elementsD.map((item) => ({ ...item, value: item.estacion }))}      
+              filter={(value, item) =>
+                item.value.toLowerCase().includes(value.toLowerCase().trim())
+              }
+            />
 
-        {(profile.cargo == "Administrador" || profile.cargo=="Jefe") && filtre=="Ciudad" && <Grid.Col span={6}>        
-          <Autocomplete
-            label="Elemento a filtrar:"
-            placeholder="Pick one"
-            //data={data}
-            value={value} onChange={setValue} data={elementsD.map((item) => ({ ...item, value: item.city}))}      
-            filter={(value, item) =>
-              item.value.toLowerCase().includes(value.toLowerCase().trim())
-            }
-          />
+          </Grid.Col>   
+          }
+          {filtre=="Cliente" && <Grid.Col span={6}>     
+            <Autocomplete
+              label="Elemento a filtrar:"
+              placeholder="Pick one"
+              //data={data}
+              value={value} onChange={setValue} data={elementsD.map((item) => ({ ...item, value: item.reservante }))}      
+              filter={(value, item) =>
+                item.value.toLowerCase().includes(value.toLowerCase().trim())
+              }
+            />
+          </Grid.Col>   
+          }
+          {filtre=="Matricula" && <Grid.Col span={6}>        
+            <Autocomplete
+              label="Elemento a filtrar:"
+              placeholder="Pick one"
+              //data={data}
+              value={value} onChange={setValue} data={elementsD.map((item) => ({...item, value: item.matricula}))}      
+              filter={(value, item) =>
+                item.value.toLowerCase().includes(value.toLowerCase().trim())
+              }
+            />
+          </Grid.Col>   
+          }
+          {filtre=="KwH" && <Grid.Col span={6}>        
+            <Autocomplete
+              label="Elemento a filtrar:"
+              placeholder="Pick one"
+              //data={data}
+              value={value} onChange={setValue} data={elementsD.map((item) => ({...item, value: item.kwh.toString()}))}      
+              filter={(value, item) =>
+                item.value.toLowerCase().includes(value.toLowerCase().trim())
+              }
+            />
+          </Grid.Col>   
+          }
+          {filtre=="Date" && <Grid.Col span={6}>        
+            <Autocomplete
+              label="Elemento a filtrar:"
+              placeholder="Pick one"
+              //data={data}
+              value={value} onChange={setValue} data={elementsD.map((item) => ({...item, value: item.date!.toDateString()}))}      
+              filter={(value, item) =>
+                item.value.toString().toLowerCase().includes(value.toLowerCase().trim())
+              }
+            />
+          </Grid.Col>   
+          }
 
-        </Grid.Col>   
-        }
-        {filtre=="Estación" && <Grid.Col span={6}>        
-          <Autocomplete
-            label="Elemento a filtrar:"
-            placeholder="Pick one"
-            //data={data}
-            value={value} onChange={setValue} data={elementsD.map((item) => ({ ...item, value: item.estacion }))}      
-            filter={(value, item) =>
-              item.value.toLowerCase().includes(value.toLowerCase().trim())
-            }
-          />
-
-        </Grid.Col>   
-        }
-        {filtre=="Cliente" && <Grid.Col span={6}>        
-          <Autocomplete
-            label="Elemento a filtrar:"
-            placeholder="Pick one"
-            //data={data}
-            value={value} onChange={setValue} data={elementsD.map((item) => ({ ...item, value: item.reservante }))}      
-            filter={(value, item) =>
-              item.value.toLowerCase().includes(value.toLowerCase().trim())
-            }
-          />
-        </Grid.Col>   
-        }
-        {filtre=="Matricula" && <Grid.Col span={6}>        
-          <Autocomplete
-            label="Elemento a filtrar:"
-            placeholder="Pick one"
-            //data={data}
-            value={value} onChange={setValue} data={elementsD.map((item) => ({...item, value: item.matricula}))}      
-            filter={(value, item) =>
-              item.value.toLowerCase().includes(value.toLowerCase().trim())
-            }
-          />
-        </Grid.Col>   
-        }
-        {filtre=="KwH" && <Grid.Col span={6}>        
-          <Autocomplete
-            label="Elemento a filtrar:"
-            placeholder="Pick one"
-            //data={data}
-            value={value} onChange={setValue} data={elementsD.map((item) => ({...item, value: item.kwh.toString()}))}      
-            filter={(value, item) =>
-              item.value.toLowerCase().includes(value.toLowerCase().trim())
-            }
-          />
-        </Grid.Col>   
-        }
-        {filtre=="Date" && <Grid.Col span={6}>        
-          <Autocomplete
-            label="Elemento a filtrar:"
-            placeholder="Pick one"
-            //data={data}
-            value={value} onChange={setValue} data={elementsD.map((item) => ({...item, value: item.date!.toDateString()}))}      
-            filter={(value, item) =>
-              item.value.toString().toLowerCase().includes(value.toLowerCase().trim())
-            }
-          />
-        </Grid.Col>   
-        }
-
-      </Grid>
-     <br></br>    
-
-      <Table striped highlightOnHover >
-        <thead>
-          <tr>
-            <th>Reservante</th>
-            <th>Matricula</th>
-            <th>Estacion</th>
-            <th>Ciudad</th>
-            <th>nºPlaza</th>
-            <th>Fecha</th>
-            <th>Duracion</th>
-            <th>KwH</th>
-            <th>Coste[€]</th>        
-          </tr>       
-        </thead>
-        <tbody>
-              
-        {filtre == "" && elementsD && elementsD.map(reserva => {
-          return <ReservaRow key={reserva.id} reserva={reserva} deleteElement={handleDeleteClick} />
-        })}
-        {(profile.cargo == "Administrador" || profile.cargo=="Jefe") && filtre =="Ciudad" && elementsD && elementsD.filter(element => element.city.includes(value)).map((elementFiltrat, index )=> {
-          return <ReservaRow key={index}  reserva={elementFiltrat} deleteElement={handleDeleteClick}/>
-        })}
-        {filtre =="Estación" && elementsD && elementsD.filter(element => element.estacion.includes(value)).map((reserva, index )=> {
-          return <ReservaRow key={index} reserva={reserva} deleteElement={handleDeleteClick}/>
-        })}  
-        {filtre =="Cliente" && elementsD && elementsD.filter(element => element.reservante.includes(value)).map((elementFiltrat, index )=> {
-          return <ReservaRow key={index} reserva={elementFiltrat} deleteElement={handleDeleteClick}/>
-        })} 
-        {filtre =="Matricula" && elementsD && elementsD.filter(element => element.matricula.includes(value)).map((elementFiltrat, index )=> {
-          return <ReservaRow key={index}  reserva={elementFiltrat} deleteElement={handleDeleteClick}/>
-        })} 
-        {filtre =="KwH" && elementsD && elementsD.filter(element => element.kwh.toString().includes(value)).map((elementFiltrat, index )=> {
-          return <ReservaRow key={index}  reserva={elementFiltrat} deleteElement={handleDeleteClick}/>
-        })} 
-        {filtre =="Date" && elementsD && elementsD.filter(element => element.date!.toDateString().includes(value)).map((elementFiltrat, index )=> {
-          return <ReservaRow key={index}  reserva={elementFiltrat} deleteElement={handleDeleteClick}/>
-        })}
-        </tbody>
-      </Table>
-      </>
-      )}
+        </Grid>
+      <br></br>
+      <ScrollArea style={{ height: 500 }} type="auto">   
+        <Table striped highlightOnHover >
+          <thead>
+            <tr>
+              <th>Reservante</th>
+              <th>Matricula</th>
+              <th>Estacion</th>
+              <th>Ciudad</th>
+              <th>nºPlaza</th>
+              <th>Fecha</th>
+              <th>Duracion</th>
+              <th>KwH</th>
+              <th>Coste[€]</th>        
+            </tr>       
+          </thead>
+          <tbody>
+                  
+          {filtre == "" && elementsD && elementsD.map(reserva => {
+            return <ReservaRow key={reserva.id} reserva={reserva} deleteElement={handleDeleteClick} />
+          })}
+          {(profile.cargo == "Administrador" || profile.cargo=="Jefe") && filtre =="Ciudad" && elementsD && elementsD.filter(element => element.city.includes(value)).map((elementFiltrat, index )=> {
+            return <ReservaRow key={index}  reserva={elementFiltrat} deleteElement={handleDeleteClick}/>
+          })}
+          {filtre =="Estación" && elementsD && elementsD.filter(element => element.estacion.includes(value)).map((reserva, index )=> {
+            return <ReservaRow key={index} reserva={reserva} deleteElement={handleDeleteClick}/>
+          })}  
+          {filtre =="Cliente" && elementsD && elementsD.filter(element => element.reservante.includes(value)).map((elementFiltrat, index )=> {
+            return <ReservaRow key={index} reserva={elementFiltrat} deleteElement={handleDeleteClick}/>
+          })} 
+          {filtre =="Matricula" && elementsD && elementsD.filter(element => element.matricula.includes(value)).map((elementFiltrat, index )=> {
+            return <ReservaRow key={index}  reserva={elementFiltrat} deleteElement={handleDeleteClick}/>
+          })} 
+          {filtre =="KwH" && elementsD && elementsD.filter(element => element.kwh.toString().includes(value)).map((elementFiltrat, index )=> {
+            return <ReservaRow key={index}  reserva={elementFiltrat} deleteElement={handleDeleteClick}/>
+          })} 
+          {filtre =="Date" && elementsD && elementsD.filter(element => element.date!.toDateString().includes(value)).map((elementFiltrat, index )=> {
+            return <ReservaRow key={index}  reserva={elementFiltrat} deleteElement={handleDeleteClick}/>
+          })}
+          </tbody>
+        </Table>
+        </ScrollArea>
+        </>
+        )}
       
 
     </> 

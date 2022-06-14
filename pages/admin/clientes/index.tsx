@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import ClientesRow from '../../../components/ClientesRow';
 import AddCliente from '../../../components/AddCliente';
 
+
 export interface ClientesData {
   id : number;
   nombre: string;
@@ -80,6 +81,7 @@ const ListaClientes: NextPage = () => {
     <Space  h={25}/>
     <AddCliente/>
 
+
     <Table striped highlightOnHover>
         <thead>
             <tr>
@@ -104,3 +106,4 @@ const ListaClientes: NextPage = () => {
 }
 
 export default ListaClientes
+

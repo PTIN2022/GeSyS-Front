@@ -3,6 +3,8 @@ import { useContext, useEffect, useState } from 'react';
 import { AlertCircle, Phone, User, At, Id, IdBadge } from 'tabler-icons-react';
 import { NextPage } from 'next';
 import { AuthContext } from '../../contexts/AuthContext';
+import Modificar_perfil from '../../components/Modificar_perfil';
+
 
 export type RolWorker = "Jefe" | "Administrador" | "Responsable" | "Trabajador";
 
@@ -14,6 +16,8 @@ export interface PerfilData {
   telefono: string;
   email: string;
   dni: string;
+  contraseña:string;
+  confirmarContraseña:string;
   cargo: RolWorker;
 }
 
@@ -56,9 +60,7 @@ const PerfilInfo: NextPage = () => {
             </Group>
 
             <Text align="left" size="lg">{perfil.nombre} {perfil.apellido}</Text>
-            <Button onClick={() => setEditing(!editing)}>
-              { editing ? 'Guardar Cambios' : 'Editar' }
-            </Button>
+            <Modificar_perfil />
           </Grid.Col>
 
           <Grid.Col span={7}>
@@ -142,3 +144,6 @@ const PerfilInfo: NextPage = () => {
   }
 
   export default PerfilInfo
+ /* <Button onClick={() => setEditing(!editing)}>
+  { editing ? 'Guardar Cambios' : 'Editar' }
+</Button> */
