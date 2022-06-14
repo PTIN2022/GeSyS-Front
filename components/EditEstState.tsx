@@ -59,7 +59,7 @@ const EditEstState = (est:any) => {
                 </Group>     
             }> 
           <div>
-            <Text size="sm">Click me to change state</Text>
+            <Text size="sm">Click to change state --{">"}</Text>
           </div>
         </Popover>          
         </Text>
