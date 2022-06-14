@@ -240,8 +240,6 @@ const Estadisticas: NextPage = () => {
           }
           estadisticas.push(estacion)
         }
-        console.log("estadisticas ->")
-        console.log(estadisticas)
         setEstaciones(estadisticas);
       }
       fetchEstadisticas();
@@ -358,24 +356,24 @@ const Estadisticas: NextPage = () => {
     }
 
     function estations_range() {
-      let date1 = fechasLimite[0]?.toLocaleDateString()
-      let date2 = fechasLimite[1]?.toLocaleDateString()
       
+      // Conversión de fecha a formato YYYY-MM-DD
+      let date1 = fechasLimite[0]?.toLocaleDateString('en-CA').split('T')[0]
+      let date2 = fechasLimite[1]?.toLocaleDateString('en-CA').split('T')[0]
+
       let copy = false, finish = false;
       const label = []
       const data0 = [], data1 = []  
-      let i = 0;
-      while(!finish && i < estacionOpcion.labels.length) {
+
+      // Copia los datos de estacionOpcion que hay entre date1 y date2
+      for(let i = 0; !finish && i < estacionOpcion.labels.length; i++) {
         if(estacionOpcion.labels[i] === date1) copy = true;
         if(copy) {
           label.push(estacionOpcion.labels[i]);
           data0.push(estacionOpcion.datasets[0].data[i]);
-          let month = get_month(estacionOpcion.labels[i]);
-          let year = get_year(estacionOpcion.labels[i])
-          data1.push((estacionOpcion.datasets[1].data[month-1]/getDaysOfMonth(year, month)));
+          data1.push(estacionOpcion.datasets[1].data[i]);
         }
         if(estacionOpcion.labels[i] === date2) finish = true;
-        i++;
       }
 
       let dataset0: EstadisticaDataset = {
@@ -424,7 +422,7 @@ const Estadisticas: NextPage = () => {
             />
 
             <Line
-                data={estacionOpcion}
+                data={estacionGrafica}
                 width={100}
                 height={40}
                 options={options}
