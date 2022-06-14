@@ -1,6 +1,7 @@
 import { Menu, Center, ActionIcon } from '@mantine/core';
 import { DotsVertical, Trash } from 'tabler-icons-react';
 import { AveriaRowProps } from '../pages/admin/averias';
+import React, { useEffect, useState } from 'react';
 
 
 // Hecho por xdiban, pero lo he tenido que subir yo porque hubo un error
@@ -35,12 +36,13 @@ const AveriaRow = (props: any) => {
 
 
 
-    //const [Estado,setEstado] = useState<string>(State)
+    const [Estado,setEstado] = useState<string>(averia.State)
+
     return (        
         <tr>
             <td>{averia.Est}</td>
             <td>{averia.Date}</td>
-            <td>{averia.State}</td>
+            <td>{Estado}</td>
             <td>{averia.Desc}</td>
             {<td>
             <Menu control={
@@ -55,6 +57,21 @@ const AveriaRow = (props: any) => {
                   <Menu.Item>Ver más</Menu.Item> 
                 </Link>*/
                 }
+                <Menu.Item
+                onClick={() => setEstado("No Resuelto")}
+                >
+                Resuelta
+                </Menu.Item>
+                <Menu.Item
+                    onClick={() => setEstado("Pendiente")}
+                >
+                Pendiente
+                </Menu.Item> 
+                <Menu.Item
+                    onClick={() => setEstado("Resuelto")}
+                >
+                    No resuelta
+                </Menu.Item> 
                 <Menu.Item color={'red'} onClick={handleDelete}icon={<Trash size={14}/>} >Eliminar</Menu.Item> 
             </Menu>
             </td>}
