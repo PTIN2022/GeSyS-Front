@@ -54,7 +54,8 @@ const EditEstState = (est:any) => {
                         {state == 'Activa' && <Circle onClick={()=>setMOpened(true)}  fill={"#00b900"}/>}
                         {state == 'Dañada' && <Circle onClick={()=>setMOpened(true)} fill={"#ffb044"} />}
                         {state == 'Inactiva' && <Circle  onClick={()=>setMOpened(true)} fill={"#bf2200"} />} 
-                    </ActionIcon>  
+                    </ActionIcon> 
+                    <Text size="sm">({state})</Text> 
                 </Group>     
             }> 
           <div>

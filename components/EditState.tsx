@@ -30,7 +30,7 @@ const EditState = (est:any) => {
           {
             <Box>
             <Autocomplete label="Elije el nuevo estado"
-                placeholder={"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
+                placeholder={state}
                 data={EstState}
                 />
                 <Space h={25}/>
