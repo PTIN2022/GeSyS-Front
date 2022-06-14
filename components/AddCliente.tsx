@@ -1,161 +1,126 @@
-import { TextInput, Group, Box, Button, Modal, NativeSelect,PasswordInput } from '@mantine/core';
-import { At,Id, Phone, User } from 'tabler-icons-react';
+import { TextInput, Group, Box, Button, Modal, Space, Autocomplete, NumberInput } from '@mantine/core';
+import { Calendar, Car, Clock, User, ChargingPile } from 'tabler-icons-react';
 import { useState } from 'react';
-import { useForm, zodResolver } from '@mantine/form';
-import { Grid } from '@mantine/core';
+import { DatePicker, TimeInput } from '@mantine/dates';
+import { ReservaData } from '../pages/admin/reservas/[reserva]';
 import 'dayjs/locale/es'
-import { Container } from '@mantine/core';
-import { PerfilData, RolWorker } from '../pages/admin/perfil';
+import { ClientesData } from '../pages/admin/clientes';
 
 const AddCliente = () => {
     const [opened, setOpened] = useState(false);
-    const form = useForm <PerfilData> ({
-        initialValues: {
-          username: '',
-          pfp: '',
-          nombre: '',
-          apellido: '',
-          telefono: '',
-          email: '',
-          dni: '',
-          contraseña:'',
-          confirmarContraseña:'',
-          cargo:'Jefe',
-        },
-        validate: {
-            nombre: (value) => (value.length >0 ? null : 'Introduza un nombre valido'),
-            apellido: (value) => (value.length >0 ? null : 'Introduza un apellido valido'),
-            username: (value) => (value.length >0 ? null : 'Introduza un username valido'),
-            telefono: (value) => (value.length >8 ? null : 'Introduza un telefono valido de 9 digitos'),
-            dni: (value) => (/.*[0-9]{8}.*.*[A-Z].*/.test(value) ? null : 'Introduzca un dni valido de 8 digitos y una letra mayuscula'),
-            email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Introduzca un emal valido'),
-            contraseña: (value) => (value.length >0 ? null : 'Introduza un contraseña valida'),
-            confirmarContraseña: (value, values) =>
-            value !== values.contraseña ? 'La contraseña no coincide' : null,
-        },
-      });
-      /*
-      const schema = z.object({
-        username: z.string().min(1, { message: 'Introduzca un username valido' }),
-        nombre: z.string().min(1, { message: 'Introduzca un nombre valido' }),
-        apellido: z.string().min(1,{ message: 'Introduzca un apellido valido' }),
-        telefono: z.string().length(9, { message: 'Introduzca un numero de telefono valido, 9 digitos' }),
-        dni: z.string().regex(new RegExp(".*[0-9]{8}.*"), "Introduzca minimo 8 numeros").regex(new RegExp(".*[A-Z].*"), "Introduzca un letra Mayuscula").min(9,{ message: 'Introduzca un DNI valido,9 digitos' }),
-        email: z.string().email({ message: 'Introduzca un email valido' }),
-      });
-        const form = useForm({
-          schema: zodResolver(schema),
-          initialValues: {
-            username:'',
-            nombre: '',
-            apellido:'',
-            telefono: '',
-            dni:'',
-            email:'',
-          },
-        });
-*/
+    const [cliente, setCliente] = useState<ClientesData>({
+        id: -1,
+        nombre: '',
+        apellido: '',
+        email: '',
+        dni:'',
+        telefono: -1,
+        username: '',
+    });
+const handleSaveClick = () => {
+    if (cliente.nombre == '' ||
+        cliente.apellido == '' ||
+        cliente.email == '' ||
+        cliente.dni == '' ||
+        cliente.telefono == -1 ){
+
+        alert('Error: Missing fields')
+        return;
+    }
+    
+    setOpened(false)
+   try{
+    const form = new FormData()
+    form.append("nombre", cliente.nombre);
+    form.append("apellido", cliente.apellido);
+    form.append('email', cliente.email);
+    form.append('DNI',cliente.dni);
+    form.append('foto', 'None'); //'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.mOuT5J0qeP_FHAidCHCvtwHaEK%26pid%3DApi&f=1',
+    form.append('telefono',cliente.telefono.toString());
+    form.append('username',cliente.nombre +"."+ cliente.apellido);
+    form.append('password',cliente.nombre +"."+ cliente.apellido);
+    //console.log(jeison)
+    const fetchData = async () => {
+        var request = new XMLHttpRequest();
+        request.open("POST", "http://craaxkvm.epsevg.upc.es:23601/api/clientes");
+        request.send(form);
+        
+        request.onload = function() {
+            if (request.status != 200) { // analyze HTTP status of the response
+              alert(`Error ${request.status}: ${request.statusText}`); // e.g. 404: Not Found
+            } else { // show the result
+                //refresh page
+                location = location
+                //SERIA MES RAPID SI ENLLOC DE REFRESCAR TOT ES PASES DIRECTAMENT LES DADES QUE HEM AFEGIT
+                // PERO ya he invertido muchas horas a esto :(
+            }
+          };
+     
+      
+    }
+    //console.log(JSON.stringify(jeison))
+    //console.log(form.getAll())
+    
+    fetchData();   
+   }catch(err){alert ("Unaible to add:" + err)   }
+     
+}
     return (
     <>
-        <Modal size="xl"
+        <Modal
             opened={opened}
             onClose={() => setOpened(false)}
-            title="Introduzca los datos del nuevo clientes"
+            title="Introduzca los datos del Cliente"
         >
         {
-            <Box>
-                <form onSubmit={form.onSubmit((values) => console.log(values))}>
-                <Group mt="sl" spacing="xl" grow>           
+            <Box> 
                     <TextInput size="md"
                         label="Nombre"
-                        placeholder="Pedro"
+                        placeholder="Manolo"
                         variant="default"
-                        icon={<User size={14} />}
-                        {...form.getInputProps('nombre')}
-                        //value={perfil.nombre}
-                        //onChange={(event) => setPerfil({...perfil, nombre: event.target.value})} 
+                        value={cliente.nombre}
+                        onChange={(event) => setCliente({...cliente, nombre: event.target.value})}
                     />
-
                     <TextInput size="md"
                         label="Apellido"
-                        placeholder="Benito"
+                        placeholder="Garcia"
                         variant="default"
-                        icon={<User size={14} />}
-                        {...form.getInputProps('apellido')}
-                        //value={perfil.apellido}
-                        //onChange={(event) => setPerfil({...perfil, apellido: event.target.value})}
-                    />
-                </Group> 
-                <Group mt="sl" spacing="xl" grow> 
-                    <TextInput size="md"
-                        label="Username"
-                        placeholder="username"
+                        value={cliente.apellido}
+                        onChange={(event) => setCliente({...cliente, apellido: event.target.value})}
+                    /> 
+   
+                <TextInput size="md"
+                        label="Email"
+                        placeholder="ManuelGarcia@gmail.com"
                         variant="default"
-                        icon={<User size={14} />}
-                        {...form.getInputProps('username')}
-                        //value={perfil.nombre}
-                        //onChange={(event) => setPerfil({...perfil, nombre: event.target.value})} 
-                    />   
-                    <TextInput size="md"
-                        label="Correo electronico"
-                        placeholder="@gmail.com"
-                        icon={<At size={14} />} 
-                        variant="default"
-                        {...form.getInputProps('email')}
-
-                        //value={perfil.email}
-                        //onChange={(event) => setPerfil({...perfil, email: event.target.value})}
-                    />
-                </Group>
-
-                <Group mt="sl" spacing="xl" grow>
-                    <TextInput size="md"
-                        label="Numero de Telefono"
-                        placeholder="Telefono" 
-                        variant="default"
-                        icon={<Phone size={14} />}
-                        {...form.getInputProps('telefono')}
-                        //value={perfil.telefono}
-                        //onChange={(event) => setPerfil({...perfil, telefono: event.target.value})}
-                    />
-
-                    <TextInput size="md"
+                        value={cliente.email}
+                        onChange={(event) => setCliente({...cliente, email: event.target.value})}
+                /> 
+                <TextInput size="md"
                         label="DNI"
-                        placeholder="28982938A" 
-                        icon={<Id size={14} />}
+                        placeholder="12345678J"
                         variant="default"
-                        {...form.getInputProps('dni')}
-                        //value={perfil.dni}
-                        //onChange={(event) => setPerfil({...perfil, dni: event.target.value})}
-                    />
-                </Group>
-                <Group mt="sl" spacing="xl" grow>
-                    <PasswordInput size='md'
-                    label="Contraseña"
-                    placeholder="nueva "
-                    {...form.getInputProps('contraseña')}
-                    />
-
-                    <PasswordInput size="md"
-                        label="Confirmar Contraseña"
-                        placeholder="confirmar"
-                        variant="default"
-                        icon={<User size={14} />}
-                        {...form.getInputProps('confirmarContraseña')}
-                        //value={perfil.apellido}
-                        //onChange={(event) => setPerfil({...perfil, apellido: event.target.value})}
-                    />
-                    
-                </Group> 
-                <br/>
-                <Button type='submit'>
-                    Guardar
-                </Button>  
-                </form>
+                        value={cliente.dni}
+                        onChange={(event) => setCliente({...cliente, dni: event.target.value})}
+                />
+                <NumberInput
+                    hideControls
+                    label="Telefono"
+                    placeholder="123456789"
+                    variant="default"
+                    value={cliente.telefono != -1 ? cliente.telefono : undefined}
+                    onChange={(event:number) => setCliente({...cliente, telefono: event})}
+                />
+                <br></br>
+                    <Button type='submit' onClick={handleSaveClick}>
+                        Guardar
+                    </Button>
             </Box>
         }
         </Modal>
-        <Button onClick={() => setOpened(true)}>Añadir Clientes</Button>
+
+        <Button onClick={() => setOpened(true)}>Añadir Cliente</Button>
+        
 
     </>
     )
