@@ -1,15 +1,16 @@
-import { ActionIcon, Button } from "@mantine/core"
+import { ActionIcon, Button, Center, Menu } from "@mantine/core"
 import Link from "next/link"
-import { Circle } from "tabler-icons-react"
+import { useState } from "react"
+import { Circle, DotsVertical, Trash } from "tabler-icons-react"
 import { EstacionRowProps } from "../pages/admin/estaciones"
+import EditState from "./EditState"
+
 
 
 const FilaEstacion = ({ Dir, Est, Kwh, Oc, enc, m2 , id, state} : EstacionRowProps) => {
 //const FilaEtacion = (props: any) => {
  // const est: EstacionRowProps = props.est;
-  const dotColor=(state:string) =>{
-    return
-  }
+const [menuOpened,setMenu] = useState(false);
   return (        
     <tr>
       <td>
@@ -24,11 +25,20 @@ const FilaEstacion = ({ Dir, Est, Kwh, Oc, enc, m2 , id, state} : EstacionRowPro
       <td>{m2}</td>
       <td>{enc}</td>
       <td>
-      <Link href={`http://localhost:3000/admin/estaciones/${id}`}>
-        <Button>          
-            Ver Estacion
-        </Button>
-        </Link>
+       <Menu opened={menuOpened} control={
+          <Center  style={{ width: 10, height: 40 }}>
+              <ActionIcon onClick={() => setMenu(true)} color="dark" radius="md">
+                  <DotsVertical />
+              </ActionIcon>
+          </Center>
+          }>
+          <Link href={`http://localhost:3000/admin/estaciones/${id}`}  passHref={true}>
+                  <Menu.Item>Ver más</Menu.Item>
+              </Link>
+          <Menu.Item >
+            <EditState state={state} id={id}/>
+            </Menu.Item> 
+        </Menu>   
 
       </td>
       

@@ -6,7 +6,7 @@ import { useEffect, useState} from "react";
 import { Circle } from "tabler-icons-react";
 import { EstState } from ".";
 import AddIncidents from "../../../components/AddIncidents";
-import EditEstStateC from "../../../components/EditEstState";
+import EditEstState from "../../../components/EditEstState";
 import PlazaInfo from "../../../components/PlazaInfo";
 
 
@@ -53,27 +53,26 @@ const Estacion: NextPage = () => {
     fetchEstacion();
   }, [estacion])
 
-  function EditEstState() {
-    // console.log("Im in")
-    // setMOpened(true)
-    // console.log(Mopened)
-    // return(      
-    //      <Modal size="xl"
-    //         opened={Mopened}
-    //         onClose={() => setMOpened(false)}
-    //         title="Introduzca los datos del nuevo clientes"
-    //     >          
-    //       <Box>
-    //         <Autocomplete label="Elije El nuevo estado"
-    //           placeholder="Estado"
-    //           data={EstState}
-    //           />
-    //       </Box>          
-    //     </Modal>
-    // )
-    return(    <EditEstStateC />    )
+  // function EditEstState() {
+  //   // console.log("Im in")
+  //   // setMOpened(true)
+  //   // console.log(Mopened)
+  //   // return(      
+  //   //      <Modal size="xl"
+  //   //         opened={Mopened}
+  //   //         onClose={() => setMOpened(false)}
+  //   //         title="Introduzca los datos del nuevo clientes"
+  //   //     >          
+  //   //       <Box>
+  //   //         <Autocomplete label="Elije El nuevo estado"
+  //   //           placeholder="Estado"
+  //   //           data={EstState}
+  //   //           />
+  //   //       </Box>          
+  //   //     </Modal>
+  //   // )
 
-  }
+  // }
 
 
   return (
@@ -82,7 +81,7 @@ const Estacion: NextPage = () => {
         <title>Gesys - Estación: {estacion}</title>
       </Head>
       <Text align="left" size="xl">Estación {estacion}</Text>
-      <EditEstState />
+      <EditEstState est={state}/>
 
       <Text align="left" size="sm">Kwh Contractat: {potencia_max}</Text>
       <Text align="left" size="sm">Kwh Actual: {potencia_now}</Text>
