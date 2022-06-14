@@ -60,7 +60,7 @@ const AveriaRow = (props: any) => {
                 <Menu.Item
                 onClick={() => setEstado("No Resuelto")}
                 >
-                Resuelta
+                No Resuelto
                 </Menu.Item>
                 <Menu.Item
                     onClick={() => setEstado("Pendiente")}
@@ -70,7 +70,7 @@ const AveriaRow = (props: any) => {
                 <Menu.Item
                     onClick={() => setEstado("Resuelto")}
                 >
-                    No resuelta
+                Resuelto
                 </Menu.Item> 
                 <Menu.Item color={'red'} onClick={handleDelete}icon={<Trash size={14}/>} >Eliminar</Menu.Item> 
             </Menu>
