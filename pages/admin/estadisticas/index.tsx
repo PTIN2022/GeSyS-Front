@@ -64,7 +64,7 @@ function sumaEstaciones(estaciones: EstadisticaEstacion[]) {
 
 const all_estations: EstadisticaEstacion[] = [
     {
-        name: "VGA1",
+        name: "VG1",
         labels: dates,
         datasets: [
           {
@@ -84,7 +84,7 @@ const all_estations: EstadisticaEstacion[] = [
         ]
     },
     {
-        name: 'VGA2',
+        name: 'VG2',
         labels: dates,
         datasets: [
           {
@@ -104,7 +104,7 @@ const all_estations: EstadisticaEstacion[] = [
         ]
     },
     {
-        name: 'VGA3',
+        name: 'VG3',
         labels: dates,
         datasets: [
           {
@@ -174,7 +174,7 @@ const calcularTotalEstaciones = (estaciones: EstadisticaEstacion[]) => {
 
 const Estadisticas: NextPage = () => {
 
-    const [estacionActiva, setEstacionActiva] = useState('Todas las estaciones');
+    const [estacionActiva, setEstacionActiva] = useState('VG1');
     const [estaciones, setEstaciones] = useState<EstadisticaEstacion[]>(all_estations);
     const [estacionOpcion, setEstacionOpcion] = useState<EstadisticaEstacion>(estaciones[0]);
     const [estacionGrafica, setEstacionGrafica] = useState(estacionOpcion);
@@ -211,12 +211,12 @@ const Estadisticas: NextPage = () => {
         for(let i=0; i<data.length; i++) {
 
           let dias = data[i].dias
-          let lab = [], consumo = [], consumo_ideal = [0,0,0,0,0,0,0,0,0,0,0,0]
+          let lab = [], consumo = [], consumo_ideal = []
           for(let j=0; j<dias.length; j++) {
             lab.push(dias[j].dia)
             consumo.push(dias[j].potencia_max_cons)
+            consumo_ideal.push(data[i].kwh_now)
           }
-          consumo_ideal.fill(data[i].kwh_now)
 
           let estacion:EstadisticaEstacion = {
             name: data[i].estacion,
@@ -242,7 +242,7 @@ const Estadisticas: NextPage = () => {
         }
         console.log("estadisticas ->")
         console.log(estadisticas)
-        //setEstaciones(est);
+        setEstaciones(estadisticas);
       }
       fetchEstadisticas();
     }, [])
@@ -424,7 +424,7 @@ const Estadisticas: NextPage = () => {
             />
 
             <Line
-                data={estacionGrafica}
+                data={estacionOpcion}
                 width={100}
                 height={40}
                 options={options}

@@ -6,8 +6,6 @@ const NavbarButton = (props: any) => {
 
   const { closeBurger, href, label } = props;
 
-  console.log(props)
-
   return (
     <Link href={href} passHref={true}>
       <UnstyledButton 
