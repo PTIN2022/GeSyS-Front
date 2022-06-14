@@ -16,6 +16,7 @@ const ClientesRow = (props: any) => {
         const response = await fetch(`/api/reservas/${reserva.id}`, {
             method: 'DEL'
         })
+        
         if (response.status == 200) {
             borrarElemento(reserva.id)
         }

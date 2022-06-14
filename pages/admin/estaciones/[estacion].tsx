@@ -19,19 +19,21 @@ const Estacion: NextPage = () => {
   const [plazas, setplazas] = useState<PlazaData[]>();
   const [potencia_now, setPotencia_now] = useState("");
   const [potencia_max, setPotencia_max] = useState("");
+  const [ocupacion, setOcupacion] = useState("");
 
   useEffect(() => {
     const fetchEstacion = async () => {
       if (estacion == undefined) return
       const result = await fetch(`http://craaxkvm.epsevg.upc.es:23601/api/estaciones/${estacion}`);
       const data = await result.json();
-      setPotencia_now(data.kwh_now);
-      setPotencia_max(data.kwh_max);
+      setPotencia_now(data.potencia_usada);
+      setPotencia_max(data.potencia_contratada);
+      setOcupacion(data.ocupation_actual);
       const pla = []
       console.log(data.Cargadores)
       for(let i=0; i<data.Cargadores.length; i++) {
         let pla_aux:PlazaData = {
-          id_cargador: data.Cargadores[i].id_cargador,
+          id_cargador: data.Cargadores[i].posicion,
           estado: data.Cargadores[i].estado,
         }
         pla.push(pla_aux)
@@ -48,8 +50,9 @@ const Estacion: NextPage = () => {
         <title>Gesys - Estación: {estacion}</title>
       </Head>
       <Text align="left" size="xl">Estación {estacion}</Text>
-      <Text align="left" size="sm">Kwh Max: {potencia_max}</Text>
+      <Text align="left" size="sm">Kwh Contractat: {potencia_max}</Text>
       <Text align="left" size="sm">Kwh Actual: {potencia_now}</Text>
+      <Text align="left" size="sm">Ocupació: {ocupacion}</Text>
       <Space w="xs"/>
       <Group position="center">
         <Grid gutter={"xs"}>
@@ -58,7 +61,6 @@ const Estacion: NextPage = () => {
           })}
         </Grid>
       </Group>
-      <AddIncidents />
     </>
   )
 }
