@@ -24,102 +24,24 @@ export interface EstadisticaEstacion {
 ChartJS.register( CategoryScale, LinearScale, PointElement, LineElement, Filler, Title, Tooltip, Legend);
 
 
-function getDatesInRange(startDate: Date, endDate: Date) {
-  const date = new Date(startDate.getTime());
-  
-  const dates = [];
-
-  while(date <= endDate) {
-    dates.push(new Date(date).toLocaleDateString());
-    date.setDate(date.getDate()+1);
-  }
-  return dates;
-}
-
-const d1 = new Date('2022-01-01');
-const d2 = new Date(new Date().getTime() - 24*60*60*1000);
-
-var dates = getDatesInRange(d1, d2);
-
-function generateData(days: number, max: number, min: number) {
-  const data = []
-  for(let i = 0; i < days; i++) {
-    data.push(Math.floor(Math.random() * (max - min + 1)) + min);
-  }
-  return data;
-}
-
-function sumaEstaciones(estaciones: EstadisticaEstacion[]) {
-  const data = []
-  let sum;
-  for(let i = 0; i < dates.length ; i++) {
-    sum = 0;
-    for(let est = 0; est < estaciones.length; est++) {
-      sum += estaciones[est].datasets[0].data[i]
-    }
-    data.push(sum);
-  }
-  return data;
-}
-
 const all_estations: EstadisticaEstacion[] = [
     {
-        name: "VG1",
-        labels: dates,
+        name: "Loading...",
+        labels: ['0'],
         datasets: [
           {
             label: 'Potencia total consumida(KW)',
             fill: true,
             backgroundColor: 'rgba(75,192,192,0.4)',
             borderColor: 'rgba(75,192,192,1)',
-            data: generateData(dates.length, 1000, 4000)
+            data: [0]
           },
           {
             label: `Potencia ideal consumida`,
             fill: false,
             backgroundColor: 'rgba(255,10,10,0.3)',
             borderColor: 'rgba(255,10,10,0.5)',
-            data: [120000, 120000, 120000, 120000, 120000, 120000, 120000, 120000, 120000, 120000, 120000, 120000]
-          }
-        ]
-    },
-    {
-        name: 'VG2',
-        labels: dates,
-        datasets: [
-          {
-            label: 'Potencia total utilizada(KW)',
-            fill: true,
-            backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
-            data: generateData(dates.length, 1000, 4000)
-          },
-          {
-            label: `Potencia total contratada`,
-            fill: false,
-            backgroundColor: 'rgba(255,10,10,0.3)',
-            borderColor: 'rgba(255,10,10,0.5)',
-            data: [115000, 115000, 115000, 115000, 115000, 115000, 115000, 115000, 115000, 115000, 115000, 115000]
-          }
-        ]
-    },
-    {
-        name: 'VG3',
-        labels: dates,
-        datasets: [
-          {
-            label: 'Potencia total utilizada(KW)',
-            fill: true,
-            backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
-            data: generateData(dates.length, 1000, 4000)
-          },
-          {
-            label: `Potencia total contratada`,
-            fill: false,
-            backgroundColor: 'rgba(255,10,10,0.3)',
-            borderColor: 'rgba(255,10,10,0.5)',
-            data: [125000, 125000, 125000, 125000, 125000, 125000, 125000, 125000, 125000, 125000, 125000, 125000]
+            data: [0]
           }
         ]
     }
@@ -131,43 +53,6 @@ const options = {
             beginAtZero: true
         }
     }
-}
-
-function calcularTotalPotenciaContratada(estaciones: EstadisticaEstacion[]) {
-  const data = []
-  let sum;
-  for(let i = 0; i < estaciones[0].datasets[1].data.length ; i++) {
-    sum = 0;
-    for(let est = 0; est < estaciones.length; est++) {
-      sum += estaciones[est].datasets[1].data[i]
-    }
-    data.push(sum);
-  }
-  return data;
-}
-
-const calcularTotalEstaciones = (estaciones: EstadisticaEstacion[]) => {
-    const estacionTotal = {
-        name: "Todas las estaciones",
-        labels: dates,
-        datasets: [
-          {
-            label: 'Potencia total utilizada(KW)',
-            fill: true,
-            backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
-            data: sumaEstaciones(estaciones)
-          },
-          {
-            label: `Potencia total contratada`,
-            fill: false,
-            backgroundColor: 'rgba(255,10,10,0.3)',
-            borderColor: 'rgba(255,10,10,0.5)',
-            data: calcularTotalPotenciaContratada(estaciones)
-          }
-        ]
-    }
-    return estacionTotal
 }
 
 
@@ -196,17 +81,11 @@ const Estadisticas: NextPage = () => {
       }
     })
 
-    useEffect(() => {
-        const total_estaciones = calcularTotalEstaciones(estaciones)
-        setEstaciones(estaciones => [...estaciones, total_estaciones]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
 
     useEffect(() => {
       const fetchEstadisticas = async () => {
         const result = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/estadisticas');
         const data = await result.json();  
-    
         const estadisticas = []
         for(let i=0; i<data.length; i++) {
 
@@ -217,7 +96,6 @@ const Estadisticas: NextPage = () => {
             consumo.push(dias[j].potencia_max_cons)
             consumo_ideal.push(data[i].kwh_now)
           }
-
           let estacion:EstadisticaEstacion = {
             name: data[i].estacion,
             labels: lab,
