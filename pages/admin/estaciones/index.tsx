@@ -14,7 +14,8 @@ export interface EstacionRowProps {
   enc: string;
   state: string;
 }
-const estados=['Activa','Inactiva','Dañada'];
+export const EstState=['Activa','Inactiva','Dañada'];
+
 const ListaEstaciones: NextPage =() => {
   
   const [estaciones, setEstaciones] = useState<EstacionRowProps[]>();
@@ -36,7 +37,7 @@ const ListaEstaciones: NextPage =() => {
           Oc: data[i].ocupation_actual+"/32",
           m2: Math.floor(Math.random()*(151) + 100),    //data[i].surface_in_meters,
           enc: data[i].telefono,
-          state: estados[r],
+          state: EstState[r],
         }
         est.push(est1)
       }
