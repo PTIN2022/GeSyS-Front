@@ -4,10 +4,11 @@ import FilaSoporte from '../../../components/FilaTablaSoporte';
 import { useEffect, useState } from 'react';
 
 export interface SoporteRowProps {
-	descripcion: string;
+  asunto: string;
 	estado: boolean;
 	fecha: Date;
-	ticket_id: number;
+	id_ticket: number;
+	mensaje: string;
 }
 
 const SoporteTecnico : NextPage =() => {
@@ -16,20 +17,8 @@ const SoporteTecnico : NextPage =() => {
   useEffect(() => {
     const fetchEstacion = async () => {
       const result = await fetch('http://craaxkvm.epsevg.upc.es:23601/api/soporte');
-      const data = await result.json();  
-  
-      const est = []
-  
-      for(let i=0; i<data.length; i++) {
-        let est1:SoporteRowProps = {
-          descripcion: data[i].descripcion,
-          estado: data[i].estado,
-          fecha: data[i].fecha,
-          ticket_id: data[i].ticket_id
-        }
-        est.push(est1)
-      }
-      setAverias(est);
+      const data = await result.json() as SoporteRowProps[];;  
+      setAverias(data);
     }
     fetchEstacion();
   }, [])
