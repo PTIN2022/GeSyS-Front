@@ -34,7 +34,7 @@ const ListaEstaciones: NextPage =() => {
           Dir: data[i].direccion,
           Kwh: data[i].potencia_usada+"/"+data[i].potencia_contratada,
           Oc: data[i].ocupation_actual+"/32",
-          m2: data[i].surface_in_meters,
+          m2: Math.floor(Math.random()*(151) + 100),    //data[i].surface_in_meters,
           enc: data[i].telefono,
           state: estados[r],
         }
