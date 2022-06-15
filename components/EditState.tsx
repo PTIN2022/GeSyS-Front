@@ -2,12 +2,12 @@ import { Autocomplete, Box, Button, Modal, Space } from '@mantine/core';
 import { useState } from 'react';
 import { EstState } from '../pages/admin/estaciones';
 
-const EditState = (est:any) => {
-    const [modalopened, setmodalpened] = useState(false);
+const EditState = (props:any) => {
+    const [opened, setOpened] = useState(false);
 
-    const state=(est.state.toString())  
-    console.log(est)
-    console.log(state)
+    const state=(props.state.toString())  
+    // console.log(est)
+    // console.log(state)
 
     const ConnectToApi = () => {
         console.log("Viva el A2")
@@ -17,14 +17,20 @@ const EditState = (est:any) => {
          * 
          * 
          **********************************/
-        setmodalpened(false)
-    }
+         CloseModal()
+        }
+        const CloseModal=()=>{
+            setOpened(false)
+            //props.menu = ! props.menu
+            props.menu();
+            // location=location
+        }
 
     return(
       <>
         <Modal size="xl"
-            opened={modalopened}
-            onClose={() => setmodalpened(false)}
+            opened={opened}
+            onClose={CloseModal}
             title="Modifique el estado de la estacion"
         >
           {
@@ -42,7 +48,7 @@ const EditState = (est:any) => {
             
           }
         </Modal>
-        <p onClick={() => setmodalpened(true)}> Editar Estacion </p>
+        <p onClick={() => setOpened(true)}> Editar Estacion </p>
      </>
     )
 

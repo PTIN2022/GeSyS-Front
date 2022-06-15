@@ -11,6 +11,9 @@ const FilaEstacion = ({ Dir, Est, Kwh, Oc, enc, m2 , id, state} : EstacionRowPro
 //const FilaEtacion = (props: any) => {
  // const est: EstacionRowProps = props.est;
 const [menuOpened,setMenu] = useState(false);
+const tancaMenu =() =>{
+  setMenu(!menuOpened)
+}
   return (        
     <tr>
       <td>
@@ -27,7 +30,7 @@ const [menuOpened,setMenu] = useState(false);
       <td>
        <Menu opened={menuOpened} control={
           <Center  style={{ width: 10, height: 40 }}>
-              <ActionIcon onClick={() => setMenu(true)} color="dark" radius="md">
+              <ActionIcon onClick={() => setMenu(!menuOpened)} color="dark" radius="md">
                   <DotsVertical />
               </ActionIcon>
           </Center>
@@ -36,7 +39,7 @@ const [menuOpened,setMenu] = useState(false);
                   <Menu.Item>Ver más</Menu.Item>
               </Link>
           <Menu.Item >
-            <EditState state={state} id={id}/>
+            <EditState state={state} id={id} menu={tancaMenu}/>
             </Menu.Item> 
         </Menu>   
 
