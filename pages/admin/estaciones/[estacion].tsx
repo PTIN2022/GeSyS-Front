@@ -30,7 +30,7 @@ const Estacion: NextPage = () => {
   useEffect(() => {
     const fetchEstacion = async () => {
       if (estacion == undefined) return
-      const result = await fetch(`http://craaxkvm.epsevg.upc.es:23601/api/estaciones/${estacion}`);
+      const result = await fetch(`http://craaxkvm.epsevg.upc.es:23600/api/estaciones/${estacion}`);
       const data = await result.json();
       setPotencia_now(data.potencia_usada);
       setPotencia_max(data.potencia_contratada);

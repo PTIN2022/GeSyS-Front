@@ -13,9 +13,9 @@ export interface ReservaData {
   matricula: string,
   DNI: string,
   estacion: string,
-  ciudad:string,
   coste:number,
-  nªPlaza:number,
+  nPlaza:number,
+
 }
 
 const Reserva: NextPage = () => {
@@ -32,9 +32,8 @@ const Reserva: NextPage = () => {
     matricula: '',
     DNI: '',
     estacion: '',
-    ciudad:'',
     coste:0,
-    nªPlaza:0,
+    nPlaza:0,
   });
 
   return (
