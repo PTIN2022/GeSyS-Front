@@ -1,22 +1,35 @@
 import { Button, TextInput } from "@mantine/core";
 import { useInterval } from "@mantine/hooks";
-import { FormEvent, useEffect, useState } from "react";
-import { MensajeTicket } from "../../pages/admin/ticket/[id]";
+import { FormEvent, useContext, useEffect, useRef, useState } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
+import { MensajeTicket, TicketInterface } from "../../pages/admin/ticket/[id]";
 import Mensaje from "./Mensaje";
 
 const Chat = (props: { ticket_id: string }) => {
 
+  const { user } = useContext(AuthContext)
+
   const [mensajes, setMensajes] = useState<MensajeTicket[]>([]);
   const [textMensaje, settextMensaje] = useState<string>("");
 
+  const endScroll = useRef<HTMLDivElement>(null);
+
   const fetchDatos = async () => {
     const response = await fetch(`http://craaxkvm.epsevg.upc.es:23601/api/soporte/${props.ticket_id}`);
-    const data = await response.json();
+    const data = await response.json() as TicketInterface;
     setMensajes(data.Mensajes);
-    console.log('hey :)')
+    scrollToBottomInstant();
   }
 
   const fetchInterval = useInterval(fetchDatos, 5000);
+
+  const scrollToBottomSmooth = () => {
+    endScroll.current!.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const scrollToBottomInstant = () => {
+    endScroll.current!.scrollIntoView();
+  };
 
   useEffect(() => {
     if (props.ticket_id) {
@@ -31,6 +44,7 @@ const Chat = (props: { ticket_id: string }) => {
 
     const form = new FormData();
     form.append("mensaje", textMensaje);
+    form.append("cliente", user.id.toString());
 
     fetch(`http://craaxkvm.epsevg.upc.es:23601/api/soporte/${props.ticket_id}`, {
       method: 'POST',
@@ -43,6 +57,7 @@ const Chat = (props: { ticket_id: string }) => {
     .then((datos) => {
       setMensajes(datos.Mensajes);
       settextMensaje("");
+      scrollToBottomSmooth();
     })
     .catch((error) => {
       alert(error);
@@ -52,7 +67,7 @@ const Chat = (props: { ticket_id: string }) => {
 
   return (
     <div>
-      <div className="chat">
+      <div style={{ maxHeight: '30em', overflow: 'auto' }}>
         {
           mensajes && mensajes.map((mensaje, i) => {
             return (
@@ -60,10 +75,11 @@ const Chat = (props: { ticket_id: string }) => {
             )
           })
         }
+        <div ref={endScroll}></div>
       </div>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <TextInput value={textMensaje} onChange={(event) => settextMensaje(event.currentTarget.value)} placeholder="Mensaje" required />
-        <Button type="submit">Enviar</Button>
+      <form onSubmit={(e) => handleSubmit(e)} style={{ marginTop: '0.5em', display: 'flex' }}>
+        <TextInput style={{ justifyContent: 'stretch', width: '100%' }} value={textMensaje} onChange={(event) => settextMensaje(event.currentTarget.value)} placeholder="Mensaje" required />
+        <Button style={{ marginLeft: '0.5em'}} type="submit">Enviar</Button>
       </form>
     </div>
   )

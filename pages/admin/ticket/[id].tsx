@@ -6,15 +6,14 @@ import Chat from "../../../components/SoporteTecnico/Chat";
 
 
 export interface MensajeTicket {
-  msg_id: number;
-  user_id: number;
-  mensaje: string;
-  fecha: Date;
+  contenido: string;
+  date: Date;
+  id_mensaje: number;
 }
 
 export interface TicketInterface {
   Mensajes: MensajeTicket[];
-  descripcion: string;
+  mensaje: string;
   estado: boolean,
   fecha: Date;
   ticket_id: number;
@@ -31,7 +30,9 @@ const Ticket: NextPage = () => {
   useEffect(() =>{
     const fetchDatos = async () => {
       const response = await fetch(`http://craaxkvm.epsevg.upc.es:23601/api/soporte/${id}`);
-      const data = await response.json();
+      const data = await response.json() as TicketInterface;
+      data.fecha = new Date(data.fecha);
+
       setTicket(data);
     }
     if (id) {
@@ -65,24 +66,24 @@ const Ticket: NextPage = () => {
 
   return (
     <>
-    <Grid>
-      <Grid.Col span={12}>
-        <h1>Ticket {id}</h1>
-      </Grid.Col>
-      <Grid.Col span={8}>
-        <h3>
-          {ticket?.descripcion}
-        </h3>
-      </Grid.Col>
-      <Grid.Col span={4}>
-        <h3>
-          {ticket && ticket.fecha && new Date(ticket?.fecha).toLocaleString()} (Hace {ticket && ticket.fecha && dateToHaceCuanto(new Date(ticket?.fecha))})
-        </h3>
-      </Grid.Col>
-      <Grid.Col span={12}>
-        <Chat ticket_id={id as string} />
-      </Grid.Col>
-    </Grid>
+      <Grid>
+        <Grid.Col span={12}>
+          <h1>Ticket {id}</h1>
+        </Grid.Col>
+        <Grid.Col span={8}>
+          <h3>
+            {ticket?.mensaje}
+          </h3>
+        </Grid.Col>
+        <Grid.Col span={4}>
+          <h3>
+            {ticket && ticket.fecha && ticket.fecha.toLocaleString()} (Hace {ticket && ticket.fecha && dateToHaceCuanto(new Date(ticket?.fecha))})
+          </h3>
+        </Grid.Col>
+        <Grid.Col span={12}>
+          <Chat ticket_id={id as string} />
+        </Grid.Col>
+      </Grid>
     </>
   )
 

@@ -17,7 +17,12 @@ const SoporteTecnico : NextPage =() => {
   useEffect(() => {
     const fetchEstacion = async () => {
       const result = await fetch('http://craaxkvm.epsevg.upc.es:23601/api/soporte');
-      const data = await result.json() as SoporteRowProps[];;  
+      const data = (await result.json() as SoporteRowProps[]).map(element => {
+        return {
+          ...element,
+          fecha: new Date(element.fecha)
+        }
+      });
       setAverias(data);
     }
     fetchEstacion();
@@ -25,7 +30,7 @@ const SoporteTecnico : NextPage =() => {
 
   return (
     <>
-      <Title order={1}> <Text inherit component="span">Soporte Técnico </Text></Title>
+      <Title order={1}><Text inherit component="span">Soporte Técnico</Text></Title>
       <Space h={25}/>
       <Table striped highlightOnHover>
         <thead>

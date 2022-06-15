@@ -1,11 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import jwt from 'jsonwebtoken'
 import { serialize } from 'cookie'
+import { PerfilData } from '../admin/perfil'
 
 export const JWT_SECRET = 'CECRETO_SECRET'
 
-export const usuariosTmp = [
+interface PerfilDataPass extends PerfilData {
+  password: string;
+}
+
+export const usuariosTmp: PerfilDataPass[] = [
   {
+    id: 1,
     username: 'admin_alf',
     password: 'admin',
     pfp: 'https://lh3.googleusercontent.com/a-/AOh14GiTFP4e-OiBF49fsn13bU2bPCMdWjJOHWdipJK-=s83-c-mo',
@@ -17,6 +23,7 @@ export const usuariosTmp = [
     cargo: 'Trabajador',
   },
   {
+    id: 2,
     username: 'admin_xavi',
     password: 'admin',
     pfp: 'https://i.imgur.com/5roUQ5r.png',
@@ -28,6 +35,7 @@ export const usuariosTmp = [
     cargo: 'Responsable',
   },
   {
+    id: 3,
     username: 'admin_xinta',
     password: 'admin',
     pfp: 'https://i.imgur.com/5roUQ5r.png',
