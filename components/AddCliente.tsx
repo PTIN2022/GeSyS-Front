@@ -1,5 +1,3 @@
-
-
 import { TextInput, Group, Box, Button, Modal, Space, Autocomplete, NumberInput } from '@mantine/core';
 import { Calendar, Car, Clock, User, ChargingPile } from 'tabler-icons-react';
 import { useState } from 'react';

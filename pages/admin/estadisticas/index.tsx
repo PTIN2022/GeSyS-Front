@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { ActionIcon, Alert, Select } from '@mantine/core';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from "chart.js"
 import { Line } from 'react-chartjs-2';
-import { AlertCircle } from "tabler-icons-react";
+import { AlertCircle, Disabled } from "tabler-icons-react";
 import { DateRangePicker, getMonthDays } from '@mantine/dates';
 
 
@@ -24,102 +24,24 @@ export interface EstadisticaEstacion {
 ChartJS.register( CategoryScale, LinearScale, PointElement, LineElement, Filler, Title, Tooltip, Legend);
 
 
-function getDatesInRange(startDate: Date, endDate: Date) {
-  const date = new Date(startDate.getTime());
-  
-  const dates = [];
-
-  while(date <= endDate) {
-    dates.push(new Date(date).toLocaleDateString());
-    date.setDate(date.getDate()+1);
-  }
-  return dates;
-}
-
-const d1 = new Date('2022-01-01');
-const d2 = new Date(new Date().getTime() - 24*60*60*1000);
-
-var dates = getDatesInRange(d1, d2);
-
-function generateData(days: number, max: number, min: number) {
-  const data = []
-  for(let i = 0; i < days; i++) {
-    data.push(Math.floor(Math.random() * (max - min + 1)) + min);
-  }
-  return data;
-}
-
-function sumaEstaciones(estaciones: EstadisticaEstacion[]) {
-  const data = []
-  let sum;
-  for(let i = 0; i < dates.length ; i++) {
-    sum = 0;
-    for(let est = 0; est < estaciones.length; est++) {
-      sum += estaciones[est].datasets[0].data[i]
-    }
-    data.push(sum);
-  }
-  return data;
-}
-
 const all_estations: EstadisticaEstacion[] = [
     {
-        name: "VGA1",
-        labels: dates,
+        name: "Loading...",
+        labels: ['0'],
         datasets: [
           {
             label: 'Potencia total consumida(KW)',
             fill: true,
             backgroundColor: 'rgba(75,192,192,0.4)',
             borderColor: 'rgba(75,192,192,1)',
-            data: generateData(dates.length, 1000, 4000)
+            data: [0]
           },
           {
             label: `Potencia ideal consumida`,
             fill: false,
             backgroundColor: 'rgba(255,10,10,0.3)',
             borderColor: 'rgba(255,10,10,0.5)',
-            data: [120000, 120000, 120000, 120000, 120000, 120000, 120000, 120000, 120000, 120000, 120000, 120000]
-          }
-        ]
-    },
-    {
-        name: 'VGA2',
-        labels: dates,
-        datasets: [
-          {
-            label: 'Potencia total utilizada(KW)',
-            fill: true,
-            backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
-            data: generateData(dates.length, 1000, 4000)
-          },
-          {
-            label: `Potencia total contratada`,
-            fill: false,
-            backgroundColor: 'rgba(255,10,10,0.3)',
-            borderColor: 'rgba(255,10,10,0.5)',
-            data: [115000, 115000, 115000, 115000, 115000, 115000, 115000, 115000, 115000, 115000, 115000, 115000]
-          }
-        ]
-    },
-    {
-        name: 'VGA3',
-        labels: dates,
-        datasets: [
-          {
-            label: 'Potencia total utilizada(KW)',
-            fill: true,
-            backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
-            data: generateData(dates.length, 1000, 4000)
-          },
-          {
-            label: `Potencia total contratada`,
-            fill: false,
-            backgroundColor: 'rgba(255,10,10,0.3)',
-            borderColor: 'rgba(255,10,10,0.5)',
-            data: [125000, 125000, 125000, 125000, 125000, 125000, 125000, 125000, 125000, 125000, 125000, 125000]
+            data: [0]
           }
         ]
     }
@@ -133,48 +55,11 @@ const options = {
     }
 }
 
-function calcularTotalPotenciaContratada(estaciones: EstadisticaEstacion[]) {
-  const data = []
-  let sum;
-  for(let i = 0; i < estaciones[0].datasets[1].data.length ; i++) {
-    sum = 0;
-    for(let est = 0; est < estaciones.length; est++) {
-      sum += estaciones[est].datasets[1].data[i]
-    }
-    data.push(sum);
-  }
-  return data;
-}
-
-const calcularTotalEstaciones = (estaciones: EstadisticaEstacion[]) => {
-    const estacionTotal = {
-        name: "Todas las estaciones",
-        labels: dates,
-        datasets: [
-          {
-            label: 'Potencia total utilizada(KW)',
-            fill: true,
-            backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
-            data: sumaEstaciones(estaciones)
-          },
-          {
-            label: `Potencia total contratada`,
-            fill: false,
-            backgroundColor: 'rgba(255,10,10,0.3)',
-            borderColor: 'rgba(255,10,10,0.5)',
-            data: calcularTotalPotenciaContratada(estaciones)
-          }
-        ]
-    }
-    return estacionTotal
-}
-
 
 
 const Estadisticas: NextPage = () => {
 
-    const [estacionActiva, setEstacionActiva] = useState('Todas las estaciones');
+    const [estacionActiva, setEstacionActiva] = useState('VG1');
     const [estaciones, setEstaciones] = useState<EstadisticaEstacion[]>(all_estations);
     const [estacionOpcion, setEstacionOpcion] = useState<EstadisticaEstacion>(estaciones[0]);
     const [estacionGrafica, setEstacionGrafica] = useState(estacionOpcion);
@@ -196,10 +81,46 @@ const Estadisticas: NextPage = () => {
       }
     })
 
+
     useEffect(() => {
-        const total_estaciones = calcularTotalEstaciones(estaciones)
-        setEstaciones(estaciones => [...estaciones, total_estaciones]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+      const fetchEstadisticas = async () => {
+        const result = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/estadisticas');
+        const data = await result.json();  
+        const estadisticas = []
+        for(let i=0; i<data.length; i++) {
+
+          let dias = data[i].dias
+          let lab = [], consumo = [], consumo_ideal = []
+          for(let j=0; j<dias.length; j++) {
+            lab.push(dias[j].dia)
+            consumo.push(dias[j].potencia_max_cons)
+            consumo_ideal.push(data[i].kwh_now)
+          }
+          let estacion:EstadisticaEstacion = {
+            name: data[i].estacion,
+            labels: lab,
+            datasets: [
+              {
+                label: 'Potencia total consumida(KW)',
+                fill: true,
+                backgroundColor: 'rgba(75,192,192,0.4)',
+                borderColor: 'rgba(75,192,192,1)',
+                data: consumo
+              },
+              {
+                label: `Potencia contratada`,
+                fill: false,
+                backgroundColor: 'rgba(255,10,10,0.3)',
+                borderColor: 'rgba(255,10,10,0.5)',
+                data: consumo_ideal
+              }
+            ]
+          }
+          estadisticas.push(estacion)
+        }
+        setEstaciones(estadisticas);
+      }
+      fetchEstadisticas();
     }, [])
 
     useEffect(() => {
@@ -313,24 +234,24 @@ const Estadisticas: NextPage = () => {
     }
 
     function estations_range() {
-      let date1 = fechasLimite[0]?.toLocaleDateString()
-      let date2 = fechasLimite[1]?.toLocaleDateString()
       
+      // Conversión de fecha a formato YYYY-MM-DD
+      let date1 = fechasLimite[0]?.toLocaleDateString('en-CA').split('T')[0]
+      let date2 = fechasLimite[1]?.toLocaleDateString('en-CA').split('T')[0]
+
       let copy = false, finish = false;
       const label = []
       const data0 = [], data1 = []  
-      let i = 0;
-      while(!finish && i < estacionOpcion.labels.length) {
+
+      // Copia los datos de estacionOpcion que hay entre date1 y date2
+      for(let i = 0; !finish && i < estacionOpcion.labels.length; i++) {
         if(estacionOpcion.labels[i] === date1) copy = true;
         if(copy) {
           label.push(estacionOpcion.labels[i]);
           data0.push(estacionOpcion.datasets[0].data[i]);
-          let month = get_month(estacionOpcion.labels[i]);
-          let year = get_year(estacionOpcion.labels[i])
-          data1.push((estacionOpcion.datasets[1].data[month-1]/getDaysOfMonth(year, month)));
+          data1.push(estacionOpcion.datasets[1].data[i]);
         }
         if(estacionOpcion.labels[i] === date2) finish = true;
-        i++;
       }
 
       let dataset0: EstadisticaDataset = {

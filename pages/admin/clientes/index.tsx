@@ -20,9 +20,26 @@ export interface ClientesData {
 
 
 const ListaClientes: NextPage = () => {
-  
-  const [elements, setClientes] = useState<ClientesData[]>();
 
+
+  const cl: ClientesData[]=[];// creem un element buit inicial
+  const [elements, setClientes] = useState<ClientesData[]>(cl);
+
+  /*********************************** 
+       FUNCIO PER ESBORRAR ELEMENT
+  ************************************/
+  const handleDeleteClick = (id: number) => {
+    const tmp = [];
+    for(let i = 0; i < elements.length; i++) {
+      if (elements[i].id != id) {
+        tmp.push(elements[i]);
+      }
+    }
+    setClientes(tmp);
+  }
+  /************************************
+         ACONSEGUIM LES DADES
+  *********************************/
   useEffect(() => {
     const fetchCliente = async () => {
       const result = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/clientes', {
@@ -52,11 +69,19 @@ const ListaClientes: NextPage = () => {
     }
     fetchCliente();
   }, [])
+
+
+
+
+
+
   return (
     <>
     <Title order={1}> <Text  inherit component="span">Clientes </Text></Title>
     <Space  h={25}/>
     <AddCliente/>
+
+
     <Table striped highlightOnHover>
         <thead>
             <tr>
@@ -69,7 +94,7 @@ const ListaClientes: NextPage = () => {
         <tbody>    
          
             {elements && elements.map((element, index) => {
-                return <ClientesRow key={index} cliente={element}/>
+                return <ClientesRow key={index} deleteElement={handleDeleteClick} cliente={element}/>
             })}  
               
                      
