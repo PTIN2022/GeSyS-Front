@@ -1,3 +1,5 @@
+
+
 import { TextInput, Group, Box, Button, Modal, Space, Autocomplete, NumberInput } from '@mantine/core';
 import { Calendar, Car, Clock, User, ChargingPile } from 'tabler-icons-react';
 import { useState } from 'react';
@@ -18,13 +20,25 @@ const AddCliente = () => {
         username: '',
     });
 const handleSaveClick = () => {
-    if (cliente.nombre == '' ||
-        cliente.apellido == '' ||
-        cliente.dni == '' ||
-        cliente.telefono == -1 ){
-        alert('introduzca los datos correctamente')
+    const dniReg= /.*[0-9]{8}.*.*[A-Z].*/;
+
+    if (cliente.nombre == ''){
+    alert('introduzca el nombre correctamente')
+    return;
+    }
+    else if (cliente.apellido == ''){
+        alert('introduzca el apellido correctamente')
+        return;
+        }
+    else if(cliente.telefono==-1 || (cliente.telefono<100000000&& cliente.telefono<999999999)){
+        alert('introduzca un telefono valido de 9 digitos')
         return;
     }
+    else if (!dniReg.test(cliente.dni)){
+        alert('introduzca un 8 digitos y una letra Mayuscula')
+        return;
+    }
+
     const mail = /^\S+@\S+$/;
 
     if (!mail.test(cliente.email)) {
