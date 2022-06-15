@@ -1,7 +1,8 @@
 import { NextPage } from 'next';
 import Head  from 'next/head'
-import { Grid, Table, Text, Space, Title, ScrollArea } from '@mantine/core'
+import { Grid, Table, Text, Space, Title } from '@mantine/core'
 import ReservaRow from '../../../components/ReservaRow';
+
 import { useContext, useEffect, useState } from 'react';
 import { Autocomplete } from '@mantine/core';
 import AddReserva from '../../../components/AddReservas';
@@ -9,21 +10,24 @@ import { AuthContext } from '../../../contexts/AuthContext';
 import { PerfilData } from '../perfil';
 import { useRouter } from 'next/router';
 
-
-export interface ReservaRowProps {
-	asistida: boolean;
-	estado: boolean;
-	estado_pago: boolean;
-	fecha_entrada: string;
-	fecha_salida: string;
-	id_cargador: number,
-	id_cliente: number,
-	id_reserva: number,
-	id_vehiculo: string;
-	precio_carga_actual: number,
-	precio_carga_completa: number,
-	procetnaje_carga: number,
-	tarifa: number;
+export interface ReservaRowProps{
+  id: number; //id_reserva
+  reservante : string; //id_cliente
+  matricula: string; //id_vehiculo
+  nPlaza: number; //id_cargador
+  date: Date | null; //duration: number;
+  date_fin:  Date | null; //fecha_salida
+  kwh: number; //precio_carga_actual
+  money: number; //tarifa
+  asistida: boolean;
+  //estado: boolean;
+  estado_pago: boolean;
+  carga_completa: number,
+  perc_carga: number, 
+  //city: string;
+  estacion: string; //id_estacion
+  //fecha_entrada
+  
 }
 
 export interface Filter {
@@ -99,6 +103,7 @@ const allFilters: Filter[] = [
     value: "Ciudad"
   }
 ];
+
 
 const ListaReservas: NextPage = () => {
 
@@ -195,34 +200,35 @@ useEffect(() => {
   //{filtre == "Cliente" && {setData(elements.map((item:any) => ({ ...item, value: item.estacion })) }}
     return (
       <>
-        <Head>
-          <title>GeSyS - Reservas</title>
-        </Head> 
-        <Title order={1}> <Text  inherit component="span">Reservas </Text></Title>
-        <Space  h={25}/>
+      <Head>
+        <title>GeSyS - Reservas</title>
+      </Head> 
+      <Title order={1}> <Text  inherit component="span">Reservas </Text></Title>
+      <Space  h={25}/>
 
+      {!profile ? (
+        <div>Loading...</div>
+      ) : 
+      (
+        <>
+        <AddReserva />
+      
+      <Grid gutter="xl">
+        <Grid.Col span={3}>
+          <Autocomplete           
+            label="Elige que filtrar"
+            placeholder="Pick one"
+            //data={data}
+            value={filtre}
+            limit={7}
+            onChange={setFilter}
+            data={activeFilters}
+            onClick={() => setFilter("")}    
+            filter={(filtre, item) => item.value.toLowerCase().includes(value.toLowerCase().trim())}
+            />
+        </Grid.Col>
 
-        {!profile ? (
-          <div>Loading...</div>
-        ) : 
-        (
-          <>
-          <AddReserva />   
-        <Grid gutter="xl">
-          <Grid.Col span={3}>
-            <Autocomplete           
-              label="Elige que filtrar"
-              placeholder="Pick one"
-              //data={data}
-              value={filtre}
-              limit={7}
-              onChange={setFilter}
-              data={activeFilters}
-              onClick={() => setFilter("")}    
-              filter={(filtre, item) => item.value.toLowerCase().includes(value.toLowerCase().trim())}
-              />
-          </Grid.Col>
-
+        {filtre == "" && value && setValue("")}          
 
         {/*(profile.cargo == "Administrador" || profile.cargo=="Jefe") && filtre=="Ciudad" && <Grid.Col span={6}>        
           <Autocomplete
@@ -299,57 +305,8 @@ useEffect(() => {
         </Grid.Col>   
         }
 
-          </Grid.Col>   
-          }
-          {filtre=="Cliente" && <Grid.Col span={6}>     
-            <Autocomplete
-              label="Elemento a filtrar:"
-              placeholder="Pick one"
-              //data={data}
-              value={value} onChange={setValue} data={elementsD.map((item) => ({ ...item, value: item.reservante }))}      
-              filter={(value, item) =>
-                item.value.toLowerCase().includes(value.toLowerCase().trim())
-              }
-            />
-          </Grid.Col>   
-          }
-          {filtre=="Matricula" && <Grid.Col span={6}>        
-            <Autocomplete
-              label="Elemento a filtrar:"
-              placeholder="Pick one"
-              //data={data}
-              value={value} onChange={setValue} data={elementsD.map((item) => ({...item, value: item.matricula}))}      
-              filter={(value, item) =>
-                item.value.toLowerCase().includes(value.toLowerCase().trim())
-              }
-            />
-          </Grid.Col>   
-          }
-          {filtre=="KwH" && <Grid.Col span={6}>        
-            <Autocomplete
-              label="Elemento a filtrar:"
-              placeholder="Pick one"
-              //data={data}
-              value={value} onChange={setValue} data={elementsD.map((item) => ({...item, value: item.kwh.toString()}))}      
-              filter={(value, item) =>
-                item.value.toLowerCase().includes(value.toLowerCase().trim())
-              }
-            />
-          </Grid.Col>   
-          }
-          {filtre=="Date" && <Grid.Col span={6}>        
-            <Autocomplete
-              label="Elemento a filtrar:"
-              placeholder="Pick one"
-              //data={data}
-              value={value} onChange={setValue} data={elementsD.map((item) => ({...item, value: item.date!.toDateString()}))}      
-              filter={(value, item) =>
-                item.value.toString().toLowerCase().includes(value.toLowerCase().trim())
-              }
-            />
-          </Grid.Col>   
-          }
-
+      </Grid>
+     <br></br>    
 
       <Table striped highlightOnHover >
         <thead>
@@ -398,6 +355,5 @@ useEffect(() => {
   }
   
   export default ListaReservas
-
 
 

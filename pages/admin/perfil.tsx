@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { AlertCircle, Phone, User, At, Id, IdBadge } from 'tabler-icons-react';
 import { NextPage } from 'next';
 import { AuthContext } from '../../contexts/AuthContext';
-import Modificar_perfil from '../../components/Modificar_perfil';
+//import Modificar_perfil from '../../components/Modificar_perfil';
 
 
 export type RolWorker = "Jefe" | "Administrador" | "Responsable" | "Trabajador";
@@ -16,8 +16,6 @@ export interface PerfilData {
   telefono: string;
   email: string;
   dni: string;
-  contraseña:string;
-  confirmarContraseña:string;
   cargo: RolWorker;
   passw: string;
   question: string;
@@ -91,7 +89,6 @@ useEffect(() => {
             </Group>
 
             <Text align="left" size="lg">{perfil.nombre} {perfil.apellido}</Text>
-            <Modificar_perfil />
           </Grid.Col>
 
           <Grid.Col span={7}>
