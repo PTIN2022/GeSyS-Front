@@ -31,6 +31,7 @@ const handleSaveClick = () => {
       alert('Introduce un mail correcto');
       return;
     }
+    
     setOpened(false)
    try{
     const form = new FormData()
