@@ -13,8 +13,9 @@ export interface ReservaData {
   matricula: string,
   DNI: string,
   estacion: string,
-  coste: number,
-  nPlaza: number,
+  coste:number,
+  nPlaza:number,
+
 }
 
 const Reserva: NextPage = () => {

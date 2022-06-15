@@ -16,6 +16,7 @@ export const PerfilVacio: PerfilData = {
   question: 'Como?',
   estacion: 'VG1',
   estado: true,
+
 }
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<any> ) {

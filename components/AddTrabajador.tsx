@@ -3,6 +3,7 @@ import { At,Id, Phone, User, LockAccess } from 'tabler-icons-react';
 import { useState } from 'react';
 import PerfilInfo, { PerfilData, RolWorker } from '../pages/admin/perfil';
 
+
 const AddTrabajador = (props: any) => {
     const [opened, setOpened] = useState(false);
     const [perfil, setPerfil] = useState<PerfilData>({
@@ -231,3 +232,4 @@ const AddTrabajador = (props: any) => {
 }
 
 export default AddTrabajador;
+

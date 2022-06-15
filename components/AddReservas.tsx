@@ -6,6 +6,38 @@ import { ReservaData } from '../pages/admin/reservas/[reserva]';
 import 'dayjs/locale/es'
 import { useForm } from '@mantine/form';
 
+export interface ReservaDatos {
+  id_estacion: string;
+  fecha_inicio: Date;
+  fecha_final: Date;
+  id_vehiculo: string;
+  id_cliente: string;
+  tarifa: number;
+  asistida: true;
+  porcentaje_carga: number;
+  precio_carga_completo: number;
+  precio_carga_actual: number;
+  estado_pago: boolean;
+}
+
+function padTo2Digits(num: number) {
+  return num.toString().padStart(2, '0');
+}
+
+function formatDate(date: Date) {
+  return (
+    [
+      padTo2Digits(date.getDate()),
+      padTo2Digits(date.getMonth() + 1),
+      date.getFullYear(),
+    ].join('-') +
+    ' ' +
+    [
+      padTo2Digits(date.getHours()),
+      padTo2Digits(date.getMinutes())
+    ].join(':')
+  );
+}
 
 const AddReserva = () => {
     const [opened, setOpened] = useState(false);
@@ -92,6 +124,7 @@ return (
         >
         {
             <Box> 
+
                 <form onSubmit={form.onSubmit((values) => console.log(values))}>
 
                 <Autocomplete 
@@ -102,25 +135,26 @@ return (
                     //onChange={(event) => setReserve({...reserve, estacion: event})}
                     icon={<ChargingPile />} 
                     data={['VGA1' , 'VGA2']} 
-                />            
-                <Group mt="sl" spacing="xl" grow>
+
+                />        
+                <Group mt="md">
+
+
                     <TimeInput size="md"
                         label="Inicio Reserva"
                         variant="default"
                         icon={<Clock size={14} />}
-                        {...form.getInputProps('desde')}
-                        //value={reserve.desde}
-                        //onChange={(event) => setReserve({...reserve, desde: event})} 
-                        //clearable
+                        value={reserve.desde}
+                        onChange={(event) => setReserve({...reserve, desde: event})} 
+                        clearable
                     />
                     <TimeInput size="md"
                         label="Fin Reserva"
                         variant="default"
                         icon={<Clock size={14} />}
-                        {...form.getInputProps('hasta')}
-                        //value={reserve.hasta}
-                        //onChange={(event) => setReserve({...reserve, hasta: event})} 
-                        //clearable
+                        value={reserve.hasta}
+                        onChange={(event) => setReserve({...reserve, hasta: event})} 
+                        clearable
                     />
                 </Group>
                     
@@ -171,7 +205,7 @@ return (
                     //onChange={(event) => setReserve({...reserve, matricula: event.target.value})}
                 />
                 <NumberInput size="md"
-                    label="nPlaza"
+                    label="nªPlaza"
                     variant="default"
                     placeholder='nª Plaza 20'
                     decimalSeparator=","
@@ -181,17 +215,7 @@ return (
                     //onChange={(event) => setReserve({...reserve, matricula: event.target.value})}
                 />
                 </Group>
-
-                {/*<TextInput size="md"
-                    label="Ciudad"
-                    placeholder="ciudad" 
-                    variant="default"
-                    {...form.getInputProps('ciudad')}
-
-                    //value={reserve.DNI}
-                    //onChange={(event) => setReserve({...reserve, DNI: event.target.value})}
-                />*/}
-
+               
                     <br></br>
                     <Button type='submit'>
                         Guardar
