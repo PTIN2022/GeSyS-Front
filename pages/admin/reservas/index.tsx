@@ -14,14 +14,20 @@ export interface ReservaRowProps{
   id: number; //id_reserva
   reservante : string; //id_cliente
   matricula: string; //id_vehiculo
-  //estacion: string; //id_estacion
   nPlaza: number; //id_cargador
-  date: Date | null; //fecha_entrada
-  //duration: number;
+  date: Date | null; //duration: number;
   date_fin:  Date | null; //fecha_salida
   kwh: number; //precio_carga_actual
   money: number; //tarifa
+  asistida: boolean;
+  //estado: boolean;
+  estado_pago: boolean;
+  carga_completa: number,
+  perc_carga: number, 
   //city: string;
+  estacion: string; //id_estacion
+  //fecha_entrada
+  
 }
 
 export interface Filter {
@@ -149,7 +155,7 @@ const [elementsD, setElements]  = useState<ReservaRowProps[] >(elements);
         id: data[i].id_reserva,
         reservante: data[i].id_cliente,
         matricula: data[i].id_vehiculo,
-        //estacion: data[i].id_estacion,
+        estacion: data[i].id_estacion,
         //city:"Vilanova",
         nPlaza: data[i].id_cargador,
         //duration: 2,
@@ -158,7 +164,12 @@ const [elementsD, setElements]  = useState<ReservaRowProps[] >(elements);
         date: new Date (data[i].fecha_entrada), 
         date_fin: new Date (data[i].fecha_salida), 
         kwh: data[i].precio_carga_actual,
-        money: data[i].tarifa
+        money: data[i].tarifa,
+        asistida: data[i].asistida,
+        //estado: data[i].estado,
+        estado_pago: data[i].estado_pago,
+        carga_completa: data[i].precio_carga_completa ,
+        perc_carga: data[i].procetnaje_carga, 
       }
       est.push(est1)
     }

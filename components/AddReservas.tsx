@@ -2,62 +2,167 @@ import { TextInput, Group, Box, Button, Modal, Space, Autocomplete } from '@mant
 import { Calendar, Car, Clock, User, ChargingPile } from 'tabler-icons-react';
 import { useState } from 'react';
 import { DatePicker, TimeInput } from '@mantine/dates';
-import { ReservaData } from '../pages/admin/reservas/[reserva]';
 import 'dayjs/locale/es'
+import { ReservaRowProps } from '../pages/admin/reservas';
+import Reserva from '../pages/admin/reservas/[reserva]';
 
 const AddReserva = () => {
     const [opened, setOpened] = useState(false);
-    const [reserve, setReserve] = useState<ReservaData>({
-        desde: null,
-        hasta: null,
-        fecha: null,
-        matricula: '',
-        DNI: '',
-        estacion: '',
+    const [reserve, setReserve] = useState<ReservaRowProps>({
+        id: 0, //id_reserva
+        reservante : '', //id_cliente
+        matricula: '', //id_vehiculo
+        nPlaza: 0, //id_cargador
+        date: null, //fecha_entrada
+        date_fin: null, //fecha_salida
+        kwh: 5, //precio_carga_actual
+        money: 30, //tarifa
+        asistida: true,
+        //estado: true,
+        estado_pago: true,
+        carga_completa: 25,
+        perc_carga: 30, 
+        //city: string; 
+        estacion: 'VG1', //id_estacion  
+        //duration: number;
     });
-const handleSaveClick = () => {
-    console.log("SAVING")
-    const jeison= {
-        'id_estacion': "VG3",//reserve.estacion,
-        //'fecha_entrada' : reserve.desde?.toISOString(),
-        //'fecha_final' : reserve.hasta?.toISOString(),
-         "fecha_inicio": "21-05-2022 22:00",
-         "fecha_final": "21-05-2022 23:00",
-        "id_vehiculo": reserve.matricula.toString(),
-        "id_cliente": reserve.DNI.toString(),
-        // "id_cargador": 2,
-        // "id_reserva": 8,
 
-        // "id_cliente": reserve.DNI.toString(),
-        // 'fecha_entrada' : reserve.desde?.toISOString(),
-        // 'fecha_salida' : reserve.hasta?.toISOString(),
+    const handleSaveClick = () => {
+        setOpened(false)
+        const jeison= {
+            //'id': 0,
+            'id_estacion': reserve.estacion,
+            //'id_cargador': reserve.nPlaza, //id_cargador
+            'fecha_inicio': reserve.date, //fecha_entrada
+            'fecha_final': reserve.date_fin, //fecha_salida
+            'id_cliente': reserve.reservante, //id_cliente 70390883M 
+            'id_vehiculo': reserve.matricula, //id_vehiculo G35O03O
+            'precio_carga_actual': reserve.kwh, //precio_carga_actual
+            'tarifa': reserve.money, //tarifa
+            'asistida': reserve.asistida,
+            //estado: true,
+            'estado_pago': reserve.estado_pago,
+            'precio_carga_completo': reserve.carga_completa,
+            'porcentaje_carga': reserve.perc_carga, 
+        }
+        //console.log(jeison)
+        const fetchData = async () => {
+            /*const response =*/ await fetch("https://craaxkvm.epsevg.upc.es:23600/api/reservas", {
+            method:'POST',
+            headers:{
+                'accept': 'application/json',
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(jeison),
+            //mode:'no-cors'
+            });    
+        }
+        console.log(JSON.stringify(jeison))
+        fetchData();  
 
-
-
-        // "id_estacion": "VG1",
-        // "fecha_inicio": "21-05-2022 22:00",
-        // "fecha_final": "21-05-2022 23:00",
-        // "id_vehiculo": "LKE2378",
-        // "id_cliente": "a"
-
-    }
-    //console.log(jeison)
-    const fetchData = async () => {
-        /*const response =*/ await fetch("https://craaxkvm.epsevg.upc.es:23600/api/reservas", {
-        method:'POST',
-        headers:{
-            //'Access-Control-Allow-Headers': '*',
-            'accept': 'application/json',
-            'Content-type': 'application/json'
-        },
-        body: JSON.stringify(jeison),
-        //mode:'no-cors'
-
-        });    
-    }
-    console.log(JSON.stringify(jeison))
-    fetchData();    
-}
+    /*const handleSubmitNewPromo = async (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        
+        if (reserve.reservante === '') {
+          alert('Introduce el DNI del reservante');
+          return;
+        }
+        if (reserve.matricula === '') {
+          alert('Introduce una matricula');
+          return;
+        }
+        if (reserve.date === null) {
+          alert('Introduce una hora');
+          return;
+        }
+        if (reserve.date_fin === null) {
+          alert('Introduce una hora fin');
+          return;
+        }
+       /* if (reserve.nPlaza === 0) {
+            alert('Introduce una plaza de carga');
+            return;
+          }*/
+  
+        /*const data: ReservaRowProps = {
+          id: reserve.id, //id_reserva
+          reservante : reserve.reservante, //id_cliente
+          matricula: reserve.matricula, //id_vehiculo
+          nPlaza: reserve.nPlaza, //id_cargador
+          date: reserve.date, //fecha_entrada
+          date_fin: reserve.date_fin, //fecha_salida
+          kwh: reserve.kwh, //precio_carga_actual
+          money: reserve.money, //tarifa
+          asistida: reserve.asistida,
+          //estado: reserve.estado,
+          estado_pago: reserve.estado_pago,
+          carga_completa: reserve.carga_completa,
+          perc_carga: reserve.perc_carga, 
+          estacion: reserve.estacion,
+        }
+  
+        try {
+  
+          const form = new FormData();
+          form.append("id_cargador", data.nPlaza.toString());
+          form.append("fecha_inicio", data.date!.toISOString().slice(0, -5)); // Hack para que la mierda api funcione
+          form.append("fecha_final", data.date_fin!.toISOString().slice(0, -5)); // Hack para que la mierda api funcione
+          form.append("id_vehiculo", data.matricula);
+          form.append("id_cliente", data.reservante);
+          //form.append("estado", data.estado == true ? 'activa' : 'inactiva');
+          form.append("estado_pago", data.estado_pago == true ? 'activa' : 'inactiva');
+          form.append("asistida", data.asistida == true ? 'activa' : 'inactiva');
+          form.append("precio_carga_actual", data.kwh.toString());
+          form.append("tarifa", data.money.toString());
+          form.append("porcentaje_carga", data.perc_carga.toString());
+          form.append("precio_carga_completo", data.carga_completa.toString());
+          form.append("id_estacion", data.estacion);
+  
+          const res = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/reservas', {
+            "method": "POST",
+            body: form,
+            "headers": {
+              "accept": "application/json"
+            }
+          });
+  
+          const json = await res.json();
+          if (res.status === 200) {
+            props.triggerReload();
+            setReserve({
+                id: 0,
+                reservante : '', //id_cliente
+                matricula: '', //id_vehiculo
+                nPlaza: 32, //id_cargador
+                date: null, //fecha_entrada
+                date_fin: null, //fecha_salida
+                kwh: 0, //precio_carga_actual
+                money: 0, //tarifa
+                asistida: true,
+                //estado: true,
+                estado_pago: true,
+                carga_completa: 0,
+                perc_carga: 0, 
+                estacion: 'VG1',
+            })
+            setOpened(false);
+            console.log(JSON.stringify(setReserve))
+          }
+          else {
+            alert('Error al crear la reserva');
+            // Display the key/value pairs
+            for (var pair of form.entries() as any) {
+              console.log(pair[0]+ ', ' + pair[1]); 
+            }
+            console.log(json);
+          }
+    
+        }
+        catch (error) {
+          console.error(error);
+        }*/
+  
+      }
     return (
     <>
         <Modal
@@ -67,21 +172,21 @@ const handleSaveClick = () => {
         >
         {
             <Box> 
-                <Autocomplete 
+                {<Autocomplete 
                     label="Estacion"
                     placeholder="VGA1"
                     value={reserve.estacion}
                     onChange={(event) => setReserve({...reserve, estacion: event})}
                     icon={<ChargingPile />} 
                     data={['VGA1' , 'VGA2']} 
-                />            
+                /> }        
                 <Group mt="md">
                     <TimeInput size="md"
                         label="Inicio Reserva"
                         variant="default"
                         icon={<Clock size={14} />}
-                        value={reserve.desde}
-                        onChange={(event) => setReserve({...reserve, desde: event})} 
+                        value={reserve.date}
+                        onChange={(event) => setReserve({...reserve, date: event})} 
                         clearable
                     />
                     <Space w="xs" />
@@ -89,20 +194,20 @@ const handleSaveClick = () => {
                         label="Fin Reserva"
                         variant="default"
                         icon={<Clock size={14} />}
-                        value={reserve.hasta}
-                        onChange={(event) => setReserve({...reserve, hasta: event})} 
+                        value={reserve.date_fin}
+                        onChange={(event) => setReserve({...reserve, date_fin: event})} 
                         clearable
                     />
                 </Group>
                     
-                    <DatePicker
+                    {/*<DatePicker
                         locale= 'es'
                         placeholder="Escoger Fecha"
                         label="Fecha"
                         icon={<Calendar size={16} />}
                         value={reserve.fecha}
                         onChange={(event) => setReserve({...reserve, fecha: event})}
-                    />
+                    />*/}
                     <TextInput size="md"
                         label="Matricula"
                         placeholder="Matricula"
@@ -117,8 +222,8 @@ const handleSaveClick = () => {
                         placeholder="1234..." 
                         variant="default"
                         icon={<User size={14} />}
-                        value={reserve.DNI}
-                        onChange={(event) => setReserve({...reserve, DNI: event.target.value})}
+                        value={reserve.reservante}
+                        onChange={(event) => setReserve({...reserve, reservante: event.target.value})}
                     />
                     <br></br>
                     <Button type='submit' onClick={handleSaveClick}>
