@@ -5,7 +5,6 @@ import { TimeInput } from '@mantine/dates';
 import 'dayjs/locale/es'
 import { ReservaRowProps } from '../pages/admin/reservas';
 
-
 export interface ReservaDatos {
   id_estacion: string;
   fecha_inicio: Date;
@@ -80,35 +79,40 @@ const AddReserva = () => {
       
     return (
     <>
-        <Modal
+        <Modal size='xl'
             opened={opened}
             onClose={() => setOpened(false)}
             title="Introduzca los datos de la reserva"
         >
         {
             <Box> 
+
                 {<Autocomplete 
                     label="Estacion"
                     placeholder="VGA1"
-                    value={reserve.estacion}
-                    onChange={(event) => setReserve({...reserve, estacion: event})}
+                    {...form.getInputProps('estacion')}
+                    //value={reserve.estacion}
+                    //onChange={(event) => setReserve({...reserve, estacion: event})}
                     icon={<ChargingPile />} 
                     data={['VGA1' , 'VGA2']} 
                 /> }        
                 <Group mt="md">
+
                     <TimeInput size="md"
                         label="Inicio Reserva"
                         variant="default"
                         icon={<Clock size={14} />}
+
                         value={reserve.date}
                         onChange={(event) => setReserve({...reserve, date: event})} 
                         clearable
+
                     />
-                    <Space w="xs" />
                     <TimeInput size="md"
                         label="Fin Reserva"
                         variant="default"
                         icon={<Clock size={14} />}
+
                         value={reserve.date_fin}
                         onChange={(event) => setReserve({...reserve, date_fin: event})} 
                         clearable
@@ -125,11 +129,13 @@ const AddReserva = () => {
                     />*/}
                     <TextInput size="md"
                         label="Matricula"
-                        placeholder="Matricula"
+                        placeholder="0000 AAA"
                         variant="default"
                         icon={<Car size={18} />}
-                        value={reserve.matricula}
-                        onChange={(event) => setReserve({...reserve, matricula: event.target.value})}
+                        {...form.getInputProps('matricula')}
+
+                        //value={reserve.matricula}
+                        //onChange={(event) => setReserve({...reserve, matricula: event.target.value})}
                     />
         
                     <TextInput size="md"
@@ -140,10 +146,46 @@ const AddReserva = () => {
                         value={reserve.reservante}
                         onChange={(event) => setReserve({...reserve, reservante: event.target.value})}
                     />
+
+                </Group>
+
+                <Group mt="sl" spacing="xl" grow>
+                <NumberInput size="md"
+                    label="Precio"
+                    variant="default"
+                    decimalSeparator=","
+                    precision={2}
+                    {...form.getInputProps('coste')}
+                    //value={reserve.matricula}
+                    //onChange={(event) => setReserve({...reserve, matricula: event.target.value})}
+                />
+                <NumberInput size="md"
+                    label="nªPlaza"
+                    variant="default"
+                    placeholder='nª Plaza 20'
+                    decimalSeparator=","
+                    precision={0}
+                    {...form.getInputProps('nªPlaza')}
+                    //value={reserve.matricula}
+                    //onChange={(event) => setReserve({...reserve, matricula: event.target.value})}
+                />
+                </Group>
+
+                <TextInput size="md"
+                    label="Ciudad"
+                    placeholder="ciudad" 
+                    variant="default"
+                    {...form.getInputProps('ciudad')}
+
+                    //value={reserve.DNI}
+                    //onChange={(event) => setReserve({...reserve, DNI: event.target.value})}
+                />
+
                     <br></br>
                     <Button type='submit' onClick={handleSaveClick}>
                         Guardar
                     </Button>
+                    </form>
             </Box>
         }
         </Modal>
