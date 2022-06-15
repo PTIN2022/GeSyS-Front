@@ -13,7 +13,9 @@ export const PerfilVacio: PerfilData = {
   dni: '',
   passw: 'admin',
   cargo: 'Trabajador',
-  Last_access: '',
+  question: 'Como?',
+  estacion: 'VG1',
+  estado: true,
 }
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<any> ) {
