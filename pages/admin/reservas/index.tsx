@@ -10,24 +10,21 @@ import { AuthContext } from '../../../contexts/AuthContext';
 import { PerfilData } from '../perfil';
 import { useRouter } from 'next/router';
 
-export interface ReservaRowProps{
-  id: number; //id_reserva
-  reservante : string; //id_cliente
-  matricula: string; //id_vehiculo
-  nPlaza: number; //id_cargador
-  date: Date | null; //duration: number;
-  date_fin:  Date | null; //fecha_salida
-  kwh: number; //precio_carga_actual
-  money: number; //tarifa
-  asistida: boolean;
-  //estado: boolean;
-  estado_pago: boolean;
-  carga_completa: number,
-  perc_carga: number, 
-  //city: string;
-  estacion: string; //id_estacion
-  //fecha_entrada
-  
+
+export interface ReservaRowProps {
+	asistida: boolean;
+	estado: boolean;
+	estado_pago: boolean;
+	fecha_entrada: string;
+	fecha_salida: string;
+	id_cargador: number,
+	id_cliente: number,
+	id_reserva: number,
+	id_vehiculo: string;
+	precio_carga_actual: number,
+	precio_carga_completa: number,
+	procetnaje_carga: number,
+	tarifa: number;
 }
 
 export interface Filter {

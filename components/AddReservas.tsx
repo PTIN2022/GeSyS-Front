@@ -1,59 +1,81 @@
 import { TextInput, Group, Box, Button, Modal, Space, Autocomplete } from '@mantine/core';
-import { Calendar, Car, Clock, User, ChargingPile } from 'tabler-icons-react';
+import { Car, Clock, User, ChargingPile } from 'tabler-icons-react';
 import { useState } from 'react';
-import { DatePicker, TimeInput } from '@mantine/dates';
+import { TimeInput } from '@mantine/dates';
 import 'dayjs/locale/es'
 import { ReservaRowProps } from '../pages/admin/reservas';
-import Reserva from '../pages/admin/reservas/[reserva]';
+
+
+export interface ReservaDatos {
+  id_estacion: string;
+  fecha_inicio: Date;
+  fecha_final: Date;
+  id_vehiculo: string;
+  id_cliente: string;
+  tarifa: number;
+  asistida: true;
+  porcentaje_carga: number;
+  precio_carga_completo: number;
+  precio_carga_actual: number;
+  estado_pago: boolean;
+}
+
+function padTo2Digits(num: number) {
+  return num.toString().padStart(2, '0');
+}
+
+function formatDate(date: Date) {
+  return (
+    [
+      padTo2Digits(date.getDate()),
+      padTo2Digits(date.getMonth() + 1),
+      date.getFullYear(),
+    ].join('-') +
+    ' ' +
+    [
+      padTo2Digits(date.getHours()),
+      padTo2Digits(date.getMinutes())
+    ].join(':')
+  );
+}
 
 const AddReserva = () => {
     const [opened, setOpened] = useState(false);
-    const [reserve, setReserve] = useState<ReservaRowProps>({
-        id: 0, //id_reserva
-        reservante : '', //id_cliente
-        matricula: '', //id_vehiculo
-        nPlaza: 0, //id_cargador
-        date: null, //fecha_entrada
-        date_fin: null, //fecha_salida
-        kwh: 5, //precio_carga_actual
-        money: 12.7, //tarifa
-        asistida: true,
-        estado_pago: true,
-        carga_completa: 25,
-        perc_carga: 30,  
-        estacion: 'VG1', //id_estacion  
+    const [reserve, setReserve] = useState<ReservaDatos>({
+      "id_estacion": "VG1",
+      "fecha_inicio": new Date("2022-04-18T11:00:00"),
+      "fecha_final": new Date("2022-04-18T18:00:00"),
+      "id_vehiculo": "WW0HRW0",
+      "id_cliente": "96559131Y",
+      "tarifa": 12.7,
+      "asistida": true,
+      "porcentaje_carga": 30,
+      "precio_carga_completo": 30,
+      "precio_carga_actual": 5,
+      "estado_pago": true
     });
 
     const handleSaveClick = () => {
-        setOpened(false)
-        const jeison= {
-            'id_estacion': reserve.estacion,
-            'fecha_inicio': reserve.date!.toISOString().slice(0, -5), //fecha_entrada
-            'fecha_final': reserve.date_fin!.toISOString().slice(0, -5), //fecha_salida
-            'id_vehiculo': reserve.matricula, //id_vehiculo 44PI774
-            'id_cliente': reserve.reservante, //id_cliente 54602347Q 
-            'tarifa': reserve.money, //tarifa
-            'asistida': reserve.asistida,
-            'porcentaje_carga': reserve.perc_carga,
-            'precio_carga_actual': reserve.kwh, //precio_carga_actual
-            'precio_carga_completo': reserve.carga_completa,  
-            'estado_pago': reserve.estado_pago,     
-        }
-        //console.log(jeison)
+      const data = {
+        ...reserve,
+        fecha_inicio: formatDate(reserve.fecha_inicio),
+        fecha_final: formatDate(reserve.fecha_final)
+      }
 
-        const fetchData = async () => {
-            /*const response =*/ await fetch("https://craaxkvm.epsevg.upc.es:23600/api/reservas", {
-            "method":'POST',
-            "headers":{
-                'accept': 'application/json',
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify(jeison),
-            //mode:'no-cors'
-            });    
-        }
-        console.log(JSON.stringify(jeison))
-        fetchData();  
+      fetch("http://craaxkvm.epsevg.upc.es:23601/api/reservas", {
+        "method":'POST',
+        "headers":{
+            'accept': 'application/json',
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify(data),
+        })
+        .then(() => {
+          setOpened(false)
+        })
+        .catch(error => {
+          alert(error)
+        })
       }
       
     return (
