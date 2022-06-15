@@ -16,7 +16,9 @@ export interface PerfilData {
   dni: string;
   cargo: RolWorker;
   passw: string;
-  Last_access: string;
+  question: string;
+  estacion: string;
+  estado: boolean;
 }
 
 const PerfilInfo: NextPage = () => {

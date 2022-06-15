@@ -15,12 +15,18 @@ const AddTrabajador = (props: any) => {
         dni: '',
         passw: 'admin',
         cargo: 'Trabajador',
-        Last_access: '',
+        question: 'Como?',
+        estacion: 'VG1',
+        estado: true,
       });
       
       const handleSubmitNewPromo = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        
+
+        if (perfil.username === '') {
+          alert('Introduzca un username');
+          return;
+        } 
         if (perfil.nombre === '') {
           alert('Introduzca un nombre');
           return;
@@ -60,22 +66,27 @@ const AddTrabajador = (props: any) => {
         dni: perfil.dni,
         passw: perfil.passw,
         cargo: perfil.cargo,
-        Last_access: perfil.Last_access
+        question: perfil.question,
+        estacion: perfil.estacion,
+        estado: perfil.estado,
          
       }
-      //waiting for the api hahan't
       //AFEGIR TREBALLADOR
       try {
 
         const form = new FormData();
         form.append("nombre", data.nombre);
-        form.append("pfp", data.pfp); 
+        form.append("username", data.username);
+        form.append("foto", data.pfp); 
         form.append("apellido", data.apellido); 
         form.append("telefono", data.telefono);
         form.append("email", data.email);
         form.append("dni", data.dni);
-        form.append("passw", data.passw);
+        form.append("password", data.passw);
         form.append("cargo", data.cargo);
+        form.append("question", data.question);
+        form.append("id_estacion", data.estacion);
+        form.append("estado", data.estado == true ? 'activa' : 'inactiva');
 
         const res = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/trabajador', {
           "method": "POST",
@@ -98,7 +109,9 @@ const AddTrabajador = (props: any) => {
             dni: '',
             passw: 'admin',
             cargo: 'Trabajador',
-            Last_access: '-1'
+            question: 'Como?',
+            estacion: 'VGA1',
+            estado: true,
           })
           setOpened(false);
         }
@@ -194,8 +207,18 @@ const AddTrabajador = (props: any) => {
                         onChange={(event) => setPerfil({...perfil, passw: event.currentTarget.value})}
                     />
                 </Group>
+                <Group mt="sl" spacing="xl" grow> 
+                    <TextInput size="md"
+                        label="Username"
+                        placeholder="qwerty3"
+                        icon={<LockAccess size={14} />} 
+                        variant="default"
+                        value={perfil.username}
+                        onChange={(event) => setPerfil({...perfil, username: event.currentTarget.value})}
+                    />
+                </Group>
                 <br/>
-                <Button onClick={(event: React.MouseEvent<HTMLButtonElement>) => handleSubmitNewPromo(event)}>
+                <Button type='submit' onClick={(event: React.MouseEvent<HTMLButtonElement>) => handleSubmitNewPromo(event)}>
                     Guardar
                 </Button>  
             </Box>
