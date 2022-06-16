@@ -103,7 +103,6 @@ const AddTrabajador = (props: any) => {
         if (res.status === 200) {
           props.triggerReload();
           setPerfil({
-            id: 0,
             username: '',
             nombre: '',
             pfp: 'https://editor.swagger.io/',
