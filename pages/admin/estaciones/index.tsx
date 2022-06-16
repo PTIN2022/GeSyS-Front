@@ -12,8 +12,10 @@ export interface EstacionRowProps {
   Oc : string; 
   m2: number; 
   enc: string;
+  state: string;
 }
-  
+export const EstState=['Activa','Inactiva','Dañada'];
+
 const ListaEstaciones: NextPage =() => {
   
   const [estaciones, setEstaciones] = useState<EstacionRowProps[]>();
@@ -26,14 +28,16 @@ const ListaEstaciones: NextPage =() => {
       const est = []
 
       for(let i=0; i<data.length; i++) {
+        const r=Math.floor(Math.random() * 3);
         let est1:EstacionRowProps = {
           id : data[i].id_estacion,
           Est: data[i].nombre_est,
           Dir: data[i].direccion,
           Kwh: data[i].potencia_usada+"/"+data[i].potencia_contratada,
           Oc: data[i].ocupation_actual+"/32",
-          m2: data[i].surface_in_meters,
+          m2: Math.floor(Math.random()*(151) + 100),    //data[i].surface_in_meters,
           enc: data[i].telefono,
+          state: EstState[r],
         }
         est.push(est1)
       }
@@ -49,6 +53,7 @@ const ListaEstaciones: NextPage =() => {
       <Table striped highlightOnHover>
         <thead>
           <tr>
+            <th>Estado</th>
             <th>Estacion</th>
             <th>Dirección</th>
             <th>Kwh</th>
