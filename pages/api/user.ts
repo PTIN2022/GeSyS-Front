@@ -4,6 +4,7 @@ import { JWT_SECRET } from './login';
 import { PerfilData } from '../admin/perfil';
 
 export const PerfilVacio: PerfilData = {
+  id: 0,
   username: '',
   nombre: '',
   pfp: '',

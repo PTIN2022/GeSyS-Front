@@ -9,6 +9,7 @@ export interface IAuth {
 
 export const AuthContext = createContext<IAuth>({
   user: {
+    id: 0,
     username: "",
     pfp: "",
     nombre: "",
