@@ -6,14 +6,14 @@ import { PerfilData } from '../admin/perfil'
 export const JWT_SECRET = 'CECRETO_SECRET'
 
 interface PerfilDataPass extends PerfilData {
-  password: string;
+  passw: string;
 }
 
 export const usuariosTmp: PerfilDataPass[] = [
   {
     id: 1,
     username: 'admin_alf',
-    password: 'admin',
+    passw: 'admin',
     pfp: 'https://lh3.googleusercontent.com/a-/AOh14GiTFP4e-OiBF49fsn13bU2bPCMdWjJOHWdipJK-=s83-c-mo',
     nombre: "Alfredo",
     apellido: "Manresa Martinez",
@@ -21,11 +21,14 @@ export const usuariosTmp: PerfilDataPass[] = [
     email: "alfredo.manresa@estudiantat.upc.edu",
     dni: "87958482S",
     cargo: 'Trabajador',
+    question: 'Como?',
+    estacion: 'VG1',
+    estado: true,
   },
   {
     id: 2,
     username: 'admin_xavi',
-    password: 'admin',
+    passw: 'admin',
     pfp: 'https://i.imgur.com/5roUQ5r.png',
     nombre: "Xavier",
     apellido: "Bermejo Sotillo",
@@ -33,11 +36,14 @@ export const usuariosTmp: PerfilDataPass[] = [
     email: "xavier.bermejo@estudiantat.upc.edu",
     dni: "64218796N",
     cargo: 'Responsable',
+    question: 'Como?',
+    estacion: 'VG2',
+    estado: true,
   },
   {
     id: 3,
     username: 'admin_xinta',
-    password: 'admin',
+    passw: 'admin',
     pfp: 'https://i.imgur.com/5roUQ5r.png',
     nombre: "Xavier",
     apellido: "Bermejo Sotillo",
@@ -45,6 +51,9 @@ export const usuariosTmp: PerfilDataPass[] = [
     email: "xinta@estudiantat.upc.edu",
     dni: "64218796N",
     cargo: 'Administrador',
+    question: 'Como?',
+    estacion: 'VG3',
+    estado: true,
   },
 ]
 
@@ -60,7 +69,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<{ mess
 
   const { username, password } = req.body
 
-  const usuario = usuariosTmp.find(u => u.username === username && u.password === password)
+  const usuario = usuariosTmp.find(u => u.username === username && u.passw === password)
 
   if (!usuario) {
     return res.status(401).end('Unauthorized')
