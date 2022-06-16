@@ -3,69 +3,67 @@ import type { NextPage } from 'next'
 import AveriaRow from '../../../components/AveriaRow';
 import * as React from 'react'
 import { useEffect, useState } from 'react';
+import Incidencia_nueva from '../../../components/nueva_incidencia'
 
 export interface AveriaRowProps {
   Est: string;
+  id_averia: number;
   //Dir: string;
-  Date: string; 
+  Date: Date | null; 
   State: string; 
   Desc: string; 
 }
 
-/*
-const elements: AveriaRowProps[] = [
-  {
-    Est: "VGA1",
-    Dir: "Av. Victor Balaguer nº1",
-    Date: '03/02/2022',
-    State: "Resolt",
-    Desc: 'El cargador en la planta 2 plaza 1 no funciona '
-  },
-  {
-    Est: "VGA2",
-    Dir: "Rambla Exposició nº22",
-    Date: '20/02/2022',
-    State: 'No Resolt',
-    Desc: 'El cargador en la planta -1 plaza 3 no funciona '
-  },
-  {
-    Est: "VGA1",
-    Dir: "Av. Victor Balaguer nº1",
-    Date: '30/03/2022',
-    State: 'Resolt',
-    Desc: 'El cargador en la planta 3 plaza 5 no funciona '
-  }
-]; */
-
 const ListaAverias: NextPage = () => {
-  
-  const [elements, setAverias] = useState<AveriaRowProps[]>();
 
+  const cl: AveriaRowProps[]=[];
+  //borrar
+  const [elements, setAverias] = useState<AveriaRowProps[]>(cl);
+
+  const handleDeleteClick = (id_averia: number) => {
+    const tmp = [];
+    for(let i = 0; i < elements.length; i++) {
+      if (elements[i].id_averia != id_averia) {
+        tmp.push(elements[i]);
+      }
+    }
+    setAverias(tmp);
+  }
+  //borrar
   useEffect(() => {
     const fetchEstacion = async () => {
-      const result = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/incidencias');
+      const result = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/incidencias', {
+        method:'GET',
+        headers:{
+          'accept': 'application/json'
+        },
+       //mode:'no-cors'
+      });
       const data = await result.json();  
-
-      const est = []
+      console.log(data[0])
+      const averias = []
 
       for(let i=0; i<data.length; i++) {
-        let est1:AveriaRowProps = {
-          Est: data[i].id_estacion,
+        let ave:AveriaRowProps = {
+          id_averia:data[i].id_averia,
+          Est: data[i].name_estacion,
           //Dir: data[i].direccion,
-          Date: data[i].fecha_averia, 
-          State: 'No resolt',//data[i].estado.toString, 
+          Date: data[i].fecha, 
+          State: data[i].estado,
           Desc: data[i].descripcion,
         }
-        est.push(est1)
+        averias.push(ave)
       }
-      setAverias(est);
+      {averias.length>0 && setAverias(averias)}
     }
     fetchEstacion();
   }, [])
+  
   return (
     <>
     <Title order={1}> <Text  inherit component="span">Averías </Text></Title>
     <Space  h={25}/>
+    <Incidencia_nueva/>
     <Table striped highlightOnHover>
         <thead>
             <tr>
@@ -78,7 +76,7 @@ const ListaAverias: NextPage = () => {
         <tbody>    
          
             {elements && elements.map((element, index) => {
-                return <AveriaRow key={index} {...element}/>
+                return <AveriaRow key={index} deleteElement={handleDeleteClick} averia={element}/>
             })}  
               
                      

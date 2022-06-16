@@ -18,14 +18,30 @@ const AddCliente = () => {
         username: '',
     });
 const handleSaveClick = () => {
-    if (cliente.nombre == '' ||
-        cliente.apellido == '' ||
-        cliente.email == '' ||
-        cliente.dni == '' ||
-        cliente.telefono == -1 ){
+    const dniReg= /.*[0-9]{8}.*.*[A-Z].*/;
 
-        alert('Error: Missing fields')
+    if (cliente.nombre == ''){
+    alert('introduzca el nombre correctamente')
+    return;
+    }
+    else if (cliente.apellido == ''){
+        alert('introduzca el apellido correctamente')
         return;
+        }
+    else if(cliente.telefono==-1 || (cliente.telefono<100000000&& cliente.telefono<999999999)){
+        alert('introduzca un telefono valido de 9 digitos')
+        return;
+    }
+    else if (!dniReg.test(cliente.dni)){
+        alert('introduzca un 8 digitos y una letra Mayuscula')
+        return;
+    }
+
+    const mail = /^\S+@\S+$/;
+
+    if (!mail.test(cliente.email)) {
+      alert('Introduce un mail correcto');
+      return;
     }
     
     setOpened(false)
@@ -88,21 +104,6 @@ const handleSaveClick = () => {
                         value={cliente.apellido}
                         onChange={(event) => setCliente({...cliente, apellido: event.target.value})}
                     /> 
-   
-                <TextInput size="md"
-                        label="Email"
-                        placeholder="ManuelGarcia@gmail.com"
-                        variant="default"
-                        value={cliente.email}
-                        onChange={(event) => setCliente({...cliente, email: event.target.value})}
-                /> 
-                <TextInput size="md"
-                        label="DNI"
-                        placeholder="12345678J"
-                        variant="default"
-                        value={cliente.dni}
-                        onChange={(event) => setCliente({...cliente, dni: event.target.value})}
-                />
                 <NumberInput
                     hideControls
                     label="Telefono"
@@ -111,6 +112,22 @@ const handleSaveClick = () => {
                     value={cliente.telefono != -1 ? cliente.telefono : undefined}
                     onChange={(event:number) => setCliente({...cliente, telefono: event})}
                 />
+   
+
+                <TextInput size="md"
+                        label="DNI"
+                        placeholder="12345678J"
+                        variant="default"
+                        value={cliente.dni}
+                        onChange={(event) => setCliente({...cliente, dni: event.target.value})}
+                />
+                <TextInput size="md"
+                        label="Email"
+                        placeholder="ManuelGarcia@gmail.com"
+                        variant="default"
+                        value={cliente.email}
+                        onChange={(event) => setCliente({...cliente, email: event.target.value})}
+                /> 
                 <br></br>
                     <Button type='submit' onClick={handleSaveClick}>
                         Guardar
