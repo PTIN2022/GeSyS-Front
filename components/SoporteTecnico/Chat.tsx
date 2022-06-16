@@ -18,7 +18,6 @@ const Chat = (props: { ticket_id: string }) => {
     const response = await fetch(`http://craaxkvm.epsevg.upc.es:23601/api/soporte/${props.ticket_id}`);
     const data = await response.json() as TicketInterface;
     setMensajes(data.Mensajes);
-    scrollToBottomInstant();
   }
 
   const fetchInterval = useInterval(fetchDatos, 5000);
@@ -31,10 +30,15 @@ const Chat = (props: { ticket_id: string }) => {
     endScroll.current!.scrollIntoView();
   };
 
+  const handleSetLoop = async () => {
+    await fetchDatos();
+    fetchInterval.start();
+    scrollToBottomInstant();
+  }
+
   useEffect(() => {
     if (props.ticket_id) {
-      fetchDatos();
-      fetchInterval.start();
+      handleSetLoop();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.ticket_id])
@@ -67,7 +71,7 @@ const Chat = (props: { ticket_id: string }) => {
 
   return (
     <div>
-      <div style={{ maxHeight: '30em', overflow: 'auto' }}>
+      <div style={{ borderRadius: '0.5em', height: '30em', overflow: 'auto', padding: '0.5em', backgroundColor: '#CCDDE8' }}>
         {
           mensajes && mensajes.map((mensaje, i) => {
             return (
@@ -77,8 +81,8 @@ const Chat = (props: { ticket_id: string }) => {
         }
         <div ref={endScroll}></div>
       </div>
-      <form onSubmit={(e) => handleSubmit(e)} style={{ marginTop: '0.5em', display: 'flex' }}>
-        <TextInput style={{ justifyContent: 'stretch', width: '100%' }} value={textMensaje} onChange={(event) => settextMensaje(event.currentTarget.value)} placeholder="Mensaje" required />
+      <form onSubmit={(e) => handleSubmit(e)} style={{ marginTop: '0.5em', paddingTop: '0.5em', display: 'flex' }}>
+        <TextInput style={{ justifyContent: 'stretch', width: '100%' }} value={textMensaje} onChange={(event) => settextMensaje(event.currentTarget.value)} placeholder="Enviar mensaje..." required />
         <Button style={{ marginLeft: '0.5em'}} type="submit">Enviar</Button>
       </form>
     </div>
