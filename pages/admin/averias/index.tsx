@@ -9,7 +9,7 @@ export interface AveriaRowProps {
   Est: string;
   id_averia: number;
   //Dir: string;
-  Date: null | Date; 
+  Date: Date | null; 
   State: string; 
   Desc: string; 
 }

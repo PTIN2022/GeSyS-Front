@@ -1,10 +1,11 @@
-import { TextInput, Group, Box, Button, Modal, Autocomplete ,Textarea} from '@mantine/core';
+import { TextInput, Group, Box, Button, Modal, Autocomplete ,Textarea, Select} from '@mantine/core';
 import { DatePicker, TimeInput } from '@mantine/dates';
 import { Calendar,ChargingPile } from 'tabler-icons-react';
 import { useState } from 'react';
 import 'dayjs/locale/es'
 import  {AveriaRowProps}  from '../pages/admin/averias';
 import { useForm } from '@mantine/form';
+import { locale } from 'dayjs';
 
 const Incidencia_nueva = () => {
     const [opened, setOpened] = useState(false);
@@ -15,27 +16,8 @@ const Incidencia_nueva = () => {
         State: '',
         Desc:'', 
       });
-      /*
-      const handleSubmitNuevaIncidencia = async (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-        if (incidencia.Est === '') {
-          alert('Introduce una estacion');
-          return;
-        }
-        if (incidencia.Date === null) {
-          alert('Introduce una fecha');
-          return;
-        }
-        if (incidencia.State === '') {
-          alert('Introduce un estado');
-          return;
-        }
-        if (incidencia.Desc === '') {
-          alert('Introduce una descripción');
-          return;
-        }
-        */
-        const handleSaveClick = () => {
+        const handleSaveClick =(event: React.MouseEvent<HTMLButtonElement>) => {
+          event.preventDefault();
           if (incidencia.Est  == '') {
             alert('Introduce una Estacion');
             return;
@@ -54,28 +36,23 @@ const Incidencia_nueva = () => {
           }
 
           setOpened(false)
-          try {
-            const form = new FormData();
-            form.append("estacion", incidencia.Est);
-            form.append("estado", incidencia.State);
-            form.append("fecha_averia", incidencia.Date!.toISOString().slice(0, -5));
-            form.append("descripcion", incidencia.Desc);
-            const fetchData = async () => {
-              var req = new XMLHttpRequest();
-              req.open("POST", 'http://craaxkvm.epsevg.upc.es:23601/api/incidencias');
-              req.send(form);
-              req.onload = function() {
-                if (req.status != 200) { // analyze HTTP status of the response
-                  alert(`Error ${req.status}: ${req.statusText}`); // e.g. 404: Not Found
-                }
-                else {
-                  location = location
-                }
-              };
-            }
-            fetchData();
+          const jeison= {
+            "estacion": incidencia.Est, "estado": incidencia.State, "fecha_averia": incidencia.Date?.toISOString().slice(0, -14), "descripcion": incidencia.Desc
           }
-          catch(error){alert ("Error de Post:" + error)   }
+          const fetchData = async () => {
+            await fetch("https://craaxkvm.epsevg.upc.es:23600/api/incidencias", {
+            method:'POST',
+            mode:'cors',
+            headers:{
+                'accept':'application/json',
+                'Content-type':'application/json'
+            },
+            body: JSON.stringify(jeison),    
+            });    
+        }
+        console.log(JSON.stringify(jeison))
+        fetchData(); 
+        location.reload();
         }
     return (
         <>
@@ -87,36 +64,14 @@ const Incidencia_nueva = () => {
             {
             <Box>
                 <Group mt="sl" spacing="xl" grow>
-                <TextInput 
+                <Autocomplete 
                     label="Estacion"
-                    placeholder="VGA1"
-                    //value={reserve.estacion}
-                    //onChange={(event) => setReserve({...reserve, estacion: event})}
+                    placeholder="VG1"
+                    data={['VG1','VG2','VG3','VG4',"VG5"]}
                     icon={<ChargingPile />} 
-                    //data={['VGA1' , 'VGA2']}  
                     value={incidencia.Est} 
-                    onChange={(event) => setIncidencia({...incidencia, Est: event.currentTarget.value})}
-                />           
-                {/*
-                                <TextInput size="md"
-                                label="Estado"
-                                placeholder="Arreglando"
-                                variant="default"
-                                    //value={perfil.apellido}
-                                    //onChange={(event) => setPerfil({...perfil, apellido: event.target.value})}
-                                value={incidencia.State} 
-                                onChange={(event) => setIncidencia({...incidencia, State: event.currentTarget.value})} 
-                            />  
-                */}
-                      <Autocomplete 
-                      label="Estado"
-                      variant="default"
-                      placeholder="pendiente"
-
-                      value={incidencia.State}
-                      data={['Pendiente']}
-                      onChange={(event) => setIncidencia({...incidencia, State: event})} 
-                      />
+                    onChange={(event) => setIncidencia({...incidencia, Est: event})}
+                />
                 </Group> 
                 <DatePicker
                         locale= 'es'
@@ -126,16 +81,25 @@ const Incidencia_nueva = () => {
                         value={incidencia.Date}
                         onChange={(event) => setIncidencia({...incidencia, Date: event})}
                 />
+                <Autocomplete 
+                label="Estado"
+                variant="default"
+                placeholder="pendiente"
+
+                value={incidencia.State}
+                data={['Pendiente','No Resuelto','Resuelto']}
+                onChange={(event) => setIncidencia({...incidencia, State: event})} 
+                />
                 <Textarea
                     placeholder="El cargador de la planta 2 m plaza 1 no funciona"
                     label="Descripción"      
                     minRows={2}
                     maxRows={6} 
                     value={incidencia.Desc} 
-                    onChange={(event) => setIncidencia({...incidencia, Desc: event.currentTarget.value})} 
-            />
+                    onChange={(event) => setIncidencia({...incidencia, Desc: event.currentTarget.value})}/>
+                      
                 <br/>
-                <Button type='submit' onClick={handleSaveClick}>
+                <Button type='submit' onClick={(event: React.MouseEvent<HTMLButtonElement>) => handleSaveClick(event)}>
                     Guardar
                 </Button>
             </Box>
