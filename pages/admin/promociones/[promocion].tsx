@@ -48,8 +48,8 @@ const Promocion = () => {
           console.log(pair[0]+ ', '+ pair[1]);
         }
 
-        fetch(`http://craaxkvm.epsevg.upc.es:23601/api/promociones/${router.query.promocion}`, {
-          method: 'PUT',
+        fetch(`https://craaxkvm.epsevg.upc.es:23600/api/promociones/${router.query.promocion}`, {
+          "method": 'PUT',
           body: form,
           "headers": {
             "accept": "application/json"
@@ -72,7 +72,7 @@ const Promocion = () => {
 
   useEffect(() => {
     const fetchDatos = async (promocionId: string) => {
-      const res = await fetch(`http://craaxkvm.epsevg.upc.es:23601/api/promociones/${promocionId}`);
+      const res = await fetch(`https://craaxkvm.epsevg.upc.es:23600/api/promociones/${promocionId}`);
       const data = await res.json();
       if (res.status === 200) {
         console.log(data)
@@ -86,7 +86,7 @@ const Promocion = () => {
     if (promocion != undefined) {
       fetchDatos(promocion as string);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router])
 
   const handleChangeLimiteDescuento = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,7 +115,7 @@ const Promocion = () => {
       return;
     }
 
-    fetch(`http://craaxkvm.epsevg.upc.es:23601/api/promociones/${promocionObj!.id_promo}`, {
+    fetch(`https://craaxkvm.epsevg.upc.es:23600/api/promociones/${promocionObj!.id_promo}`, {
       "method": "DELETE",
       "headers": {
         "accept": "application/json"
