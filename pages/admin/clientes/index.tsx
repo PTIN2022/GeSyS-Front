@@ -14,7 +14,7 @@ export interface ClientesData {
   apellido: string;
   email: string;
   dni:string;
-  telefono:number;
+  telefono:string;
   username: string;
 }
 

@@ -14,11 +14,12 @@ const AddCliente = () => {
         apellido: '',
         email: '',
         dni:'',
-        telefono: -1,
+        telefono: '',
         username: '',
     });
 const handleSaveClick = () => {
-    const dniReg= /.*[0-9]{8}.*.*[A-Z].*/;
+    const dniReg= /^[XYZ]?\d{5,8}[A-Z]$/;
+    const mail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
     if (cliente.nombre == ''){
     alert('introduzca el nombre correctamente')
@@ -28,16 +29,14 @@ const handleSaveClick = () => {
         alert('introduzca el apellido correctamente')
         return;
         }
-    else if(cliente.telefono==-1 || (cliente.telefono<100000000&& cliente.telefono<999999999)){
+    else if(cliente.telefono.length!=9){
         alert('introduzca un telefono valido de 9 digitos')
         return;
     }
     else if (!dniReg.test(cliente.dni)){
-        alert('introduzca un 8 digitos y una letra Mayuscula')
+        alert('introduzca contraseña un 8 digitos y una letra Mayuscula ')
         return;
     }
-
-    const mail = /^\S+@\S+$/;
 
     if (!mail.test(cliente.email)) {
       alert('Introduce un mail correcto');
@@ -104,13 +103,13 @@ const handleSaveClick = () => {
                         value={cliente.apellido}
                         onChange={(event) => setCliente({...cliente, apellido: event.target.value})}
                     /> 
-                <NumberInput
-                    hideControls
+                <TextInput
+                    type='number'
                     label="Telefono"
                     placeholder="123456789"
                     variant="default"
-                    value={cliente.telefono != -1 ? cliente.telefono : undefined}
-                    onChange={(event:number) => setCliente({...cliente, telefono: event})}
+                    value={cliente.telefono}
+                    onChange={(event) => setCliente({...cliente, telefono: event.target.value})}
                 />
    
 

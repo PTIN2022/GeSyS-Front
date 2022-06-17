@@ -16,12 +16,41 @@ export interface PerfilData {
   telefono: string;
   email: string;
   dni: string;
-  contraseña:string;
-  confirmarContraseña:string;
   cargo: RolWorker;
+  passw: string;
+  question: string;
+  estacion: string;
+  estado: boolean;
 }
 
 const PerfilInfo: NextPage = () => {
+
+  const [elements, setTrabajador] = useState<PerfilData[]>();
+  /*const fetchDatos = async () => {
+    const result = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/trabajador');
+    const data = await result.json();  
+
+    const est = []
+
+    for(let i=0; i<data.length; i++) {
+      let est1:PerfilData = {
+        pfp: data[i].picture,
+        nombre: data[i].name,
+        apellido: data[i].lastname,
+        telefono: data[i].telf,
+        email: data[i].email,
+        dni: data[i].dni,
+        cargo: data[i].rol,
+        passw: data[i].passw,
+        Last_access: data[i].last_access,
+      }
+      est.push(est1)
+    }
+    setTrabajador(est);
+  };
+useEffect(() => {
+  fetchDatos();
+}, [])*/
 
   const [editing, setEditing] = useState<boolean>(false);
 
@@ -60,7 +89,6 @@ const PerfilInfo: NextPage = () => {
             </Group>
 
             <Text align="left" size="lg">{perfil.nombre} {perfil.apellido}</Text>
-            <Modificar_perfil />
           </Grid.Col>
 
           <Grid.Col span={7}>
