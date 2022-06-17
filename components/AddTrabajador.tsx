@@ -49,7 +49,7 @@ const AddTrabajador = (props: any) => {
           return;
         }
         else if (!dniReg.test(perfil.dni)){
-          alert('introduzca un 8 digitos y una letra Mayuscula no duplicada')
+          alert('introduzca un DNI no duplicado de  8 digitos y una letra Mayuscula no duplicada')
           return;
       }
         if (perfil.cargo === null) {
