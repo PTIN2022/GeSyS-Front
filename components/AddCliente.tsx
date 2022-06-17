@@ -34,7 +34,7 @@ const handleSaveClick = () => {
         return;
     }
     else if (!dniReg.test(cliente.dni)){
-        alert('introduzca contraseña un 8 digitos y una letra Mayuscula ')
+        alert('introduzca contraseña no Duplicada un 8 digitos y una letra Mayuscula ')
         return;
     }
 
