@@ -24,6 +24,9 @@ const AddTrabajador = (props: any) => {
       const handleSubmitNewPromo = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
 
+        const dniReg= /^[XYZ]?\d{5,8}[A-Z]$/;
+        const mail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
         if (perfil.username === '') {
           alert('Introduzca un username');
           return;
@@ -36,18 +39,19 @@ const AddTrabajador = (props: any) => {
           alert('Introduzca los apellidos');
           return;
         }
-        if (perfil.telefono === '') {
-          alert('Introduzca el telefono');
+
+        if (perfil.telefono.length!= 9 ) {
+          alert('Introduzca telefono de 9 digitos');
           return;
         }
-        if (perfil.email === '') {
-          alert('Introduce un email');
+        if (!mail.test(perfil.email)) {
+          alert('Introduce un mail correcto');
           return;
         }
-        if (perfil.dni === '') {
-            alert('Introduce un dni');
-            return;
-          }
+        else if (!dniReg.test(perfil.dni)){
+          alert('Introduzca un DNI no duplicado de  8 digitos y una letra mayúscula')
+          return;
+      }
         if (perfil.cargo === null) {
         alert('Escoja un cargo');
         return;
@@ -55,7 +59,7 @@ const AddTrabajador = (props: any) => {
         if (perfil.passw === '') {
           alert('Introduce una contraseña');
           return;
-          }
+        }
 
       const data: PerfilData = {
         username: perfil.username,

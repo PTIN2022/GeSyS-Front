@@ -18,7 +18,8 @@ const AddCliente = () => {
         username: '',
     });
 const handleSaveClick = () => {
-    const dniReg= /.*[0-9]{8}.*.*[A-Z].*/;
+    const dniReg= /^[XYZ]?\d{5,8}[A-Z]$/;
+    const mail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
     if (cliente.nombre == ''){
     alert('introduzca el nombre correctamente')
@@ -36,8 +37,6 @@ const handleSaveClick = () => {
         alert('introduzca un 8 digitos y una letra Mayuscula')
         return;
     }
-
-    const mail = /^\S+@\S+$/;
 
     if (!mail.test(cliente.email)) {
       alert('Introduce un mail correcto');
@@ -62,9 +61,11 @@ const handleSaveClick = () => {
         request.send(form);
         
         request.onload = function() {
-            if (request.status != 200) { // analyze HTTP status of the response
-              alert(`Error ${request.status}: ${request.statusText}`); // e.g. 404: Not Found
-            } else { // show the result
+            if (request.status == 500) { // analyze HTTP status of the response
+                alert(`DNI introducido ya existe en otro cliente. Introduce otro DNI.`); // e.g. 404: Not Found
+            } else if(request.status != 200)
+                alert(`Error ${request.status}: ${request.statusText}`); // e.g. 404: Not Found
+            else { // show the result
                 //refresh page
                 location = location
                 //SERIA MES RAPID SI ENLLOC DE REFRESCAR TOT ES PASES DIRECTAMENT LES DADES QUE HEM AFEGIT
