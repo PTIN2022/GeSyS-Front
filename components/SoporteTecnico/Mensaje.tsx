@@ -15,7 +15,7 @@ const Mensaje = ({ contenido, date, id_mensaje } : MensajeTicket) => {
         <Text style={{ color: 'white' }}>{date.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "numeric" })}</Text>
       </Group>
       <Group style={{ padding: '1em', marginBottom: '1em', borderTop: '1px solid white' }} position="apart" spacing="sm">
-        <Group style={{ width: '100%', backgroundColor: 'red' }}>
+        <Group style={{ width: '100%' }}>
           <Text style={{ color: 'white', width: '100%', wordWrap: 'break-word' }}>{contenido}</Text>
         </Group>
       </Group>
