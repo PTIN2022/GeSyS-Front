@@ -22,24 +22,24 @@ const handleSaveClick = () => {
     const mail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
     if (cliente.nombre == ''){
-    alert('introduzca el nombre correctamente')
+    alert('Introduzca el nombre correctamente')
     return;
     }
     else if (cliente.apellido == ''){
-        alert('introduzca el apellido correctamente')
+        alert('Introduzca el apellido correctamente')
         return;
         }
     else if(cliente.telefono.length!=9){
-        alert('introduzca un telefono valido de 9 digitos')
+        alert('Introduzca un telefono válido de 9 digitos')
         return;
     }
     else if (!dniReg.test(cliente.dni)){
-        alert('introduzca contraseña no Duplicada un 8 digitos y una letra Mayuscula ')
+        alert('Introduzca un DNI no duplicado de 8 digitos y una letra Mayúscula ')
         return;
     }
 
     if (!mail.test(cliente.email)) {
-      alert('Introduce un mail correcto');
+      alert('Introduzca un mail correcto');
       return;
     }
     
@@ -61,9 +61,11 @@ const handleSaveClick = () => {
         request.send(form);
         
         request.onload = function() {
-            if (request.status != 200) { // analyze HTTP status of the response
-              alert(`Error ${request.status}: ${request.statusText}`); // e.g. 404: Not Found
-            } else { // show the result
+            if (request.status == 500) { // analyze HTTP status of the response
+              alert(`DNI introducido ya existe en otro cliente. Introduce otro DNI.`); // e.g. 404: Not Found
+            } else if(request.status != 200)
+                alert(`Error ${request.status}: ${request.statusText}`); // e.g. 404: Not Found
+            else { // show the result
                 //refresh page
                 location = location
                 //SERIA MES RAPID SI ENLLOC DE REFRESCAR TOT ES PASES DIRECTAMENT LES DADES QUE HEM AFEGIT

@@ -49,7 +49,7 @@ const AddTrabajador = (props: any) => {
           return;
         }
         else if (!dniReg.test(perfil.dni)){
-          alert('introduzca un DNI no duplicado de  8 digitos y una letra Mayuscula no duplicada')
+          alert('Introduzca un DNI no duplicado de  8 digitos y una letra mayúscula')
           return;
       }
         if (perfil.cargo === null) {
@@ -102,7 +102,15 @@ const AddTrabajador = (props: any) => {
         });
 
         const json = await res.json();
-        if (res.status === 200) {
+        if(res.status == 500) {
+          alert('Error al crear el trabajador');
+          // Display the key/value pairs
+          for (var pair of form.entries() as any) {
+            console.log(pair[0]+ ', ' + pair[1]); 
+          }
+          console.log(json);
+        }
+        else if (res.status === 200) {
           props.triggerReload();
           setPerfil({
             username: '',
@@ -119,15 +127,7 @@ const AddTrabajador = (props: any) => {
             estado: true,
           })
           setOpened(false);
-        }
-        else {
-          alert('Error al crear el trabajador');
-          // Display the key/value pairs
-          for (var pair of form.entries() as any) {
-            console.log(pair[0]+ ', ' + pair[1]); 
-          }
-          console.log(json);
-        }
+        } 
   
       }
       catch (error) {

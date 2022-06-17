@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { AlertCircle, Phone, User, At, Id, IdBadge } from 'tabler-icons-react';
 import { NextPage } from 'next';
 import { AuthContext } from '../../contexts/AuthContext';
-import Modificar_perfil from '../../components/Modificar_perfil';
+
 
 
 export type RolWorker = "Jefe" | "Administrador" | "Responsable" | "Trabajador";
