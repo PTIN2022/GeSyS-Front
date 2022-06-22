@@ -21,7 +21,7 @@ const ListaPromociones: NextPage =() => {
   const [promos, setPromos] = useState<PromoData[]>([]);
 
   const fetchDatos = () => {
-    fetch('http://craaxkvm.epsevg.upc.es:23601/api/promociones')
+    fetch('https://craaxkvm.epsevg.upc.es:23600/api/promociones')
       .then(res => res.json())
       .then(data => {
         setPromos(data);

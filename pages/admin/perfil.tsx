@@ -3,6 +3,8 @@ import { useContext, useEffect, useState } from 'react';
 import { AlertCircle, Phone, User, At, Id, IdBadge } from 'tabler-icons-react';
 import { NextPage } from 'next';
 import { AuthContext } from '../../contexts/AuthContext';
+//import Modificar_perfil from '../../components/Modificar_perfil';
+
 
 export type RolWorker = "Jefe" | "Administrador" | "Responsable" | "Trabajador";
 
@@ -15,9 +17,40 @@ export interface PerfilData {
   email: string;
   dni: string;
   cargo: RolWorker;
+  passw: string;
+  question: string;
+  estacion: string;
+  estado: boolean;
 }
 
 const PerfilInfo: NextPage = () => {
+
+  const [elements, setTrabajador] = useState<PerfilData[]>();
+  /*const fetchDatos = async () => {
+    const result = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/trabajador');
+    const data = await result.json();  
+
+    const est = []
+
+    for(let i=0; i<data.length; i++) {
+      let est1:PerfilData = {
+        pfp: data[i].picture,
+        nombre: data[i].name,
+        apellido: data[i].lastname,
+        telefono: data[i].telf,
+        email: data[i].email,
+        dni: data[i].dni,
+        cargo: data[i].rol,
+        passw: data[i].passw,
+        Last_access: data[i].last_access,
+      }
+      est.push(est1)
+    }
+    setTrabajador(est);
+  };
+useEffect(() => {
+  fetchDatos();
+}, [])*/
 
   const [editing, setEditing] = useState<boolean>(false);
 
@@ -56,9 +89,6 @@ const PerfilInfo: NextPage = () => {
             </Group>
 
             <Text align="left" size="lg">{perfil.nombre} {perfil.apellido}</Text>
-            <Button onClick={() => setEditing(!editing)}>
-              { editing ? 'Guardar Cambios' : 'Editar' }
-            </Button>
           </Grid.Col>
 
           <Grid.Col span={7}>
@@ -142,3 +172,6 @@ const PerfilInfo: NextPage = () => {
   }
 
   export default PerfilInfo
+ /* <Button onClick={() => setEditing(!editing)}>
+  { editing ? 'Guardar Cambios' : 'Editar' }
+</Button> */
