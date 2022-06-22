@@ -2,13 +2,22 @@ import { Button } from "@mantine/core"
 import Link from "next/link"
 import { SoporteRowProps } from "../pages/admin/soporte_tecnico"
 
-const FilaSoporte = ({ mensaje, estado, fecha, id_ticket  } : SoporteRowProps) => {
+/*
+  <th>Ticket ID</th>
+  <th>Asunto</th>
+  <th>Estado</th>
+  <th>Fecha</th>
+  <th>Client ID</th>
+*/
+
+const FilaSoporte = ({ 	id_ticket, asunto, estado, fecha, id_cliente } : SoporteRowProps) => {
   return (
     <tr>
       <td>{id_ticket}</td>
-      <td>{mensaje}</td>
-      <td>{estado ? 'Resuelto' : 'Sin resolver'}</td>
+      <td>{asunto}</td>
+      <td>{estado}</td>
       <td>{fecha.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "numeric" })}</td>
+      <td>{id_cliente}</td>
       <td>
         <Link href={`http://localhost:3000/admin/ticket/${id_ticket}`} passHref={true} >
           <Button>

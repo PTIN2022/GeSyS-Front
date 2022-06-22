@@ -9,14 +9,18 @@ export interface MensajeTicket {
   contenido: string;
   date: Date;
   id_mensaje: number;
+  id_ticket: number;
+  id_usuari: number;
 }
 
 export interface TicketInterface {
   Mensajes: MensajeTicket[];
-  mensaje: string;
-  estado: boolean,
-  fecha: Date;
-  ticket_id: number;
+	asunto: string;
+	estado: string;
+	fecha: Date;
+	id_cliente: number;
+	id_ticket: number;
+	mensaje: string;
 }
 
 const Ticket: NextPage = () => {

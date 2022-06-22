@@ -4,11 +4,11 @@ import FilaSoporte from '../../../components/FilaTablaSoporte';
 import { useEffect, useState } from 'react';
 
 export interface SoporteRowProps {
+	id_ticket: number;
   asunto: string;
 	estado: boolean;
 	fecha: Date;
-	id_ticket: number;
-	mensaje: string;
+	id_cliente: string;
 }
 
 const SoporteTecnico : NextPage =() => {
@@ -36,9 +36,10 @@ const SoporteTecnico : NextPage =() => {
         <thead>
           <tr>
             <th>Ticket ID</th>
-            <th>Problema</th>
+            <th>Asunto</th>
             <th>Estado</th>
             <th>Fecha</th>
+            <th>Client ID</th>
             <th></th>
           </tr>
         </thead>
