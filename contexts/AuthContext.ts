@@ -9,6 +9,7 @@ export interface IAuth {
 
 export const AuthContext = createContext<IAuth>({
   user: {
+    token: "",
     username: "",
     pfp: "",
     nombre: "",
@@ -21,7 +22,6 @@ export const AuthContext = createContext<IAuth>({
     question: 'Como?',
     estacion: 'VG1',
     estado: true,
-
   },
   login: (username: string, password: string) => {},
   logout: () => {},

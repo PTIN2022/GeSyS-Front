@@ -9,6 +9,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 export type RolWorker = "Jefe" | "Administrador" | "Responsable" | "Trabajador";
 
 export interface PerfilData {
+  token: string;
   username: string;
   pfp: string;
   nombre: string;
