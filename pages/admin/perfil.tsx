@@ -18,7 +18,6 @@ export interface PerfilData {
   email: string;
   dni: string;
   cargo: RolWorker;
-  passw: string;
   question: string;
   estacion: string;
   estado: boolean;

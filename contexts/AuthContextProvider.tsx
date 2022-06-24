@@ -13,32 +13,37 @@ const PerfilVacio: PerfilData = {
   email: "",
   dni: "",
   cargo: 'Trabajador',
-  passw: "",
   question: "",
   estacion: "",
   estado: false,
+}
+
+// Given a cookie key `name`, returns the value of
+// the cookie or `null`, if the key is not found.
+const getCookie = (name: string): string | null => {
+	const nameLenPlus = (name.length + 1);
+	return document.cookie
+		.split(';')
+		.map(c => c.trim())
+		.filter(cookie => {
+			return cookie.substring(0, nameLenPlus) === `${name}=`;
+		})
+		.map(cookie => {
+			return decodeURIComponent(cookie.substring(nameLenPlus));
+		})[0] || null;
+}
+
+const deleteAllCookies = () => {
+  document.cookie.split(";").forEach((c) => { 
+    document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+  }); 
 }
 
 export const AuthContextProvider = ({ children }: any) => {
 
   const [user, setUser] = useState<PerfilData>(PerfilVacio);
 
-  const route = useRouter();
-
-  // const fetchUserInfo = async () => {
-  //   const response = await fetch('/api/user')
-  //   if (response.status === 200) {
-  //     const data = await response.json()
-  //     setUser(data)
-  //   }
-  //   else {
-  //     setUser(PerfilVacio)
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   fetchUserInfo()
-  // }, [])
+  const route = useRouter()
 
   const login = async (email: string, password: string) => {
 
@@ -46,30 +51,56 @@ export const AuthContextProvider = ({ children }: any) => {
     form.append("email", email);
     form.append("password", password);
 
-    const response = await fetch('http://craaxkvm.epsevg.upc.es:23601/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      },
-      body: form
-    })
-    if (response.status === 200) {
-      // await fetchUserInfo()
-      route.push('/admin/')
+    try {
+      const res = await fetch('http://craaxkvm.epsevg.upc.es:23601/api/login', {
+        "method": "POST",
+        body: form,
+        "headers": {
+          "accept": "application/json"
+        }
+      });
+      const data = await res.json()
+      document.cookie = `token=${data.token};`
+      setUser(data)
+      route.push('/admin')
+    } catch (err) {
+      alert(err)
     }
-    else {
-      alert('Usuario o contraseña incorrectos')
-    }
+
   }
 
-  const logout = async () => {
+  const logout = () => {
+    deleteAllCookies()
     setUser(PerfilVacio)
     route.push('/login')
   }
 
+  const fetchUserInfo = async () => {
+    const response = await requestAuthenticated('http://craaxkvm.epsevg.upc.es:23601/api/token')
+
+    if (!response) {
+      return;
+    }
+
+    if (response.status === 200) {
+      const data = await response.json()
+      setUser(data)
+    }
+    else {
+      setUser(PerfilVacio)
+    }
+  }
+
+  useEffect(() => {
+    fetchUserInfo()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const requestAuthenticated = async (url: string, options?: any) => {
 
-    let token = user.token
+    let token = getCookie('token')
+
+    console.log(token)
 
     if (!token) {
       setUser(PerfilVacio)
@@ -97,7 +128,9 @@ export const AuthContextProvider = ({ children }: any) => {
     <AuthContext.Provider value={{
       user,
       login,
-      logout
+      logout,
+      requestAuthenticated,
+      fetchUserInfo
     }}>
       {children}
     </AuthContext.Provider>

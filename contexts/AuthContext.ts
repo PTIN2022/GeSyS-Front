@@ -4,7 +4,9 @@ import { PerfilData } from "../pages/admin/perfil";
 export interface IAuth {
   user: PerfilData;
   login: (username: string, password: string) => any,
-  logout: () => void
+  logout: () => void,
+  requestAuthenticated: (url: string, options?: any) => any,
+  fetchUserInfo: () => void
 }
 
 export const AuthContext = createContext<IAuth>({
@@ -18,11 +20,12 @@ export const AuthContext = createContext<IAuth>({
     email: "",
     dni: "",
     cargo: "Trabajador",
-    passw: "",
     question: 'Como?',
     estacion: 'VG1',
     estado: true,
   },
   login: (username: string, password: string) => {},
   logout: () => {},
+  requestAuthenticated: (url: string, options?: any) => {},
+  fetchUserInfo: () => {}
 });

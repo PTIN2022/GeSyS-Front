@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
 import { Button, MantineProvider, Input, Box, Text, Modal, Group, BackgroundImage, Container, Image, TextInput } from '@mantine/core'
-import Link from 'next/link'
 import { useForm } from '@mantine/form';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
@@ -49,9 +48,7 @@ const Login: NextPage = () => {
             <Group position="center" mt="md">
             <Button type="submit"  onClick={() => setOpened(false)} >Solicitar</Button>
               <Text align='center' color={'black'} onClick={() => setOpened(false)} >
-                <Link href="login">
-                  Cancelar
-                </Link>
+                Cancelar
               </Text>
             </Group>
           </form>
@@ -87,25 +84,9 @@ const Login: NextPage = () => {
         </Button>
        
         <Text align='center' color={'blue'} onClick={() => setOpened(true)} >
-          <Link href="login">
-            Olvidé mi contraseña?
-          </Link>
-        </Text>
-        <Text mt={480} align='center' color={'black'}>
-          <Link href="admin">
-            about
-          </Link>
-            |
-          <Link href="admin">
-            Network
-          </Link>
-            |
-            <Link href="admin">
-            contact
-          </Link>
+          Olvidé mi contraseña?
         </Text>
       </Container>
-
     </BackgroundImage>
     </Box>
     </>

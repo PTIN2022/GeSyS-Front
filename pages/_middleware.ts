@@ -14,13 +14,13 @@ export default async function middleware(req: NextResponse, res: NextResponse, n
   const cookies = req.cookies;
 
   if (url.includes("/admin")) {
-    if (!cookies.OursiteJWT) {
+    if (!cookies.token) {
       return NextResponse.redirect('http://localhost:3000/login');
     }
   }
 
   if (url.includes("/login")) {
-    if (cookies.OursiteJWT) {
+    if (cookies.token) {
       return NextResponse.redirect('http://localhost:3000/admin');
     }
   }
