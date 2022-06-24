@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 //import { PerfilData } from '../pages/admin/perfil';
 
-const TrabajadorRow = ({ Dni, Name,Rol, Last_access, Foto } : TrabajadorRowProps) => {
+const TrabajadorRow = ({ dni, nombre, cargo, ultimo_acceso, foto } : TrabajadorRowProps) => {
     
     //const [promocionObj, setPromocion] = useState<TrabajadorRowProps | null>(null)
     const router = useRouter();
@@ -19,7 +19,7 @@ const TrabajadorRow = ({ Dni, Name,Rol, Last_access, Foto } : TrabajadorRowProps
           return;
         }
         
-        fetch(`https://craaxkvm.epsevg.upc.es:23600/api/trabajador/${Dni}`, {
+        fetch(`https://craaxkvm.epsevg.upc.es:23600/api/trabajador/${dni}`, {
           "method": "DELETE",
           "headers": {
             "accept": "application/json"
@@ -39,12 +39,12 @@ const TrabajadorRow = ({ Dni, Name,Rol, Last_access, Foto } : TrabajadorRowProps
     return ( 
         <>
         <tr>
-            <td><Avatar src={Foto}/>                
+            <td><Avatar src={foto}/>                
             </td>
-            <td>{Dni}</td>
-            <td>{Name}</td>
-            <td>{Rol}</td>
-            <td>{Last_access}</td>
+            <td>{dni}</td>
+            <td>{nombre}</td>
+            <td>{cargo}</td>
+            <td>{ultimo_acceso}</td>
             <td>
                 <Menu control={
                     <Center  style={{ width: 10, height: 40 }}>
@@ -54,17 +54,15 @@ const TrabajadorRow = ({ Dni, Name,Rol, Last_access, Foto } : TrabajadorRowProps
                     </Center>
                     }>
                     <Link href={"/admin/perfil"} passHref={true}>
-                      <Menu.Item>
+                      <Menu.Item color={'blue'}>
                         Editar
                       </Menu.Item> 
                     </Link>
                     <Menu.Item color={'yellow'}>Suspender</Menu.Item>
-                    
-                    <UnstyledButton onClick={handleBorrarPromocion}>    
-                        <Menu.Item color={'red'}>
-                            Eliminar
-                        </Menu.Item>
-                    </UnstyledButton>
+                  
+                    <Menu.Item color={'red'} onClick={handleBorrarPromocion}>
+                        Eliminar
+                    </Menu.Item>
                 </Menu>
             </td>
             
