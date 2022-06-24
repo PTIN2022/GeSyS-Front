@@ -100,8 +100,6 @@ export const AuthContextProvider = ({ children }: any) => {
 
     let token = getCookie('token')
 
-    console.log(token)
-
     if (!token) {
       setUser(PerfilVacio)
       return;

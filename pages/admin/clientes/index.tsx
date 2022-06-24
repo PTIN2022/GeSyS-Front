@@ -6,6 +6,8 @@ import { Trash } from 'tabler-icons-react';
 import { useEffect, useState } from 'react';
 import ClientesRow from '../../../components/ClientesRow';
 import AddCliente from '../../../components/AddCliente';
+import { useContext } from 'react';
+import { AuthContext } from '../../../contexts/AuthContext';
 
 
 export interface ClientesData {
@@ -20,6 +22,8 @@ export interface ClientesData {
 
 
 const ListaClientes: NextPage = () => {
+
+  const { requestAuthenticated } = useContext(AuthContext)
 
 
   const cl: ClientesData[]=[];// creem un element buit inicial
@@ -42,12 +46,8 @@ const ListaClientes: NextPage = () => {
   *********************************/
   useEffect(() => {
     const fetchCliente = async () => {
-      const result = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/clientes', {
-        method:'GET',
-        headers:{
-          'accept': 'application/json'
-        },
-       //mode:'no-cors'
+      const result = await requestAuthenticated('https://craaxkvm.epsevg.upc.es:23600/api/clientes', {
+        method:'GET'
       });
       const data = await result.json();  
       console.log(data[0])
@@ -79,7 +79,7 @@ const ListaClientes: NextPage = () => {
     <>
     <Title order={1}> <Text  inherit component="span">Clientes </Text></Title>
     <Space  h={25}/>
-    <AddCliente/>
+    <AddCliente clientList={elements} addCliente={setClientes} />
 
 
     <Table striped highlightOnHover>

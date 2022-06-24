@@ -1,12 +1,16 @@
 import { TextInput, Group, Box, Button, Modal, Space, Autocomplete, NumberInput } from '@mantine/core';
-import { Calendar, Car, Clock, User, ChargingPile } from 'tabler-icons-react';
 import { useState } from 'react';
-import { DatePicker, TimeInput } from '@mantine/dates';
-import { ReservaData } from '../pages/admin/reservas/[reserva]';
 import 'dayjs/locale/es'
 import { ClientesData } from '../pages/admin/clientes';
+import { useContext } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
 
-const AddCliente = () => {
+const AddCliente = (props: any) => {
+
+  const {addCliente, clientList} = props
+
+  const { requestAuthenticated } = useContext(AuthContext)
+
     const [opened, setOpened] = useState(false);
     const [cliente, setCliente] = useState<ClientesData>({
         id: -1,
@@ -56,27 +60,28 @@ const handleSaveClick = () => {
     form.append('password',cliente.nombre +"."+ cliente.apellido);
     //console.log(jeison)
     const fetchData = async () => {
-        var request = new XMLHttpRequest();
-        request.open("POST", "http://craaxkvm.epsevg.upc.es:23601/api/clientes");
-        request.send(form);
-        
-        request.onload = function() {
-            if (request.status == 500) { // analyze HTTP status of the response
-                alert(`DNI introducido ya existe en otro cliente. Introduce otro DNI.`); // e.g. 404: Not Found
-            } else if(request.status != 200)
-                alert(`Error ${request.status}: ${request.statusText}`); // e.g. 404: Not Found
-            else { // show the result
-                //refresh page
-                location = location
-                //SERIA MES RAPID SI ENLLOC DE REFRESCAR TOT ES PASES DIRECTAMENT LES DADES QUE HEM AFEGIT
-                // PERO ya he invertido muchas horas a esto :(
-            }
-          };
+
+      const response = await requestAuthenticated("http://craaxkvm.epsevg.upc.es:23601/api/clientes", {
+        method: "POST",
+        body: form
+      }) as Response
+
+
+      if (response.status == 500) {
+        alert(`DNI introducido ya existe en otro cliente. Introduce otro DNI.`);
+      } else if (response.status != 200) {
+        alert(`Error ${response.status}: ${response.statusText}`);
+      } else {
+
+        const data = await response.json() as ClientesData
+
+        addCliente({
+          ...clientList,
+          data
+        })
+      }
      
-      
     }
-    //console.log(JSON.stringify(jeison))
-    //console.log(form.getAll())
     
     fetchData();   
    }catch(err){alert ("Unaible to add:" + err)   }
