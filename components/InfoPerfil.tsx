@@ -5,8 +5,8 @@ import { AlertCircle, At, Id, IdBadge, Phone, User } from "tabler-icons-react";
 import { PerfilData } from "../pages/admin/perfil";
 
 
-const PerfilInfo = ({ username, pfp, nombre, apellido, telefono, email, dni, cargo, question, estacion, estado} : PerfilData) => {
-  
+const PerfilInfo = ({ token, username, pfp, nombre, apellido, telefono, email, dni, cargo, question, estacion, estado} : PerfilData) => {
+    
     const rightSection = (
       <Tooltip label="Contacta con un administrador para editar este campo" position="top" placement="end" color="ccdde8">
         <AlertCircle size={16} style={{ display: 'block', opacity: 0.5 }} />

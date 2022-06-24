@@ -11,9 +11,8 @@ import { PerfilData } from '../pages/admin/perfil';
 //import { PerfilData } from '../pages/admin/perfil';
 
 const TrabajadorRow = ({ dni, nombre, cargo, ultimo_acceso, foto } : TrabajadorRowProps) => {
-  console.log(dni)
+  const [MenuOpened,setMenu] = useState(false)
   const { requestAuthenticated } = useContext(AuthContext)
-  const [Trabajador, setTrabajador] = useState<PerfilData>();
     //const [promocionObj, setPromocion] = useState<TrabajadorRowProps | null>(null)
     const router = useRouter();
     
@@ -42,27 +41,30 @@ const TrabajadorRow = ({ dni, nombre, cargo, ultimo_acceso, foto } : TrabajadorR
         });
     
       }
-      console.log(Trabajador)
+      const tancaMenu=()=>{
+        setMenu(!MenuOpened)
+      }
     return ( 
         <>
         <tr>
-            <td><Avatar src={foto}/>                
-            </td>
+            {/* <td><Avatar src={foto}/>                 */}
+            {/* </td> */}
             <td>{dni}</td>
             <td>{nombre}</td>
             <td>{cargo}</td>
             <td>{ultimo_acceso}</td>
             <td>
-                <Menu control={
+                <Menu opened={MenuOpened} control={
                     <Center  style={{ width: 10, height: 40 }}>
-                        <ActionIcon color="dark" radius="md">
+                        <ActionIcon onClick={() => setMenu(!MenuOpened)} color="dark" radius="md">
                             <DotsVertical />
                         </ActionIcon>
                     </Center>
                     }>
-                      <Menu.Item color={'blue'}>
-                        <PerfilTrabajador trabajador={Trabajador}/> 
+                      <Menu.Item color={'blue'} onClick={() => setMenu(!MenuOpened)}>
+                        <PerfilTrabajador dni={dni} menu={tancaMenu}/> 
                       </Menu.Item> 
+                    
                     <Menu.Item color={'yellow'}>Suspender</Menu.Item>
                   
                     <Menu.Item color={'red'} onClick={handleBorrarPromocion}>
