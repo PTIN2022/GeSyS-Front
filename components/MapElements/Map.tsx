@@ -1,10 +1,11 @@
 import { MapContainer, TileLayer, Marker, Popup, useMapEvent } from "react-leaflet";
 import { IconAveria, IconDesactivado, IconFuncionando } from "./IconMarkerEstacion";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { LatLngExpression } from "leaflet";
 import EstacionPopup from "./EstacionPopup";
 import { useMap } from "react-leaflet";
 import MapSearchBar from "./MapSearchBar";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export type StationStatus = "Active" | "Deactivated" | "Damaged";
 
@@ -35,6 +36,8 @@ const GetIconFromStationStatus = (status: StationStatus) => {
 }
 
 const Map = () => {
+
+  const { requestAuthenticated } = useContext(AuthContext)
     
   const [mockEstations, setMockEstations] = useState<MarkerEstacionProps[]>([]);
 
@@ -42,7 +45,7 @@ const Map = () => {
 
   useEffect(() => {
     const fetchDatos = async () => {
-      const response = await fetch('http://craaxkvm.epsevg.upc.es:23601/api/estaciones')
+      const response = await requestAuthenticated('http://craaxkvm.epsevg.upc.es:23601/api/estaciones')
       const datos = await response.json()
       const redone = datos.map((element: any) => {
         return {
@@ -54,6 +57,7 @@ const Map = () => {
     }
 
     fetchDatos()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
