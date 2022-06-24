@@ -2,12 +2,13 @@ import { ActionIcon, Autocomplete, Box, Button, Center, Grid, Group, Modal, Popo
 import { NextPage } from "next"
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useState} from "react";
+import { useContext, useEffect, useState} from "react";
 import { Circle } from "tabler-icons-react";
 import { EstState } from ".";
 import AddIncidents from "../../../components/AddIncidents";
 import EditEstState from "../../../components/EditEstState";
 import PlazaInfo from "../../../components/PlazaInfo";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 
 export interface PlazaData {
@@ -15,6 +16,8 @@ export interface PlazaData {
   estado: string;
 }
 const Estacion: NextPage = () => {
+  const { requestAuthenticated } = useContext(AuthContext)
+  
   const [opened,setOpened] = useState(false)
   const [Mopened,setMOpened] = useState(false)
 
@@ -30,13 +33,13 @@ const Estacion: NextPage = () => {
   useEffect(() => {
     const fetchEstacion = async () => {
       if (estacion == undefined) return
-      const result = await fetch(`http://craaxkvm.epsevg.upc.es:23600/api/estaciones/${estacion}`);
+      const result = await requestAuthenticated (`https://craaxkvm.epsevg.upc.es:23600/api/estaciones/${estacion}`);
       const data = await result.json();
       setPotencia_now(data.potencia_usada);
       setPotencia_max(data.potencia_contratada);
       setOcupacion(data.ocupation_actual);
-      const r=Math.floor(Math.random() * 3); // esto es provisional
-      setState(EstState[r]);
+      // const r=Math.floor(Math.random() * 3); // esto es provisional
+      setState(data.estado);
 
       const pla = []
       console.log(data.Cargadores)

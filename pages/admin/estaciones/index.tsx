@@ -1,8 +1,9 @@
 import { NextPage } from 'next';
 import { Table, Center, Title, Space, Text } from '@mantine/core';
 import FilaEstacion from '../../../components/FilaTablaEstacion';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
+import { AuthContext } from '../../../contexts/AuthContext';
 
 export interface EstacionRowProps {
   id : number;
@@ -19,16 +20,18 @@ export const EstState=['Activa','Inactiva','Dañada'];
 const ListaEstaciones: NextPage =() => {
   
   const [estaciones, setEstaciones] = useState<EstacionRowProps[]>();
+  const { requestAuthenticated } = useContext(AuthContext)
 
   useEffect(() => {
     const fetchEstacion = async () => {
-      const result = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/estaciones');
+      const result = await requestAuthenticated ('https://craaxkvm.epsevg.upc.es:23600/api/estaciones');
       const data = await result.json();  
 
       const est = []
 
       for(let i=0; i<data.length; i++) {
         const r=Math.floor(Math.random() * 3);
+        console.log(data[i])
         let est1:EstacionRowProps = {
           id : data[i].id_estacion,
           Est: data[i].nombre_est,
@@ -37,7 +40,7 @@ const ListaEstaciones: NextPage =() => {
           Oc: data[i].ocupation_actual+"/32",
           m2: Math.floor(Math.random()*(151) + 100),    //data[i].surface_in_meters,
           enc: data[i].telefono,
-          state: EstState[r],
+          state: data[i].estado,
         }
         est.push(est1)
       }
