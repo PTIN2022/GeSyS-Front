@@ -3,10 +3,14 @@ import { At,Id, Phone, User, LockAccess } from 'tabler-icons-react';
 import { useState } from 'react';
 import PerfilInfo, { PerfilData, RolWorker } from '../pages/admin/perfil';
 
+interface PerfilDataAddTrabajador extends PerfilData {
+  passw: string;
+}
 
 const AddTrabajador = (props: any) => {
     const [opened, setOpened] = useState(false);
-    const [perfil, setPerfil] = useState<PerfilData>({
+    const [perfil, setPerfil] = useState<PerfilDataAddTrabajador>({
+        token:'',
         username: '',
         nombre: '',
         pfp: '',
@@ -61,7 +65,8 @@ const AddTrabajador = (props: any) => {
           return;
         }
 
-      const data: PerfilData = {
+      const data: PerfilDataAddTrabajador = {
+        token: '',
         username: perfil.username,
         nombre: perfil.nombre,
         pfp: perfil.pfp,
@@ -105,6 +110,7 @@ const AddTrabajador = (props: any) => {
         if (res.status === 200) {
           props.triggerReload();
           setPerfil({
+            token: '',
             username: '',
             nombre: '',
             pfp: 'https://editor.swagger.io/',
