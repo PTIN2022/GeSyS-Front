@@ -3,14 +3,20 @@ import { DotsVertical } from 'tabler-icons-react';
 import { Avatar } from '@mantine/core';
 import Link from 'next/link';
 import { TrabajadorRowProps } from '../pages/admin/trabajadores';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
+import PerfilTrabajador from './PerfilTrabajador';
+import { AuthContext } from '../contexts/AuthContext';
+import { PerfilData } from '../pages/admin/perfil';
 //import { PerfilData } from '../pages/admin/perfil';
 
 const TrabajadorRow = ({ dni, nombre, cargo, ultimo_acceso, foto } : TrabajadorRowProps) => {
-    
+  console.log(dni)
+  const { requestAuthenticated } = useContext(AuthContext)
+  const [Trabajador, setTrabajador] = useState<PerfilData>();
     //const [promocionObj, setPromocion] = useState<TrabajadorRowProps | null>(null)
     const router = useRouter();
+    
     const handleBorrarPromocion = () => {
 
         const seguro = confirm('¿Estás seguro de que quieres borrar este trabajador?')
@@ -36,6 +42,7 @@ const TrabajadorRow = ({ dni, nombre, cargo, ultimo_acceso, foto } : TrabajadorR
         });
     
       }
+      console.log(Trabajador)
     return ( 
         <>
         <tr>
@@ -53,11 +60,9 @@ const TrabajadorRow = ({ dni, nombre, cargo, ultimo_acceso, foto } : TrabajadorR
                         </ActionIcon>
                     </Center>
                     }>
-                    <Link href={"/admin/perfil"} passHref={true}>
                       <Menu.Item color={'blue'}>
-                        Editar
+                        <PerfilTrabajador trabajador={Trabajador}/> 
                       </Menu.Item> 
-                    </Link>
                     <Menu.Item color={'yellow'}>Suspender</Menu.Item>
                   
                     <Menu.Item color={'red'} onClick={handleBorrarPromocion}>

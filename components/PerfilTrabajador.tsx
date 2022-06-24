@@ -37,7 +37,7 @@ const EditClient = (props:any) => {
            <InfoPerfil username={''} pfp={''} nombre={''} apellido={''} telefono={''} email={''} dni={''} cargo={'trabajador'} question={''} estacion={''} estado={false} token={''}/>
         }
         </Modal>
-        <p onClick={() => setOpened(true)}> Editar Cliente </p>
+        <p onClick={() => setOpened(true)}> Editar Trabajador </p>
      </>
     )
 
