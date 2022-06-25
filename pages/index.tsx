@@ -5,7 +5,7 @@ import {BrandGooglePlay} from "tabler-icons-react"
 const Home: NextPage = () => {
   return ( 
     <Box px="auto" sx={{
-      backgroundColor: '#ccdde8',
+      backgroundColor: '#c7deea',
     }}>
     
     <SimpleGrid cols={2} >
