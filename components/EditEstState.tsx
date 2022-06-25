@@ -32,7 +32,7 @@ const EditEstState = (est:any) => {
       console.log("OBJECT:",object)
       console.log("da real:",JSON.stringify(object) )
       const fetchData = async () => {
-        const response = await requestAuthenticated(`https://craaxkvm.epsevg.upc.es:23600/api/estaciones/${object.id_estacion}`, "", {
+        const response = await requestAuthenticated(`https://craaxkvm.epsevg.upc.es:23600/api/estaciones/${object.id_estacion}`, "application/json", {
           method: "PUT",
           body: JSON.stringify(object)          
         }) 
