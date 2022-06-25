@@ -26,11 +26,11 @@ const EditEstState = (est:any) => {
         alert("Estado no valido")
         return
       } 
-      console.log("Viva el A2")
+      // console.log("Viva el A2")
       const object={...est.estacion, estado:state}
-      console.log("Borramos:",delete object.Cargadores)
-      console.log("OBJECT:",object)
-      console.log("da real:",JSON.stringify(object) )
+      // console.log("Borramos:",delete object.Cargadores)
+      // console.log("OBJECT:",object)
+      // console.log("da real:",JSON.stringify(object) )
       const fetchData = async () => {
         const response = await requestAuthenticated(`https://craaxkvm.epsevg.upc.es:23600/api/estaciones/${object.id_estacion}`, "application/json", {
           method: "PUT",

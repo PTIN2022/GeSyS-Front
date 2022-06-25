@@ -5,7 +5,7 @@ export interface IAuth {
   user: PerfilData;
   login: (username: string, password: string) => any,
   logout: () => void,
-  requestAuthenticated: (url: string, contentType?:any,  options?: any) => any,
+  requestAuthenticated: (url: string, contentType?:string,  options?: any) => any,
   fetchUserInfo: () => void
 }
 
@@ -26,6 +26,6 @@ export const AuthContext = createContext<IAuth>({
   },
   login: (username: string, password: string) => {},
   logout: () => {},
-  requestAuthenticated: (url: string, contentType?:any, options?: any) => {},
+  requestAuthenticated: (url: string, contentType?:string, options?: any) => {},
   fetchUserInfo: () => {}
 });

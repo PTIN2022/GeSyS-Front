@@ -96,7 +96,7 @@ export const AuthContextProvider = ({ children }: any) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const requestAuthenticated = async (url: string,contentType?:any, options?: any ) => {
+  const requestAuthenticated = async (url: string,contentType?:string, options?: any ) => {
 
     let token = getCookie('token')
 
