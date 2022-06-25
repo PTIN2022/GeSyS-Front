@@ -30,6 +30,8 @@ const Estacion: NextPage = () => {
   const [ocupacion, setOcupacion] = useState("");
   const [state,setState] = useState("")
 
+
+  const [estation,setStation] = useState(null)
   useEffect(() => {
     const fetchEstacion = async () => {
       if (estacion == undefined) return
@@ -40,16 +42,17 @@ const Estacion: NextPage = () => {
       setOcupacion(data.ocupation_actual);
       // const r=Math.floor(Math.random() * 3); // esto es provisional
       setState(data.estado);
-
+      setStation(data)
+      console.log("ESTACIO:", data)
       const pla = []
-      console.log(data.Cargadores)
+      // console.log(data.Cargadores)
       for(let i=0; i<data.Cargadores.length; i++) {
         let pla_aux:PlazaData = {
           id_cargador: data.Cargadores[i].posicion,
           estado: data.Cargadores[i].estado,
         }
         pla.push(pla_aux)
-        console.log(pla_aux.id_cargador, pla_aux.estado);
+        // console.log(pla_aux.id_cargador, pla_aux.estado);
       }
       setplazas(pla);
     }
@@ -84,8 +87,7 @@ const Estacion: NextPage = () => {
         <title>Gesys - Estación: {estacion}</title>
       </Head>
       <Text align="left" size="xl">Estación {estacion}</Text>
-      <EditEstState est={state}/>
-
+      { estation != null && <EditEstState estacion={estation}/>}
       <Text align="left" size="sm">Kwh Contractat: {potencia_max}</Text>
       <Text align="left" size="sm">Kwh Actual: {potencia_now}</Text>
       <Text align="left" size="sm">Ocupació: {ocupacion}</Text>

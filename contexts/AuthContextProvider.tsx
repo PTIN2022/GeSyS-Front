@@ -96,7 +96,7 @@ export const AuthContextProvider = ({ children }: any) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const requestAuthenticated = async (url: string, options?: any) => {
+  const requestAuthenticated = async (url: string,contentType?:any, options?: any ) => {
 
     let token = getCookie('token')
 
@@ -108,7 +108,8 @@ export const AuthContextProvider = ({ children }: any) => {
     try {
       const response = fetch(url, {
         headers: {
-          'x-access-tokens': token
+          'x-access-tokens': token,
+          "Content-Type": contentType!="" ? contentType : "application/json"  //"application/json"
         },
         ...options
       })

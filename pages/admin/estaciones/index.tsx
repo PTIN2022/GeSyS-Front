@@ -15,7 +15,7 @@ export interface EstacionRowProps {
   enc: string;
   state: string;
 }
-export const EstState=['Activa','Inactiva','Dañada'];
+export const EstState=['Activa','Inactiva',"Dañada"];
 
 const ListaEstaciones: NextPage =() => {
   
