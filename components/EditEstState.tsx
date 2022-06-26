@@ -1,26 +1,46 @@
 import { ActionIcon, Button, Center, Grid, Group,  Popover, Space, Text } from "@mantine/core";
 
 import { Autocomplete, Box, Modal } from '@mantine/core';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Circle } from "tabler-icons-react";
+import { AuthContext } from "../contexts/AuthContext";
 import { EstState } from '../pages/admin/estaciones';
 
 const EditEstState = (est:any) => {
+
+  const { requestAuthenticated } = useContext(AuthContext)
+
     const [opened, setOpened] = useState(false);
     const [Mopened, setMOpened] = useState(false);
+    const [state,setState] = useState(est.estacion.estado.toString())    
 
-    const state=(est.est.toString())    
-
+  useEffect (() =>{
+    if (est.estacion.estado.toString() != ""){
+      setState(est.estacion.estado.toString())
+    }
+  },[est])
+  console.log(state)
 
     const ConnectToApi = () => {
-        console.log("Viva el A2")
-        /***********************************
-         * AQUI IRIA LA CONEXIÓN CON LA API
-         * 
-         * 
-         * 
-         **********************************/
-        setMOpened(false)
+      if (! EstState.includes(state)){
+        alert("Estado no valido")
+        return
+      } 
+      // console.log("Viva el A2")
+      const object={...est.estacion, estado:state}
+      // console.log("Borramos:",delete object.Cargadores)
+      // console.log("OBJECT:",object)
+      // console.log("da real:",JSON.stringify(object) )
+      const fetchData = async () => {
+        const response = await requestAuthenticated(`https://craaxkvm.epsevg.upc.es:23600/api/estaciones/${object.id_estacion}`, "application/json", {
+          method: "PUT",
+          body: JSON.stringify(object)          
+        }) 
+      }
+      fetchData()
+      console.log("finalobject", object)
+      setMOpened(false)
+
     }
 
     return(
@@ -33,8 +53,10 @@ const EditEstState = (est:any) => {
           {
             <Box>
               <Autocomplete label="Elije El nuevo estado"
-                placeholder={state}
                 data={EstState}
+                value={state}
+                onChange={setState}
+                onClick={() => setState("")}
                 />
                 <Space h={25}/>
                 <Button onClick={ConnectToApi}>

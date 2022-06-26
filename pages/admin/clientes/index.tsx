@@ -98,7 +98,7 @@ const ListaClientes: NextPage = () => {
   *********************************/
   useEffect(() => {
     const fetchCliente = async () => {
-      const result = await requestAuthenticated('https://craaxkvm.epsevg.upc.es:23600/api/clientes', {
+      const result = await requestAuthenticated('https://craaxkvm.epsevg.upc.es:23600/api/clientes', "", {
         method:'GET'
       });
       const data = await result.json();  
