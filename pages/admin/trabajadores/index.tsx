@@ -30,9 +30,7 @@ const ListaTrabajadores: NextPage = () => {
       });
   }*/
     const fetchDatos = async () => {
-      const result = await requestAuthenticated('https://craaxkvm.epsevg.upc.es:23600/api/trabajador', {
-        method:'GET'
-      });
+      const result = await requestAuthenticated('https://craaxkvm.epsevg.upc.es:23600/api/trabajador')
       const data = await result.json();
       setTrabajador(data);
     };
