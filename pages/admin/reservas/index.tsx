@@ -78,10 +78,10 @@ const elements: ReservaRowProps[] = [
 
 //const data = charactersList.map((item) => ({ ...item, value: item.label }));
 const allFilters: Filter[] = [
-  {
-    name:"Estación",
-    value: "Estación"
-  },
+  // {
+  //   name:"Estación",
+  //   value: "Estación"
+  // },
   {
     name:"Cliente",
     value: "Cliente"
@@ -98,14 +98,15 @@ const allFilters: Filter[] = [
     name:"Date",
     value: "Date"
   },
-  {
-    name:"Ciudad",
-    value: "Ciudad"
-  }
+  // {
+  //   name:"Ciudad",
+  //   value: "Ciudad"
+  // }
 ];
 
 
 const ListaReservas: NextPage = () => {
+  const { requestAuthenticated } = useContext(AuthContext)
 
   const [activeFilters, setActiveFilters] = useState<Filter[]>(allFilters);
 
@@ -145,7 +146,7 @@ const ListaReservas: NextPage = () => {
 const [elementsD, setElements]  = useState<ReservaRowProps[] >(elements);
     
   const fetchDatos = async () => {
-    const result = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/reservas');
+    const result = await requestAuthenticated ('https://craaxkvm.epsevg.upc.es:23600/api/reservas')
     const data = await result.json();  
 
     const est = []
@@ -211,7 +212,7 @@ useEffect(() => {
       ) : 
       (
         <>
-        <AddReserva />
+        <AddReserva reservaList={elements} refreshList={setElements} />
       
       <Grid gutter="xl">
         <Grid.Col span={3}>
@@ -224,7 +225,7 @@ useEffect(() => {
             onChange={setFilter}
             data={activeFilters}
             onClick={() => setFilter("")}    
-            filter={(filtre, item) => item.value.toLowerCase().includes(value.toLowerCase().trim())}
+            filter={(filtre, item) => item.value.toString().toLowerCase().includes(value.toString().toLowerCase().trim())}
             />
         </Grid.Col>
 
@@ -263,7 +264,7 @@ useEffect(() => {
             //data={data}
             value={value} onChange={setValue} data={elementsD.map((item) => ({ ...item, value: item.reservante }))}      
             filter={(value, item) =>
-              item.value.toLowerCase().includes(value.toLowerCase().trim())
+              item.value.toString().toLowerCase().includes(value.toString().toLowerCase().trim())
             }
           />
         </Grid.Col>   
@@ -332,7 +333,7 @@ useEffect(() => {
         {/*filtre =="Estación" && elementsD && elementsD.filter(element => element.estacion.includes(value)).map((reserva, index )=> {
           return <ReservaRow key={index} reserva={reserva} deleteElement={handleDeleteClick}/>
         })*/}  
-        {filtre =="Cliente" && elementsD && elementsD.filter(element => element.reservante.includes(value)).map((elementFiltrat, index )=> {
+        {filtre =="Cliente" && elementsD && elementsD.filter(element => element.reservante.toString().includes(value)).map((elementFiltrat, index )=> {
           return <ReservaRow key={index} reserva={elementFiltrat} deleteElement={handleDeleteClick}/>
         })} 
         {filtre =="Matricula" && elementsD && elementsD.filter(element => element.matricula.includes(value)).map((elementFiltrat, index )=> {

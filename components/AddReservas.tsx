@@ -1,10 +1,12 @@
 import { TextInput, Group, Box, Button, Modal, Space, Autocomplete,NumberInput } from '@mantine/core';
 import { Calendar, Car, Clock, User, ChargingPile } from 'tabler-icons-react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { DatePicker, TimeInput } from '@mantine/dates';
 import { ReservaData } from '../pages/admin/reservas/[reserva]';
 import 'dayjs/locale/es'
 import { useForm } from '@mantine/form';
+import { AuthContext } from '../contexts/AuthContext';
+import { ReservaRowProps } from '../pages/admin/reservas';
 
 export interface ReservaDatos {
   id_estacion: string;
@@ -31,26 +33,44 @@ function formatDate(date: Date) {
       padTo2Digits(date.getMonth() + 1),
       date.getFullYear(),
     ].join('-') +
-    ' ' +
-    [
-      padTo2Digits(date.getHours()),
-      padTo2Digits(date.getMinutes())
-    ].join(':')
+    ' ' 
+    //+
+    // [
+    //   padTo2Digits(date.getHours()),
+    //   padTo2Digits(date.getMinutes())
+    // ].join(':')
   );
 }
 
-const AddReserva = () => {
-    const [opened, setOpened] = useState(false);
-    const [reserve, setReserve] = useState<ReservaData>({
-        desde: null,
-        hasta: null,
-        fecha: null,
-        matricula: '',
-        DNI: '',
-        estacion: '',
-        coste:0,
-        nPlaza:0,
-    });
+interface addReservaData{
+  id_estacion: number;
+  fecha_inicio: string; // "18-04-2022 11:00",
+  fecha_final: string; //"18-04-2022 18:00",
+  id_vehiculo: string; //"99HL0HH",
+  id_cliente: string; //"25565872D",
+  tarifa: number; // 12.7,
+  asistida: boolean// true,
+  porcentaje_carga: number; // 30,
+  precio_carga_completo: number; // 30,
+  precio_carga_actual: number; // 5,
+  estado_pago: boolean;
+}
+
+
+const AddReserva = (props:any) => {
+  const { requestAuthenticated } = useContext(AuthContext)
+
+  const [opened, setOpened] = useState(false);
+  const [reserve, setReserve] = useState<ReservaData>({
+      desde: null,
+      hasta: null,
+      fecha: null,
+      matricula: '',
+      DNI: '',
+      estacion: '',
+      coste:0,
+      nPlaza:0,
+  });
     const form = useForm <ReservaData> ({
         initialValues: {
             desde:null,
@@ -62,18 +82,19 @@ const AddReserva = () => {
             coste: 0,
             //ciudad:'',
             nPlaza:0,
-        },
-        validate: {
-            estacion: (value) => (/.*[A-Z]{3}.*.*[0-9].*/.test(value) ? null : 'Introduzca una estacion "VGA" y su numero'),
-            DNI: (value) => (/.*[0-9]{8}.*.*[A-Z].*/.test(value) ? null : 'Introduzca un dni valido de 8 digitos y una letra mayuscula'),
-            matricula: (value) => (/.*[0-9]{4}.*.*[A-Z]{3}.*/.test(value) ? null : 'Introduzca una matricula de 4 numeros y 3 letras mayusculas'),
-            //ciudad: (value) => (value.length >0 ? null : 'Introduza un ciudad valida'),
-            fecha: (value) => (value!=null ? null : 'Introduza una fecha valida'),
-            desde: (value) => (value!=null ? null : 'Introduza una hora valida'),
-            hasta: (value) => (value!=null ? null : 'Introduza una hora valida'),
-            coste: (value) => (value>-0.0001 ? null : 'Introduzca un valor valido'),
-            nPlaza:(value) => (value>-0.0001 ? null : 'Introduzca un valor valido')
-        },
+        }
+        // ,
+        // validate: {
+        //     estacion: (value) => (/.*[A-Z]{3}.*.*[0-9].*/.test(value) ? null : 'Introduzca una estacion "VGA" y su numero'),
+        //     DNI: (value) => (/.*[0-9]{8}.*.*[A-Z].*/.test(value) ? null : 'Introduzca un dni valido de 8 digitos y una letra mayuscula'),
+        //     matricula: (value) => (/.*[0-9]{4}.*.*[A-Z]{3}.*/.test(value) ? null : 'Introduzca una matricula de 4 numeros y 3 letras mayusculas'),
+        //     //ciudad: (value) => (value.length >0 ? null : 'Introduza un ciudad valida'),
+        //     fecha: (value) => (value!=null ? null : 'Introduza una fecha valida'),
+        //     desde: (value) => (value!=null ? null : 'Introduza una hora valida'),
+        //     hasta: (value) => (value!=null ? null : 'Introduza una hora valida'),
+        //     coste: (value) => (value>-0.0001 ? null : 'Introduzca un valor valido'),
+        //     nPlaza:(value) => (value>-0.0001 ? null : 'Introduzca un valor valido')
+        // },
       });
 
       //const [opened, setOpened] = useState(false);
@@ -90,30 +111,64 @@ const AddReserva = () => {
         "precio_carga_actual": 5,
         "estado_pago": true
       });
-      
-      const handleSaveClick = () => {
-        const data = {
-          ...reserve,
-          fecha_inicio: formatDate(reserve.fecha_inicio),
-          fecha_final: formatDate(reserve.fecha_final)
-        }
-      
-        fetch("http://craaxkvm.epsevg.upc.es:23601/api/reservas", {
-          "method":'POST',
-          "headers":{
-              'accept': 'application/json',
-              'Content-type': 'application/json'
-          },
-          body: JSON.stringify(data),
-          })
-          .then(() => {
-            setOpened(false)
-          })
-          .catch(error => {
-            alert(error)
-          })
-        }
       */
+      function handleSaveClick(){
+
+        const jeison = {
+          id_estacion:  3, //reserve.estacion,
+          fecha_inicio: formatDate(form.getInputProps('fecha').value) + reserve.desde?.getHours()+':'+ reserve.desde?.getMinutes() ,  //"18-04-2022 12:00", //formatDate(reserve.desde!),
+          fecha_final: formatDate(form.getInputProps('fecha').value) + reserve.hasta?.getHours()+':'+ reserve.hasta?.getMinutes(),    //"18-04-2022 13:00", //formatDate(reserve.hasta!),
+          id_vehiculo: form.getInputProps('matricula').value, //"8800Y8Y",    XX7XXA7   8800Y8Y
+          id_cliente: form.getInputProps('DNI').value ,       //"85838102M"  86045186M  53310210Y
+          tarifa: form.getInputProps('coste').value, // 12.7,
+          asistida: true, // true,
+          porcentaje_carga: 0, // 30,
+          precio_carga_completo: 17 , // 30,
+          precio_carga_actual: (Math.random()*(80)+20), // 5,
+          estado_pago: true,
+          id_cargador: form.getInputProps('nPlaza').value      
+        }
+        try {
+          const fetchData = async () => {
+            const response = await requestAuthenticated("https://craaxkvm.epsevg.upc.es:23600/api/reservas", "application/json", {
+              "method":'POST',          
+              body: JSON.stringify(jeison),
+              })as Response
+      
+      
+            if (response.status != 200) {
+              alert(`Error ${response.status}: ${response.statusText}`);
+            } else {
+              const result = await response.json();          
+                let res:ReservaRowProps ={ 
+                  id: result.id_reserva,
+                  reservante: result.id_cliente,
+                  matricula: result.id_vehiculo,
+                  estacion: result.id_estacion,
+                  nPlaza: result.id_cargador,
+                  date: new Date (result.fecha_entrada), 
+                  date_fin: new Date (result.fecha_salida), 
+                  kwh: result.precio_carga_actual,
+                  money: result.tarifa,
+                  asistida: result.asistida,
+                  estado_pago: result.estado_pago,
+                  carga_completa: result.precio_carga_completa ,
+                  perc_carga: result.procetnaje_carga, 
+                }
+      
+              props.refreshList({
+                ...props.reservaList,
+                res
+              })
+              // location=location
+            }
+           
+          }
+          console.log("HOLA:",JSON.stringify(jeison))       
+          fetchData();   
+        }       
+       catch(err){alert ("Unaible to add:" + err)   }
+      }
 
 return (
     <>
@@ -187,7 +242,6 @@ return (
                         variant="default"
                         icon={<User size={14} />}
                         {...form.getInputProps('DNI')}
-
                         //value={reserve.DNI}
                         //onChange={(event) => setReserve({...reserve, DNI: event.target.value})}
                     />
@@ -217,7 +271,7 @@ return (
                 </Group>
                
                     <br></br>
-                    <Button type='submit'>
+                    <Button type='submit' onClick={() =>handleSaveClick()}>
                         Guardar
                     </Button>
                     </form>
