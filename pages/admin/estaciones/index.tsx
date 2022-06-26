@@ -18,13 +18,14 @@ export interface EstacionRowProps {
 export const EstState=['Activa','Inactiva',"Dañada"];
 
 const ListaEstaciones: NextPage =() => {
-  
-  const [estaciones, setEstaciones] = useState<EstacionRowProps[]>();
   const { requestAuthenticated } = useContext(AuthContext)
+
+  const es: EstacionRowProps[]=[];
+  const [estaciones, setEstaciones] = useState<EstacionRowProps[]>(es);
 
   useEffect(() => {
     const fetchEstacion = async () => {
-      const result = await requestAuthenticated ('https://craaxkvm.epsevg.upc.es:23600/api/estaciones');
+      const result = await requestAuthenticated ('https://craaxkvm.epsevg.upc.es:23600/api/estaciones')
       const data = await result.json();  
 
       const est = []
@@ -44,7 +45,7 @@ const ListaEstaciones: NextPage =() => {
         }
         est.push(est1)
       }
-      setEstaciones(est);
+      {est.length>0 && setEstaciones(est)};
     }
     fetchEstacion();
   }, [])

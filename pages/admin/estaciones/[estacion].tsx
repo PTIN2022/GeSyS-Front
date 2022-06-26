@@ -35,7 +35,9 @@ const Estacion: NextPage = () => {
   useEffect(() => {
     const fetchEstacion = async () => {
       if (estacion == undefined) return
-      const result = await requestAuthenticated (`https://craaxkvm.epsevg.upc.es:23600/api/estaciones/${estacion}`);
+      const result = await requestAuthenticated(`https://craaxkvm.epsevg.upc.es:23600/api/estaciones/${estacion}`, "application/json", {
+        method:'GET'
+      });
       const data = await result.json();
       setPotencia_now(data.potencia_usada);
       setPotencia_max(data.potencia_contratada);

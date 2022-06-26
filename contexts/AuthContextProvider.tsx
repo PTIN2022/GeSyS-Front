@@ -76,7 +76,7 @@ export const AuthContextProvider = ({ children }: any) => {
   }
 
   const fetchUserInfo = async () => {
-    const response = await requestAuthenticated('http://craaxkvm.epsevg.upc.es:23601/api/token')
+    const response = await requestAuthenticated('http://craaxkvm.epsevg.upc.es:23601/api/token', "")
 
     if (!response) {
       return;
@@ -96,7 +96,7 @@ export const AuthContextProvider = ({ children }: any) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const requestAuthenticated = async (url: string,contentType?:string, options?: any ) => {
+  const requestAuthenticated = async (url: string, contentType?:string, options?: any) => {
 
     let token = getCookie('token')
 
@@ -109,7 +109,7 @@ export const AuthContextProvider = ({ children }: any) => {
       const response = fetch(url, {
         headers: {
           'x-access-tokens': token,
-          "Content-Type": contentType!="" ? contentType : "application/json"  //"application/json"
+          'Content-Type': contentType == undefined ? "" : contentType
         },
         ...options
       })
