@@ -27,7 +27,7 @@ const PerfilTrabajador : NextPage = () => {
 
      useEffect(() => {
        const fetchDatos = async () => {
-        if (dni != undefined){
+        if (dni !== undefined){
          const result = await requestAuthenticated(`http://craaxkvm.epsevg.upc.es:23601/api/trabajador/${dni}`, {
            method:'GET'
          });
