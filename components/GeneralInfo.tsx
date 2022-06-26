@@ -18,14 +18,10 @@ const GeneralInfo = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result= await requestAuthenticated("https://craaxkvm.epsevg.upc.es:23600/api/estaciones", {
-        method: "GET"
-      });
+      const result= await requestAuthenticated("https://craaxkvm.epsevg.upc.es:23600/api/estaciones")
       const data = await result.json();
 
-      const resultClients= await requestAuthenticated("https://craaxkvm.epsevg.upc.es:23600/api/clientes", {
-        method: "GET"
-      });
+      const resultClients= await requestAuthenticated("https://craaxkvm.epsevg.upc.es:23600/api/clientes")
       const dataClients = await resultClients.json();
 
       console.log(dataClients)  
