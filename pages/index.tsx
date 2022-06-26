@@ -1,22 +1,23 @@
 import type { NextPage } from 'next';
-import { BackgroundImage, Grid, Image, Title, Space, Affix, Button, Text } from '@mantine/core';
+import { Image, Title, Space, Button, Text, Box, SimpleGrid } from '@mantine/core';
 import {BrandGooglePlay} from "tabler-icons-react"
 
 const Home: NextPage = () => {
-  return (  
-    <BackgroundImage
-          src="/img/blau.jpg"
-          radius="sm"
-        >
-    <Grid>
-      
-      <Grid.Col span={5}>
+  return ( 
+    <Box px="auto" sx={{
+      backgroundColor: '#c7deea',
+    }}>
+    
+    <SimpleGrid cols={2} >
+      <div>
       <Image
+        width={500}
+        height={600}
         alt={"Foto de la aplicación móvil"}
         src={'/img/mobil.jpg'}
       />
-      </Grid.Col>
-      <Grid.Col span={6} offset={0.5} style={{ minHeight: 120 }}>
+      </div>
+      <div>
         
         <Space h={60} />
         <Title order={2}>
@@ -37,43 +38,43 @@ const Home: NextPage = () => {
             Reserva desde cualquier sitio.
           </Text>
         </Title>
-        <Affix position={{ bottom: 130, right: 535}}>
-          <Button
-            component="a"
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://play.google.com/store/search?q=electrolinera&c=apps&hl=es&gl=US"
-            leftIcon={<BrandGooglePlay size={18} />}
-            styles={(theme) => ({
-            root: {
-                backgroundColor: '#0e3bac',
-                border: 0,
-                height: 42,
-                paddingLeft: 20,
-                paddingRight: 20,
+        <Space h={90} />
+        <Button
+          component="a"
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://play.google.com/store/search?q=electrolinera&c=apps&hl=es&gl=US"
+          leftIcon={<BrandGooglePlay size={18} />}
+          styles={(theme) => ({
+          root: {
+              backgroundColor: '#0e3bac',
+              border: 0,
+              height: 42,
+              paddingLeft: 20,
+              paddingRight: 20,
 
-                '&:hover': {
-                backgroundColor: theme.fn.darken('#0e3bac', 0.05),
-                },
-            },
+              '&:hover': {
+              backgroundColor: theme.fn.darken('#0e3bac', 0.05),
+              },
+          },
 
-            leftIcon: {
-                marginRight: 15,
-            },
-            })}
-          >
-            Google Play
-          </Button>  
-        </Affix> 
-        <Space h={120} />
+          leftIcon: {
+              marginRight: 15,
+          },
+          })}
+        >
+          Google Play
+        </Button>  
+        
+        <Space h={5} />
         <Title order={5}>
           <Text  inherit component="span">
             Aplicación sólo disponible para dispositivos Android
           </Text>
         </Title>        
-      </Grid.Col>    
-  </Grid>
-  </BackgroundImage>  
+        </div>  
+  </SimpleGrid>  
+  </Box>
   );
 }
 
