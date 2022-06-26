@@ -26,35 +26,6 @@ export interface PerfilData {
 
 const PerfilInfo: NextPage = () => {
 
-  const [elements, setTrabajador] = useState<PerfilData[]>();
-  /*const fetchDatos = async () => {
-    const result = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/trabajador');
-    const data = await result.json();  
-
-    const est = []
-
-    for(let i=0; i<data.length; i++) {
-      let est1:PerfilData = {
-        pfp: data[i].picture,
-        nombre: data[i].name,
-        apellido: data[i].lastname,
-        telefono: data[i].telf,
-        email: data[i].email,
-        dni: data[i].dni,
-        cargo: data[i].rol,
-        passw: data[i].passw,
-        Last_access: data[i].last_access,
-      }
-      est.push(est1)
-    }
-    setTrabajador(est);
-  };
-useEffect(() => {
-  fetchDatos();
-}, [])*/
-
-  const [editing, setEditing] = useState<boolean>(false);
-
   const { user } = useContext(AuthContext);
   const [ perfil, setPerfil ] = useState<PerfilData>(user!);
 
@@ -74,7 +45,17 @@ useEffect(() => {
       <div>
         Loading...
       </div>
-    ) : <InfoPerfil {...perfil} />
+    ) :
+    <>
+    <InfoPerfil {...perfil} />
+
+    {/* 
+    ************************************
+    AQUI HA DE IR EL BOTON 
+    QUE TE PERMITA CAMBIAR LA CONTRASEÑA
+    ************************************
+   */}
+    </>
     }
     </>
     );

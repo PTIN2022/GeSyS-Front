@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { TrabajadorRowProps } from '../pages/admin/trabajadores';
 import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
-import PerfilTrabajador from './PerfilTrabajador';
+import PerfilTrabajador from '../pages/admin/trabajadores/[trabajador]';
 import { AuthContext } from '../contexts/AuthContext';
 import { PerfilData } from '../pages/admin/perfil';
 //import { PerfilData } from '../pages/admin/perfil';
@@ -24,7 +24,7 @@ const TrabajadorRow = ({ dni, nombre, cargo, ultimo_acceso, foto } : TrabajadorR
           return;
         }
         
-        fetch(`https://craaxkvm.epsevg.upc.es:23600/api/trabajador/${dni}`, {
+        fetch(`http://craaxkvm.epsevg.upc.es:23601/api/trabajador/${dni}`, {
           "method": "DELETE",
           "headers": {
             "accept": "application/json"
@@ -44,15 +44,18 @@ const TrabajadorRow = ({ dni, nombre, cargo, ultimo_acceso, foto } : TrabajadorR
       const tancaMenu=()=>{
         setMenu(!MenuOpened)
       }
-    return ( 
+      const acceso = new Date(ultimo_acceso);
+      const fecha = new Intl.DateTimeFormat('en-GB', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(acceso);
+      foto = `https://ui-avatars.com/api/?name=${nombre}`
+      return ( 
         <>
         <tr>
-            {/* <td><Avatar src={foto}/>                 */}
-            {/* </td> */}
+            <td><Avatar src={foto}/>                 
+            </td> 
             <td>{dni}</td>
             <td>{nombre}</td>
             <td>{cargo}</td>
-            <td>{ultimo_acceso}</td>
+            <td>{fecha}</td>
             <td>
                 <Menu opened={MenuOpened} control={
                     <Center  style={{ width: 10, height: 40 }}>
@@ -61,9 +64,9 @@ const TrabajadorRow = ({ dni, nombre, cargo, ultimo_acceso, foto } : TrabajadorR
                         </ActionIcon>
                     </Center>
                     }>
-                      <Menu.Item color={'blue'} onClick={() => setMenu(!MenuOpened)}>
-                        <PerfilTrabajador dni={dni} menu={tancaMenu}/> 
-                      </Menu.Item> 
+                      <Link href={`http://localhost:3000/admin/trabajadores/${dni}`}  passHref={true}>
+                        <Menu.Item>Ver más</Menu.Item>
+                      </Link>
                     
                     <Menu.Item color={'yellow'}>Suspender</Menu.Item>
                   

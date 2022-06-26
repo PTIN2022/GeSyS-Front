@@ -2,17 +2,17 @@ import { Image, Text, Box, Grid, Group, TextInput, Tooltip } from "@mantine/core
 import { NextPage } from "next";
 import { useState } from "react";
 import { AlertCircle, At, Id, IdBadge, Phone, User } from "tabler-icons-react";
-import { PerfilData } from "../pages/admin/perfil";
+import { PerfilTrabajadorData } from "../pages/admin/trabajadores/[trabajador]";
 
 
-const PerfilInfo = ({ token, username, pfp, nombre, apellido, telefono, email, dni, cargo, question, estacion, estado} : PerfilData) => {
+const PerfilInfo = ({ pfp, nombre, apellido, telefono, email, dni, cargo} : PerfilTrabajadorData) => {
     
     const rightSection = (
       <Tooltip label="Contacta con un administrador para editar este campo" position="top" placement="end" color="ccdde8">
         <AlertCircle size={16} style={{ display: 'block', opacity: 0.5 }} />
       </Tooltip>
     );
-    
+    pfp = `https://ui-avatars.com/api/?name=${nombre}`
     return (
       <>
         <Box sx={{ maxWidth: 700 }} >
@@ -32,8 +32,8 @@ const PerfilInfo = ({ token, username, pfp, nombre, apellido, telefono, email, d
             </Grid.Col>
   
             <Grid.Col span={7}>
-              <Text align="left" size="xl"> Mi Cuenta  </Text>
-              <Text align="left" size="sm">Mira y edita tu información personal a continuación  </Text>
+              <Text align="left" size="xl"> Perfil Trabajador  </Text>
+              <Text align="left" size="sm">Mira la información personal a continuación  </Text>
             </Grid.Col>
         
             <Grid.Col span={7}>                
