@@ -46,7 +46,7 @@ const FilaEstacion = ({ Dir, Est, Kwh, Oc, enc, m2 , id, state} : EstacionRowPro
               </ActionIcon>
           </Center>
           }>
-          <Link href={`http://localhost:3000/admin/estaciones/${id}`}  passHref={true}>
+          <Link href={`/admin/estaciones/${id}`}  passHref={true}>
                   <Menu.Item>Ver más</Menu.Item>
               </Link>
           <Menu.Item >
