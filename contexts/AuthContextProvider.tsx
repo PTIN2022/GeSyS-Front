@@ -60,9 +60,15 @@ export const AuthContextProvider = ({ children }: any) => {
         }
       });
       const data = await res.json()
-      document.cookie = `token=${data.token};`
-      setUser(data)
-      route.push('/admin')
+
+      if (data.status == 200 && data.token != undefined) {
+        document.cookie = `token=${data.token};`
+        setUser(data)
+        route.push('/admin')
+      }
+      else {
+        alert('Error', data)
+      }
     } catch (err) {
       alert(err)
     }
