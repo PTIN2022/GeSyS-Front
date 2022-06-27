@@ -16,7 +16,7 @@ const TrabajadorRow = ({ dni, nombre, cargo, ultimo_acceso, foto } : TrabajadorR
     //const [promocionObj, setPromocion] = useState<TrabajadorRowProps | null>(null)
     const router = useRouter();
     
-    const handleBorrarPromocion = () => {
+    const handleBorrarPromocion = async () => {
 
         const seguro = confirm('¿Estás seguro de que quieres borrar este trabajador?')
     
@@ -24,22 +24,17 @@ const TrabajadorRow = ({ dni, nombre, cargo, ultimo_acceso, foto } : TrabajadorR
           return;
         }
         
-        fetch(`http://craaxkvm.epsevg.upc.es:23601/api/trabajador/${dni}`, {
+        const response = await requestAuthenticated(`http://craaxkvm.epsevg.upc.es:23601/api/trabajador/${dni}`, {
           "method": "DELETE",
-          "headers": {
-            "accept": "application/json"
-          }
         })
-        .then(response => {
-          if (response.ok) {
+
+        if (response.status == 200) {
             router.push('/admin/trabajadores') 
             window.location.reload();
           }
-        })
-        .catch(err => {
+        else {
           alert('Error al borrar el trabajador')
-        });
-    
+        }
       }
       const tancaMenu=()=>{
         setMenu(!MenuOpened)
