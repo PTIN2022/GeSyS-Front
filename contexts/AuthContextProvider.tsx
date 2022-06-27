@@ -4,18 +4,22 @@ import { useRouter } from 'next/router';
 import { PerfilData } from '../pages/admin/perfil';
 
 const PerfilVacio: PerfilData = {
-  token: "",
-  username: "",
-  pfp: "",
-  nombre: "",
-  apellido: "",
-  telefono: "",
-  email: "",
-  dni: "",
-  cargo: 'trabajador',
-  question: "",
-  estacion: "",
-  estado: false,
+	apellido: "",
+	cargo: "trabajador",
+	dni: "",
+	email: "",
+	estado: "",
+	foto: "",
+	id_estacion: 0,
+	id_trabajador: 0,
+	id_usuari: 0,
+	nombre: "",
+	question: "",
+	telefono: "",
+	token: "",
+	type: "",
+	ultimo_acceso: new Date(),
+	username: ""
 }
 
 // Given a cookie key `name`, returns the value of
@@ -61,13 +65,14 @@ export const AuthContextProvider = ({ children }: any) => {
       });
       const data = await res.json()
 
-      if (data.status == 200 && data.token != undefined) {
+      if (res.status == 200 && data.token != undefined) {
         document.cookie = `token=${data.token};`
         setUser(data)
         route.push('/admin')
       }
       else {
-        alert('Error', data)
+        alert('Error')
+        console.log(data)
       }
     } catch (err) {
       alert(err)
@@ -119,10 +124,13 @@ export const AuthContextProvider = ({ children }: any) => {
         },
         ...options
       })
+
+      console.log(response)
   
       return response;
     }
     catch (error) {
+      logout()
       alert(error)
       console.log(error)
     }

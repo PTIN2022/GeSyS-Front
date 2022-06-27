@@ -7,7 +7,7 @@ import InfoPerfil from '../../../components/InfoPerfil';
 import { useRouter } from 'next/router';
 
 export interface PerfilTrabajadorData {
-  pfp: string;
+  foto: string;
   nombre: string;
   apellido: string;
   telefono: string;
@@ -15,6 +15,7 @@ export interface PerfilTrabajadorData {
   dni: string;
   cargo: RolWorker;
 }
+
 const PerfilTrabajador : NextPage = () => {
     const [opened, setOpened] = useState(false);
     const { requestAuthenticated } = useContext(AuthContext)

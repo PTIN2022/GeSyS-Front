@@ -2,10 +2,10 @@ import type { NextPage } from 'next'
 import TrabajadorRow from '../../../components/TrabajadorRow';
 import { Table, Text , Title, Space} from '@mantine/core'
 import Head from 'next/head';
-import AddTrabajador from '../../../components/AddTrabajador';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../contexts/AuthContext';
 import { PerfilData } from '../perfil';
+import AddTrabajador from '../../../components/AddTrabajador';
 
 
 export interface TrabajadorRowProps {

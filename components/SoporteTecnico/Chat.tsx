@@ -48,7 +48,7 @@ const Chat = (props: { ticket_id: string }) => {
 
     const form = new FormData();
     form.append("mensaje", textMensaje);
-    form.append("cliente", user.id.toString());
+    form.append("cliente", user.id_usuari.toString());
 
     fetch(`http://craaxkvm.epsevg.upc.es:23601/api/soporte/${props.ticket_id}`, {
       method: 'POST',

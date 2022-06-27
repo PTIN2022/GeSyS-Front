@@ -10,18 +10,22 @@ import InfoPerfil from '../../components/InfoPerfil';
 export type RolWorker = "jefe" | "administrador" | "responsable" | "trabajador";
 
 export interface PerfilData {
-  token: string;
-  username: string;
-  pfp: string;
-  nombre: string;
-  apellido: string;
-  telefono: string;
-  email: string;
-  dni: string;
-  cargo: RolWorker;
-  question: string;
-  estacion: string;
-  estado: boolean;
+	apellido: string;
+	cargo: RolWorker;
+	dni: string;
+	email: string;
+	estado: string;
+	foto: string;
+	id_estacion: number;
+	id_trabajador: number;
+	id_usuari: number;
+	nombre: string;
+	question: string;
+	telefono: string;
+	token: string;
+	type: string;
+	ultimo_acceso: Date;
+	username: string;
 }
 
 const PerfilInfo: NextPage = () => {
