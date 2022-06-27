@@ -12,7 +12,7 @@ const PerfilVacio: PerfilData = {
   telefono: "",
   email: "",
   dni: "",
-  cargo: 'Trabajador',
+  cargo: 'trabajador',
   question: "",
   estacion: "",
   estado: false,

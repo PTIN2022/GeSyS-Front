@@ -19,7 +19,7 @@ export const AuthContext = createContext<IAuth>({
     telefono: "",
     email: "",
     dni: "",
-    cargo: "Trabajador",
+    cargo: "trabajador",
     question: 'Como?',
     estacion: 'VG1',
     estado: true,

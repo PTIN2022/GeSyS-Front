@@ -9,14 +9,15 @@ import { PerfilData } from '../perfil';
 
 
 export interface TrabajadorRowProps {
-  Dni: string;
-  Name: string;
-  Rol: string;
-  Last_access: string; 
-  Foto: string;
+  dni: string;
+  nombre: string;
+  cargo: string;
+  ultimo_acceso: string; 
+  foto: string;
 }
 
 const ListaTrabajadores: NextPage = () => {
+  const { requestAuthenticated } = useContext(AuthContext)
   const [elements, setTrabajador] = useState<TrabajadorRowProps[]>();
   //const [elements, setTrabajador] = useState<PerfilData[]>();
 
@@ -29,22 +30,9 @@ const ListaTrabajadores: NextPage = () => {
       });
   }*/
     const fetchDatos = async () => {
-      const result = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/trabajador');
-      const data = await result.json();  
-
-      const est = []
-
-      for(let i=0; i<data.length; i++) {
-        let est1:TrabajadorRowProps = {
-          Dni: data[i].dni,
-          Name: data[i].nombre+" "+data[i].apellido,
-          Rol: data[i].cargo, 
-          Last_access: data[i].ultimo_acceso,
-          Foto: data[i].picture,
-        }
-        est.push(est1)
-      }
-      setTrabajador(est);
+      const result = await requestAuthenticated('https://craaxkvm.epsevg.upc.es:23600/api/trabajador')
+      const data = await result.json();
+      setTrabajador(data);
     };
   useEffect(() => {
     fetchDatos();
@@ -64,7 +52,7 @@ const ListaTrabajadores: NextPage = () => {
       </Head>
       <Title order={1}> <Text  inherit component="span">Trabajadores </Text></Title>
       <Space  h={25}/>         
-      {(profile.cargo == "Administrador" || profile.cargo == "Jefe") && <AddTrabajador triggerReload={fetchDatos} />}     
+      {(profile.cargo == "administrador" || profile.cargo == "jefe") && <AddTrabajador triggerReload={fetchDatos} />}     
       <Table striped highlightOnHover>
           <thead>
               <tr>
@@ -77,11 +65,11 @@ const ListaTrabajadores: NextPage = () => {
           </thead>
           <tbody>
           {elements && elements.map((element, index) => { //ver roles por niveles
-            if (profile.cargo == "Trabajador" && 
-            element.Rol != "Administrador" &&  
-            element.Rol !=  "Jefe")
+            if (profile.cargo == "trabajador" && 
+            element.cargo != "administrador" &&  
+            element.cargo !=  "jefe")
             return <TrabajadorRow key={index} {...element}/>
-          else if( profile.cargo == "Responsable" || profile.cargo == "Jefe" || profile.cargo == "Administrador") 
+          else if( profile.cargo == "responsable" || profile.cargo == "jefe" || profile.cargo == "administrador") 
               return <TrabajadorRow key={index} {...element}/>
           })}
           </tbody>

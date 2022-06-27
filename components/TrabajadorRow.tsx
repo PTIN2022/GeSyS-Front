@@ -3,15 +3,20 @@ import { DotsVertical } from 'tabler-icons-react';
 import { Avatar } from '@mantine/core';
 import Link from 'next/link';
 import { TrabajadorRowProps } from '../pages/admin/trabajadores';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
+import PerfilTrabajador from '../pages/admin/trabajadores/[trabajador]';
+import { AuthContext } from '../contexts/AuthContext';
+import { PerfilData } from '../pages/admin/perfil';
 //import { PerfilData } from '../pages/admin/perfil';
 
-const TrabajadorRow = ({ Dni, Name,Rol, Last_access, Foto } : TrabajadorRowProps) => {
-    
+const TrabajadorRow = ({ dni, nombre, cargo, ultimo_acceso, foto } : TrabajadorRowProps) => {
+  const [MenuOpened,setMenu] = useState(false)
+  const { requestAuthenticated } = useContext(AuthContext)
     //const [promocionObj, setPromocion] = useState<TrabajadorRowProps | null>(null)
     const router = useRouter();
-    const handleBorrarPromocion = () => {
+    
+    const handleBorrarPromocion = async () => {
 
         const seguro = confirm('¿Estás seguro de que quieres borrar este trabajador?')
     
@@ -19,52 +24,50 @@ const TrabajadorRow = ({ Dni, Name,Rol, Last_access, Foto } : TrabajadorRowProps
           return;
         }
         
-        fetch(`https://craaxkvm.epsevg.upc.es:23600/api/trabajador/${Dni}`, {
+        const response = await requestAuthenticated(`http://craaxkvm.epsevg.upc.es:23601/api/trabajador/${dni}`,"", {
           "method": "DELETE",
-          "headers": {
-            "accept": "application/json"
-          }
         })
-        .then(response => {
-          if (response.ok) {
+
+        if (response.status == 200) {
             router.push('/admin/trabajadores') 
             window.location.reload();
           }
-        })
-        .catch(err => {
+        else {
           alert('Error al borrar el trabajador')
-        });
-    
+        }
       }
-    return ( 
+      const tancaMenu=()=>{
+        setMenu(!MenuOpened)
+      }
+      const acceso = new Date(ultimo_acceso);
+      const fecha = new Intl.DateTimeFormat('en-GB', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(acceso);
+      foto = `https://ui-avatars.com/api/?name=${nombre}`
+      return ( 
         <>
         <tr>
-            <td><Avatar src={Foto}/>                
-            </td>
-            <td>{Dni}</td>
-            <td>{Name}</td>
-            <td>{Rol}</td>
-            <td>{Last_access}</td>
+            <td><Avatar src={foto}/>                 
+            </td> 
+            <td>{dni}</td>
+            <td>{nombre}</td>
+            <td>{cargo}</td>
+            <td>{fecha}</td>
             <td>
-                <Menu control={
+                <Menu opened={MenuOpened} control={
                     <Center  style={{ width: 10, height: 40 }}>
-                        <ActionIcon color="dark" radius="md">
+                        <ActionIcon onClick={() => setMenu(!MenuOpened)} color="dark" radius="md">
                             <DotsVertical />
                         </ActionIcon>
                     </Center>
                     }>
-                    <Link href={"/admin/perfil"} passHref={true}>
-                      <Menu.Item>
-                        Editar
-                      </Menu.Item> 
-                    </Link>
-                    <Menu.Item color={'yellow'}>Suspender</Menu.Item>
+                      <Link href={`http://localhost:3000/admin/trabajadores/${dni}`}  passHref={true}>
+                        <Menu.Item>Ver más</Menu.Item>
+                      </Link>
                     
-                    <UnstyledButton onClick={handleBorrarPromocion}>    
-                        <Menu.Item color={'red'}>
-                            Eliminar
-                        </Menu.Item>
-                    </UnstyledButton>
+                    <Menu.Item color={'yellow'}>Suspender</Menu.Item>
+                  
+                    <Menu.Item color={'red'} onClick={handleBorrarPromocion}>
+                        Eliminar
+                    </Menu.Item>
                 </Menu>
             </td>
             
