@@ -53,9 +53,7 @@ const FilaEstacion = ({ Dir, Est, Kwh, Oc, enc, m2 , id, state} : EstacionRowPro
             <EditState state={state} id={id} menu={tancaMenu} actualitza={changeState}  />
             </Menu.Item> 
         </Menu>   
-
       </td>
-      
     </tr>
   )
 } 
