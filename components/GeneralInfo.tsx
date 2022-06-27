@@ -1,58 +1,77 @@
 import { Grid } from "@mantine/core";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+import { AuthContext } from '../contexts/AuthContext';
 
-export interface PowerDataProps {
-  maxPower: number;
-  powerBeingUsed: number;
-}
-
-export interface StationDataProps {
-  workingStations: number;
-  damagedStations: number;
-  deactivatedStations: number;
+export interface InfoData {
+  pot_max: number;
+  pot_util: number;
+  est_fun: number;
+  est_av: number;
+  est_des: number;
+  clients: number;
 }
 
 const GeneralInfo = () => {
 
-  const mockDataPower: PowerDataProps = {
-    maxPower: 58748,
-    powerBeingUsed: 12587
-  }
+  const { requestAuthenticated } = useContext(AuthContext)
+  const [infoData, setInfoData] = useState<InfoData>();
 
-  const mockDataStation: StationDataProps = {
-    workingStations: 0,
-    damagedStations: 0,
-    deactivatedStations: 0
-  }
+  useEffect(() => {
+    const fetchData = async () => {
+      const result= await requestAuthenticated("https://craaxkvm.epsevg.upc.es:23600/api/estaciones")
+      const data = await result.json();
 
-  const mockDataClients: number = 5436;
+      const resultClients= await requestAuthenticated("https://craaxkvm.epsevg.upc.es:23600/api/clientes")
+      const dataClients = await resultClients.json();
 
-  const [powerData, setPowerData] = useState<PowerDataProps>(mockDataPower);
-  const [stations, setStations] = useState<StationDataProps>(mockDataStation);
-  const [clientsData, setSlientsData] = useState<number>(mockDataClients);
+      console.log(dataClients)  
+      let max = 0, util = 0, fun = 0, av = 0, des = 0;
+      for(let i=0; i<data.length; i++) {
+        max += data[i].potencia_contratada
+        util += data[i].potencia_usada
+        if(data[i].estado == "Dañada")
+          av++
+        else if(data[i].estado == "Activa")
+          fun++
+        else if(data[i].estado == "Inactiva")
+          des++
+      }
+      let info:InfoData = {
+        pot_max: max,
+        pot_util: util,
+        est_fun: fun,
+        est_av: av,
+        est_des: des,
+        clients: dataClients.length
+      }
+      setInfoData(info)
+    }
+    fetchData();
+  }, [])
+    
 
   return (
     <Grid grow gutter={"xs"}>
       <Grid.Col span={1}>
         <Grid.Col span={1}>
-          Potencia maxima de la red: {powerData.maxPower}
+          Potencia máxima de la red: {infoData?.pot_max}
         </Grid.Col>
         <Grid.Col span={1}>
-          Potencia siendo utilizada: {powerData.powerBeingUsed} ({Math.trunc(powerData.powerBeingUsed/powerData.maxPower*100)}%)
+          Potencia siendo utilizada: {infoData?.pot_util}
         </Grid.Col>
         <Grid.Col span={1}>
-          Estaciones funcionando: {stations.workingStations}
+          Estaciones funcionando: {infoData?.est_fun}
         </Grid.Col>
         <Grid.Col span={1}>
-          Estaciones averiadas: {stations.damagedStations}
+          Estaciones averiadas: {infoData?.est_av}
         </Grid.Col>
         <Grid.Col span={1}>
-          Estaciones desactivadas: {stations.deactivatedStations}
+          Estaciones inactivas: {infoData?.est_des}
         </Grid.Col>
       </Grid.Col>
       <Grid.Col span={1}>
         <Grid.Col span={1}>
-          Clientes registrados: {clientsData}
+          Clientes registrados: {infoData?.clients}
         </Grid.Col>
       </Grid.Col>
     </Grid>

@@ -60,7 +60,7 @@ const PromoRow = ({ id_promo, descuento, fecha_inicio, fecha_fin, estado, descri
                 >
                     {Activado ? "Desactivar": "Activar"}
                 </Menu.Item> 
-                <Link href={`http://localhost:3000/admin/promociones/${id_promo}`} passHref={true}>
+                <Link href={`/admin/promociones/${id_promo}`} passHref={true}>
                   <Menu.Item>Editar</Menu.Item> 
                 </Link>
             </Menu>

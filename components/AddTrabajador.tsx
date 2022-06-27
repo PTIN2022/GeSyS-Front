@@ -1,29 +1,41 @@
 import { TextInput, Group, Box, Button, Modal, Select } from '@mantine/core';
 import { At,Id, Phone, User, LockAccess } from 'tabler-icons-react';
-import { useState } from 'react';
-import PerfilInfo, { PerfilData, RolWorker } from '../pages/admin/perfil';
+import { useContext, useState } from 'react';
+import { PerfilData, RolWorker } from '../pages/admin/perfil';
+import { AuthContext } from '../contexts/AuthContext';
 
-interface PerfilDataAddTrabajador extends PerfilData {
-  passw: string;
+interface TrabajadorInput {
+  id_estacion: string;
+  estado: boolean;
+  question: string;
+  nombre: string;
+  telefono: string;
+  username: string;
+  password: string;
+  email: string;
+  cargo: string;
+  apellido: string;
+  dni: string;
 }
 
 const AddTrabajador = (props: any) => {
+
+  const { requestAuthenticated } = useContext(AuthContext)
+
     const [opened, setOpened] = useState(false);
-    const [perfil, setPerfil] = useState<PerfilDataAddTrabajador>({
-        token:'',
-        username: '',
-        nombre: '',
-        pfp: '',
-        apellido: '',
-        telefono: '',
-        email: '',
-        dni: '',
-        passw: 'admin',
-        cargo: 'Trabajador',
-        question: 'Como?',
-        estacion: 'VG1',
-        estado: true,
-      });
+    const [perfil, setPerfil] = useState<TrabajadorInput>({
+      id_estacion: '',
+      estado: false,
+      question: '',
+      nombre: '',
+      telefono: '',
+      username: '',
+      password: '',
+      email: '',
+      cargo: '',
+      apellido: '',
+      dni: ''
+    });
       
       const handleSubmitNewPromo = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
@@ -60,69 +72,47 @@ const AddTrabajador = (props: any) => {
         alert('Escoja un cargo');
         return;
         }
-        if (perfil.passw === '') {
+        if (perfil.password === '') {
           alert('Introduce una contraseña');
           return;
         }
 
-      const data: PerfilDataAddTrabajador = {
-        token: '',
-        username: perfil.username,
-        nombre: perfil.nombre,
-        pfp: perfil.pfp,
-        apellido: perfil.apellido,
-        telefono: perfil.telefono,
-        email: perfil.email,
-        dni: perfil.dni,
-        passw: perfil.passw,
-        cargo: perfil.cargo,
-        question: perfil.question,
-        estacion: perfil.estacion,
-        estado: perfil.estado,
-         
-      }
       //AFEGIR TREBALLADOR
       try {
 
         const form = new FormData();
-        form.append("nombre", data.nombre);
-        form.append("username", data.username);
-        form.append("foto", data.pfp); 
-        form.append("apellido", data.apellido); 
-        form.append("telefono", data.telefono);
-        form.append("email", data.email);
-        form.append("dni", data.dni);
-        form.append("password", data.passw);
-        form.append("cargo", data.cargo);
-        form.append("question", data.question);
-        form.append("id_estacion", data.estacion);
-        form.append("estado", data.estado == true ? 'activa' : 'inactiva');
+        form.append("nombre", perfil.nombre);
+        form.append("username", perfil.username);
+        form.append("apellido", perfil.apellido); 
+        form.append("telefono", perfil.telefono);
+        form.append("email", perfil.email);
+        form.append("dni", perfil.dni);
+        form.append("password", perfil.password);
+        form.append("cargo", perfil.cargo);
+        form.append("question", perfil.question);
+        form.append("id_estacion", perfil.id_estacion);
+        form.append("estado", perfil.estado == true ? 'activa' : 'inactiva');
 
-        const res = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/trabajador', {
+        const res = await requestAuthenticated('https://craaxkvm.epsevg.upc.es:23600/api/trabajador', 'multipart/form-data', {
           "method": "POST",
-          body: form,
-          "headers": {
-            "accept": "application/json"
-          }
+          body: form
         });
 
         const json = await res.json();
-        if (res.status === 200) {
+        if (res.status === 200 && json != null) {
           props.triggerReload();
           setPerfil({
-            token: '',
-            username: '',
+            id_estacion: '',
+            estado: false,
+            question: '',
             nombre: '',
-            pfp: 'https://editor.swagger.io/',
-            apellido: '',
             telefono: '',
+            username: '',
+            password: '',
             email: '',
-            dni: '',
-            passw: 'admin',
-            cargo: 'Trabajador',
-            question: 'Como?',
-            estacion: 'VGA1',
-            estado: true,
+            cargo: '',
+            apellido: '',
+            dni: ''
           })
           setOpened(false);
         }
@@ -214,8 +204,8 @@ const AddTrabajador = (props: any) => {
                         placeholder="1234Queso"
                         icon={<LockAccess size={14} />} 
                         variant="default"
-                        value={perfil.passw}
-                        onChange={(event) => setPerfil({...perfil, passw: event.currentTarget.value})}
+                        value={perfil.password}
+                        onChange={(event) => setPerfil({...perfil, password: event.currentTarget.value})}
                     />
                 </Group>
                 <Group mt="sl" spacing="xl" grow> 
@@ -242,4 +232,3 @@ const AddTrabajador = (props: any) => {
 }
 
 export default AddTrabajador;
-

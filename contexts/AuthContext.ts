@@ -5,27 +5,31 @@ export interface IAuth {
   user: PerfilData;
   login: (username: string, password: string) => any,
   logout: () => void,
-  requestAuthenticated: (url: string, options?: any) => any,
+  requestAuthenticated: (url: string, contentType?:string,  options?: any) => any,
   fetchUserInfo: () => void
 }
 
 export const AuthContext = createContext<IAuth>({
   user: {
-    token: "",
-    username: "",
-    pfp: "",
-    nombre: "",
     apellido: "",
-    telefono: "",
-    email: "",
+    cargo: "trabajador",
     dni: "",
-    cargo: "Trabajador",
-    question: 'Como?',
-    estacion: 'VG1',
-    estado: true,
+    email: "",
+    estado: "",
+    foto: "",
+    id_estacion: 0,
+    id_trabajador: 0,
+    id_usuari: 0,
+    nombre: "",
+    question: "",
+    telefono: "",
+    token: "",
+    type: "",
+    ultimo_acceso: new Date(),
+    username: ""
   },
   login: (username: string, password: string) => {},
   logout: () => {},
-  requestAuthenticated: (url: string, options?: any) => {},
+  requestAuthenticated: (url: string, contentType?:string, options?: any) => {},
   fetchUserInfo: () => {}
 });

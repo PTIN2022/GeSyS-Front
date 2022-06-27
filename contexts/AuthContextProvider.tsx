@@ -4,18 +4,22 @@ import { useRouter } from 'next/router';
 import { PerfilData } from '../pages/admin/perfil';
 
 const PerfilVacio: PerfilData = {
-  token: "",
-  username: "",
-  pfp: "",
-  nombre: "",
-  apellido: "",
-  telefono: "",
-  email: "",
-  dni: "",
-  cargo: 'Trabajador',
-  question: "",
-  estacion: "",
-  estado: false,
+	apellido: "",
+	cargo: "trabajador",
+	dni: "",
+	email: "",
+	estado: "",
+	foto: "",
+	id_estacion: 0,
+	id_trabajador: 0,
+	id_usuari: 0,
+	nombre: "",
+	question: "",
+	telefono: "",
+	token: "",
+	type: "",
+	ultimo_acceso: new Date(),
+	username: ""
 }
 
 // Given a cookie key `name`, returns the value of
@@ -60,9 +64,16 @@ export const AuthContextProvider = ({ children }: any) => {
         }
       });
       const data = await res.json()
-      document.cookie = `token=${data.token};`
-      setUser(data)
-      route.push('/admin')
+
+      if (res.status == 200 && data.token != undefined) {
+        document.cookie = `token=${data.token};`
+        setUser(data)
+        route.push('/admin')
+      }
+      else {
+        alert('Error')
+        console.log(data)
+      }
     } catch (err) {
       alert(err)
     }
@@ -76,7 +87,7 @@ export const AuthContextProvider = ({ children }: any) => {
   }
 
   const fetchUserInfo = async () => {
-    const response = await requestAuthenticated('http://craaxkvm.epsevg.upc.es:23601/api/token')
+    const response = await requestAuthenticated('http://craaxkvm.epsevg.upc.es:23601/api/token', "")
 
     if (!response) {
       return;
@@ -96,7 +107,7 @@ export const AuthContextProvider = ({ children }: any) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const requestAuthenticated = async (url: string, options?: any) => {
+  const requestAuthenticated = async (url: string, contentType?:string, options?: any) => {
 
     let token = getCookie('token')
 
@@ -108,14 +119,18 @@ export const AuthContextProvider = ({ children }: any) => {
     try {
       const response = fetch(url, {
         headers: {
-          'x-access-tokens': token
+          'x-access-tokens': token,
+          'Content-Type': contentType == undefined ? "" : contentType
         },
         ...options
       })
+
+      console.log(response)
   
       return response;
     }
     catch (error) {
+      logout()
       alert(error)
       console.log(error)
     }
