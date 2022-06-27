@@ -164,8 +164,8 @@ const [elementsD, setElements]  = useState<ReservaRowProps[] >(elements);
         //Dir: data[i].direccion,
         date: new Date (data[i].fecha_entrada), 
         date_fin: new Date (data[i].fecha_salida), 
-        kwh: data[i].precio_carga_actual,
-        money: data[i].tarifa,
+        kwh: data[i].tarifa, // data[i].precio_carga_actual,
+        money: data[i].precio_carga_completa, //data[i].tarifa,
         asistida: data[i].asistida,
         //estado: data[i].estado,
         estado_pago: data[i].estado_pago,
@@ -193,7 +193,10 @@ useEffect(() => {
     }
     setElements(tmp);
   }
-  
+  const actualitzareservas = (rList:ReservaRowProps[])=>{
+    console.log("rlist:", rList)
+    setElements(rList)
+  }
 
 ///////////////////DINAMICAMENTE////////////////////////
 
@@ -201,6 +204,7 @@ useEffect(() => {
   //{filtre == "Cliente" && {setData(elements.map((item:any) => ({ ...item, value: item.estacion })) }}
     return (
       <>
+      {console.log("LENGTH:", elementsD.length)}
       <Head>
         <title>GeSyS - Reservas</title>
       </Head> 
@@ -212,7 +216,7 @@ useEffect(() => {
       ) : 
       (
         <>
-        <AddReserva reservaList={elements} refreshList={setElements} />
+        <AddReserva reservaList={elementsD} refreshList={actualitzareservas} />
       
       <Grid gutter="xl">
         <Grid.Col span={3}>
@@ -318,13 +322,13 @@ useEffect(() => {
             <th>nºPlaza</th>
             <th>Fecha</th>
             <th>Fecha Fin</th>
-            <th>KwH</th>
+            <th>Tarifa</th>
             <th>Coste[€]</th>        
           </tr>       
         </thead>
         <tbody>
               
-        {filtre == "" && elementsD && elementsD.map(reserva => {
+        {filtre == "" && elementsD.length>0 && elementsD.map(reserva => {
           return <ReservaRow key={reserva.id} reserva={reserva} deleteElement={handleDeleteClick} />
         })}
         {/*(profile.cargo == "Administrador" || profile.cargo=="Jefe") && filtre =="Ciudad" && elementsD && elementsD.filter(element => element.city.includes(value)).map((elementFiltrat, index )=> {

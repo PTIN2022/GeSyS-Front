@@ -45,8 +45,8 @@ const RerservaRow = (props: any) => {
             <td>{reserva.reservante}</td>
             <td>{reserva.matricula}</td>
             <td>{reserva.nPlaza}</td>
-            <td>{reserva.date!.toDateString()}</td>
-            <td>{reserva.date_fin!.toDateString()}</td>
+            <td>{reserva.date!.toLocaleDateString() +" "+ reserva.date?.getHours()+':'+reserva.date?.getMinutes() }</td>
+            <td>{reserva.date_fin!.toLocaleDateString() +" "+ reserva.date_fin?.getHours()+':'+reserva.date_fin?.getMinutes()}</td>
             <td>{reserva.kwh}</td>
             <td>{reserva.money}</td>  
             <td> 

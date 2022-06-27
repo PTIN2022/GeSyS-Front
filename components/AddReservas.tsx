@@ -1,12 +1,13 @@
 import { TextInput, Group, Box, Button, Modal, Space, Autocomplete,NumberInput } from '@mantine/core';
 import { Calendar, Car, Clock, User, ChargingPile } from 'tabler-icons-react';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { DatePicker, TimeInput } from '@mantine/dates';
 import { ReservaData } from '../pages/admin/reservas/[reserva]';
 import 'dayjs/locale/es'
 import { useForm } from '@mantine/form';
 import { AuthContext } from '../contexts/AuthContext';
 import { ReservaRowProps } from '../pages/admin/reservas';
+import { EstacionRowProps } from '../pages/admin/estaciones';
 
 export interface ReservaDatos {
   id_estacion: string;
@@ -59,7 +60,45 @@ interface addReservaData{
 
 const AddReserva = (props:any) => {
   const { requestAuthenticated } = useContext(AuthContext)
+  console.log("props",props.reservaList)
+  /*********************************
+   * OBTENEMOS INFO DE LAS ESTACIONES 
+   **********************************/
+  const empty:EstacionRowProps[] = []
+  const [estList,setEstaciones] = useState<EstacionRowProps[]>(empty)
+   useEffect(() => {
+    const fetchEstacion = async () => {
+      const result = await requestAuthenticated ('https://craaxkvm.epsevg.upc.es:23600/api/estaciones')
+      const data = await result.json();  
 
+      const est = []
+
+      for(let i=0; i<data.length; i++) {
+        const r=Math.floor(Math.random() * 3);
+        console.log(data[i])
+        let est1:EstacionRowProps = {
+          id : data[i].id_estacion,
+          Est: data[i].nombre_est,
+          Dir: data[i].direccion,
+          Kwh: data[i].potencia_usada+"/"+data[i].potencia_contratada,
+          Oc: data[i].ocupation_actual+"/32",
+          m2: Math.floor(Math.random()*(151) + 100),    //data[i].surface_in_meters,
+          enc: data[i].telefono,
+          state: data[i].estado,
+        }
+        if (est1.state != "Inactiva"){
+          est.push(est1)
+        }
+        
+      }
+      {est.length>0 && setEstaciones(est)};
+    }
+    fetchEstacion();
+  }, [])
+
+  /*********************************
+   * EMPEZAMOS CON LAS RESERVAS 
+   **********************************/
   const [opened, setOpened] = useState(false);
   const [reserve, setReserve] = useState<ReservaData>({
       desde: null,
@@ -113,20 +152,21 @@ const AddReserva = (props:any) => {
       });
       */
       function handleSaveClick(){
-
+        const timediff = reserve.hasta!.getHours() - reserve.desde!.getHours() + (Math.abs(reserve.hasta!.getMinutes() - reserve.desde!.getMinutes())*100/60)
+        const tarifa = form.getInputProps('coste').value
         const jeison = {
-          id_estacion:  3, //reserve.estacion,
+          id_estacion:  form.getInputProps('estacion').value.toString(), //reserve.estacion,
           fecha_inicio: formatDate(form.getInputProps('fecha').value) + reserve.desde?.getHours()+':'+ reserve.desde?.getMinutes() ,  //"18-04-2022 12:00", //formatDate(reserve.desde!),
           fecha_final: formatDate(form.getInputProps('fecha').value) + reserve.hasta?.getHours()+':'+ reserve.hasta?.getMinutes(),    //"18-04-2022 13:00", //formatDate(reserve.hasta!),
-          id_vehiculo: form.getInputProps('matricula').value, //"8800Y8Y",    XX7XXA7   8800Y8Y
-          id_cliente: form.getInputProps('DNI').value ,       //"85838102M"  86045186M  53310210Y
-          tarifa: form.getInputProps('coste').value, // 12.7,
+          id_vehiculo: form.getInputProps('matricula').value, //JU761J1--8800Y8Y",    XX7XXA7   8800Y8Y
+          id_cliente: form.getInputProps('DNI').value ,       //58774810J--87698202V "85838102M"  86045186M  53310210Y
+          tarifa: tarifa, // 12.7,
           asistida: true, // true,
           porcentaje_carga: 0, // 30,
-          precio_carga_completo: 17 , // 30,
-          precio_carga_actual: (Math.random()*(80)+20), // 5,
+          precio_carga_completo: (tarifa * 0.21 + timediff* tarifa + tarifa*0.3).toFixed(2) , // 30,
+          precio_carga_actual: 0, // 5,
           estado_pago: true,
-          id_cargador: form.getInputProps('nPlaza').value      
+          //id_cargador: form.getInputProps('nPlaza').value      
         }
         try {
           const fetchData = async () => {
@@ -155,10 +195,10 @@ const AddReserva = (props:any) => {
                   carga_completa: result.precio_carga_completa ,
                   perc_carga: result.procetnaje_carga, 
                 }
-      
+              const allreservas= props.reservaList
+              allreservas.push(res)
               props.refreshList({
-                ...props.reservaList,
-                res
+                allreservas
               })
               // location=location
             }
@@ -184,12 +224,12 @@ return (
 
                 <Autocomplete 
                     label="Estacion"
-                    placeholder="VGA1"
+                    placeholder="Estacion_id"
                     {...form.getInputProps('estacion')}
                     //value={reserve.estacion}
                     //onChange={(event) => setReserve({...reserve, estacion: event})}
                     icon={<ChargingPile />} 
-                    data={['VGA1' , 'VGA2']} 
+                    data={estList.map((item) => {return item["id"].toString()})}
 
                 />        
                 <Group mt="md">
@@ -250,7 +290,7 @@ return (
 
                 <Group mt="sl" spacing="xl" grow>
                 <NumberInput size="md"
-                    label="Precio"
+                    label="Tarifa"
                     variant="default"
                     decimalSeparator=","
                     precision={2}
@@ -258,7 +298,7 @@ return (
                     //value={reserve.matricula}
                     //onChange={(event) => setReserve({...reserve, matricula: event.target.value})}
                 />
-                <NumberInput size="md"
+                {/* <NumberInput size="md"
                     label="nªPlaza"
                     variant="default"
                     placeholder='nª Plaza 20'
@@ -267,7 +307,7 @@ return (
                     {...form.getInputProps('nPlaza')}
                     //value={reserve.matricula}
                     //onChange={(event) => setReserve({...reserve, matricula: event.target.value})}
-                />
+                /> */}
                 </Group>
                
                     <br></br>
