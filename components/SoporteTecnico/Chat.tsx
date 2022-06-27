@@ -34,6 +34,7 @@ const Chat = (props: { ticket_id: string }) => {
     await fetchDatos();
     fetchInterval.start();
     scrollToBottomInstant();
+    return fetchInterval.stop;
   }
 
   useEffect(() => {
