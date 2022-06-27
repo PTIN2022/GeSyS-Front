@@ -1,9 +1,10 @@
 import { Table, Space, Title, Text } from '@mantine/core';
 import { NextPage } from 'next';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import AddPromocion from '../../../components/AddPromocion';
 import PromoRow from '../../../components/PromoRow';
+import { AuthContext } from '../../../contexts/AuthContext';
 
 export interface PromoData {
   id_promo: number;
@@ -19,13 +20,11 @@ export interface PromoData {
 const ListaPromociones: NextPage =() => {
 
   const [promos, setPromos] = useState<PromoData[]>([]);
-
-  const fetchDatos = () => {
-    fetch('https://craaxkvm.epsevg.upc.es:23600/api/promociones')
-      .then(res => res.json())
-      .then(data => {
-        setPromos(data);
-      });
+  const { requestAuthenticated } = useContext(AuthContext)
+  const fetchDatos = async () => {
+    const response = await requestAuthenticated('https://craaxkvm.epsevg.upc.es:23600/api/promociones')
+      const datos = await response.json()
+        setPromos(datos);
   }
 
   useEffect(() => {

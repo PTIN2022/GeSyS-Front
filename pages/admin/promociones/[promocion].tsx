@@ -1,5 +1,5 @@
 import { Autocomplete, Button, MultiSelect, Textarea } from '@mantine/core';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { TextInput } from '@mantine/core';
 import { Grid } from '@mantine/core';
 import { DatePicker, TimeInput } from '@mantine/dates';
@@ -7,6 +7,7 @@ import { DatePicker, TimeInput } from '@mantine/dates';
 import { Container } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { PromoData } from '.';
+import { AuthContext } from '../../../contexts/AuthContext';
 
 // const data = [
 //   {value: 'VG1', label:'VG1'},
@@ -18,7 +19,7 @@ import { PromoData } from '.';
 const Promocion = () => {
 
   const router = useRouter();
-
+  const { requestAuthenticated } = useContext(AuthContext)
   const [promocionObj, setPromocion] = useState<PromoData | null>(null)
   const [estadoPagina, setEstadoPagina] = useState<string>('Cargando...');
 
@@ -72,7 +73,7 @@ const Promocion = () => {
 
   useEffect(() => {
     const fetchDatos = async (promocionId: string) => {
-      const res = await fetch(`https://craaxkvm.epsevg.upc.es:23600/api/promociones/${promocionId}`);
+      const res = await requestAuthenticated(`https://craaxkvm.epsevg.upc.es:23600/api/promociones/${promocionId}`);
       const data = await res.json();
       if (res.status === 200) {
         console.log(data)
@@ -107,29 +108,22 @@ const Promocion = () => {
     }
 }
 
-  const handleBorrarPromocion = () => {
-
+  const handleBorrarPromocion = async () => {
     const seguro = confirm('¿Estás seguro de que quieres borrar esta promoción?')
 
     if (!seguro) {
       return;
     }
 
-    fetch(`https://craaxkvm.epsevg.upc.es:23600/api/promociones/${promocionObj!.id_promo}`, {
+    const response = await requestAuthenticated (`https://craaxkvm.epsevg.upc.es:23600/api/promociones/${promocionObj!.id_promo}`,"", {
       "method": "DELETE",
-      "headers": {
-        "accept": "application/json"
-      }
     })
-    .then(response => {
-      if (response.ok) {
+    if (response.status == 200) {
         router.push('/admin/promociones')
       }
-    })
-    .catch(err => {
-      alert('Error al borrar la promoción')
-    });
-
+      else {
+        alert('Error al borrar promocion')
+      }
   }
 
     return(
