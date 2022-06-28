@@ -55,12 +55,13 @@ const AveriaRow = (props: any) => {
             })
           }
           fetchData()
-          console.log(jeison)
     }
+    const fecha_aux = new Date(averia.Date!);
+    const fecha = new Intl.DateTimeFormat('en-GB', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(fecha_aux);
     return (        
         <tr>
             <td>{averia.Est}</td>
-            <td>{averia.Date}</td>
+            <td>{fecha}</td>
             <td>{Estado}</td>
             <td>{averia.Desc}</td>
             {<td>
@@ -72,8 +73,13 @@ const AveriaRow = (props: any) => {
                 </Center>
                 }>
                 <Link href={`http://localhost:3000/admin/averias/byname/${averia.Est}`}  passHref={true}>
+                  <Menu.Item>Averias Estacion</Menu.Item>
+                </Link>
+
+                <Link href={`http://localhost:3000/admin/averias/byname2/${averia.id_averia}`}  passHref={true}>
                   <Menu.Item>Ver más</Menu.Item>
                 </Link>
+
                 <Menu.Item
                     onClick={() => hadleChangeEstado("No resuelto")}
                 >
