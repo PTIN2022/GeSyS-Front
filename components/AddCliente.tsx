@@ -125,7 +125,8 @@ const handleSaveClick = () => {
     // console.log("formUser:", form.get('username'))
     // console.log("formPasswd:", form.get('password'))
     // console.log("clientName:",cliente.nombre)
-    fetchData();   
+    fetchData();
+    location=location   
    }catch(err){alert ("Unaible to add:" + err)   }
      
 }
