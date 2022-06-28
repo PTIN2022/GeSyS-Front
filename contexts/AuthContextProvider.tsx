@@ -137,12 +137,72 @@ export const AuthContextProvider = ({ children }: any) => {
 
   }
 
+  const requestAuthenticatedForm = async (url: string,method: string, form:any) => {
+    let token = getCookie('token')
+
+    if (!token) {
+      setUser(PerfilVacio)
+      return;
+    }
+
+    try {
+      // const response = fetch(url, {
+      //   headers: {
+      //     'x-access-tokens': token,
+      //     'Content-Type': contentType == undefined ? "" : contentType
+      //   },
+      //   ...options
+      // })
+      const request = new XMLHttpRequest();
+      //request.withCredentials = true;
+      request.addEventListener("readystatechange", function () {
+        if (this.readyState === this.DONE) {
+          console.log(this.responseText);
+        }
+      });
+      request.open(method, url);
+      request.setRequestHeader('x-access-tokens', token);
+      request.setRequestHeader("accept", "application/json");
+      
+      request.send(form);
+      return request
+      //const xhr = new XMLHttpRequest();
+//xhr.withCredentials = true;
+
+// xhr.addEventListener("readystatechange", function () {
+//   if (this.readyState === this.DONE) {
+//     console.log(this.responseText);
+//   }
+// });
+
+// xhr.open("POST", "http://craaxkvm.epsevg.upc.es:23601/api/clientes");
+// xhr.setRequestHeader("accept", "application/json");
+// xhr.setRequestHeader("x-access-tokens", token);
+
+// xhr.send(form);
+//       return xhr;
+      // return (request.onload = function() {
+      //     if (request.status != 200) { // analyze HTTP status of the response
+      //       alert(`Error ${request.status}: ${request.statusText}`); // e.g. 404: Not Found
+      //     };
+      //   })
+       
+    }
+    catch (error) {
+      alert(error)
+      console.log(error)
+    }
+
+  }
+
   return (
     <AuthContext.Provider value={{
       user,
       login,
       logout,
       requestAuthenticated,
+      requestAuthenticatedForm,
+      
       fetchUserInfo
     }}>
       {children}

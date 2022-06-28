@@ -1,21 +1,46 @@
 import { Autocomplete, Box, Button, Modal, NumberInput, Space, TextInput } from '@mantine/core';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
+import { ClientesData } from '../pages/admin/clientes';
 
 const EditClient = (props:any) => {
     const [opened, setOpened] = useState(false);
+    const { requestAuthenticated } = useContext(AuthContext)
+    const { requestAuthenticatedForm } = useContext(AuthContext)
 
     // const state=(est.state.toString())  
     console.log("CLiente:",props)
     // console.log(state)
-    const  [cliente,setCliente]= useState(props.cliente)
+    const  [cliente,setCliente]= useState<ClientesData>(props.cliente)
+    useEffect(()=>{
+        setCliente(props.cliente)
+    },[props])
     const ConnectoApi = () => {
         console.log("Viva el A2")
         /***********************************
-         * AQUI IRIA LA CONEXIÓN CON LA API
-         * 
-         * 
-         * 
+         * AQUI VA LA CONEXIÓN CON LA API 
          **********************************/
+         const form = new FormData()
+         form.append('dni',cliente.dni);
+         form.append("name", cliente.nombre);
+         form.append("lastname", cliente.apellido);
+         form.append('email', cliente.email);
+         form.append('picture', 'None'); //'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.mOuT5J0qeP_FHAidCHCvtwHaEK%26pid%3DApi&f=1',
+         form.append('telf',cliente.telefono.toString());
+         form.append('username',cliente.nombre +"."+ cliente.apellido);
+         form.append('password',cliente.nombre +"."+ cliente.apellido);
+        //  form.append('saldo',cliente.saldo.toString());
+        const fetchData = async () => {
+            const request = await requestAuthenticatedForm(`https://craaxkvm.epsevg.upc.es:23600/api/clientes/${cliente.id}`,"PUT",form)
+            request.onload = function() {
+              if (request.status != 200) { // analyze HTTP status of the response
+                alert(`Error ${request.status}: ${request.statusText}`); // e.g. 404: Not Found
+              }
+            }
+        }
+        fetchData()
+        console.log("finalobject", form.get('name'))
+        props.actualitza(cliente)
         CloseModal()
     }
     const CloseModal=()=>{
@@ -68,7 +93,7 @@ const EditClient = (props:any) => {
                     label="Telefono"
                     placeholder="123456789"
                     variant="default"
-                    value={parseInt(cliente.telefono) != -1 ? cliente.telefono : undefined}
+                    value={parseInt(cliente.telefono.toString()) != -1 ? parseInt(cliente.telefono.toString()) : undefined}
                     onChange={(event:number) => setCliente({...cliente, telefono: event})}
                 />
                 <br></br>

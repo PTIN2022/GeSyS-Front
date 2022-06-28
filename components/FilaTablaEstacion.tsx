@@ -7,7 +7,7 @@ import EditState from "./EditState"
 
 
 
-const FilaEstacion = ({ Dir, Est, Kwh, Oc, enc, m2 , id, state} : EstacionRowProps) => {
+const FilaEstacion = ({ Dir, Est, Kwh, Oc, enc, id, state} : EstacionRowProps) => {
 //const FilaEtacion = (props: any) => {
  // const est: EstacionRowProps = props.est;
   const [menuOpened,setMenu] = useState(false);
@@ -36,7 +36,7 @@ const FilaEstacion = ({ Dir, Est, Kwh, Oc, enc, m2 , id, state} : EstacionRowPro
       <td>{Dir}</td>
       <td>{Kwh}</td>
       <td>{Oc}</td>
-      <td>{m2}</td>
+      {/* <td>{m2}</td> */}
       <td>{enc}</td>
       <td>
        <Menu opened={menuOpened} control={
