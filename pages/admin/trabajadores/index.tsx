@@ -152,7 +152,6 @@ const ListaTrabajadores: NextPage = () => {
           <Autocomplete
             label="Filtrar por Rol:"
             placeholder="Escribe un rol para filtrar..."
-            //data={data}
             value={value} onChange={setValue} data={elements.map((item) => ({ ...item, value: item.cargo }))}      
             filter={(value, item) =>
               item.value.toLowerCase().includes(value.toLowerCase().trim())
@@ -175,18 +174,18 @@ const ListaTrabajadores: NextPage = () => {
               </tr>       
           </thead>
           <tbody>
-              {filtro == "Sin filtro" && elements && elements.map((element, index) => {
-                  return <TrabajadorRow key={index} trabajador={element}/>
-              })}  
-              {filtro == "Nombre" && elements && elements.filter(element => element.nombre.includes(value)).map((elementFiltrat, index) => {
-                  return <TrabajadorRow key={index} trabajador={elementFiltrat}/>
-              })}  
-              {filtro == "Rol" && elements && elements.filter(element => element.cargo.includes(value)).map((elementFiltrat, index) => {
-                  return <TrabajadorRow key={index} trabajador={elementFiltrat}/>
-              })} 
-              {filtro == "DNI" && elements && elements.filter(element => element.dni.includes(value)).map((elementFiltrat, index) => {
-                  return <TrabajadorRow key={index} trabajador={elementFiltrat}/>
-              })} 
+            {filtro == "Sin filtro" && elements && elements.map((element, index) => {
+                return <TrabajadorRow key={index} trabajador={element}/>
+            })}  
+            {filtro == "Nombre" && elements && elements.filter(element => element.nombre.includes(value)).map((elementFiltrat, index) => {
+                return <TrabajadorRow key={index} trabajador={elementFiltrat}/>
+            })}  
+            {filtro == "Rol" && elements && elements.filter(element => element.cargo.includes(value)).map((elementFiltrat, index) => {
+                return <TrabajadorRow key={index} trabajador={elementFiltrat}/>
+            })} 
+            {filtro == "DNI" && elements && elements.filter(element => element.dni.includes(value)).map((elementFiltrat, index) => {
+                return <TrabajadorRow key={index} trabajador={elementFiltrat}/>
+            })}               
           </tbody>
       </Table>
     </>
