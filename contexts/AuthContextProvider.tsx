@@ -123,12 +123,51 @@ export const AuthContextProvider = ({ children }: any) => {
 
   }
 
+  const requestAuthenticatedForm = async (url: string,method: string, form:any) => {
+    let token = getCookie('token')
+
+    if (!token) {
+      setUser(PerfilVacio)
+      return;
+    }
+
+    try {
+      // const response = fetch(url, {
+      //   headers: {
+      //     'x-access-tokens': token,
+      //     'Content-Type': contentType == undefined ? "" : contentType
+      //   },
+      //   ...options
+      // })
+      var request = new XMLHttpRequest();
+        request.open(method, url);
+        request.setRequestHeader('x-access-tokens', token);
+        request.setRequestHeader("Accept", "application/json");
+        request.setRequestHeader("Content-Type", "multipart/form-data");
+        request.send(form);
+        return request;
+      // return (request.onload = function() {
+      //     if (request.status != 200) { // analyze HTTP status of the response
+      //       alert(`Error ${request.status}: ${request.statusText}`); // e.g. 404: Not Found
+      //     };
+      //   })
+       
+    }
+    catch (error) {
+      alert(error)
+      console.log(error)
+    }
+
+  }
+
   return (
     <AuthContext.Provider value={{
       user,
       login,
       logout,
       requestAuthenticated,
+      requestAuthenticatedForm,
+      
       fetchUserInfo
     }}>
       {children}

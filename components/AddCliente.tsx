@@ -10,6 +10,7 @@ const AddCliente = (props: any) => {
   const {addCliente, clientList} = props
 
   const { requestAuthenticated } = useContext(AuthContext)
+  const { requestAuthenticatedForm } = useContext(AuthContext)
 
     const [opened, setOpened] = useState(false);
     const [cliente, setCliente] = useState<ClientesData>({
@@ -55,35 +56,49 @@ const handleSaveClick = () => {
     form.append("apellido", cliente.apellido);
     form.append('email', cliente.email);
     form.append('DNI',cliente.dni);
-    form.append('foto', 'None'); //'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.mOuT5J0qeP_FHAidCHCvtwHaEK%26pid%3DApi&f=1',
+    form.append('foto', 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.mOuT5J0qeP_FHAidCHCvtwHaEK%26pid%3DApi&f=1'),
     form.append('telefono',cliente.telefono.toString());
     form.append('username',cliente.nombre +"."+ cliente.apellido);
     form.append('password',cliente.nombre +"."+ cliente.apellido);
     //console.log(jeison)
     const fetchData = async () => {
-
-      const response = await requestAuthenticated("http://craaxkvm.epsevg.upc.es:23601/api/clientes","multipart/form-data", {
-        method: "POST",
-        body: form
-      }) as Response
-
-
-      if (response.status == 500) {
-        alert(`DNI introducido ya existe en otro cliente. Introduce otro DNI.`);
-      } else if (response.status != 200) {
-        alert(`Error ${response.status}: ${response.statusText}`);
-      } else {
-
-        const data = await response.json() as ClientesData
-
-        addCliente({
-          ...clientList,
-          data
-        })
+      const request = await requestAuthenticatedForm("https://craaxkvm.epsevg.upc.es:23600/api/clientes","POST",form)
+      request.onload = function() {
+        if (request.status != 200) { // analyze HTTP status of the response
+          alert(`Error ${request.status}: ${request.statusText}`); // e.g. 404: Not Found
+        }
       }
-     
+      // const response = await requestAuthenticated("https://craaxkvm.epsevg.upc.es:23600/api/clientes","multipart/form-data", {
+      //   method: "POST",
+      //   body: form
+      // }) as Response
+        
+
+      // if (response.status == 500) {
+      //   alert(`DNI introducido ya existe en otro cliente. Introduce otro DNI.`);
+      // } else 
+      // if (response.status != 200) {
+      //   alert(`Error ${response.status}: ${response.statusText}`);
+      // } else {
+
+      //   const data = await response.json() as ClientesData
+
+        // addCliente({
+        //   ...clientList,
+        //   data
+        // })
+     // }
+      
     }
-    
+    console.log("formName:", form.get('nombre'))
+    console.log("formApellido:", form.get('apellido'))
+    console.log("formEmail:", form.get('email'))
+    console.log("formDNI:", form.get('DNI'))
+    console.log("formFoto:", form.get('foto'))
+    console.log("formTel:", form.get('telefono'))
+    console.log("formUser:", form.get('username'))
+    console.log("formPasswd:", form.get('password'))
+    console.log("clientName:",cliente.nombre)
     fetchData();   
    }catch(err){alert ("Unaible to add:" + err)   }
      

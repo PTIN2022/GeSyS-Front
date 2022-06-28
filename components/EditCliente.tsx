@@ -19,18 +19,18 @@ const EditClient = (props:any) => {
         /***********************************
          * AQUI VA LA CONEXIÓN CON LA API 
          **********************************/
-         
+         const form = new FormData()
+         form.append('dni',cliente.dni);
+         form.append("name", cliente.nombre);
+         form.append("lastname", cliente.apellido);
+         form.append('email', cliente.email);
+         form.append('picture', ''); //'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.mOuT5J0qeP_FHAidCHCvtwHaEK%26pid%3DApi&f=1',
+         form.append('telf',cliente.telefono.toString());
+         form.append('username',cliente.nombre +"."+ cliente.apellido);
+         form.append('password',cliente.nombre +"."+ cliente.apellido);
+         form.append('saldo',cliente.saldo.toString());
         const fetchData = async () => {
-            const form = new FormData()
-            form.append("name", cliente.nombre);
-            form.append("lastname", cliente.apellido);
-            form.append('email', cliente.email);
-            form.append('dni',cliente.dni);
-            form.append('foto', 'None'); //'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.mOuT5J0qeP_FHAidCHCvtwHaEK%26pid%3DApi&f=1',
-            form.append('telf',cliente.telefono.toString());
-            form.append('username',cliente.nombre +"."+ cliente.apellido);
-            form.append('password',cliente.nombre +"."+ cliente.apellido);
-            form.append('saldo',cliente.saldo.toString());
+            
             const response = await requestAuthenticated(`https://craaxkvm.epsevg.upc.es:23600/api/clientes/${cliente.id}`, "multipart/form-data", {
                 method: "PUT",
                 body: form  //JSON.stringify(cliente)          
@@ -38,7 +38,7 @@ const EditClient = (props:any) => {
             console.log("response:", response)
         }
         fetchData()
-        console.log("finalobject", cliente.nombre)
+        console.log("finalobject", form.get('name'))
         props.actualitza(cliente)
         CloseModal()
     }
