@@ -111,7 +111,7 @@ const AddReserva = (props:any) => {
       fecha: null,
       matricula: '',
       DNI: '',
-      estacion: '',
+      estacion: -1,
       coste:0,
       nPlaza:0,
   });
@@ -122,7 +122,7 @@ const AddReserva = (props:any) => {
             fecha:null,
             matricula: '',
             DNI: '',
-            estacion: '',
+            estacion: -1,
             coste: 0,
             //ciudad:'',
             nPlaza:0,

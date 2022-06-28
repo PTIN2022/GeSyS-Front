@@ -204,7 +204,6 @@ useEffect(() => {
   //{filtre == "Cliente" && {setData(elements.map((item:any) => ({ ...item, value: item.estacion })) }}
     return (
       <>
-      {console.log("LENGTH:", elementsD.length)}
       <Head>
         <title>GeSyS - Reservas</title>
       </Head> 
