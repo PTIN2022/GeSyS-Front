@@ -139,13 +139,34 @@ export const AuthContextProvider = ({ children }: any) => {
       //   },
       //   ...options
       // })
-      var request = new XMLHttpRequest();
-        request.open(method, url);
-        request.setRequestHeader('x-access-tokens', token);
-        request.setRequestHeader("Accept", "application/json");
-        request.setRequestHeader("Content-Type", "multipart/form-data");
-        request.send(form);
-        return request;
+      const request = new XMLHttpRequest();
+      //request.withCredentials = true;
+      request.addEventListener("readystatechange", function () {
+        if (this.readyState === this.DONE) {
+          console.log(this.responseText);
+        }
+      });
+      request.open(method, url);
+      request.setRequestHeader('x-access-tokens', token);
+      request.setRequestHeader("accept", "application/json");
+      
+      request.send(form);
+      return request
+      //const xhr = new XMLHttpRequest();
+//xhr.withCredentials = true;
+
+// xhr.addEventListener("readystatechange", function () {
+//   if (this.readyState === this.DONE) {
+//     console.log(this.responseText);
+//   }
+// });
+
+// xhr.open("POST", "http://craaxkvm.epsevg.upc.es:23601/api/clientes");
+// xhr.setRequestHeader("accept", "application/json");
+// xhr.setRequestHeader("x-access-tokens", token);
+
+// xhr.send(form);
+//       return xhr;
       // return (request.onload = function() {
       //     if (request.status != 200) { // analyze HTTP status of the response
       //       alert(`Error ${request.status}: ${request.statusText}`); // e.g. 404: Not Found

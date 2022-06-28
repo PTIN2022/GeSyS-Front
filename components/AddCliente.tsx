@@ -60,7 +60,16 @@ const handleSaveClick = () => {
     form.append('telefono',cliente.telefono.toString());
     form.append('username',cliente.nombre +"."+ cliente.apellido);
     form.append('password',cliente.nombre +"."+ cliente.apellido);
-    //console.log(jeison)
+//     const data = new FormData();
+// data.append("nombre", "c");
+// data.append("apellido", "jjjjj");
+// data.append("email", "jjjj@gmail.com");
+// data.append("DNI", "11112976Y");
+// data.append("foto", "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.mOuT5J0qeP_FHAidCHCvtwHaEK%26pid%3DApi&f=1%22");
+// data.append("telefono", "182424241");
+// data.append("username", "jjjjj.jjjjjj");
+// data.append("password", "jjjjj.jjjjjj");
+//     //console.log(jeison)
     const fetchData = async () => {
       const request = await requestAuthenticatedForm("https://craaxkvm.epsevg.upc.es:23600/api/clientes","POST",form)
       request.onload = function() {
@@ -68,6 +77,23 @@ const handleSaveClick = () => {
           alert(`Error ${request.status}: ${request.statusText}`); // e.g. 404: Not Found
         }
       }
+      // const xhr = new XMLHttpRequest();
+      // // xhr.withCredentials = true;
+      
+      // // xhr.addEventListener("readystatechange", function () {
+      // //   if (this.readyState === this.DONE) {
+      // //     console.log(this.responseText);
+      // //   }
+      // // });
+      
+      // xhr.open("POST", "https://craaxkvm.epsevg.upc.es:23600/api/clientes");
+      // xhr.setRequestHeader("accept", "application/json");
+      // xhr.setRequestHeader("x-access-tokens", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InR1Z21haWxAYWRhcyIsInJvbCI6ImFkbWluaXN0cmFkb3IiLCJleHAiOjE2NTY0MjQ1MDV9.IqRM7wliEBjXGKUSHRInCQQLGxz4NsAfKtcw3vKrcYg");
+      
+      // xhr.send(form);
+      
+
+
       // const response = await requestAuthenticated("https://craaxkvm.epsevg.upc.es:23600/api/clientes","multipart/form-data", {
       //   method: "POST",
       //   body: form
@@ -90,15 +116,15 @@ const handleSaveClick = () => {
      // }
       
     }
-    console.log("formName:", form.get('nombre'))
-    console.log("formApellido:", form.get('apellido'))
-    console.log("formEmail:", form.get('email'))
-    console.log("formDNI:", form.get('DNI'))
-    console.log("formFoto:", form.get('foto'))
-    console.log("formTel:", form.get('telefono'))
-    console.log("formUser:", form.get('username'))
-    console.log("formPasswd:", form.get('password'))
-    console.log("clientName:",cliente.nombre)
+    // console.log("formName:", form.get('nombre'))
+    // console.log("formApellido:", form.get('apellido'))
+    // console.log("formEmail:", form.get('email'))
+    // console.log("formDNI:", form.get('DNI'))
+    // console.log("formFoto:", form.get('foto'))
+    // console.log("formTel:", form.get('telefono'))
+    // console.log("formUser:", form.get('username'))
+    // console.log("formPasswd:", form.get('password'))
+    // console.log("clientName:",cliente.nombre)
     fetchData();   
    }catch(err){alert ("Unaible to add:" + err)   }
      
