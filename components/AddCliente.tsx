@@ -20,6 +20,7 @@ const AddCliente = (props: any) => {
         dni:'',
         telefono: -1,
         username: '',
+        saldo:0
     });
 const handleSaveClick = () => {
     const dniReg= /^[XYZ]?\d{5,8}[A-Z]$/;
@@ -61,7 +62,7 @@ const handleSaveClick = () => {
     //console.log(jeison)
     const fetchData = async () => {
 
-      const response = await requestAuthenticated("http://craaxkvm.epsevg.upc.es:23601/api/clientes","", {
+      const response = await requestAuthenticated("http://craaxkvm.epsevg.upc.es:23601/api/clientes","multipart/form-data", {
         method: "POST",
         body: form
       }) as Response

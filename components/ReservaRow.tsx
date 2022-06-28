@@ -3,11 +3,14 @@ import { DotsVertical, Trash } from 'tabler-icons-react';
 import Link from 'next/link';
 import { ReservaRowProps } from '../pages/admin/reservas';
 import { useRouter } from 'next/router';
+import { useContext } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
 
 // { id ,reservante ,matricula, estacion,nPlaza, date,duration, kwh, money } : ReservaRowProps, handleDeleteClick:any
 
 
 const RerservaRow = (props: any) => {
+  const { requestAuthenticated } = useContext(AuthContext)
 
     const reserva: ReservaRowProps = props.reserva;
     const borrarElemento: (idReserva: number) => {} = props.deleteElement;
@@ -19,22 +22,24 @@ const RerservaRow = (props: any) => {
       if (!seguro) {
         return;
       }
-      
-      fetch(`https://craaxkvm.epsevg.upc.es:23600/api/reservas/${reserva.id}`, {
-        "method": "DELETE",
-        "headers": {
-          "accept": "application/json"
+      const DeleteData = async() =>{
+        const response = await requestAuthenticated(`https://craaxkvm.epsevg.upc.es:23600/api/reservas/${reserva.id}`,"", {
+          "method": "DELETE"        
+        })
+        if (response.status == 200){
+          location=location
         }
-      })
-      .then(response => {
-        if (response.ok) {
-          router.push('/admin/reservas') 
-          window.location.reload();
-        }
-      })
-      .catch(err => {
-        alert('Error al borrar la reserva')
-      });
+      }
+      DeleteData()
+      // .then(response => {
+      //   if (response.ok) {
+      //     router.push('/admin/reservas') 
+      //     window.location.reload();
+      //   }
+      // })
+      // .catch(err => {
+      //   alert('Error al borrar la reserva')
+      // });
   
     }
 

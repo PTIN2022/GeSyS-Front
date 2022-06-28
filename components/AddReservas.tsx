@@ -61,15 +61,20 @@ interface addReservaData{
 const AddReserva = (props:any) => {
   const { requestAuthenticated } = useContext(AuthContext)
   console.log("props",props.reservaList)
+  const [reservas_props,setReservas] = useState<ReservaRowProps[]>(props.reservaList)
+  useEffect(()=>{
+    setReservas(props.reservaList)
+  },[props])
   /*********************************
    * OBTENEMOS INFO DE LAS ESTACIONES 
    **********************************/
+  
   const empty:EstacionRowProps[] = []
   const [estList,setEstaciones] = useState<EstacionRowProps[]>(empty)
    useEffect(() => {
     const fetchEstacion = async () => {
       const result = await requestAuthenticated ('https://craaxkvm.epsevg.upc.es:23600/api/estaciones')
-      const data = await result.json();  
+      const data = await result.json();
 
       const est = []
 
@@ -82,7 +87,7 @@ const AddReserva = (props:any) => {
           Dir: data[i].direccion,
           Kwh: data[i].potencia_usada+"/"+data[i].potencia_contratada,
           Oc: data[i].ocupation_actual+"/32",
-          m2: Math.floor(Math.random()*(151) + 100),    //data[i].surface_in_meters,
+         // m2: Math.floor(Math.random()*(151) + 100),    //data[i].surface_in_meters,
           enc: data[i].telefono,
           state: data[i].estado,
         }
@@ -158,8 +163,8 @@ const AddReserva = (props:any) => {
           id_estacion:  form.getInputProps('estacion').value.toString(), //reserve.estacion,
           fecha_inicio: formatDate(form.getInputProps('fecha').value) + reserve.desde?.getHours()+':'+ reserve.desde?.getMinutes() ,  //"18-04-2022 12:00", //formatDate(reserve.desde!),
           fecha_final: formatDate(form.getInputProps('fecha').value) + reserve.hasta?.getHours()+':'+ reserve.hasta?.getMinutes(),    //"18-04-2022 13:00", //formatDate(reserve.hasta!),
-          id_vehiculo: form.getInputProps('matricula').value, //JU761J1--8800Y8Y",    XX7XXA7   8800Y8Y
-          id_cliente: form.getInputProps('DNI').value ,       //58774810J--87698202V "85838102M"  86045186M  53310210Y
+          id_vehiculo: form.getInputProps('matricula').value, //8K2JK21--JU761J1--8800Y8Y",    XX7XXA7   8800Y8Y
+          id_cliente: form.getInputProps('DNI').value ,       //12757257E--58774810J--87698202V "85838102M"  86045186M  53310210Y
           tarifa: tarifa, // 12.7,
           asistida: true, // true,
           porcentaje_carga: 0, // 30,
@@ -195,17 +200,42 @@ const AddReserva = (props:any) => {
                   carga_completa: result.precio_carga_completa ,
                   perc_carga: result.procetnaje_carga, 
                 }
-              const allreservas= props.reservaList
+              const allreservas:ReservaRowProps[]  = []
+              for(let i=0; i<props.reservaList.length; i++) {
+                let est1:ReservaRowProps = {
+                  id: reservas_props[i].id,
+                  reservante: reservas_props[i].reservante,
+                  matricula: reservas_props[i].matricula,
+                  estacion: reservas_props[i].estacion,
+                  //city:"Vilanova",
+                  nPlaza: reservas_props[i].nPlaza,
+                  //duration: 2,
+                  //date: data[i].fecha_entrada.toString().split("T",2)[1],
+                  //Dir: data[i].direccion,
+                  date:  (reservas_props[i].date), 
+                  date_fin:  (reservas_props[i].date_fin), 
+                  kwh: reservas_props[i].kwh, // data[i].precio_carga_actual,
+                  money: reservas_props[i].money, //data[i].tarifa,
+                  asistida: reservas_props[i].asistida,
+                  //estado: data[i].estado,
+                  estado_pago: reservas_props[i].estado_pago,
+                  carga_completa: reservas_props[i].carga_completa ,
+                  perc_carga: reservas_props[i].perc_carga, 
+                }
+                console.log(i,":",est1)
+                allreservas.push(est1)
+              }              
               allreservas.push(res)
-              props.refreshList({
-                allreservas
-              })
+              //props.refreshList({...allreservas,res})
+              props.refreshList(allreservas)
               // location=location
+
             }
            
           }
           console.log("HOLA:",JSON.stringify(jeison))       
-          fetchData();   
+          fetchData();  
+          setOpened(false) 
         }       
        catch(err){alert ("Unaible to add:" + err)   }
       }

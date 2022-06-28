@@ -25,7 +25,7 @@ export interface ReservaRowProps{
   carga_completa: number,
   perc_carga: number, 
   //city: string;
-  estacion: string; //id_estacion
+  estacion: number; //id_estacion
   //fecha_entrada
   
 }

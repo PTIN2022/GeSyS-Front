@@ -11,7 +11,6 @@ export interface EstacionRowProps {
   Dir: string;
   Kwh: string; 
   Oc : string; 
-  m2: number; 
   enc: string;
   state: string;
 }
@@ -39,7 +38,7 @@ const ListaEstaciones: NextPage =() => {
           Dir: data[i].direccion,
           Kwh: data[i].potencia_usada+"/"+data[i].potencia_contratada,
           Oc: data[i].ocupation_actual+"/32",
-          m2: Math.floor(Math.random()*(151) + 100),    //data[i].surface_in_meters,
+          //m2: Math.floor(Math.random()*(151) + 100),    //data[i].surface_in_meters,
           enc: data[i].telefono,
           state: data[i].estado,
         }
@@ -62,7 +61,7 @@ const ListaEstaciones: NextPage =() => {
             <th>Dirección</th>
             <th>Kwh</th>
             <th>Ocupación</th>
-            <th>Superficie m²</th>
+            {/* <th>Superficie m²</th> */}
             <th>Encargado</th>
           </tr>
         </thead>
