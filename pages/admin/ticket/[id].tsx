@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import Chat from "../../../components/SoporteTecnico/Chat";
 import { AuthContext } from "../../../contexts/AuthContext";
+import { estadosTicket } from "../soporte_tecnico";
 
-const estadosTicket = ['Resuelto', 'No resuelto', 'En curso', 'Pendiente']
 
 export interface MensajeTicket {
   contenido: string;
