@@ -76,8 +76,15 @@ const Promocion = () => {
       const res = await requestAuthenticated(`https://craaxkvm.epsevg.upc.es:23600/api/promociones/${promocionId}`);
       const data = await res.json();
       if (res.status === 200) {
-        console.log(data)
+        const auxFini = new Date(data.fecha_inicio);
+        const auxFfin = new Date(data.fecha_fin);
+        const fechaini = new Intl.DateTimeFormat('en-GB', {year: 'numeric', month: '2-digit',day: '2-digit'}).format(auxFini);
+        const fechafin = new Intl.DateTimeFormat('en-GB', {year: 'numeric', month: '2-digit',day: '2-digit'}).format(auxFfin);
+
+        data.fecha_inicio = data.fecha_inicio.toString().split("T",2)[0],
+        data.fecha_fin = fechafin
         setPromocion(data);
+        console.log(data)
       }
       else {
         setEstadoPagina("No existe una promocion con este id")
@@ -125,7 +132,7 @@ const Promocion = () => {
         alert('Error al borrar promocion')
       }
   }
-
+  
     return(
       <>
       { promocionObj != null ? (
@@ -192,7 +199,6 @@ const Promocion = () => {
                 label="Fecha Fin:"
               />
             </Grid.Col>
-
           </Grid>
 
           <br></br>
