@@ -34,9 +34,9 @@ const GetIconFromStationStatus = (status: string) => {
   switch (status) {
     case "Activa":
       return IconFuncionando;
-    case "Inactiva":
-      return IconDesactivado;
     case "Dañada":
+      return IconDesactivado;
+    case "Inactiva":
       return IconAveria;
     default:
       return IconAveria;
