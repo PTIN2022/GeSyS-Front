@@ -1,4 +1,4 @@
-import { Table, Space, Title, Text, Button } from '@mantine/core';
+import { Table, Space, Title, Text, Button, Grid, Group } from '@mantine/core';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import router from 'next/router';
@@ -31,14 +31,12 @@ const ListaPromociones: NextPage =() => {
   const fetchDatos = async () => {
     
     setPromos([])
-
-    { activar ? setactivacio("activa") : setactivacio("inactiva") }
-    const response = await requestAuthenticated(`http://craaxkvm.epsevg.upc.es:23601/api/promociones/estado/${activacion}`)
+    const response = await requestAuthenticated(`https://craaxkvm.epsevg.upc.es:23600/api/promociones/estado/${activacion}`)
     const datos = await response.json() as PromoData[][]
     
     datos.map(async (element: PromoData[]) => {
       return element.map(async (promo: PromoData) => {
-        const result = await requestAuthenticated(`http://craaxkvm.epsevg.upc.es:23601/api/promociones/${promo.id_promo}/estacion`);
+        const result = await requestAuthenticated(`https://craaxkvm.epsevg.upc.es:23600/api/promociones/${promo.id_promo}/estacion/${activacion}`);
         const datos_promo_estacion = await result.json() as EstacionResponse;
         
         const tmp = datos_promo_estacion.Estacion.map((promo_estacion_id: number) => {
@@ -48,6 +46,7 @@ const ListaPromociones: NextPage =() => {
           } as PromoData
           setPromos(old => [...old, tmp2])
         })
+
       })
     })
   }
@@ -58,6 +57,7 @@ const ListaPromociones: NextPage =() => {
 
   const activa_promo =()=>{
     setactivar(!activar)
+    { activar ? setactivacio("activa") : setactivacio("inactiva") }
   }
     return (
       <>
@@ -65,12 +65,24 @@ const ListaPromociones: NextPage =() => {
           <title>GeSyS - Promociones</title>
         </Head> 
         <Title order={1}> <Text  inherit component="span">Promociones </Text></Title>
-        <Space  h={25}/>  
-        <AddPromocion triggerReload={fetchDatos} />
-        <Space  h={15}/>
-        <Button onClick={() => activa_promo()}>
-            { activar ? 'Mostrar Activas' : 'Mostrar Inactivas' }
-        </Button>
+        <Group>
+          <Grid>
+            <Grid.Col span={8}>
+                  <Text align="left" size="xl"> Mostradas:  </Text>
+                  { activar ? 
+                  <Text align="left" size="md"> Inactivas  </Text> 
+                  :
+                   <Text align="left" size="md"> Activas  </Text> 
+                  }
+            </Grid.Col>
+          </Grid>
+          <Space  h={25}/>  
+          <AddPromocion triggerReload={fetchDatos} />
+          <Space  h={15}/>
+          <Button onClick={() => activa_promo()}>
+              { activar ? 'Mostrar Activas' : 'Mostrar Inactivas' }
+          </Button>
+        </Group>
         <Table striped highlightOnHover>
           <thead>
             <tr>
@@ -83,7 +95,7 @@ const ListaPromociones: NextPage =() => {
           </thead>
           <tbody>
           {promos && promos.map((element, index) => {
-            return <PromoRow key={index} {...element}/>
+            return <PromoRow key={index} promo={element} triggerReload={fetchDatos}/>
           })}
           </tbody>
         </Table>
