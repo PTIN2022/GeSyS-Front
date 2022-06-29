@@ -45,11 +45,16 @@ const PromoRow = (props : any) => {
                     </ActionIcon>
                 </Center>
                 }>
-                <Menu.Item
+              { props.activa ? 
+              <Menu.Item
                   onClick={Activar_promo}
                  >
                 Activar
                 </Menu.Item> 
+                : 
+                null
+              }    
+                 
                 <Link href={`http://localhost:3000/admin/promociones/${id_promo}`} passHref={true}>
                   <Menu.Item>Editar</Menu.Item> 
                 </Link>
