@@ -63,7 +63,7 @@ const Edit_averia = (props:any) => {
             <Modal size="xl"
                 opened={opened}
                 onClose={CloseModal}
-                title="Introduzca los datos del Cliente"
+                title="Modifique los datos de la Incidencia"
             >
             {
             <Box>
