@@ -95,7 +95,7 @@ const ListaPromociones: NextPage =() => {
           </thead>
           <tbody>
           {promos && promos.map((element, index) => {
-            return <PromoRow key={index} promo={element} triggerReload={fetchDatos}/>
+            return <PromoRow key={index} promo={element} triggerReload={fetchDatos} activa={activar}/>
           })}
           </tbody>
         </Table>
