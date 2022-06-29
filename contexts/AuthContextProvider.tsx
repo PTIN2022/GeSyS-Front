@@ -90,20 +90,16 @@ export const AuthContextProvider = ({ children }: any) => {
     const response = await requestAuthenticated('https://craaxkvm.epsevg.upc.es:23600/api/token', "")
 
     if (!response) {
-      logout()
       return;
     }
 
     const data = await response.json() as PerfilData
-
-    console.log(data)
 
     if (response.status === 200 && data.token != undefined) {
       setUser(data)
     }
     else {
       setUser(PerfilVacio)
-      logout();
       return
     }
   }
@@ -130,15 +126,12 @@ export const AuthContextProvider = ({ children }: any) => {
         },
         ...options
       })
-
-      console.log(response)
   
       return response;
     }
     catch (error) {
       logout()
       alert(error)
-      console.log(error)
     }
 
   }
