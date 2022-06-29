@@ -4,6 +4,8 @@ import { AlertCircle, Phone, User, At, Id, IdBadge } from 'tabler-icons-react';
 import { NextPage } from 'next';
 import { AuthContext } from '../../contexts/AuthContext';
 import InfoPerfil from '../../components/InfoPerfil';
+import { Notification } from '@mantine/core';
+import { Check, X } from 'tabler-icons-react';
 //import Modificar_perfil from '../../components/Modificar_perfil';
 
 
@@ -69,12 +71,9 @@ const PerfilInfo: NextPage = () => {
             if (request.status != 200) { // analyze HTTP status of the response
               alert(`Error ${request.status}: ${request.statusText}`); // e.g. 404: Not Found
             }
-            else{
-              setOpened(false)
-              alert('Contraseña cambiada correctamente')
-            }
           }
         }
+        setOpened(false)
         fetchData()
       } 
     }
