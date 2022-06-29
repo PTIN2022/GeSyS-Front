@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react';
 import Incidencia_nueva from '../../../components/nueva_incidencia'
 import { useContext } from 'react';
 import { AuthContext } from '../../../contexts/AuthContext';
+import Edit_Averia from '../../../components/Edit_Averia';
+
 
 export interface AveriaRowProps {
   Est: string;
@@ -72,6 +74,7 @@ const ListaAverias: NextPage = () => {
             <th>Fecha</th>
             <th>Estado</th>
             <th>Descripción</th>
+            <th>Editar Incidencia</th>
             </tr>
         </thead>
         <tbody>    
