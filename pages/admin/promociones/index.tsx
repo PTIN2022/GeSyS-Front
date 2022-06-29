@@ -38,8 +38,12 @@ const ListaPromociones: NextPage =() => {
       return element.map(async (promo: PromoData) => {
         const result = await requestAuthenticated(`https://craaxkvm.epsevg.upc.es:23600/api/promociones/${promo.id_promo}/estacion/${activacion}`);
         const datos_promo_estacion = await result.json() as EstacionResponse;
+
+        if (datos_promo_estacion == undefined) {
+          return
+        }
         
-        const tmp = datos_promo_estacion.Estacion.map((promo_estacion_id: number) => {
+        datos_promo_estacion.Estacion.map((promo_estacion_id: number) => {
           const tmp2 = {
             ...promo,
             id_estacion: promo_estacion_id
