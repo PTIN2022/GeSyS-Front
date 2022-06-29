@@ -1,5 +1,5 @@
 import { Button, Modal, Select, Textarea } from '@mantine/core';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { TextInput } from '@mantine/core';
 import { Grid } from '@mantine/core';
 import 'dayjs/locale/es'
@@ -7,47 +7,31 @@ import { Container } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import { Calendar } from 'tabler-icons-react';
 import { PromoData } from '../pages/admin/promociones';
+import { AuthContext } from '../contexts/AuthContext';
 
-export interface SelectLabelValue {
-  value: string;
-  label: string;
+
+export interface newpromo {
+  id_estaciones: number,
+  descripcion: string,
+  descuento: number,
+  fecha_inicio: Date | null,
+  fecha_fin: Date | null,
 }
 
 const AddPromocion = (props: any) => {
-
+  const { requestAuthenticated } = useContext(AuthContext)
     const [opened, setOpened] = useState(false);
-    const [promo, setPromo] = useState<PromoData>({
-      id_promo: 0,
-      // id_estacion: 0,
+    const [promo, setPromo] = useState<newpromo>({
+      id_estaciones: 0,
       descuento: 0,
       fecha_inicio: null,
       fecha_fin: null,
-      estado: true,
       descripcion: '',
       // cupones_max: 0
     });
 
     const [estacionSelec, setEstacionSelec] = useState<string>('');
-    const [estaciones, setEstaciones] = useState<SelectLabelValue[]>([]);
-
-    // useEffect(() => {
-    //   const fetchDatos = () => {
-    //     fetch('http://craaxkvm.epsevg.upc.es:23601/api/estaciones')
-    //       .then(res => res.json())
-    //       .then(data => {
-    //         const est = []
-    //         for(let i=0; i<data.length; i++) {
-    //           const tmp: SelectLabelValue = {
-    //             value: data[i].id_estacion,
-    //             label: data[i].nombre_est
-    //           }
-    //           est.push(tmp)
-    //         }
-    //         setEstaciones(est);
-    //       });
-    //   }
-    //   fetchDatos();
-    // }, [])
+ 
 
     const handleChangeLimiteDescuento = (event: React.ChangeEvent<HTMLInputElement>) => {
         const re = /^[0-9\b]+$/;
@@ -66,10 +50,10 @@ const AddPromocion = (props: any) => {
 
     const handleSubmitNewPromo = async (event: React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
-      // if (estacionSelec === '') {
-      //   alert('Selecciona una estación');
-      //   return;
-      // }
+       if (estacionSelec === '') {
+         alert('Selecciona una estación');
+         return;
+       }
       if (promo.descuento === 0) {
         alert('Introduce un descuento');
         return;
@@ -87,13 +71,11 @@ const AddPromocion = (props: any) => {
         return;
       }
 
-      const data: PromoData = {
-        id_promo: promo.id_promo,
+      const data: newpromo = {
         descuento: promo.descuento,
-        // id_estacion: parseInt(estacionSelec),
+        id_estaciones: parseInt(estacionSelec),
         fecha_inicio: promo.fecha_inicio,
         fecha_fin: promo.fecha_fin,
-        estado: promo.estado,
         descripcion: promo.descripcion,
         // cupones_max: promo.cupones_max
       }
@@ -106,26 +88,24 @@ const AddPromocion = (props: any) => {
         form.append("fecha_inicio", data.fecha_inicio!.toISOString().slice(0, -5)); // Hack para que la mierda api funcione
         form.append("fecha_fin", data.fecha_fin!.toISOString().slice(0, -5)); // Hack para que la mierda api funcione
         form.append("descripcion", data.descripcion);
-        form.append("estado", data.estado == true ? 'activa' : 'inactiva');
+        form.append("id_estaciones", data.id_estaciones.toString());
 
-        const res = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/promociones', {
+        console.log(data)        
+        const res = await requestAuthenticated('https://craaxkvm.epsevg.upc.es:23600/api/promociones', "multipart/form-data",{
           "method": "POST",
           body: form,
-          "headers": {
-            "accept": "application/json"
-          }
         });
 
         const json = await res.json();
         if (res.status === 200) {
           props.triggerReload();
           setPromo({
-            id_promo: 0,
-            // id_estacion: 0,
+            //id_promo: 0,
+            id_estaciones: 0,
             descuento: 0,
             fecha_inicio: null,
             fecha_fin: null,
-            estado: true,
+            //estado: true,
             descripcion: '',
             // cupones_max: 0
           })
@@ -165,17 +145,17 @@ const AddPromocion = (props: any) => {
             title="Introduzca los datos de la nueva promoción">
             <Container>
             <Grid gutter="xl">
-              {/* <Grid.Col span={6}>
+               <Grid.Col span={6}>
               <Select
                 label="Estación"
                 placeholder="Selecciona una estación"
                 nothingFound="No hay estaciones que coincidan con la búsqueda"
-                data={estaciones}
+                data={["1", "2", "3", "4", "5", "6", "7", "8"]}
                 onChange={(e) => {
                   setEstacionSelec(e!)
                 }}
               />
-              </Grid.Col> */}
+              </Grid.Col> 
               <Grid.Col span={6}>
                 <TextInput
                     placeholder="10%"

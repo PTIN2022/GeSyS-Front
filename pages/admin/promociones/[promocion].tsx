@@ -27,35 +27,62 @@ const Promocion = () => {
 
   const [cambioDatos, setCambioDatos] = useState<boolean>(false);
 
+  function padTo2Digits(num: number) {
+    return num.toString().padStart(2, '0');
+  }
+  
+  function formatDate(date: Date) {
+    return (
+      [
+        padTo2Digits(date.getDate()),
+        padTo2Digits(date.getMonth() + 1),
+        date.getFullYear(),
+      ].join('-') +
+      ' ' 
+      //+
+      // [
+      //   padTo2Digits(date.getHours()),
+      //   padTo2Digits(date.getMinutes())
+      // ].join(':')
+    );
+  }
 
-  const handleEditar = () => {
+  const handleEditar = async () => {
     if (editando) {
       setEditando(false);
       if (cambioDatos) {
+        console.log("mamapinga")
         setEstadoPagina('Guardando...');
 
-        const fechaInicio = new Date(promocionObj!.fecha_inicio!);
-        const fechaFin = new Date(promocionObj!.fecha_fin!);
+        // const fechaInicio = new Date(promocionObj!.fecha_inicio!);
+        // const fechaFin = new Date(promocionObj!.fecha_fin!);
 
-        const form = new FormData();
-        form.append("descuento", promocionObj!.descuento.toString());
-        form.append("fecha_inicio", fechaInicio.toISOString().slice(0, -5));
-        form.append("fecha_fin", fechaFin.toISOString().slice(0, -5));
-        form.append("descripcion", promocionObj!.descripcion);
+        // const form = new FormData();
+        // form.append("descuento", promocionObj!.descuento.toString());
+        // form.append("fecha_inicio", fechaInicio.toISOString().slice(0, -5));
+        // form.append("fecha_fin", fechaFin.toISOString().slice(0, -5));
+        // form.append("descripcion", promocionObj!.descripcion);
         // form.append("estado", promocionObj!.estado == true ? 'true' : 'false');
+        console.log(promocionObj)
 
-        // Print form data
-        for (var pair of form.entries() as any) {
-          console.log(pair[0]+ ', '+ pair[1]);
+        const jeison = {
+          descuento : promocionObj!.descuento,
+          fecha_inicio : promocionObj!.fecha_inicio?.toISOString().slice(0, -5),
+          fecha_final:promocionObj!.fecha_fin?.toISOString().slice(0, -5),
+          descripcion : promocionObj!.descripcion,
+          cantidad_usados : promocionObj!.cantidad_usados,
+          estacion_id: 1
         }
+        // Print form data
+        // for (var pair of form.entries() as any) {
+        //   console.log(pair[0]+ ', '+ pair[1]);
+        // }
 
-        fetch(`https://craaxkvm.epsevg.upc.es:23600/api/promociones/${router.query.promocion}`, {
+        const res = await requestAuthenticated (`https://craaxkvm.epsevg.upc.es:23600/api/promociones/${router.query.promocion}`, "application/json", {
           "method": 'PUT',
-          body: form,
-          "headers": {
-            "accept": "application/json"
-          }
-        }).then(res => {
+          body: JSON.stringify(jeison),
+        }) as Response
+        
           if (res.status === 200) {
             setEstadoPagina('Guardado');
             setTimeout(() => {
@@ -63,7 +90,7 @@ const Promocion = () => {
             }, 2000);
           }
           setCambioDatos(false);
-        })
+        
       }
     } else {
       setEditando(true);
@@ -74,17 +101,11 @@ const Promocion = () => {
   useEffect(() => {
     const fetchDatos = async (promocionId: string) => {
       const res = await requestAuthenticated(`https://craaxkvm.epsevg.upc.es:23600/api/promociones/${promocionId}`);
-      const data = await res.json();
+      const data = await res.json() as PromoData;
       if (res.status === 200) {
-        const auxFini = new Date(data.fecha_inicio);
-        const auxFfin = new Date(data.fecha_fin);
-        const fechaini = new Intl.DateTimeFormat('en-GB', {year: 'numeric', month: '2-digit',day: '2-digit'}).format(auxFini);
-        const fechafin = new Intl.DateTimeFormat('en-GB', {year: 'numeric', month: '2-digit',day: '2-digit'}).format(auxFfin);
-
-        data.fecha_inicio = data.fecha_inicio.toString().split("T",2)[0],
-        data.fecha_fin = fechafin
+        data.fecha_inicio = new Date(data.fecha_inicio!)
+        data.fecha_fin = new Date(data.fecha_fin!)
         setPromocion(data);
-        console.log(data)
       }
       else {
         setEstadoPagina("No existe una promocion con este id")
@@ -175,7 +196,8 @@ const Promocion = () => {
             </Grid.Col> */}
 
             <Grid.Col span={6}>
-              <DatePicker 
+              <DatePicker
+                locale="es-mx" 
                 value={promocionObj.fecha_inicio}
                 readOnly={!editando}
                 disabled={!editando}
@@ -188,7 +210,8 @@ const Promocion = () => {
             </Grid.Col>
 
             <Grid.Col span={6}>
-              <DatePicker 
+              <DatePicker
+                locale="es-mx" 
                 value={promocionObj.fecha_fin}
                 readOnly={!editando}
                 disabled={!editando}
