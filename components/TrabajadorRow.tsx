@@ -26,8 +26,8 @@ const TrabajadorRow = (props: any) => {
         if (!seguro) {
           return;
         }
-        
-        const response = await requestAuthenticated(`https://craaxkvm.epsevg.upc.es:23601/api/trabajador/${trabajador.dni}`,"", {
+
+        const response = await requestAuthenticated(`https://craaxkvm.epsevg.upc.es:23600/api/trabajador/${trabajador.dni}`,"", {
 
           "method": "DELETE",
         })

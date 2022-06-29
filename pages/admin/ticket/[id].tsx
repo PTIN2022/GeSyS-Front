@@ -47,7 +47,7 @@ const Ticket: NextPage = () => {
   // Fetch datos de la API
   useEffect(() =>{
     const fetchDatos = async () => {
-      const response = await fetch(`https://craaxkvm.epsevg.upc.es:23601/api/soporte/${id}`);
+      const response = await fetch(`https://craaxkvm.epsevg.upc.es:23600/api/soporte/${id}`);
       const data = await response.json() as TicketInterface;
       data.fecha = new Date(data.fecha);
 
@@ -65,7 +65,7 @@ const Ticket: NextPage = () => {
   const handleChangeTicketEstado = async () => {
 
     try {
-      const res = await requestAuthenticated(`https://craaxkvm.epsevg.upc.es:23601/api/soporte/${id}`, 'application/json', {
+      const res = await requestAuthenticated(`https://craaxkvm.epsevg.upc.es:23600/api/soporte/${id}`, 'application/json', {
         method: 'PUT',
         body: JSON.stringify({
           estado: estadoTicket
