@@ -11,7 +11,7 @@ import { AuthContext } from '../contexts/AuthContext';
 
 
 export interface newpromo {
-  id_estaciones: number,
+  id_estaciones: string,
   descripcion: string,
   descuento: number,
   fecha_inicio: Date | null,
@@ -22,7 +22,7 @@ const AddPromocion = (props: any) => {
   const { requestAuthenticated } = useContext(AuthContext)
     const [opened, setOpened] = useState(false);
     const [promo, setPromo] = useState<newpromo>({
-      id_estaciones: 0,
+      id_estaciones: '',
       descuento: 0,
       fecha_inicio: null,
       fecha_fin: null,
@@ -73,7 +73,7 @@ const AddPromocion = (props: any) => {
 
       const data: newpromo = {
         descuento: promo.descuento,
-        id_estaciones: parseInt(estacionSelec),
+        id_estaciones: estacionSelec,
         fecha_inicio: promo.fecha_inicio,
         fecha_fin: promo.fecha_fin,
         descripcion: promo.descripcion,
@@ -83,25 +83,36 @@ const AddPromocion = (props: any) => {
       // ESTA MIERDA NO VA PORQUE NO TIENEN LA API TODAVIA :/
       try {
 
-        const form = new FormData();
-        form.append("descuento", data.descuento.toString());
-        form.append("fecha_inicio", data.fecha_inicio!.toISOString().slice(0, -5)); // Hack para que la mierda api funcione
-        form.append("fecha_fin", data.fecha_fin!.toISOString().slice(0, -5)); // Hack para que la mierda api funcione
-        form.append("descripcion", data.descripcion);
-        form.append("id_estaciones", data.id_estaciones.toString());
-
-        console.log(data)        
-        const res = await requestAuthenticated('https://craaxkvm.epsevg.upc.es:23600/api/promociones', "multipart/form-data",{
+        // const form = new FormData();
+        // form.append("descuento", data.descuento.toString());
+        // form.append("fecha_inicio", data.fecha_inicio!.toISOString().slice(0, -5)); // Hack para que la mierda api funcione
+        // form.append("fecha_fin", data.fecha_fin!.toISOString().slice(0, -5)); // Hack para que la mierda api funcione
+        // form.append("descripcion", data.descripcion);
+        // form.append("id_estaciones", data.id_estaciones.toString());
+        const jeison = {
+          id_estaciones: estacionSelec,
+          descripcion: promo.descripcion,
+          descuento: promo.descuento,
+          fecha_inicio: promo.fecha_inicio.toISOString().slice(0, -5),
+          fecha_fin: promo.fecha_fin.toISOString().slice(0, -5)
+          // descuento: data.descuento,
+          // id_estaciones: data.id_estaciones,
+          // fecha_inicio: data.fecha_inicio,
+          // fecha_fin: data.fecha_fin,
+          // descripcion: data.descripcion,     
+        }
+        console.log(jeison)
+        const res = await requestAuthenticated('https://craaxkvm.epsevg.upc.es:23600/api/promociones', "application/json",{
           "method": "POST",
-          body: form,
-        });
+          body: JSON.stringify(jeison),
+        }) as Response;
 
         const json = await res.json();
         if (res.status === 200) {
           props.triggerReload();
           setPromo({
             //id_promo: 0,
-            id_estaciones: 0,
+            id_estaciones: '',
             descuento: 0,
             fecha_inicio: null,
             fecha_fin: null,
@@ -113,11 +124,6 @@ const AddPromocion = (props: any) => {
         }
         else {
           alert('Error al crear la promoción');
-          // Display the key/value pairs
-          for (var pair of form.entries() as any) {
-            console.log(pair[0]+ ', ' + pair[1]); 
-          }
-          console.log(json);
         }
   
       }

@@ -69,10 +69,10 @@ const Promocion = () => {
         const jeison = {
           descuento : promocionObj!.descuento,
           fecha_inicio : promocionObj!.fecha_inicio?.toISOString().slice(0, -5),
-          fecha_final:promocionObj!.fecha_fin?.toISOString().slice(0, -5),
+          fecha_fin:promocionObj!.fecha_fin?.toISOString().slice(0, -5),
           descripcion : promocionObj!.descripcion,
           cantidad_usados : promocionObj!.cantidad_usados,
-          estacion_id: 1
+          id_estacion: 1
         }
         // Print form data
         // for (var pair of form.entries() as any) {
