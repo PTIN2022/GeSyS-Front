@@ -56,7 +56,7 @@ const options = {
     }
 }
 
-
+let cantidadDias = 0
 
 const Estadisticas: NextPage = () => {
 
@@ -89,7 +89,7 @@ const Estadisticas: NextPage = () => {
       const fetchEstadisticas = async () => {
         const result = await requestAuthenticated("https://craaxkvm.epsevg.upc.es:23600/api/estadisticas")
         const data = await result.json();  
-        console.log(data)
+        cantidadDias = data[0].dias.length
         const estadisticas = []
         for(let i=0; i<data.length; i++) {
 
@@ -147,25 +147,16 @@ const Estadisticas: NextPage = () => {
     }, [fechasLimite])
 
     function showFlag(est: EstadisticaEstacion) {
-      let currentMonth = new Date().getMonth();
-      let currentDay = new Date().getDate();
-      let currentYear = new Date().getFullYear();
-      let days = getDaysOfMonth(currentYear, currentMonth);
-      let consumptionExpected = est.datasets[1].data[currentMonth]
+      let consumptionExpected = est.datasets[1].data[new Date().getMonth()]
       let count = 0
       let currentEstation = est
 
-      let firstDay = 0, lastDay = 0;
-      for(let i=0; i<=currentMonth; i++) {
-        if(i != currentMonth) firstDay += getDaysOfMonth(currentYear, i+1)
-        else lastDay = firstDay + currentDay - 1
-      }
-
-      for(let i=firstDay; i<lastDay; i++) {
-        if(currentEstation && currentEstation?.datasets[0].data[i] < (consumptionExpected/days)*0.6)
+      for(let i=0; i<cantidadDias; i++) {
+        if(currentEstation && currentEstation?.datasets[0].data[i] < (consumptionExpected)*0.6) {
           count++
+        }
       }
-      if(count > currentDay/2) {
+      if(count > new Date().getDate()/2) {
         return true; 
       }
       else {
@@ -174,26 +165,16 @@ const Estadisticas: NextPage = () => {
     }
     
     function isThereAWarning(est: EstadisticaEstacion) {
-
-      let currentMonth = new Date().getMonth();
-      let currentDay = new Date().getDate();
-      let currentYear = new Date().getFullYear();
-      let days = getDaysOfMonth(currentYear, currentMonth);
-      let consumptionExpected = est.datasets[1].data[currentMonth]
+      let consumptionExpected = est.datasets[1].data[new Date().getMonth()]
       let count = 0;
       let currentEstation = estaciones.find((est: EstadisticaEstacion) => est.name === estacionActiva)
 
-      let firstDay = 0, lastDay = 0;
-      for(let i=0; i<=currentMonth; i++) {
-        if(i != currentMonth) firstDay += getDaysOfMonth(currentYear, i+1)
-        else lastDay = firstDay + currentDay - 1
-      }
-
-      for(let i=firstDay; i<lastDay; i++) {
-        if(currentEstation && currentEstation?.datasets[0].data[i] < (consumptionExpected/days)*0.6)
+      for(let i = 0; i < cantidadDias; i++) {
+        if(currentEstation && currentEstation?.datasets[0].data[i] < (consumptionExpected)*0.6) {
           count++
+        }
       }
-      if(count > currentDay/2) {
+      if(count > new Date().getDate()/2) {
         setWarning("Durante " + count + " días de este mes, has utilizado menos del 60% de la potencia contratada. Sería recomendable añadir promociones para incentivar el consumo.")
       }
       else {
@@ -210,32 +191,6 @@ const Estadisticas: NextPage = () => {
         
     }
 
-    function get_month(str: string) {
-      let monthFound:boolean = false, finish:boolean = false;
-      let month:string = "";
-      for(let i=0; i<str.length && !finish; i++) {
-        if(!monthFound && str[i] == "/") monthFound = true;
-        else if(monthFound && str[i] != "/") month += str[i];
-        else if(monthFound) {
-          finish = true;
-        }
-      }
-      return parseInt(month);
-    }
-
-    function get_year(str: string) {
-      let found = 0;
-      let year:string = "";
-      for(let i=0; i<str.length; i++) {
-        if(str[i] == "/") found++;
-        if(found == 2 && str[i] != "/") year += str[i];
-      }
-      return parseInt(year);
-    }
-
-    function getDaysOfMonth(year: number, month: number) {
-      return new Date(year, month, 0).getDate();
-    }
 
     function estations_range() {
       
