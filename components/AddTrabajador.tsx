@@ -21,6 +21,7 @@ interface TrabajadorInput {
 const AddTrabajador = (props: any) => {
 
   const { requestAuthenticated } = useContext(AuthContext)
+  const { requestAuthenticatedForm } = useContext(AuthContext)
 
     const [opened, setOpened] = useState(false);
     const [perfil, setPerfil] = useState<TrabajadorInput>({
@@ -89,14 +90,13 @@ const AddTrabajador = (props: any) => {
         form.append("dni", perfil.dni);
         form.append("password", perfil.password);
         form.append("cargo", perfil.cargo);
-        form.append("question", perfil.question);
-        form.append("id_estacion", perfil.id_estacion);
-        form.append("estado", perfil.estado == true ? 'activa' : 'inactiva');
+        form.append("question", "none");
+        form.append("id_estacion", "VG1");
+        form.append("estado", "true");//perfil.estado == true ? 'activa' : 'inactiva');
 
-        const res = await requestAuthenticated('https://craaxkvm.epsevg.upc.es:23600/api/trabajador', 'multipart/form-data', {
-          "method": "POST",
-          body: form
-        });
+        const res = await requestAuthenticatedForm('https://craaxkvm.epsevg.upc.es:23600/api/trabajador', 'POST', form);
+          
+        
 
         const json = await res.json();
         if (res.status === 200 && json != null) {
