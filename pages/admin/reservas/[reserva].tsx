@@ -100,13 +100,15 @@ const Reserva: NextPage = (props:any) => {
       
     const jeison = {
       fecha_inicio: formatDate(reserve.fecha!) + reserve.desde?.getHours()+':'+ reserve.desde?.getMinutes(),
-      fecha_fijnal: formatDate(reserve.fecha!) + reserve.hasta?.getHours()+':'+ reserve.hasta?.getMinutes(),
+      fecha_final: formatDate(reserve.fecha!) + reserve.hasta?.getHours()+':'+ reserve.hasta?.getMinutes(),
       id_vehiculo: reserve.matricula,
-      tarifa: 0,
-      asistida:true,
-      porcentaje_carga:40,
-      percio_carga_completo:6,
-      precio_carga_actual:3,
+      // tarifa: undefined,
+      // asistida: undefined, //true,
+      // porcentaje_carga: undefined, //40,
+      // percio_carga_completo: undefined, //6,
+      // precio_carga_actual:undefined //3,
+      // estado_pago: true
+
     }
     const fetchData = async () => {
       const response = await requestAuthenticated(`https://craaxkvm.epsevg.upc.es:23600/api/reservas/${reserva}`, "application/json", {
