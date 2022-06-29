@@ -7,6 +7,7 @@ import { useMap } from "react-leaflet";
 import MapSearchBar, { MapSearchBarHandle } from "./MapSearchBar";
 import { AuthContext } from "../../contexts/AuthContext";
 import { Group, Select } from "@mantine/core";
+import { EstState } from '../../pages/admin/estaciones';
 
 export type StationStatus = "Active" | "Deactivated" | "Damaged";
 
@@ -24,18 +25,18 @@ export interface MarkerEstacionProps {
   ocupation_actual: number;
   potencia_contratada: number;
   potencia_usada: number;
-  state: StationStatus
+  estado: string;
 }
 
 const accessToken = 'pk.eyJ1IjoieHBhdGF0YTY5IiwiYSI6ImNsMTZ4b2RxcDB5aG0za2thcjIwendlMXEifQ.vlI6K1U3_DOGuSaa8X7R3g';
 
-const GetIconFromStationStatus = (status: StationStatus) => {
+const GetIconFromStationStatus = (status: string) => {
   switch (status) {
-    case "Active":
+    case "Activa":
       return IconFuncionando;
-    case "Deactivated":
+    case "Inactiva":
       return IconDesactivado;
-    case "Damaged":
+    case "Dañada":
       return IconAveria;
     default:
       return IconAveria;
@@ -130,7 +131,7 @@ const Map = () => {
             <Marker
               key={index}
               position={estacion.posicion}
-              icon={GetIconFromStationStatus('Active')} // ESTO TIENES QUE CAMBIARLO POR EL ESTADO DE LA ESTACION
+              icon={GetIconFromStationStatus(estacion.estado)} // ESTO TIENES QUE CAMBIARLO POR EL ESTADO DE LA ESTACION
               >
               <EstacionPopup estacion={estacion} />
             </Marker>
