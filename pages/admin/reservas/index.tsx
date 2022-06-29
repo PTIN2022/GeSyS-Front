@@ -25,7 +25,7 @@ export interface ReservaRowProps{
   carga_completa: number,
   perc_carga: number, 
   //city: string;
-  estacion: string; //id_estacion
+  estacion: number; //id_estacion
   //fecha_entrada
   
 }
@@ -78,10 +78,10 @@ const elements: ReservaRowProps[] = [
 
 //const data = charactersList.map((item) => ({ ...item, value: item.label }));
 const allFilters: Filter[] = [
-  {
-    name:"Estación",
-    value: "Estación"
-  },
+  // {
+  //   name:"Estación",
+  //   value: "Estación"
+  // },
   {
     name:"Cliente",
     value: "Cliente"
@@ -98,14 +98,15 @@ const allFilters: Filter[] = [
     name:"Date",
     value: "Date"
   },
-  {
-    name:"Ciudad",
-    value: "Ciudad"
-  }
+  // {
+  //   name:"Ciudad",
+  //   value: "Ciudad"
+  // }
 ];
 
 
 const ListaReservas: NextPage = () => {
+  const { requestAuthenticated } = useContext(AuthContext)
 
   const [activeFilters, setActiveFilters] = useState<Filter[]>(allFilters);
 
@@ -145,7 +146,7 @@ const ListaReservas: NextPage = () => {
 const [elementsD, setElements]  = useState<ReservaRowProps[] >(elements);
     
   const fetchDatos = async () => {
-    const result = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/reservas');
+    const result = await requestAuthenticated ('https://craaxkvm.epsevg.upc.es:23600/api/reservas')
     const data = await result.json();  
 
     const est = []
@@ -163,8 +164,8 @@ const [elementsD, setElements]  = useState<ReservaRowProps[] >(elements);
         //Dir: data[i].direccion,
         date: new Date (data[i].fecha_entrada), 
         date_fin: new Date (data[i].fecha_salida), 
-        kwh: data[i].precio_carga_actual,
-        money: data[i].tarifa,
+        kwh: data[i].tarifa, // data[i].precio_carga_actual,
+        money: data[i].precio_carga_completa, //data[i].tarifa,
         asistida: data[i].asistida,
         //estado: data[i].estado,
         estado_pago: data[i].estado_pago,
@@ -192,7 +193,10 @@ useEffect(() => {
     }
     setElements(tmp);
   }
-  
+  const actualitzareservas = (rList:ReservaRowProps[])=>{
+    console.log("rlist:", rList)
+    setElements(rList)
+  }
 
 ///////////////////DINAMICAMENTE////////////////////////
 
@@ -211,7 +215,7 @@ useEffect(() => {
       ) : 
       (
         <>
-        <AddReserva />
+        <AddReserva reservaList={elementsD} refreshList={actualitzareservas} />
       
       <Grid gutter="xl">
         <Grid.Col span={3}>
@@ -224,7 +228,7 @@ useEffect(() => {
             onChange={setFilter}
             data={activeFilters}
             onClick={() => setFilter("")}    
-            filter={(filtre, item) => item.value.toLowerCase().includes(value.toLowerCase().trim())}
+            filter={(filtre, item) => item.value.toString().toLowerCase().includes(value.toString().toLowerCase().trim())}
             />
         </Grid.Col>
 
@@ -263,7 +267,7 @@ useEffect(() => {
             //data={data}
             value={value} onChange={setValue} data={elementsD.map((item) => ({ ...item, value: item.reservante }))}      
             filter={(value, item) =>
-              item.value.toLowerCase().includes(value.toLowerCase().trim())
+              item.value.toString().toLowerCase().includes(value.toString().toLowerCase().trim())
             }
           />
         </Grid.Col>   
@@ -317,13 +321,13 @@ useEffect(() => {
             <th>nºPlaza</th>
             <th>Fecha</th>
             <th>Fecha Fin</th>
-            <th>KwH</th>
+            <th>Tarifa</th>
             <th>Coste[€]</th>        
           </tr>       
         </thead>
         <tbody>
               
-        {filtre == "" && elementsD && elementsD.map(reserva => {
+        {filtre == "" && elementsD.length>0 && elementsD.map(reserva => {
           return <ReservaRow key={reserva.id} reserva={reserva} deleteElement={handleDeleteClick} />
         })}
         {/*(profile.cargo == "Administrador" || profile.cargo=="Jefe") && filtre =="Ciudad" && elementsD && elementsD.filter(element => element.city.includes(value)).map((elementFiltrat, index )=> {
@@ -332,7 +336,7 @@ useEffect(() => {
         {/*filtre =="Estación" && elementsD && elementsD.filter(element => element.estacion.includes(value)).map((reserva, index )=> {
           return <ReservaRow key={index} reserva={reserva} deleteElement={handleDeleteClick}/>
         })*/}  
-        {filtre =="Cliente" && elementsD && elementsD.filter(element => element.reservante.includes(value)).map((elementFiltrat, index )=> {
+        {filtre =="Cliente" && elementsD && elementsD.filter(element => element.reservante.toString().includes(value)).map((elementFiltrat, index )=> {
           return <ReservaRow key={index} reserva={elementFiltrat} deleteElement={handleDeleteClick}/>
         })} 
         {filtre =="Matricula" && elementsD && elementsD.filter(element => element.matricula.includes(value)).map((elementFiltrat, index )=> {

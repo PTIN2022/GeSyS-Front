@@ -32,7 +32,7 @@ const AddPromocion = (props: any) => {
 
     // useEffect(() => {
     //   const fetchDatos = () => {
-    //     fetch('http://craaxkvm.epsevg.upc.es:23601/api/estaciones')
+    //     fetch('https://craaxkvm.epsevg.upc.es:23601/api/estaciones')
     //       .then(res => res.json())
     //       .then(data => {
     //         const est = []

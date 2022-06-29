@@ -4,18 +4,22 @@ import { useRouter } from 'next/router';
 import { PerfilData } from '../pages/admin/perfil';
 
 const PerfilVacio: PerfilData = {
-  token: "",
-  username: "",
-  pfp: "",
-  nombre: "",
-  apellido: "",
-  telefono: "",
-  email: "",
-  dni: "",
-  cargo: 'trabajador',
-  question: "",
-  estacion: "",
-  estado: false,
+	apellido: "",
+	cargo: "trabajador",
+	dni: "",
+	email: "",
+	estado: "",
+	foto: "",
+	id_estacion: 0,
+	id_trabajador: 0,
+	id_usuari: 0,
+	nombre: "",
+	question: "",
+	telefono: "",
+	token: "",
+	type: "",
+	ultimo_acceso: new Date(),
+	username: ""
 }
 
 // Given a cookie key `name`, returns the value of
@@ -52,7 +56,7 @@ export const AuthContextProvider = ({ children }: any) => {
     form.append("password", password);
 
     try {
-      const res = await fetch('http://craaxkvm.epsevg.upc.es:23601/api/login', {
+      const res = await fetch('https://craaxkvm.epsevg.upc.es:23601/api/login', {
         "method": "POST",
         body: form,
         "headers": {
@@ -60,9 +64,16 @@ export const AuthContextProvider = ({ children }: any) => {
         }
       });
       const data = await res.json()
-      document.cookie = `token=${data.token};`
-      setUser(data)
-      route.push('/admin')
+
+      if (res.status == 200 && data.token != undefined) {
+        document.cookie = `token=${data.token};`
+        setUser(data)
+        route.push('/admin')
+      }
+      else {
+        alert('Error')
+        console.log(data)
+      }
     } catch (err) {
       alert(err)
     }
@@ -76,18 +87,24 @@ export const AuthContextProvider = ({ children }: any) => {
   }
 
   const fetchUserInfo = async () => {
-    const response = await requestAuthenticated('http://craaxkvm.epsevg.upc.es:23601/api/token', "")
+    const response = await requestAuthenticated('https://craaxkvm.epsevg.upc.es:23601/api/token', "")
 
     if (!response) {
+      logout()
       return;
     }
 
-    if (response.status === 200) {
-      const data = await response.json()
+    const data = await response.json() as PerfilData
+
+    console.log(data)
+
+    if (response.status === 200 && data.token != undefined) {
       setUser(data)
     }
     else {
       setUser(PerfilVacio)
+      logout();
+      return
     }
   }
 
@@ -113,8 +130,69 @@ export const AuthContextProvider = ({ children }: any) => {
         },
         ...options
       })
+
+      console.log(response)
   
       return response;
+    }
+    catch (error) {
+      logout()
+      alert(error)
+      console.log(error)
+    }
+
+  }
+
+  const requestAuthenticatedForm = async (url: string,method: string, form:any) => {
+    let token = getCookie('token')
+
+    if (!token) {
+      setUser(PerfilVacio)
+      return;
+    }
+
+    try {
+      // const response = fetch(url, {
+      //   headers: {
+      //     'x-access-tokens': token,
+      //     'Content-Type': contentType == undefined ? "" : contentType
+      //   },
+      //   ...options
+      // })
+      const request = new XMLHttpRequest();
+      //request.withCredentials = true;
+      request.addEventListener("readystatechange", function () {
+        if (this.readyState === this.DONE) {
+          console.log(this.responseText);
+        }
+      });
+      request.open(method, url);
+      request.setRequestHeader('x-access-tokens', token);
+      request.setRequestHeader("accept", "application/json");
+      
+      request.send(form);
+      return request
+      //const xhr = new XMLHttpRequest();
+//xhr.withCredentials = true;
+
+// xhr.addEventListener("readystatechange", function () {
+//   if (this.readyState === this.DONE) {
+//     console.log(this.responseText);
+//   }
+// });
+
+// xhr.open("POST", "https://craaxkvm.epsevg.upc.es:23601/api/clientes");
+// xhr.setRequestHeader("accept", "application/json");
+// xhr.setRequestHeader("x-access-tokens", token);
+
+// xhr.send(form);
+//       return xhr;
+      // return (request.onload = function() {
+      //     if (request.status != 200) { // analyze HTTP status of the response
+      //       alert(`Error ${request.status}: ${request.statusText}`); // e.g. 404: Not Found
+      //     };
+      //   })
+       
     }
     catch (error) {
       alert(error)
@@ -129,6 +207,8 @@ export const AuthContextProvider = ({ children }: any) => {
       login,
       logout,
       requestAuthenticated,
+      requestAuthenticatedForm,
+      
       fetchUserInfo
     }}>
       {children}

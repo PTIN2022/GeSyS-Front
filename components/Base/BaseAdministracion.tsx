@@ -126,7 +126,7 @@ const BaseAdministracion = (props: AppProps) => {
                 placement="center"
                 control={
                   <UserButton
-                    image={profile.pfp}
+                    image={profile.foto}
                     name={profile.nombre + " " + profile.apellido}
                     email={profile.email}
                   />

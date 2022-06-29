@@ -1,75 +1,88 @@
 import { NextPage } from 'next';
-import { Table, Space, Text, Title } from '@mantine/core';
+import { Table, Space, Text, Title, Select, Group } from '@mantine/core';
 import FilaSoporte from '../../../components/FilaTablaSoporte';
 import { useEffect, useState } from 'react';
 
+
+export const estadosTicket = ['Resuelto', 'No resuelto', 'En curso', 'Pendiente']
+
 export interface SoporteRowProps {
-  Name: string;
-  Problema: string;
-  Date: string; 
+	id_ticket: number;
+  asunto: string;
+	estado: string;
+	fecha: Date;
+	id_cliente: string;
 }
-/*
-const SoporteDataMock: SoporteRowProps[] = [
-  {
-    Name: "Cloe Bermudez",
-    Problema: "Problema con aplicación mobil",
-    Date: "11:35"
-  },
-  {
-    Name: "Bernarda Estrella",
-    Problema: "Creado esquema y mas texto para ver coomo queda, para vosotros aficion... siuu",
-    Date: "22-03-22"
-  },
-  {
-    Name: "Cloe Bermudez",
-    Problema: "Problema con aplicación mobil",
-    Date: "11:35"
-  },
-  {
-    Name: "Cloe Bermudez",
-    Problema: "Problema con aplicación mobil",
-    Date: "11:35"
-  }
-];*/
 
 const SoporteTecnico : NextPage =() => {
-  const [SoporteDataMock, setAverias] = useState<SoporteRowProps[]>();
+
+  const [soporteDatos, setSoporteDatos] = useState<SoporteRowProps[]>();
+
+
+  const [datosfiltados, setDatosFiltrados] = useState<SoporteRowProps[]>();
+  const [filtrarEstado, setFiltrarEstado] = useState<string>('Todos')
 
   useEffect(() => {
     const fetchEstacion = async () => {
-      const result = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/soporte');
-      const data = await result.json();  
-
-      const est = []
-
-      for(let i=0; i<data.length; i++) {
-        let est1:SoporteRowProps = {
-          Name:  data[i].ticket_id,
-          Problema:  data[i].descripcion,
-          Date:  data[i].fecha,  
+      const result = await fetch('https://craaxkvm.epsevg.upc.es:23601/api/soporte');
+      const data = (await result.json() as SoporteRowProps[]).map(element => {
+        return {
+          ...element,
+          fecha: new Date(element.fecha)
         }
-        est.push(est1)
-      }
-      setAverias(est);
+      });
+      setSoporteDatos(data);
     }
     fetchEstacion();
   }, [])
+
+  useEffect(() => {
+
+    if (filtrarEstado == 'Todos') {
+      return setDatosFiltrados([])
+    }
+
+    const datos = soporteDatos?.filter(element => element.estado == filtrarEstado)
+    setDatosFiltrados(datos)
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filtrarEstado])
+
+  const renderFilterOrNot = () => {
+    if (filtrarEstado == 'Todos') {
+      return soporteDatos?.map((element, index) => {
+        return <FilaSoporte key={index} {...element}/>
+      })
+    } else {
+      return datosfiltados?.map((element, index) => {
+        return <FilaSoporte key={index} {...element}/>
+      })
+    }
+
+  }
+
   return (
     <>
-      <Title order={1}> <Text  inherit component="span">Soporte Técnico </Text></Title>
-      <Space  h={25}/>
+      <Title order={1}><Text inherit component="span">Soporte Técnico</Text></Title>
+      <Space h={25}/>
+      <Group>
+        <h2>Filtrar por estado:</h2>
+        <Select placeholder='Filtro' data={['Todos', ...estadosTicket]} value={filtrarEstado} onChange={(val: string) => setFiltrarEstado(val)} />
+      </Group>
+      <Space h={25}/>
       <Table striped highlightOnHover>
         <thead>
           <tr>
             <th>Ticket ID</th>
-            <th>Problema</th>
+            <th>Asunto</th>
+            <th>Estado</th>
             <th>Fecha</th>
+            <th>Client ID</th>
+            <th></th>
           </tr>
         </thead>
-        <tbody>                    
-          {SoporteDataMock && SoporteDataMock.map((element, index) => {
-            return <FilaSoporte key={index} {...element}/>
-          })}
+        <tbody>
+          {renderFilterOrNot()}
         </tbody>
       </Table>
     </>
