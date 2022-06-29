@@ -95,11 +95,12 @@ export const AuthContextProvider = ({ children }: any) => {
 
     const data = await response.json() as PerfilData
 
-    if (response.status === 200 && data.token != undefined) {
+    if (response.status === 200 && data.dni != undefined) {
       setUser(data)
     }
     else {
       setUser(PerfilVacio)
+      logout()
       return
     }
   }
