@@ -63,7 +63,7 @@ const TrabajadorRow = (props: any) => {
                         </ActionIcon>
                     </Center>
                     }>
-                      <Link href={`http://localhost:3000/admin/trabajadores/${trabajador.dni}`}  passHref={true}>
+                      <Link href={`/admin/trabajadores/${trabajador.dni}`}  passHref={true}>
                         <Menu.Item>Ver más</Menu.Item>
                       </Link>
                     
