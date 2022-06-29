@@ -1,10 +1,11 @@
 import { NextPage } from "next"
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { ActionIcon, Alert, Select } from '@mantine/core';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from "chart.js"
 import { Line } from 'react-chartjs-2';
-import { AlertCircle, Disabled } from "tabler-icons-react";
+import { AlertCircle } from "tabler-icons-react";
 import { DateRangePicker, getMonthDays } from '@mantine/dates';
+import { AuthContext } from '../../../contexts/AuthContext';
 
 
 export interface EstadisticaDataset {
@@ -59,13 +60,15 @@ const options = {
 
 const Estadisticas: NextPage = () => {
 
+  const { requestAuthenticated } = useContext(AuthContext)
+
     const [estacionActiva, setEstacionActiva] = useState('VG1');
     const [estaciones, setEstaciones] = useState<EstadisticaEstacion[]>(all_estations);
     const [estacionOpcion, setEstacionOpcion] = useState<EstadisticaEstacion>(estaciones[0]);
     const [estacionGrafica, setEstacionGrafica] = useState(estacionOpcion);
     const [warning, setWarning] = useState("");
     const [fechasLimite, setFechasLimite] = useState<[Date | null, Date | null]>([
-      new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+      new Date(new Date(2022, 5, 10)),
       new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 1),
     ]);
 
@@ -84,8 +87,9 @@ const Estadisticas: NextPage = () => {
 
     useEffect(() => {
       const fetchEstadisticas = async () => {
-        const result = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/estadisticas');
+        const result = await requestAuthenticated("https://craaxkvm.epsevg.upc.es:23600/api/estadisticas")
         const data = await result.json();  
+        console.log(data)
         const estadisticas = []
         for(let i=0; i<data.length; i++) {
 
@@ -93,8 +97,8 @@ const Estadisticas: NextPage = () => {
           let lab = [], consumo = [], consumo_ideal = []
           for(let j=0; j<dias.length; j++) {
             lab.push(dias[j].dia)
-            consumo.push(dias[j].potencia_max_cons)
-            consumo_ideal.push(data[i].kwh_now)
+            consumo.push(data[i].kwh_now)
+            consumo_ideal.push(data[i].kwh_max)
           }
           let estacion:EstadisticaEstacion = {
             name: data[i].estacion,
@@ -293,7 +297,7 @@ const Estadisticas: NextPage = () => {
             <DateRangePicker
               label="Fechas a visualizar"
               placeholder="Selecciona rango de fechas"
-              minDate={new Date(2022, 0, 1)}
+              minDate={new Date(2022, 5, 10)}
               maxDate={new Date(new Date().getTime() - 24*60*60*1000)}
               value={fechasLimite}
               onChange={setFechasLimite}
