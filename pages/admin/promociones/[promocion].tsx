@@ -8,6 +8,7 @@ import { Container } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { PromoData } from '.';
 import { AuthContext } from '../../../contexts/AuthContext';
+import 'dayjs/locale/es'
 
 // const data = [
 //   {value: 'VG1', label:'VG1'},
@@ -103,9 +104,16 @@ const Promocion = () => {
       const res = await requestAuthenticated(`https://craaxkvm.epsevg.upc.es:23600/api/promociones/${promocionId}`);
       const data = await res.json() as PromoData;
       if (res.status === 200) {
-        data.fecha_inicio = new Date(data.fecha_inicio!)
-        data.fecha_fin = new Date(data.fecha_fin!)
-        setPromocion(data);
+        let prom:PromoData = {
+          cantidad_usados: data.cantidad_usados,
+          descripcion: data.descripcion,
+          descuento: data.descuento,
+          fecha_fin: new Date(data.fecha_fin!),
+          fecha_inicio: new Date(data.fecha_inicio!),
+          id_promo: data.id_promo,
+          id_estacion: data.id_estacion
+        }
+        setPromocion(prom);
       }
       else {
         setEstadoPagina("No existe una promocion con este id")
