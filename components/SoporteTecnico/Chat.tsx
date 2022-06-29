@@ -15,7 +15,7 @@ const Chat = (props: { ticket_id: string }) => {
   const endScroll = useRef<HTMLDivElement>(null);
 
   const fetchDatos = async () => {
-    const response = await fetch(`https://craaxkvm.epsevg.upc.es:23601/api/soporte/${props.ticket_id}`);
+    const response = await fetch(`https://craaxkvm.epsevg.upc.es:23600/api/soporte/${props.ticket_id}`);
     const data = await response.json() as TicketInterface;
     setMensajes(data.Mensajes);
   }
@@ -51,7 +51,7 @@ const Chat = (props: { ticket_id: string }) => {
     form.append("mensaje", textMensaje);
     form.append("cliente", user.id_usuari.toString());
 
-    fetch(`https://craaxkvm.epsevg.upc.es:23601/api/soporte/${props.ticket_id}`, {
+    fetch(`https://craaxkvm.epsevg.upc.es:23600/api/soporte/${props.ticket_id}`, {
       method: 'POST',
       body: form,
       "headers": {

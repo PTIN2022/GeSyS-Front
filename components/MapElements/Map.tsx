@@ -45,7 +45,7 @@ const Map = () => {
 
   useEffect(() => {
     const fetchDatos = async () => {
-      const response = await requestAuthenticated('https://craaxkvm.epsevg.upc.es:23601/api/estaciones')
+      const response = await requestAuthenticated('https://craaxkvm.epsevg.upc.es:23600/api/estaciones')
       const datos = await response.json()
       const redone = datos.map((element: any) => {
         return {
