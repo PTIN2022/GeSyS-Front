@@ -24,10 +24,6 @@ export interface Filter {
 
 const allFilters: Filter[] = [
   {
-    name: "Sin filtro",
-    value: "Sin filtro"
-  },
-  {
     name:"Nombre",
     value: "Nombre"
   },
@@ -119,11 +115,13 @@ const ListaTrabajadores: NextPage = () => {
             limit={7}
             onChange={setFiltro}
             data={activeFilters}
+            onClick={() => setFiltro("")}  
             filter={(filtro, item) => item.value.toLowerCase().includes(value.toLowerCase().trim())}
             />
         </Grid.Col>
-          {filtro == "Sin filtro" && value}
+          {filtro == "" && value && setValue("")}
 
+          { }
           {filtro=="Nombre" && <Grid.Col span={6}>        
           <Autocomplete
             label="Filtrar por nombre:"
@@ -136,6 +134,7 @@ const ListaTrabajadores: NextPage = () => {
         </Grid.Col>   
         }  
 
+        { }
         {filtro=="DNI" && <Grid.Col span={6}>        
           <Autocomplete
             label="Filtrar por DNI:"
@@ -148,6 +147,7 @@ const ListaTrabajadores: NextPage = () => {
         </Grid.Col>   
         }
 
+        { }
         {filtro=="Rol" && <Grid.Col span={6}>        
           <Autocomplete
             label="Filtrar por Rol:"
@@ -159,7 +159,6 @@ const ListaTrabajadores: NextPage = () => {
           />
         </Grid.Col>   
         }
-
       </Grid>
         
       
@@ -174,7 +173,7 @@ const ListaTrabajadores: NextPage = () => {
               </tr>       
           </thead>
           <tbody>
-            {filtro == "Sin filtro" && elements && elements.map((element, index) => {
+            {filtro == "" && elements && elements.map((element, index) => {
                 return <TrabajadorRow key={index} trabajador={element}/>
             })}  
             {filtro == "Nombre" && elements && elements.filter(element => element.nombre.includes(value)).map((elementFiltrat, index) => {
