@@ -12,13 +12,15 @@ const EstacionPopup = (props:any) => {
     <Popup closeButton>
       <div>
         <h3>{estacion.nombre_est}</h3>
-        <p>Estado:{estacion.state}</p>
+        <p>Estado:{estacion.estado}</p>
         <p>Plazas:{estacion.ocupation_actual}/{estacion.capacidad}</p>
         <p>Kwh contratada:{estacion.potencia_contratada}</p>
         <p>Kwh usada:{estacion.potencia_usada}</p>
-        <Button fullWidth >          
-          <Link  href={`/admin/estaciones/${estacion.id_estacion}`}>Más</Link>            
-        </Button>
+                  
+          <Link  href={`/admin/estaciones/${estacion.id_estacion}`}>
+            <Button fullWidth >Más</Button>
+          </Link>            
+        
         
       
       </div>

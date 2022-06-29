@@ -8,23 +8,27 @@ import { useRouter } from 'next/router';
 import PerfilTrabajador from '../pages/admin/trabajadores/[trabajador]';
 import { AuthContext } from '../contexts/AuthContext';
 import { PerfilData } from '../pages/admin/perfil';
-//import { PerfilData } from '../pages/admin/perfil';
 
-const TrabajadorRow = ({ dni, nombre, cargo, ultimo_acceso, foto } : TrabajadorRowProps) => {
+
+
+//({ dni, nombre, cargo, ultimo_acceso, foto } : TrabajadorRowProps)
+const TrabajadorRow = (props: any) => {
   const [MenuOpened,setMenu] = useState(false)
   const { requestAuthenticated } = useContext(AuthContext)
+  const trabajador: TrabajadorRowProps = props.trabajador;
     //const [promocionObj, setPromocion] = useState<TrabajadorRowProps | null>(null)
     const router = useRouter();
     
     const handleBorrarPromocion = async () => {
 
         const seguro = confirm('¿Estás seguro de que quieres borrar este trabajador?')
-    
+
         if (!seguro) {
           return;
         }
-        
-        const response = await requestAuthenticated(`http://craaxkvm.epsevg.upc.es:23601/api/trabajador/${dni}`,"", {
+
+        const response = await requestAuthenticated(`https://craaxkvm.epsevg.upc.es:23600/api/trabajador/${trabajador.dni}`,"", {
+
           "method": "DELETE",
         })
 
@@ -39,17 +43,17 @@ const TrabajadorRow = ({ dni, nombre, cargo, ultimo_acceso, foto } : TrabajadorR
       const tancaMenu=()=>{
         setMenu(!MenuOpened)
       }
-      const acceso = new Date(ultimo_acceso);
+      const acceso = new Date(trabajador.ultimo_acceso);
       const fecha = new Intl.DateTimeFormat('en-GB', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(acceso);
-      foto = `https://ui-avatars.com/api/?name=${nombre}`
+      trabajador.foto = `https://ui-avatars.com/api/?name=${trabajador.nombre}`
       return ( 
         <>
         <tr>
-            <td><Avatar src={foto}/>                 
+            <td><Avatar src={trabajador.foto}/>                 
             </td> 
-            <td>{dni}</td>
-            <td>{nombre}</td>
-            <td>{cargo}</td>
+            <td>{trabajador.dni}</td>
+            <td>{trabajador.nombre}</td>
+            <td>{trabajador.cargo}</td>
             <td>{fecha}</td>
             <td>
                 <Menu opened={MenuOpened} control={
@@ -59,7 +63,7 @@ const TrabajadorRow = ({ dni, nombre, cargo, ultimo_acceso, foto } : TrabajadorR
                         </ActionIcon>
                     </Center>
                     }>
-                      <Link href={`http://localhost:3000/admin/trabajadores/${dni}`}  passHref={true}>
+                      <Link href={`/admin/trabajadores/${trabajador.dni}`}  passHref={true}>
                         <Menu.Item>Ver más</Menu.Item>
                       </Link>
                     

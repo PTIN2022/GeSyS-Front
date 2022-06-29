@@ -1,10 +1,13 @@
 import { NextPage } from "next"
 import { useRouter } from "next/router";
-import { Box, Group, TextInput, Button, Text, Grid, Autocomplete } from '@mantine/core';
+import { Box, Group, TextInput, Button, Text, Grid, Autocomplete, NumberInput } from '@mantine/core';
 import { DatePicker, TimeInput } from '@mantine/dates';
 import 'dayjs/locale/es'
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { User, Car, Clock, Calendar, ChargingPile } from 'tabler-icons-react';
+import { EstacionRowProps } from "../estaciones";
+import { AuthContext } from "../../../contexts/AuthContext";
+import { ReservaRowProps } from ".";
 
 export interface ReservaData {
   desde: Date | null,
@@ -12,13 +15,14 @@ export interface ReservaData {
   fecha: Date | null,
   matricula: string,
   DNI: string,
-  estacion: string,
+  estacion: number,
   coste:number,
   nPlaza:number,
 
 }
 
-const Reserva: NextPage = () => {
+const Reserva: NextPage = (props:any) => {
+  const { requestAuthenticated } = useContext(AuthContext)
 
   const { query } = useRouter();
   const { reserva } = query;
@@ -31,10 +35,97 @@ const Reserva: NextPage = () => {
     fecha: null,
     matricula: '',
     DNI: '',
-    estacion: '',
+    estacion: -1,
     coste:0,
     nPlaza:0,
   });
+  /**
+   * Funciones para adecuar el formato de las fechas
+   */
+  function padTo2Digits(num: number) {
+    return num.toString().padStart(2, '0');
+  }
+  
+  function formatDate(date: Date) {
+    return (
+      [
+        padTo2Digits(date.getDate()),
+        padTo2Digits(date.getMonth() + 1),
+        date.getFullYear(),
+      ].join('-') +
+      ' ' 
+      //+
+      // [
+      //   padTo2Digits(date.getHours()),
+      //   padTo2Digits(date.getMinutes())
+      // ].join(':')
+    );
+  }
+/**************************************
+ * Obtenemos la info real de la reserva
+ **************************************/
+ useEffect(() => {
+    const fetchEstacion = async () => {
+      const result = await requestAuthenticated (`https://craaxkvm.epsevg.upc.es:23600/api/reservas/${reserva}`)
+      const data = await result.json();
+      const res:ReservaData = {        
+        DNI: data.id_cliente,
+        matricula: data.id_vehiculo,
+        estacion: data.id_estacion,
+        nPlaza: data.id_cargador,       
+        desde: new Date (data.fecha_entrada), 
+        hasta: new Date (data.fecha_salida), 
+        fecha: new Date (data.fecha_entrada), //??
+        coste: data.precio_carga_completa, //data[i].tarifa,
+      
+      }
+      setReserve(res);
+    }
+    fetchEstacion()
+  },[reserva])
+  console.log("Reserva:",reserva)
+
+
+  const connect=() =>{
+    setEditing(!editing)
+    if (editing == false){return}
+        // DNI: data.id_cliente,
+        // matricula: data.id_vehiculo,
+        // estacion: data.id_estacion,
+        // nPlaza: data.id_cargador,       
+        // desde: new Date (data.fecha_entrada), 
+        // hasta: new Date (data.fecha_salida), 
+        // fecha: new Date (data.fecha_entrada), //??
+        // coste: data.precio_carga_completa, //data[i].tarifa,
+      
+    const jeison = {
+      fecha_inicio: formatDate(reserve.fecha!) + reserve.desde?.getHours()+':'+ reserve.desde?.getMinutes(),
+      fecha_final: formatDate(reserve.fecha!) + reserve.hasta?.getHours()+':'+ reserve.hasta?.getMinutes(),
+      id_vehiculo: reserve.matricula,
+      // tarifa: undefined,
+      // asistida: undefined, //true,
+      // porcentaje_carga: undefined, //40,
+      // percio_carga_completo: undefined, //6,
+      // precio_carga_actual:undefined //3,
+      // estado_pago: true
+
+    }
+    const fetchData = async () => {
+      const response = await requestAuthenticated(`https://craaxkvm.epsevg.upc.es:23600/api/reservas/${reserva}`, "application/json", {
+        "method":'PUT',          
+        body: JSON.stringify(jeison),
+        })as Response
+
+      if (response.status != 200) {
+        alert(`Error ${response.status}: ${response.statusText}`);
+      }
+    }
+    fetchData()
+  }
+
+
+
+
 
   return (
     <>
@@ -44,7 +135,7 @@ const Reserva: NextPage = () => {
         <Grid.Col span={4}>          
           <Text align="left" size="xl">Reserva: {reserva}</Text>
           <br></br>
-          <Button onClick={() => setEditing(!editing)}>
+          <Button onClick={connect}>
             { editing ? 'Guardar Cambios' : 'Editar' }
           </Button>
         </Grid.Col>
@@ -56,22 +147,30 @@ const Reserva: NextPage = () => {
         <Grid.Col span={7}>
           <Group mt="sl">
             { editing ? 
-              <Autocomplete 
-                  label="Estacion"
-                  placeholder="VGA1"
-                  value={reserve.estacion}
-                  onChange={(event) => setReserve({...reserve, estacion: event})}
-                  icon={<ChargingPile />} 
-                  data={['VGA1' , 'VGA2']} 
-              />
+              <NumberInput size="md"
+                label="nºPlaza"
+                variant="default"
+                placeholder='nº Plaza'
+                value={reserve.nPlaza}
+                onChange={(event) => setReserve({...reserve,  nPlaza: event!})}
+                /> 
+              // <Autocomplete 
+              //     label="Estacion"
+              //     placeholder="id estacion"
+              //     value={reserve.estacion.toString()}
+              //     onChange={(event) => setReserve({...reserve, estacion: parseInt(event)})}
+              //     icon={<ChargingPile />} 
+              //     data={estList.map((item) => {return item["id"].toString()})} 
+              // />
               :
-              <Autocomplete 
-                  label="Estacion"
-                  placeholder="VGA1"
-                  icon={<ChargingPile />}
-                  disabled 
-                  data={['VGA1' , 'VGA2']} 
-              />
+              <NumberInput size="md"
+              label="nºPlaza"
+              variant="default"
+              placeholder='nº Plaza'
+              value={reserve.nPlaza}
+              disabled
+              onChange={(event) => setReserve({...reserve,  nPlaza: event!})}
+              /> 
             }
           </Group>  
         </Grid.Col>
@@ -145,18 +244,9 @@ const Reserva: NextPage = () => {
 
           <Group mt="lg">
 
-            { editing ?
+            { 
             <TextInput size="md"
-              label="DNI"
-              placeholder="1234..." 
-              variant="default"
-              icon={<User size={14} />}
-              value={reserve.DNI}
-              onChange={(event) => setReserve({...reserve, DNI: event.target.value})}
-            />
-            :
-            <TextInput size="md"
-              label="DNI"
+              label="ID reservante"
               placeholder="1234..." 
               variant="default"
               icon={<User size={14} />}

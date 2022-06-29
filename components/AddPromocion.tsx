@@ -31,7 +31,6 @@ const AddPromocion = (props: any) => {
     });
 
     const [estacionSelec, setEstacionSelec] = useState<string>('');
- 
 
     const handleChangeLimiteDescuento = (event: React.ChangeEvent<HTMLInputElement>) => {
         const re = /^[0-9\b]+$/;

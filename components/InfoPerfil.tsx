@@ -5,7 +5,7 @@ import { AlertCircle, At, Id, IdBadge, Phone, User } from "tabler-icons-react";
 import { PerfilTrabajadorData } from "../pages/admin/trabajadores/[trabajador]";
 
 
-const PerfilInfo = ({ pfp, nombre, apellido, telefono, email, dni, cargo} : PerfilTrabajadorData) => {
+const PerfilInfo = ({ foto: pfp, nombre, apellido, telefono, email, dni, cargo} : PerfilTrabajadorData) => {
     
     const rightSection = (
       <Tooltip label="Contacta con un administrador para editar este campo" position="top" placement="end" color="ccdde8">

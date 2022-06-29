@@ -19,7 +19,6 @@ const PromoRow = (props : any) => {
             })
      }
 
-
     const Activar_promo = () => {
       handleChangeEstado();
       props.triggerReload();
@@ -54,8 +53,7 @@ const PromoRow = (props : any) => {
                 : 
                 null
               }    
-                 
-                <Link href={`http://localhost:3000/admin/promociones/${id_promo}`} passHref={true}>
+                <Link href={`/admin/promociones/${id_promo}`} passHref={true}>
                   <Menu.Item>Editar</Menu.Item> 
                 </Link>
             </Menu>

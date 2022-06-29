@@ -7,7 +7,7 @@ import InfoPerfil from '../../../components/InfoPerfil';
 import { useRouter } from 'next/router';
 
 export interface PerfilTrabajadorData {
-  pfp: string;
+  foto: string;
   nombre: string;
   apellido: string;
   telefono: string;
@@ -15,6 +15,7 @@ export interface PerfilTrabajadorData {
   dni: string;
   cargo: RolWorker;
 }
+
 const PerfilTrabajador : NextPage = () => {
     const [opened, setOpened] = useState(false);
     const { requestAuthenticated } = useContext(AuthContext)
@@ -28,7 +29,7 @@ const PerfilTrabajador : NextPage = () => {
      useEffect(() => {
        const fetchDatos = async () => {
         if (dni !== undefined){
-         const result = await requestAuthenticated(`http://craaxkvm.epsevg.upc.es:23601/api/trabajador/${dni}`)
+         const result = await requestAuthenticated(`https://craaxkvm.epsevg.upc.es:23600/api/trabajador/${dni}`)
          const data = await result.json();
          setTrabajador(data)
         }

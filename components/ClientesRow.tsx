@@ -3,15 +3,26 @@ import { DotsVertical, Trash } from 'tabler-icons-react';
 import Link from 'next/link';
 import { ClientesData } from '../pages/admin/clientes';
 import EditClient from './EditCliente';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
 
 // { id ,reservante ,matricula, estacion,nPlaza, date,duration, kwh, money } : ReservaRowProps, handleDeleteClick:any
 
 
 
 const ClientesRow = (props: any) => {
+    const { requestAuthenticated } = useContext(AuthContext)
+
     const [MenuOpened,setMenu] = useState(false)
-    const cliente: ClientesData = props.cliente;
+    const [cliente,setCliente] = useState<ClientesData>(props.cliente);
+    useEffect(()=>{
+        setCliente(props.cliente)
+    },[props])
+    const  refreshClient = (newClient:ClientesData)=>{
+        if (newClient != undefined){
+            setCliente(newClient)
+        }
+    }
     const borrarElemento: (id: number) => {} = props.deleteElement;
 
     /*const handleDelete = async () => {
@@ -34,11 +45,8 @@ const ClientesRow = (props: any) => {
         }
         //CONTINUE WITH THE DELETE
         try{
-            const response = await fetch(`https://craaxkvm.epsevg.upc.es:23600/api/clientes/${cliente.id}`, {
-                "method": "DELETE",
-                "headers": {
-                    "accept": "application/json",
-                  },
+            const response = await requestAuthenticated(`https://craaxkvm.epsevg.upc.es:23600/api/clientes/${cliente.id}`, "",{
+                "method": "DELETE",               
             })
             if (response.status == 200) {
                 borrarElemento(cliente.id)
@@ -77,7 +85,7 @@ const ClientesRow = (props: any) => {
                     }>
                     
                     <Menu.Item >
-                        <EditClient cliente={cliente} menu={tancaMenu}/>
+                        <EditClient cliente={cliente} menu={tancaMenu} actualitza={refreshClient}/>
                     </Menu.Item>
                    
                     <Menu.Item color={'red'} onClick={handleDelete} icon={<Trash size={14}/>} >Eliminar</Menu.Item> 

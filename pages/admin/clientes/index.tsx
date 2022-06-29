@@ -20,6 +20,7 @@ export interface ClientesData {
   dni:string;
   telefono:number;
   username: string;
+  saldo:number;
 }
 const allFilters: Filter[] = [
   {
@@ -114,6 +115,7 @@ const ListaClientes: NextPage = () => {
           dni: data[i].dni,
           telefono: data[i].telefono,
           username: data[i].username,
+          saldo: data[i].saldo
         }
         clientes.push(cl1)
       }

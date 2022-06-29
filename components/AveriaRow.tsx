@@ -52,11 +52,6 @@ const AveriaRow = (props: any) => {
                     </ActionIcon>
                 </Center>
                 }>
-                {/*
-                <Link href={""} passHref={true}>
-                  <Menu.Item>Ver más</Menu.Item> 
-                </Link>*/
-                }
                 <Menu.Item
                 onClick={() => setEstado("No Resuelto")}
                 >
