@@ -24,7 +24,7 @@ const TrabajadorRow = ({ dni, nombre, cargo, ultimo_acceso, foto } : TrabajadorR
           return;
         }
         
-        const response = await requestAuthenticated(`http://craaxkvm.epsevg.upc.es:23601/api/trabajador/${dni}`,"", {
+        const response = await requestAuthenticated(`https://craaxkvm.epsevg.upc.es:23601/api/trabajador/${dni}`,"", {
           "method": "DELETE",
         })
 

@@ -24,7 +24,7 @@ const SoporteTecnico : NextPage =() => {
 
   useEffect(() => {
     const fetchEstacion = async () => {
-      const result = await fetch('http://craaxkvm.epsevg.upc.es:23601/api/soporte');
+      const result = await fetch('https://craaxkvm.epsevg.upc.es:23601/api/soporte');
       const data = (await result.json() as SoporteRowProps[]).map(element => {
         return {
           ...element,

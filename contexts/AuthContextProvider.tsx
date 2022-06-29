@@ -56,7 +56,7 @@ export const AuthContextProvider = ({ children }: any) => {
     form.append("password", password);
 
     try {
-      const res = await fetch('http://craaxkvm.epsevg.upc.es:23601/api/login', {
+      const res = await fetch('https://craaxkvm.epsevg.upc.es:23601/api/login', {
         "method": "POST",
         body: form,
         "headers": {
@@ -87,7 +87,7 @@ export const AuthContextProvider = ({ children }: any) => {
   }
 
   const fetchUserInfo = async () => {
-    const response = await requestAuthenticated('http://craaxkvm.epsevg.upc.es:23601/api/token', "")
+    const response = await requestAuthenticated('https://craaxkvm.epsevg.upc.es:23601/api/token', "")
 
     if (!response) {
       logout()
@@ -181,7 +181,7 @@ export const AuthContextProvider = ({ children }: any) => {
 //   }
 // });
 
-// xhr.open("POST", "http://craaxkvm.epsevg.upc.es:23601/api/clientes");
+// xhr.open("POST", "https://craaxkvm.epsevg.upc.es:23601/api/clientes");
 // xhr.setRequestHeader("accept", "application/json");
 // xhr.setRequestHeader("x-access-tokens", token);
 
