@@ -69,6 +69,10 @@ const PerfilInfo: NextPage = () => {
             if (request.status != 200) { // analyze HTTP status of the response
               alert(`Error ${request.status}: ${request.statusText}`); // e.g. 404: Not Found
             }
+            else{
+              setOpened(false)
+              alert('Contraseña cambiada correctamente')
+            }
           }
         }
         fetchData()
