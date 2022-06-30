@@ -1,5 +1,5 @@
 import { Autocomplete, Button, MultiSelect, Textarea } from '@mantine/core';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { TextInput } from '@mantine/core';
 import { Grid } from '@mantine/core';
 import { DatePicker, TimeInput } from '@mantine/dates';
@@ -7,6 +7,8 @@ import { DatePicker, TimeInput } from '@mantine/dates';
 import { Container } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { PromoData } from '.';
+import { AuthContext } from '../../../contexts/AuthContext';
+import 'dayjs/locale/es'
 
 // const data = [
 //   {value: 'VG1', label:'VG1'},
@@ -18,7 +20,7 @@ import { PromoData } from '.';
 const Promocion = () => {
 
   const router = useRouter();
-
+  const { requestAuthenticated } = useContext(AuthContext)
   const [promocionObj, setPromocion] = useState<PromoData | null>(null)
   const [estadoPagina, setEstadoPagina] = useState<string>('Cargando...');
 
@@ -26,35 +28,62 @@ const Promocion = () => {
 
   const [cambioDatos, setCambioDatos] = useState<boolean>(false);
 
+  function padTo2Digits(num: number) {
+    return num.toString().padStart(2, '0');
+  }
+  
+  function formatDate(date: Date) {
+    return (
+      [
+        padTo2Digits(date.getDate()),
+        padTo2Digits(date.getMonth() + 1),
+        date.getFullYear(),
+      ].join('-') +
+      ' ' 
+      //+
+      // [
+      //   padTo2Digits(date.getHours()),
+      //   padTo2Digits(date.getMinutes())
+      // ].join(':')
+    );
+  }
 
-  const handleEditar = () => {
+  const handleEditar = async () => {
     if (editando) {
       setEditando(false);
       if (cambioDatos) {
+        console.log("mamapinga")
         setEstadoPagina('Guardando...');
 
-        const fechaInicio = new Date(promocionObj!.fecha_inicio!);
-        const fechaFin = new Date(promocionObj!.fecha_fin!);
+        // const fechaInicio = new Date(promocionObj!.fecha_inicio!);
+        // const fechaFin = new Date(promocionObj!.fecha_fin!);
 
-        const form = new FormData();
-        form.append("descuento", promocionObj!.descuento.toString());
-        form.append("fecha_inicio", fechaInicio.toISOString().slice(0, -5));
-        form.append("fecha_fin", fechaFin.toISOString().slice(0, -5));
-        form.append("descripcion", promocionObj!.descripcion);
+        // const form = new FormData();
+        // form.append("descuento", promocionObj!.descuento.toString());
+        // form.append("fecha_inicio", fechaInicio.toISOString().slice(0, -5));
+        // form.append("fecha_fin", fechaFin.toISOString().slice(0, -5));
+        // form.append("descripcion", promocionObj!.descripcion);
         // form.append("estado", promocionObj!.estado == true ? 'true' : 'false');
+        console.log(promocionObj)
 
-        // Print form data
-        for (var pair of form.entries() as any) {
-          console.log(pair[0]+ ', '+ pair[1]);
+        const jeison = {
+          descuento : promocionObj!.descuento,
+          fecha_inicio : promocionObj!.fecha_inicio?.toISOString().slice(0, -5),
+          fecha_fin:promocionObj!.fecha_fin?.toISOString().slice(0, -5),
+          descripcion : promocionObj!.descripcion,
+          cantidad_usados : promocionObj!.cantidad_usados,
+          id_estacion: 1
         }
+        // Print form data
+        // for (var pair of form.entries() as any) {
+        //   console.log(pair[0]+ ', '+ pair[1]);
+        // }
 
-        fetch(`https://craaxkvm.epsevg.upc.es:23600/api/promociones/${router.query.promocion}`, {
+        const res = await requestAuthenticated (`https://craaxkvm.epsevg.upc.es:23600/api/promociones/${router.query.promocion}`, "application/json", {
           "method": 'PUT',
-          body: form,
-          "headers": {
-            "accept": "application/json"
-          }
-        }).then(res => {
+          body: JSON.stringify(jeison),
+        }) as Response
+        
           if (res.status === 200) {
             setEstadoPagina('Guardado');
             setTimeout(() => {
@@ -62,7 +91,7 @@ const Promocion = () => {
             }, 2000);
           }
           setCambioDatos(false);
-        })
+        
       }
     } else {
       setEditando(true);
@@ -72,11 +101,19 @@ const Promocion = () => {
 
   useEffect(() => {
     const fetchDatos = async (promocionId: string) => {
-      const res = await fetch(`https://craaxkvm.epsevg.upc.es:23600/api/promociones/${promocionId}`);
-      const data = await res.json();
+      const res = await requestAuthenticated(`https://craaxkvm.epsevg.upc.es:23600/api/promociones/${promocionId}`);
+      const data = await res.json() as PromoData;
       if (res.status === 200) {
-        console.log(data)
-        setPromocion(data);
+        let prom:PromoData = {
+          cantidad_usados: data.cantidad_usados,
+          descripcion: data.descripcion,
+          descuento: data.descuento,
+          fecha_fin: new Date(data.fecha_fin!),
+          fecha_inicio: new Date(data.fecha_inicio!),
+          id_promo: data.id_promo,
+          id_estacion: data.id_estacion
+        }
+        setPromocion(prom);
       }
       else {
         setEstadoPagina("No existe una promocion con este id")
@@ -107,31 +144,24 @@ const Promocion = () => {
     }
 }
 
-  const handleBorrarPromocion = () => {
-
+  const handleBorrarPromocion = async () => {
     const seguro = confirm('¿Estás seguro de que quieres borrar esta promoción?')
 
     if (!seguro) {
       return;
     }
 
-    fetch(`https://craaxkvm.epsevg.upc.es:23600/api/promociones/${promocionObj!.id_promo}`, {
+    const response = await requestAuthenticated (`https://craaxkvm.epsevg.upc.es:23600/api/promociones/${promocionObj!.id_promo}`,"", {
       "method": "DELETE",
-      "headers": {
-        "accept": "application/json"
-      }
     })
-    .then(response => {
-      if (response.ok) {
+    if (response.status == 200) {
         router.push('/admin/promociones')
       }
-    })
-    .catch(err => {
-      alert('Error al borrar la promoción')
-    });
-
+      else {
+        alert('Error al borrar promocion')
+      }
   }
-
+  
     return(
       <>
       { promocionObj != null ? (
@@ -174,7 +204,8 @@ const Promocion = () => {
             </Grid.Col> */}
 
             <Grid.Col span={6}>
-              <DatePicker 
+              <DatePicker
+                locale="es-mx" 
                 value={promocionObj.fecha_inicio}
                 readOnly={!editando}
                 disabled={!editando}
@@ -187,7 +218,8 @@ const Promocion = () => {
             </Grid.Col>
 
             <Grid.Col span={6}>
-              <DatePicker 
+              <DatePicker
+                locale="es-mx" 
                 value={promocionObj.fecha_fin}
                 readOnly={!editando}
                 disabled={!editando}
@@ -198,7 +230,6 @@ const Promocion = () => {
                 label="Fecha Fin:"
               />
             </Grid.Col>
-
           </Grid>
 
           <br></br>
