@@ -67,7 +67,7 @@ const TrabajadorRow = (props: any) => {
                         <Menu.Item>Ver más</Menu.Item>
                       </Link>
                     
-                    <Menu.Item color={'yellow'}>Suspender</Menu.Item>
+                    {/* <Menu.Item color={'yellow'}>Suspender</Menu.Item> */}
                   
                     <Menu.Item color={'red'} onClick={handleBorrarPromocion}>
                         Eliminar

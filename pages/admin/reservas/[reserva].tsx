@@ -99,6 +99,7 @@ const Reserva: NextPage = (props:any) => {
         // coste: data.precio_carga_completa, //data[i].tarifa,
       
     const jeison = {
+
       fecha_inicio: formatDate(reserve.fecha!) + reserve.desde?.getHours()+':'+ reserve.desde?.getMinutes(),
       fecha_final: formatDate(reserve.fecha!) + reserve.hasta?.getHours()+':'+ reserve.hasta?.getMinutes(),
       id_vehiculo: reserve.matricula,
@@ -146,23 +147,7 @@ const Reserva: NextPage = (props:any) => {
         </Grid.Col>
         <Grid.Col span={7}>
           <Group mt="sl">
-            { editing ? 
-              <NumberInput size="md"
-                label="nºPlaza"
-                variant="default"
-                placeholder='nº Plaza'
-                value={reserve.nPlaza}
-                onChange={(event) => setReserve({...reserve,  nPlaza: event!})}
-                /> 
-              // <Autocomplete 
-              //     label="Estacion"
-              //     placeholder="id estacion"
-              //     value={reserve.estacion.toString()}
-              //     onChange={(event) => setReserve({...reserve, estacion: parseInt(event)})}
-              //     icon={<ChargingPile />} 
-              //     data={estList.map((item) => {return item["id"].toString()})} 
-              // />
-              :
+            { 
               <NumberInput size="md"
               label="nºPlaza"
               variant="default"
