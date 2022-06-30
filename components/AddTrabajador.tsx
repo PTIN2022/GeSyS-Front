@@ -193,7 +193,7 @@ const AddTrabajador = (props: any) => {
                         label="Cargo"
                         value={perfil.cargo}
                         onChange={(event) => setPerfil({...perfil, cargo: event as RolWorker})}
-                        data={[ "Jefe", "Administrador", "Responsable", "Trabajador" ]} 
+                        data={[ "jefe", "administrador", "responsable", "trabajador" ]} 
                     />
 
                 </Group>
