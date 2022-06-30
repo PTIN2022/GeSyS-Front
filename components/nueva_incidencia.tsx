@@ -6,8 +6,13 @@ import 'dayjs/locale/es'
 import  {AveriaRowProps}  from '../pages/admin/averias';
 import { useForm } from '@mantine/form';
 import { locale } from 'dayjs';
+import { useContext } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
+import router from 'next/router';
 
 const Incidencia_nueva = () => {
+    const { requestAuthenticated } = useContext(AuthContext)
+
     const [opened, setOpened] = useState(false);
     const [incidencia, setIncidencia] = useState<AveriaRowProps>({
         id_averia:0,
@@ -15,6 +20,7 @@ const Incidencia_nueva = () => {
         Date: null, 
         State: '',
         Desc:'', 
+        id_trabajador:0,
       });
         const handleSaveClick =(event: React.MouseEvent<HTMLButtonElement>) => {
           event.preventDefault();
@@ -40,19 +46,20 @@ const Incidencia_nueva = () => {
             "estacion": incidencia.Est, "estado": incidencia.State, "fecha_averia": incidencia.Date?.toISOString().slice(0, -14), "descripcion": incidencia.Desc
           }
           const fetchData = async () => {
-            await fetch("https://craaxkvm.epsevg.upc.es:23600/api/incidencias", {
+            await requestAuthenticated("https://craaxkvm.epsevg.upc.es:23600/api/incidencias","application/json", {
             method:'POST',
             mode:'cors',
-            headers:{
+            /*headers:{
                 'accept':'application/json',
                 'Content-type':'application/json'
-            },
+            },*/
             body: JSON.stringify(jeison),    
             });    
         }
         console.log(JSON.stringify(jeison))
         fetchData(); 
-        location.reload();
+        router.push('/admin/averias') 
+        window.location.reload();
         }
     return (
         <>
@@ -67,7 +74,7 @@ const Incidencia_nueva = () => {
                 <Autocomplete 
                     label="Estacion"
                     placeholder="VG1"
-                    data={['VG1','VG2','VG3','VG4',"VG5"]}
+                    data={['VG1','VG2','VG3','VG4',"VG5","VG6","VG7","VG8"]}
                     icon={<ChargingPile />} 
                     value={incidencia.Est} 
                     onChange={(event) => setIncidencia({...incidencia, Est: event})}

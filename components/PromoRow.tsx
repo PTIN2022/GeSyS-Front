@@ -1,52 +1,41 @@
 import { Menu, Center, ActionIcon } from '@mantine/core';
-import { DotsVertical, Search } from 'tabler-icons-react';
+import { DotsVertical } from 'tabler-icons-react';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useContext } from 'react';
 
-import { PromoData } from '../pages/admin/promociones';
+import { AuthContext } from '../contexts/AuthContext';
 
-// Hecho por xdiban, pero lo he tenido que subir yo porque hubo un error
 
-const PromoRow = ({ id_promo, descuento, fecha_inicio, fecha_fin, estado, descripcion } : PromoData) => {
-    const [Activado,setActivado] = useState<boolean>(estado);
 
-    const handleChangeEstado = (event: any) => {
+const PromoRow = (props : any) => {
+  const { id_promo, descuento, fecha_inicio, fecha_fin, descripcion, id_estacion } = props.promo
+     const { requestAuthenticated } = useContext(AuthContext)
 
-      const form = new FormData();
-      form.append("estado", !Activado == true ? 'true' : 'false');
+      const handleChangeEstado = async () => {
+        //const form = new FormData();
+        const response = await requestAuthenticated(`http://craaxkvm.epsevg.upc.es:23601/api/promociones/${id_promo}/${id_estacion}/activar`, "", {
+              method: "PUT",
+              //body: JSON.stringify(jeison)          
+            })
+     }
 
-      fetch(`http://craaxkvm.epsevg.upc.es:23601/api/promociones/${id_promo}`, {
-        "method": "PUT",
-        "body": form,
-        "headers": {
-          "accept": "application/json"
-        }
-      })
-      .then(response => {
-        if (response.status === 200) {
-          setActivado(!Activado);
-        }
-      })
-      .catch(err => {
-        console.error(err);
-      });
-
+    const Activar_promo = () => {
+      handleChangeEstado();
+      props.triggerReload();
     }
-
+        const auxFini = new Date(fecha_inicio);
+        const auxFfin = new Date(fecha_fin);
+        const fechaini = new Intl.DateTimeFormat('en-GB', {year: 'numeric', month: '2-digit',day: '2-digit'}).format(auxFini);
+        const fechafin = new Intl.DateTimeFormat('en-GB', {year: 'numeric', month: '2-digit',day: '2-digit'}).format(auxFfin);
     return (    
         <tr>
             <td>{id_promo}</td>
+            <td>{id_estacion}</td>
             {/* <td>{Est}</td> */}
             <td>{descuento}</td>
             {/* <td>{Cupones}</td> */}
-            <td>{fecha_inicio}</td>
-            <td>{fecha_fin}</td>
-            <td style={Activado ? {color: 'green'} : {color: 'red'}}>{
-              Activado ? 
-              'Activado'
-               : 
-              'Desactivado'
-            }</td>
+            <td>{fechaini}</td>
+            <td>{fechafin}</td>
             <td>
             <Menu control={
                 <Center  style={{ width: 10, height: 40 }}>
@@ -55,11 +44,15 @@ const PromoRow = ({ id_promo, descuento, fecha_inicio, fecha_fin, estado, descri
                     </ActionIcon>
                 </Center>
                 }>
-                <Menu.Item
-                    onClick={handleChangeEstado}
-                >
-                    {Activado ? "Desactivar": "Activar"}
+              { props.activa ? 
+              <Menu.Item
+                  onClick={Activar_promo}
+                 >
+                Activar
                 </Menu.Item> 
+                : 
+                null
+              }    
                 <Link href={`/admin/promociones/${id_promo}`} passHref={true}>
                   <Menu.Item>Editar</Menu.Item> 
                 </Link>
@@ -69,3 +62,4 @@ const PromoRow = ({ id_promo, descuento, fecha_inicio, fecha_fin, estado, descri
     )
 } 
 export default PromoRow
+

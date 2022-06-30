@@ -21,6 +21,7 @@ interface TrabajadorInput {
 const AddTrabajador = (props: any) => {
 
   const { requestAuthenticated } = useContext(AuthContext)
+  const { requestAuthenticatedForm } = useContext(AuthContext)
 
     const [opened, setOpened] = useState(false);
     const [perfil, setPerfil] = useState<TrabajadorInput>({
@@ -89,14 +90,13 @@ const AddTrabajador = (props: any) => {
         form.append("dni", perfil.dni);
         form.append("password", perfil.password);
         form.append("cargo", perfil.cargo);
-        form.append("question", perfil.question);
+        form.append("question", "none");
         form.append("id_estacion", perfil.id_estacion);
-        form.append("estado", perfil.estado == true ? 'activa' : 'inactiva');
+        form.append("estado", "true");//perfil.estado == true ? 'activa' : 'inactiva');
 
-        const res = await requestAuthenticated('https://craaxkvm.epsevg.upc.es:23600/api/trabajador', 'multipart/form-data', {
-          "method": "POST",
-          body: form
-        });
+        const res = await requestAuthenticatedForm('https://craaxkvm.epsevg.upc.es:23600/api/trabajador', 'POST', form);
+          
+        
 
         const json = await res.json();
         if (res.status === 200 && json != null) {
@@ -193,7 +193,7 @@ const AddTrabajador = (props: any) => {
                         label="Cargo"
                         value={perfil.cargo}
                         onChange={(event) => setPerfil({...perfil, cargo: event as RolWorker})}
-                        data={[ "Jefe", "Administrador", "Responsable", "Trabajador" ]} 
+                        data={[ "jefe", "administrador", "responsable", "trabajador" ]} 
                     />
 
                 </Group>
@@ -218,6 +218,14 @@ const AddTrabajador = (props: any) => {
                         onChange={(event) => setPerfil({...perfil, username: event.currentTarget.value})}
                     />
                 </Group>
+
+                <Select 
+                  label="Estación"
+                  searchable
+                  value={perfil.id_estacion}
+                  onChange={(event) => setPerfil({...perfil, id_estacion: event as RolWorker})}
+                  data={['VG1', 'VG2', 'VG3', 'VG4', 'VG5', 'VG6', 'VG7', 'VG8', ]}
+                />
                 <br/>
                 <Button type='submit' onClick={(event: React.MouseEvent<HTMLButtonElement>) => handleSubmitNewPromo(event)}>
                     Guardar

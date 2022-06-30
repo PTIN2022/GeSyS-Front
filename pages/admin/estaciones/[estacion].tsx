@@ -59,6 +59,7 @@ const Estacion: NextPage = () => {
       setplazas(pla);
     }
     fetchEstacion();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [estacion])
 
   // function EditEstState() {
