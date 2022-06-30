@@ -1,9 +1,11 @@
-import { Image, Box, Group, TextInput, Tooltip, Button, Text, Grid } from '@mantine/core';
+import { Image, Box, Group, TextInput, Tooltip, Button, Text, Grid, PasswordInput, Modal } from '@mantine/core';
 import { useContext, useEffect, useState } from 'react';
 import { AlertCircle, Phone, User, At, Id, IdBadge } from 'tabler-icons-react';
 import { NextPage } from 'next';
 import { AuthContext } from '../../contexts/AuthContext';
 import InfoPerfil from '../../components/InfoPerfil';
+import { Notification } from '@mantine/core';
+import { Check, X } from 'tabler-icons-react';
 //import Modificar_perfil from '../../components/Modificar_perfil';
 
 
@@ -33,6 +35,13 @@ const PerfilInfo: NextPage = () => {
   const { user } = useContext(AuthContext);
   const [ perfil, setPerfil ] = useState<PerfilData>(user!);
 
+  const [opened, setOpened] = useState(false);
+
+  const [newPassword, setNewPassword] = useState<string>('')
+  const [conPassword, setConPassword] = useState<string>('')
+
+  const { requestAuthenticatedForm } = useContext(AuthContext)
+
   useEffect(() => {
     setPerfil(user!);
   }, [user])
@@ -42,6 +51,33 @@ const PerfilInfo: NextPage = () => {
       <AlertCircle size={16} style={{ display: 'block', opacity: 0.5 }} />
     </Tooltip>
   );
+  
+  const PasswordChange = async () => {
+    
+    if (newPassword.length < 8)
+      alert('La contraseña debe tener un mínimo de 8 carácteres')
+
+    else{
+      if (newPassword != conPassword)
+        alert('Las contraseñas no coinciden')
+      
+      else{
+         const form = new FormData()
+         form.append('password',newPassword);
+
+        const fetchData = async () => {
+          const request = await requestAuthenticatedForm(`https://craaxkvm.epsevg.upc.es:23600/api/trabajador/${perfil.dni}`,"PUT",form)
+          request.onload = function() {
+            if (request.status != 200) { // analyze HTTP status of the response
+              alert(`Error ${request.status}: ${request.statusText}`); // e.g. 404: Not Found
+            }
+          }
+        }
+        setOpened(false)
+        fetchData()
+      } 
+    }
+  }
   
   return (
     <>
@@ -53,12 +89,49 @@ const PerfilInfo: NextPage = () => {
     <>
     <InfoPerfil {...perfil} />
 
-    {/* 
-    ************************************
-    AQUI HA DE IR EL BOTON 
-    QUE TE PERMITA CAMBIAR LA CONTRASEÑA
-    ************************************
-   */}
+    {
+      <>
+      <Modal
+              opened={opened}
+              onClose={() => setOpened(false)}
+              title="Cambiar contraseña"
+            >
+
+            <PasswordInput
+              placeholder="Nueva contraseña"
+              label="Nueva contraseña"
+              description="La contraseña debe tener un mínimo de 8 carácteres"
+              required
+              //error="La contraseña debe tener un mínimo de 8 carácteres"
+              value={newPassword}
+              onChange={(event) => setNewPassword(event.currentTarget.value)}
+            />
+
+
+            <PasswordInput
+              placeholder="Confimar contraseña"
+              label="Confimar contraseña"
+              //error="Las contraseñas no coinciden"
+              required
+              value={conPassword}
+              onChange={(event) => setConPassword(event.currentTarget.value)}
+            />
+            <br></br>
+            <Group position="right">
+              <Button onClick={() => PasswordChange()}>
+              Guardar
+              </Button>
+            </Group>
+
+      </Modal>
+      <br></br>
+      <Group position="left">
+              <Button onClick={() => setOpened(true)}>Cambiar contraseña</Button>
+      </Group>
+
+
+      </>
+    }
     </>
     }
     </>
