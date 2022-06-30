@@ -17,7 +17,7 @@ const EstacionPopup = (props:any) => {
         <p>Kwh contratada:{estacion.potencia_contratada}</p>
         <p>Kwh usada:{estacion.potencia_usada}</p>
                   
-          <Link  href={`/admin/estaciones/${estacion.id_estacion}`}>
+          <Link  href={`/admin/estaciones/${estacion.id_estacion}`} passHref={true}>
             <Button fullWidth >Más</Button>
           </Link>            
         
