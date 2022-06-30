@@ -70,8 +70,8 @@ const PerfilInfo = ({ foto: pfp, nombre, apellido, telefono, email, dni, cargo} 
   
                 <TextInput size="md"
                   label="DNI"
-                  required
-                  rightSection={rightSection} 
+                  // required
+                  // rightSection={rightSection} 
                   icon={<Id size={14} />}
                   variant="filled"
                   value={dni}
@@ -84,8 +84,8 @@ const PerfilInfo = ({ foto: pfp, nombre, apellido, telefono, email, dni, cargo} 
               <Group mt="sl">
                 <TextInput size="md"
                   label="Correo electronico"
-                  required
-                  rightSection={rightSection}
+                  // required
+                  // rightSection={rightSection}
                   icon={<At size={14} />} 
                   variant="filled"
                   value={email}
@@ -94,8 +94,8 @@ const PerfilInfo = ({ foto: pfp, nombre, apellido, telefono, email, dni, cargo} 
   
                 <TextInput size="md"
                   label="Cargo de Empresa"
-                  required
-                  rightSection={rightSection} 
+                  // required
+                  // rightSection={rightSection} 
                   icon={<IdBadge size={14} />}
                   variant="filled"
                   value={cargo}
