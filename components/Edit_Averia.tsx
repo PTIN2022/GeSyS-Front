@@ -101,7 +101,7 @@ const Edit_averia = (props:any) => {
             </Box>
         }
         </Modal>
-        <p onClick={() => setOpened(true)}>Incidencia</p>
+        <Button onClick={() => setOpened(true)}>Incidencia</Button>
 
     </>
     )
