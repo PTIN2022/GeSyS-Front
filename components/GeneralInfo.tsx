@@ -47,6 +47,7 @@ const GeneralInfo = () => {
       setInfoData(info)
     }
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
     
 

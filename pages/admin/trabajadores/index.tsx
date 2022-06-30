@@ -51,6 +51,7 @@ const ListaTrabajadores: NextPage = () => {
     };
   useEffect(() => {
     fetchDatos();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   
   const handleDeleteClick = (dni: string) => {
@@ -95,6 +96,7 @@ const ListaTrabajadores: NextPage = () => {
   else {
     setActiveFilters(allFilters);
   }
+// eslint-disable-next-line react-hooks/exhaustive-deps
 }, [profile])
 
   return (

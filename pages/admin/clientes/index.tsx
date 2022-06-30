@@ -74,6 +74,7 @@ const ListaClientes: NextPage = () => {
       else {
         setActiveFilters(allFilters);
       }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [profile])
 
   const { requestAuthenticated } = useContext(AuthContext)
@@ -122,6 +123,7 @@ const ListaClientes: NextPage = () => {
       {clientes.length>0 && setClientes(clientes)}
     }
     fetchCliente();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 

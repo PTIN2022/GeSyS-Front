@@ -35,6 +35,7 @@ const PerfilTrabajador : NextPage = () => {
         }
        }
       fetchDatos()
+     // eslint-disable-next-line react-hooks/exhaustive-deps
      }, [dni])
 
 

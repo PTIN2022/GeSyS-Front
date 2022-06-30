@@ -138,6 +138,7 @@ const ListaReservas: NextPage = () => {
       else {
         setActiveFilters(allFilters);
       }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [profile])
 
 /*******************************/
@@ -178,6 +179,7 @@ const [elementsD, setElements]  = useState<ReservaRowProps[] >(elements);
   };
 useEffect(() => {
   fetchDatos();
+// eslint-disable-next-line react-hooks/exhaustive-deps
 }, [])
  
   const [value, setValue] = useState('');  

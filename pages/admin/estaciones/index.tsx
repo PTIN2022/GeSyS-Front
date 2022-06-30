@@ -47,6 +47,7 @@ const ListaEstaciones: NextPage =() => {
       {est.length>0 && setEstaciones(est)};
     }
     fetchEstacion();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
