@@ -15,7 +15,7 @@ export interface AveriaRowProps {
     Date: Date | null; 
     State: string; 
     Desc: string;
-    id_trabajador:null;
+    id_trabajador:number|null;
   }
 const Estacion: NextPage = () => {
   const { requestAuthenticated } = useContext(AuthContext)

@@ -16,7 +16,7 @@ export interface AveriaRowProps {
   Date: Date | null; 
   State: string; 
   Desc: string; 
-  id_trabajador:null|string;
+  id_trabajador:null|number;
 }
 
 const ListaAverias: NextPage = () => {

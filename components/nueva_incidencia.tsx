@@ -20,7 +20,7 @@ const Incidencia_nueva = () => {
         Date: null, 
         State: '',
         Desc:'', 
-        id_trabajador:'',
+        id_trabajador:0,
       });
         const handleSaveClick =(event: React.MouseEvent<HTMLButtonElement>) => {
           event.preventDefault();
