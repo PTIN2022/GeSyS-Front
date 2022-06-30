@@ -76,13 +76,15 @@ const AveriaRow = (props: any) => {
                     </ActionIcon>
                 </Center>
                 }>
-                <Link href={`http://localhost:3000/admin/averias/byname/${averia.Est}`}  passHref={true}>
+
+                <Link href={`/admin/averias/byname/${averia.Est}`}  passHref={true}>
                   <Menu.Item>Averias Estacion</Menu.Item>
                 </Link>
 
-                <Link href={`http://localhost:3000/admin/averias/byname2/${averia.id_averia}`}  passHref={true}>
+                <Link href={`/admin/averias/byname2/${averia.id_averia}`}  passHref={true}>
                   <Menu.Item>Ver más</Menu.Item>
                 </Link>
+
                 <Menu.Item color={'red'} onClick={handleDelete}icon={<Trash size={14}/>} >Eliminar</Menu.Item> 
             </Menu>
             </td>}

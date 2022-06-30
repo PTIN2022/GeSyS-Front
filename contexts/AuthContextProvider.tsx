@@ -56,7 +56,7 @@ export const AuthContextProvider = ({ children }: any) => {
     form.append("password", password);
 
     try {
-      const res = await fetch('http://craaxkvm.epsevg.upc.es:23601/api/login', {
+      const res = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/login', {
         "method": "POST",
         body: form,
         "headers": {
@@ -87,18 +87,22 @@ export const AuthContextProvider = ({ children }: any) => {
   }
 
   const fetchUserInfo = async () => {
-    const response = await requestAuthenticated('http://craaxkvm.epsevg.upc.es:23601/api/token', "")
+    const response = await requestAuthenticated('https://craaxkvm.epsevg.upc.es:23600/api/token', "")
 
     if (!response) {
+      logout()
       return;
     }
 
-    if (response.status === 200) {
-      const data = await response.json()
+    const data = await response.json() as PerfilData
+
+    if (response.status === 200 && data.dni != '' && data.dni != undefined) {
       setUser(data)
     }
     else {
       setUser(PerfilVacio)
+      logout()
+      return
     }
   }
 
@@ -124,13 +128,67 @@ export const AuthContextProvider = ({ children }: any) => {
         },
         ...options
       })
-
-      console.log(response)
   
       return response;
     }
     catch (error) {
-      logout()
+      alert(error)
+    }
+
+  }
+
+  const requestAuthenticatedForm = async (url: string,method: string, form:any) => {
+    let token = getCookie('token')
+
+    if (!token) {
+      setUser(PerfilVacio)
+      return;
+    }
+
+    try {
+      // const response = fetch(url, {
+      //   headers: {
+      //     'x-access-tokens': token,
+      //     'Content-Type': contentType == undefined ? "" : contentType
+      //   },
+      //   ...options
+      // })
+      const request = new XMLHttpRequest();
+      //request.withCredentials = true;
+      request.addEventListener("readystatechange", function () {
+        if (this.readyState === this.DONE) {
+          console.log(this.responseText);
+        }
+      });
+      request.open(method, url);
+      request.setRequestHeader('x-access-tokens', token);
+      request.setRequestHeader("accept", "application/json");
+      
+      request.send(form);
+      return request
+      //const xhr = new XMLHttpRequest();
+//xhr.withCredentials = true;
+
+// xhr.addEventListener("readystatechange", function () {
+//   if (this.readyState === this.DONE) {
+//     console.log(this.responseText);
+//   }
+// });
+
+// xhr.open("POST", "https://craaxkvm.epsevg.upc.es:23600/api/clientes");
+// xhr.setRequestHeader("accept", "application/json");
+// xhr.setRequestHeader("x-access-tokens", token);
+
+// xhr.send(form);
+//       return xhr;
+      // return (request.onload = function() {
+      //     if (request.status != 200) { // analyze HTTP status of the response
+      //       alert(`Error ${request.status}: ${request.statusText}`); // e.g. 404: Not Found
+      //     };
+      //   })
+       
+    }
+    catch (error) {
       alert(error)
       console.log(error)
     }
@@ -143,6 +201,8 @@ export const AuthContextProvider = ({ children }: any) => {
       login,
       logout,
       requestAuthenticated,
+      requestAuthenticatedForm,
+      
       fetchUserInfo
     }}>
       {children}

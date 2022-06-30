@@ -29,12 +29,13 @@ const PerfilTrabajador : NextPage = () => {
      useEffect(() => {
        const fetchDatos = async () => {
         if (dni !== undefined){
-         const result = await requestAuthenticated(`http://craaxkvm.epsevg.upc.es:23601/api/trabajador/${dni}`)
+         const result = await requestAuthenticated(`https://craaxkvm.epsevg.upc.es:23600/api/trabajador/${dni}`)
          const data = await result.json();
          setTrabajador(data)
         }
        }
       fetchDatos()
+     // eslint-disable-next-line react-hooks/exhaustive-deps
      }, [dni])
 
 

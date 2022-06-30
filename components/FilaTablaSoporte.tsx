@@ -19,7 +19,7 @@ const FilaSoporte = ({ 	id_ticket, asunto, estado, fecha, id_cliente } : Soporte
       <td>{fecha.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "numeric" })}</td>
       <td>{id_cliente}</td>
       <td>
-        <Link href={`http://localhost:3000/admin/ticket/${id_ticket}`} passHref={true} >
+        <Link href={`/admin/ticket/${id_ticket}`} passHref={true} >
           <Button>
             Ver mas
           </Button>

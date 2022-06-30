@@ -20,6 +20,7 @@ export interface ClientesData {
   dni:string;
   telefono:number;
   username: string;
+  saldo:number;
 }
 const allFilters: Filter[] = [
   {
@@ -73,6 +74,7 @@ const ListaClientes: NextPage = () => {
       else {
         setActiveFilters(allFilters);
       }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [profile])
 
   const { requestAuthenticated } = useContext(AuthContext)
@@ -114,12 +116,14 @@ const ListaClientes: NextPage = () => {
           dni: data[i].dni,
           telefono: data[i].telefono,
           username: data[i].username,
+          saldo: data[i].saldo
         }
         clientes.push(cl1)
       }
       {clientes.length>0 && setClientes(clientes)}
     }
     fetchCliente();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 

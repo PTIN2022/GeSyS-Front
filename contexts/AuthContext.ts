@@ -6,6 +6,7 @@ export interface IAuth {
   login: (username: string, password: string) => any,
   logout: () => void,
   requestAuthenticated: (url: string, contentType?:string,  options?: any) => any,
+  requestAuthenticatedForm: (url: string,method: string, form:any) => any,
   fetchUserInfo: () => void
 }
 
@@ -31,5 +32,6 @@ export const AuthContext = createContext<IAuth>({
   login: (username: string, password: string) => {},
   logout: () => {},
   requestAuthenticated: (url: string, contentType?:string, options?: any) => {},
+  requestAuthenticatedForm: (url: string,method: string, form:any)=>{},
   fetchUserInfo: () => {}
 });
