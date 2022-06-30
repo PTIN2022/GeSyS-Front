@@ -4,6 +4,10 @@ import AveriaRow from '../../../components/AveriaRow';
 import * as React from 'react'
 import { useEffect, useState } from 'react';
 import Incidencia_nueva from '../../../components/nueva_incidencia'
+import { useContext } from 'react';
+import { AuthContext } from '../../../contexts/AuthContext';
+import Edit_Averia from '../../../components/Edit_Averia';
+
 
 export interface AveriaRowProps {
   Est: string;
@@ -12,9 +16,11 @@ export interface AveriaRowProps {
   Date: Date | null; 
   State: string; 
   Desc: string; 
+  id_trabajador:null|string;
 }
 
 const ListaAverias: NextPage = () => {
+  const { requestAuthenticated } = useContext(AuthContext)
 
   const cl: AveriaRowProps[]=[];
   //borrar
@@ -32,12 +38,8 @@ const ListaAverias: NextPage = () => {
   //borrar
   useEffect(() => {
     const fetchEstacion = async () => {
-      const result = await fetch('https://craaxkvm.epsevg.upc.es:23600/api/incidencias', {
+      const result = await requestAuthenticated('https://craaxkvm.epsevg.upc.es:23600/api/incidencias',"application/json", {
         method:'GET',
-        headers:{
-          'accept': 'application/json'
-        },
-       //mode:'no-cors'
       });
       const data = await result.json();  
       console.log(data[0])
@@ -51,6 +53,7 @@ const ListaAverias: NextPage = () => {
           Date: data[i].fecha, 
           State: data[i].estado,
           Desc: data[i].descripcion,
+          id_trabajador:data[i].id_trabajador
         }
         averias.push(ave)
       }
@@ -71,6 +74,7 @@ const ListaAverias: NextPage = () => {
             <th>Fecha</th>
             <th>Estado</th>
             <th>Descripción</th>
+            <th>Editar Incidencia</th>
             </tr>
         </thead>
         <tbody>    
